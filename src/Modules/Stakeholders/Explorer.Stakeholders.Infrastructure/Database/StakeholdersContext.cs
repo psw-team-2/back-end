@@ -19,7 +19,6 @@ public class StakeholdersContext : DbContext
         ConfigureStakeholder(modelBuilder);
 
 
-
     }
 
     private static void ConfigureStakeholder(ModelBuilder modelBuilder)

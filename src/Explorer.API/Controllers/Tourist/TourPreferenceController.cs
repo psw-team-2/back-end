@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization
+using Microsoft.AspNetCore.Mvc;
 
 namespace Explorer.API.Controllers.Tourist;
 
@@ -18,6 +20,10 @@ namespace Explorer.API.Controllers.Tourist;
 public class TourPreferenceController: BaseApiController
 {
     private readonly ITourPreferenceService _tourPreferenceService;
+    [Route("api/tourist/preference")]
+    public class TourPreferenceController: BaseApiController
+    {
+        private readonly ITourPreferenceService _tourPreferenceService;
 
     public TourPreferenceController(ITourPreferenceService tourPreferenceService)
     {
@@ -59,6 +65,12 @@ public class TourPreferenceController: BaseApiController
     public ActionResult Delete(int id)
     {
         var result = _tourPreferenceService.Delete(id);
+    }
+
+    [HttpGet]
+    public ActionResult<PagedResult<TourPreferenceDto>> GetAll([FromQuery] int page, [FromQuery] int pageSize)
+    {
+        var result = _tourPreferenceService.GetPaged(page, pageSize);
         return CreateResponse(result);
     }
 }
