@@ -4,6 +4,7 @@ using Explorer.Stakeholders.API.Public;
 using Explorer.Stakeholders.Core.Domain;
 using Explorer.Stakeholders.Core.Domain.RepositoryInterfaces;
 using FluentResults;
+using UserRole = Explorer.Stakeholders.Core.Domain.UserRole;
 
 namespace Explorer.Stakeholders.Core.UseCases;
 
@@ -43,7 +44,7 @@ public class AuthenticationService : IAuthenticationService
 
         try
         {
-            var user = _userRepository.Create(new User(account.Username, account.Password, UserRole.Tourist, true));
+            var user = _userRepository.Create(new User(account.Username, account.Password, UserRole.Tourist, true, account.Email));
             var person = _personRepository.Create(new Person(user.Id, account.Name, account.Surname, account.Email));
 
             return _tokenGenerator.GenerateAccessToken(user, person.Id);
