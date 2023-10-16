@@ -27,8 +27,10 @@ namespace Explorer.API.Controllers.Administrator.Administration
         }
 
         [HttpPut("{id:int}")]
-        public ActionResult<ProfileDto> Update([FromBody] ProfileDto profile)
+        public ActionResult<ProfileDto> Update(int id /*dodato*/, [FromBody] ProfileDto profile)
         {
+            profile.Id = id; // dodato
+
             var result = _profileService.Update(profile);
             return CreateResponse(result);
         }

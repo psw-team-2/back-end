@@ -2,6 +2,7 @@
 
 public class ProfileDto
 {
+    public long Id { get; set; } // dodato
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string ProfilePicture { get; set; }
