@@ -18,6 +18,10 @@ public class StakeholdersContext : DbContext
 
         ConfigureStakeholder(modelBuilder);
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7bf2ecd (Tour Preference CRUD and get by user)
 
     }
 
