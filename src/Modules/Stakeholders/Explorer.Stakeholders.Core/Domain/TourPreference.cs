@@ -9,6 +9,7 @@ namespace Explorer.Stakeholders.Core.Domain
 {
     public class TourPreference : Entity
     {
+        public int TouristId { get; private set; }
         public int Difficulty { get; private set; }
         public int WalkingRating { get; private set; }
         public int BicycleRating { get; private set; }
@@ -16,8 +17,9 @@ namespace Explorer.Stakeholders.Core.Domain
         public int BoatRating { get; private set; }
         public List<string>? Tags { get; private set; }
 
-        public TourPreference(int difficulty, int walkingRating, int bicycleRating, int carRating, int boatRating, List<string>? tags)
+        public TourPreference(int touristId, int difficulty, int walkingRating, int bicycleRating, int carRating, int boatRating, List<string>? tags)
         {
+            TouristId = touristId; 
             Difficulty = difficulty;
             WalkingRating = walkingRating;
             BicycleRating = bicycleRating;

@@ -18,8 +18,7 @@ public class StakeholdersContext : DbContext
 
         ConfigureStakeholder(modelBuilder);
 
-        modelBuilder.Entity<TourPreference>().ToTable("TourPreferences", "stakeholders");
-        modelBuilder.Entity<TourPreference>().HasKey(tp => tp.Id);
+
 
     }
 
