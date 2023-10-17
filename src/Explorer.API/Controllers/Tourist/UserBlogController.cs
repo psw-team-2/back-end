@@ -12,10 +12,12 @@ namespace Explorer.API.Controllers.Tourist
     [Route("api/tourist/blog")]
     public class UserBlogController : BaseApiController
     {
-        private readonly IUserBlogService _userBlogService;
-        public UserBlogController(IUserBlogService userBlogService)
+        private readonly IUserBlogService _userBlogService; 
+        private readonly IWebHostEnvironment _environment;
+        public UserBlogController(IUserBlogService userBlogService, IWebHostEnvironment environment)
         {
             _userBlogService = userBlogService;
+            _environment = environment;
         }
 
         [HttpGet]
@@ -30,6 +32,26 @@ namespace Explorer.API.Controllers.Tourist
         {
             var result = _userBlogService.Create(blog);
             return CreateResponse(result);
+        }
+
+        [HttpPost("UploadFile")]
+        public async Task<string> UploadFile()
+        {
+            try
+            {
+                var file = Request.Form.Files[0];
+                string fName = file.FileName;
+                string path = Path.Combine(_environment.ContentRootPath, "Images", file.FileName);
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+                return $"{file.FileName} successfully uploaded to the Server";
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         [HttpPut("{id:int}")]

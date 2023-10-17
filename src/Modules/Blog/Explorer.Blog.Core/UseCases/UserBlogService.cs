@@ -3,6 +3,7 @@ using Explorer.Blog.API.Dtos;
 using Explorer.Blog.API.Public;
 using Explorer.Blog.Core.Domain;
 using Explorer.BuildingBlocks.Core.UseCases;
+using FluentResults;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,11 @@ namespace Explorer.Blog.Core.UseCases
     public class UserBlogService : CrudService<UserBlogDto, UserBlog>, IUserBlogService
     {
         public UserBlogService(ICrudRepository<UserBlog> repository, IMapper mapper) : base(repository, mapper) { }
+
+        public Result<UserBlogDto> Create(UserBlogDto blogDto)
+        {
+            blogDto.CreationTime = DateTime.UtcNow;
+            return base.Create(blogDto);
+        }
     }
 }
