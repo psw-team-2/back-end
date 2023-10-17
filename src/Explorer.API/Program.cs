@@ -8,6 +8,7 @@ const string corsPolicy = "_corsPolicy";
 builder.Services.ConfigureCors(corsPolicy);
 builder.Services.ConfigureAuth();
 
+builder.Services.AddHttpContextAccessor();
 builder.Services.RegisterModules();
 
 var app = builder.Build();
@@ -31,6 +32,8 @@ app.UseAuthorization();
 app.UseAuthorization();
 
 app.MapControllers();
+
+
 
 app.Run();
 
