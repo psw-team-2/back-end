@@ -1,11 +1,8 @@
-﻿using Explorer.Stakeholders.Core.Domain;
+﻿using Explorer.BuildingBlocks.Core.UseCases;
+using Explorer.Stakeholders.API.Dtos;
+using Explorer.Stakeholders.Core.Domain;
 using Explorer.Stakeholders.Core.Domain.RepositoryInterfaces;
-using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using FluentResults;
 
 namespace Explorer.Stakeholders.Infrastructure.Database.Repositories
 {
@@ -36,9 +33,9 @@ namespace Explorer.Stakeholders.Infrastructure.Database.Repositories
             return club;
         }
 
-        public List<Club> GetAll()
+        public Result<PagedResult<ClubDto>> GetAll()
         {
-            return _dbContext.Clubs.ToList();
+            return null;
         }
 
         public Club GetById(long id) 
