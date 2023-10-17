@@ -3,8 +3,10 @@ using Explorer.Stakeholders.API.Dtos;
 using Explorer.Stakeholders.API.Public;
 using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public.Administration;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace Explorer.API.Controllers.Tourist
 {
@@ -19,6 +21,7 @@ namespace Explorer.API.Controllers.Tourist
             _applicationReviewService = applicationReviewService;
         }
 
+        [Authorize(Policy = "administratorPolicy")]
         [HttpGet]
         public ActionResult<PagedResult<ApplicationReviewDto>> GetAll([FromQuery] int page, [FromQuery] int pageSize)
         {

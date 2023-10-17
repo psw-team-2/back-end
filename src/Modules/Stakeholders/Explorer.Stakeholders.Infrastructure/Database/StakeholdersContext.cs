@@ -1,5 +1,6 @@
 ﻿using Explorer.Stakeholders.Core.Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 
 namespace Explorer.Stakeholders.Infrastructure.Database;
 
@@ -28,9 +29,6 @@ public class StakeholdersContext : DbContext
             .WithOne()
             .HasForeignKey<Person>(s => s.UserId);
 
-        modelBuilder.Entity<ApplicationReview>()
-           .HasOne<User>()
-           .WithOne()
-           .HasForeignKey<ApplicationReview>(s => s.UserId);
+      
     }
 }

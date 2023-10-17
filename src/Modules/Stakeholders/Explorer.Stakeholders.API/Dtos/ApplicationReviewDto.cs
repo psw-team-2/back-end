@@ -8,6 +8,7 @@ namespace Explorer.Stakeholders.API.Dtos
 {
     public class ApplicationReviewDto
     {
+        public long Id { get; set; }
         public int Grade { get; set; }
         public DateTime TimeStamp { get; set; }
         public long UserId { get; set; }
