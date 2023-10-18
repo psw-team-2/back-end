@@ -12,5 +12,6 @@ namespace Explorer.Stakeholders.Core.UseCases
     {
         public ClubService(ICrudRepository<Club> repository, IMapper mapper) : base(repository, mapper) { }
 
+
     }
 }
