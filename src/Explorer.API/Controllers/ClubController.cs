@@ -1,13 +1,8 @@
 ﻿using Explorer.BuildingBlocks.Core.UseCases;
-using Explorer.Stakeholders.API.Public;
-using Explorer.Stakeholders.Core.Domain;
 using Explorer.Stakeholders.API.Dtos;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Explorer.Tours.API.Dtos;
+using Explorer.Stakeholders.API.Public;
 using Microsoft.AspNetCore.Authorization;
-using System.Security.Claims;
-using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Explorer.API.Controllers
 {
@@ -35,14 +30,28 @@ namespace Explorer.API.Controllers
         public ActionResult<ClubDto> Create([FromBody] ClubDto club)
         {
             var id = HttpContext.User.Claims.First(x => x.Type == "id");
-            foreach (var claim in User.Claims)
-            {
-                Console.WriteLine($"Claim Type: {claim.Type}, Claim Value: {claim.Value}");
-            }
             long longValue;
             long.TryParse(id.Value, out longValue);
             club.OwnerId = longValue;
             var result = _clubService.Create(club);
+            return CreateResponse(result);
+        }
+
+        [HttpPut("update/{id:int}")]
+        public ActionResult<ClubDto> Update([FromBody] ClubDto club)
+        {
+            var result = _clubService.Update(club);
+            return CreateResponse(result);
+        }
+
+        [HttpPut("kick/{id:int}")]
+        public ActionResult<ClubDto> Kick([FromBody] ClubDto club)
+        {
+            var id = HttpContext.User.Claims.First(x => x.Type == "id");
+            long longValue;
+            long.TryParse(id.Value, out longValue);
+            club.OwnerId = longValue;
+            var result = _clubService.Update(club);
             return CreateResponse(result);
         }
     }

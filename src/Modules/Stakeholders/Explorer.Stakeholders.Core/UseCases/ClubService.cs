@@ -12,6 +12,9 @@ namespace Explorer.Stakeholders.Core.UseCases
     {
         public ClubService(ICrudRepository<Club> repository, IMapper mapper) : base(repository, mapper) { }
 
-
+        public Result<ClubDto> Kick(ClubDto club)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
