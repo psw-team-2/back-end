@@ -3,6 +3,7 @@ using Explorer.BuildingBlocks.Core.UseCases;
 using Explorer.Stakeholders.API.Dtos;
 using Explorer.Stakeholders.API.Public;
 using Explorer.Stakeholders.Core.Domain;
+using Explorer.Stakeholders.Core.Domain.RepositoryInterfaces;
 using FluentResults;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace Explorer.Stakeholders.Core.UseCases
     {
         public ClubRequestService(ICrudRepository<ClubRequest> repository, IMapper mapper) : base(repository, mapper) { }
 
-        public Result<ClubRequestDto> SendRequest(ClubRequestDto clubRequests)
+        public Result<ClubRequestDto> SendRequest(ClubRequestDto clubRequest)
         {
             throw new NotImplementedException();
         }
