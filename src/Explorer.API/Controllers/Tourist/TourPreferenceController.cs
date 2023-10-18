@@ -33,7 +33,7 @@ public class TourPreferenceController: BaseApiController
 =======
 >>>>>>> 7bf2ecd (Tour Preference CRUD and get by user)
 
-    public TourPreferenceController(ITourPreferenceService tourPreferenceService, IHttpContextAccessor httpContextAccessor)
+    public TourPreferenceController(ITourPreferenceService tourPreferenceService)
     {
         _tourPreferenceService = tourPreferenceService;
     }
