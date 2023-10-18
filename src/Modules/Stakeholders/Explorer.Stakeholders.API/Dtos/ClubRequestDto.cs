@@ -9,8 +9,8 @@ namespace Explorer.Stakeholders.API.Dtos
     public class ClubRequestDto
     {
         public int Id { get; set; }
-        public int ClubId { get; set; }
-        public int TouristId { get; set; }
+        public long ClubId { get; set; }
+        public long AccountId { get; set; }
         public RequestStatusEnum RequestStatus { get; set; }
         public RequestTypeEnum RequestType { get; set; }
     }

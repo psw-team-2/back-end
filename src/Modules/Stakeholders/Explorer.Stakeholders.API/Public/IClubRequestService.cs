@@ -16,5 +16,6 @@ namespace Explorer.Stakeholders.API.Public
         Result<ClubRequestDto> Update(ClubRequestDto clubRequest);
         Result Delete(int id);
         Result<ClubRequestDto> SendRequest(ClubRequestDto clubRequests);
+        Result<ClubRequestDto> Create(ClubRequestDto clubRequest);
     }
 }

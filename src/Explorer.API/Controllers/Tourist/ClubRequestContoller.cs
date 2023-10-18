@@ -51,7 +51,7 @@ namespace Explorer.API.Controllers.Tourist
       /*  [HttpPost]
         public ActionResult<ClubRequestDto> SendRequest([FromBody] ClubRequestDto clubRequest)
         {
-            var result = _clubRequestService.SendRequest(clubRequest);
+            var result = _clubRequestService.Create(clubRequest);
             return CreateResponse(result);
         }*/
     }

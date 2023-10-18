@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Explorer.BuildingBlocks.Core.Domain;
 using Explorer.BuildingBlocks.Core.UseCases;
 using Explorer.Stakeholders.API.Dtos;
 using Explorer.Stakeholders.API.Public;
@@ -15,11 +16,24 @@ namespace Explorer.Stakeholders.Core.UseCases
 {
     public class ClubRequestService : CrudService<ClubRequestDto, ClubRequest>, IClubRequestService
     {
-        public ClubRequestService(ICrudRepository<ClubRequest> repository, IMapper mapper) : base(repository, mapper) { }
+        protected readonly ICrudRepository<ClubRequest> CrudRepository;
 
-        public Result<ClubRequestDto> SendRequest(ClubRequestDto clubRequest)
+        public ClubRequestService(ICrudRepository<ClubRequest> repository, IMapper mapper) : base(repository, mapper)
         {
-            throw new NotImplementedException();
+            CrudRepository = repository;
+        }
+        
+        public Result<ClubRequestDto> SendRequest(ClubRequestDto clubRequests)
+        {
+            try
+            {
+                var result = CrudRepository.Create(MapToDomain(clubRequests));
+                return MapToDto(result);
+            }
+            catch (ArgumentException e)
+            {
+                return Result.Fail(FailureCode.InvalidArgument).WithError(e.Message);
+            }
         }
     }
 }

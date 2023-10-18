@@ -9,15 +9,15 @@ namespace Explorer.Stakeholders.Core.Domain
 {
     public class ClubRequest : Entity
     {
-        public int ClubId { get; private set; }
-        public int TouristId { get; private set; } 
+        public long ClubId { get; private set; }
+        public long AccountId { get; private set; } 
         public RequestStatusEnum RequestStatus { get; private set; }
         public RequestTypeEnum RequestType { get; private set; }
        
-        public ClubRequest(int clubId, int touristId, RequestStatusEnum requestStatus, RequestTypeEnum requestType) 
+        public ClubRequest(long clubId, long accountId, RequestStatusEnum requestStatus, RequestTypeEnum requestType) 
         {
             ClubId = clubId;
-            TouristId = touristId;
+            AccountId = accountId;
             RequestStatus = requestStatus;
             RequestType = requestType;
             Validate();
