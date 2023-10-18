@@ -19,7 +19,7 @@ public class TourPreferenceController: BaseApiController
 {
     private readonly ITourPreferenceService _tourPreferenceService;
 
-    public TourPreferenceController(ITourPreferenceService tourPreferenceService, IHttpContextAccessor httpContextAccessor)
+    public TourPreferenceController(ITourPreferenceService tourPreferenceService)
     {
         _tourPreferenceService = tourPreferenceService;
     }
