@@ -15,5 +15,7 @@ namespace Explorer.Tours.API.Public
         Result<TouristSelectedEquipmentDto> Create(TouristSelectedEquipmentDto touristSelectedEquipmentDto);
         Result<TouristSelectedEquipmentDto> Update(TouristSelectedEquipmentDto touristSelectedEquipmentDto);
         Result Delete(int id);
+
+        Result<TouristSelectedEquipmentDto> EquipmentSelection(TouristSelectedEquipmentDto dto);
     }
 }

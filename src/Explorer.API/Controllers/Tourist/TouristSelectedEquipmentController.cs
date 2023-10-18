@@ -32,26 +32,11 @@ namespace Explorer.API.Controllers.Tourist
         }
 
         [HttpPost]
-        public ActionResult<TouristSelectedEquipmentDto> Create([FromBody] TouristSelectedEquipmentDto tourReview)
+        public ActionResult<TouristSelectedEquipmentDto> EquipmentSelection([FromBody] TouristSelectedEquipmentDto tourReview)
         {
-            var result = _touristSelectedEquipmentService.Create(tourReview);
+            var result = _touristSelectedEquipmentService.EquipmentSelection(tourReview);
             return CreateResponse(result);
         }
-
-        [HttpPut("{id:int}")]
-        public ActionResult<TouristSelectedEquipmentDto> Update([FromBody] TouristSelectedEquipmentDto tourReview)
-        {
-            var result = _touristSelectedEquipmentService.Update(tourReview);
-            return CreateResponse(result);
-        }
-
-        [HttpDelete("{id:int}")]
-        public ActionResult Delete(int id)
-        {
-            var result = _touristSelectedEquipmentService.Delete(id);
-            return CreateResponse(result);
-        }
-
     }
 }
 
