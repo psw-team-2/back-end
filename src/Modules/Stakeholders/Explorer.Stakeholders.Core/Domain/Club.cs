@@ -6,14 +6,15 @@ namespace Explorer.Stakeholders.Core.Domain
     {
         public string Name { get; init; }
         public string Description { get; init; }
-        // image
+        public string ImageUrl { get; init; }
         public long OwnerId { get; init; }
         public List<long> MemberIds { get; init; }
 
-        public Club(string name, string description, long ownerId, List<long> memberIds)
+        public Club(string name, string description, string imageUrl, long ownerId, List<long> memberIds)
         {
             Name = name;
             Description = description;
+            ImageUrl = imageUrl;
             OwnerId = ownerId;
             //MemberIds = new List<long>();
             MemberIds = memberIds;

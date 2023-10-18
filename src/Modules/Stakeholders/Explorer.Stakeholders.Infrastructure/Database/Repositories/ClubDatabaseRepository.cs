@@ -1,8 +1,5 @@
-﻿using Explorer.BuildingBlocks.Core.UseCases;
-using Explorer.Stakeholders.API.Dtos;
-using Explorer.Stakeholders.Core.Domain;
+﻿using Explorer.Stakeholders.Core.Domain;
 using Explorer.Stakeholders.Core.Domain.RepositoryInterfaces;
-using FluentResults;
 
 namespace Explorer.Stakeholders.Infrastructure.Database.Repositories
 {
@@ -33,10 +30,10 @@ namespace Explorer.Stakeholders.Infrastructure.Database.Repositories
             return club;
         }
 
-        public Result<PagedResult<ClubDto>> GetAll()
+        /*public Result<PagedResult<ClubDto>> GetAll()
         {
             return null;
-        }
+        }*/
 
         public Club GetById(long id) 
         {   
