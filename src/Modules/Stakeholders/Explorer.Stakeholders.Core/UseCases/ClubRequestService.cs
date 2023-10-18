@@ -35,5 +35,25 @@ namespace Explorer.Stakeholders.Core.UseCases
                 return Result.Fail(FailureCode.InvalidArgument).WithError(e.Message);
             }
         }
+
+        public Result<ClubRequestDto> WithdrawRequest(int id)
+        {
+            try
+            {
+                var existingRequest = CrudRepository.Get(id);
+                if (existingRequest == null)
+                {
+                    return Result.Fail(FailureCode.NotFound).WithError("Request not found with the specified ID.");
+                }
+
+                CrudRepository.Delete(id);
+
+                return MapToDto(existingRequest);
+            }
+            catch (ArgumentException e)
+            {
+                return Result.Fail(FailureCode.InvalidArgument).WithError(e.Message);
+            }
+        }
     }
 }

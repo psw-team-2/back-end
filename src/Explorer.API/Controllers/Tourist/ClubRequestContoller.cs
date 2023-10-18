@@ -3,14 +3,15 @@ using Explorer.Stakeholders.API.Dtos;
 using Explorer.Stakeholders.API.Public;
 using Explorer.Stakeholders.Core.Domain;
 using Explorer.Tours.API.Dtos;
-using Explorer.Tours.API.Public.Administration;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Explorer.API.Controllers.Tourist
 {
     [Authorize(Policy = "touristPolicy")]
-    [Route("api/tourist/clubRequests")]
+    [Route("api/clubRequests")]
+
+    [ApiController]
     public class ClubRequestContoller: BaseApiController
     {
         private readonly IClubRequestService _clubRequestService;
@@ -48,11 +49,18 @@ namespace Explorer.API.Controllers.Tourist
             return CreateResponse(result);
         }
 
-      /*  [HttpPost]
+        [HttpPut("sent/{id:int}")]
         public ActionResult<ClubRequestDto> SendRequest([FromBody] ClubRequestDto clubRequest)
         {
             var result = _clubRequestService.Create(clubRequest);
             return CreateResponse(result);
-        }*/
+        }
+
+        [HttpPut("withdraw/{id:int}")]
+        public ActionResult<ClubRequestDto> WithdrawRequest(int clubRequestId)
+        {
+            var result = _clubRequestService.Delete(clubRequestId);
+            return CreateResponse(result);
+        }
     }
 }
