@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Explorer.API.Controllers.Administrator.Administration
 {
-    [Authorize(Policy = "administratorPolicy")]
+    [Authorize(Policy = "touristPolicy")]
     [Route("api/administration/profile")]
     public class ProfileController : BaseApiController
     {
