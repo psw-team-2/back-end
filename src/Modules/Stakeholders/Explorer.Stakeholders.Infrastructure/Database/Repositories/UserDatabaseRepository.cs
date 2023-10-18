@@ -22,8 +22,19 @@ public class UserDatabaseRepository : IUserRepository
         return _dbContext.Users.FirstOrDefault(user => user.Username == username && user.IsActive);
     }
 
+    public long GetHighestUserId()
+    {
+        long highestUserId = _dbContext.Users
+            .OrderByDescending(user => user.Id)
+            .Select(user => user.Id)
+            .FirstOrDefault();
+
+        return highestUserId;
+    }
+
     public User Create(User user)
     {
+        user.Id = GetHighestUserId() + 1;
         _dbContext.Users.Add(user);
         _dbContext.SaveChanges();
         return user;
