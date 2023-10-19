@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Explorer.API.Controllers.Tourist
 {
     [Authorize(Policy = "touristPolicy")]
-    [Route("api/clubRequests")]
+    [Route("api/tourist/clubRequests")]
 
     [ApiController]
     public class ClubRequestContoller: BaseApiController
@@ -50,8 +50,9 @@ namespace Explorer.API.Controllers.Tourist
         }
 
         [HttpPut("sent/{id:int}")]
-        public ActionResult<ClubRequestDto> SendRequest([FromBody] ClubRequestDto clubRequest)
+        public ActionResult<ClubRequestDto> SendRequest(int id, [FromBody] ClubRequestDto clubRequest)
         {
+            clubRequest.ClubId = id;
             var result = _clubRequestService.Create(clubRequest);
             return CreateResponse(result);
         }
