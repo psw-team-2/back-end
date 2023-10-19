@@ -11,10 +11,12 @@ namespace Explorer.API.Controllers.Author
     public class CheckPointController : BaseApiController
     {
         private readonly ICheckPointService _checkPointService;
+        private readonly IWebHostEnvironment _environment;
 
-        public CheckPointController(ICheckPointService checkPointService)
+        public CheckPointController(ICheckPointService checkPointService, IWebHostEnvironment environment)
         {
             _checkPointService = checkPointService;
+            _environment = environment;
         }
 
         [HttpGet]
@@ -29,6 +31,26 @@ namespace Explorer.API.Controllers.Author
         {
             var result = _checkPointService.Create(checkPoint);
             return CreateResponse(result);
+        }
+
+        [HttpPost("UploadFile")]
+        public async Task<string> UploadFile()
+        {
+            try
+            {
+                var file = Request.Form.Files[0];
+                string fName = file.FileName;
+                string path = Path.Combine(_environment.ContentRootPath, "Images", fName);
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+                return $"{file.FileName} successfully uploaded to the Server";
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         [HttpPut("{id:int}")]
