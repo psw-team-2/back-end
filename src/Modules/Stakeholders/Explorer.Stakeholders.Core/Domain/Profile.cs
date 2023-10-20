@@ -11,14 +11,18 @@ public class Profile : Entity
     public string ProfilePicture { get; init; }
     public string Biography { get; init; }
     public string Motto { get; init; }
+    public long UserId { get; init; }
+    public bool IsActive { get; init; }
 
-    public Profile(string firstName, string lastName, string profilePicture, string biography, string motto)
+    public Profile(string firstName, string lastName, string profilePicture, string biography, string motto, long userId, bool isActive)
     {
         FirstName = firstName;
         LastName = lastName;
         ProfilePicture = profilePicture;
         Biography = biography;
         Motto = motto;
+        UserId = userId;
+        IsActive = isActive;
         Validate();
     }
 
@@ -29,5 +33,6 @@ public class Profile : Entity
         if (string.IsNullOrWhiteSpace(ProfilePicture)) throw new ArgumentException("Invalid ProfilePicture");
         if (string.IsNullOrWhiteSpace(Biography)) throw new ArgumentException("Invalid Biography");
         if (string.IsNullOrWhiteSpace(Motto)) throw new ArgumentException("Invalid Motto");
+        if (UserId == 0) throw new ArgumentException("Invalid UserId");
     }
 }

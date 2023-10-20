@@ -8,13 +8,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Explorer.API.Controllers.Administrator.Administration
 {
-    [Authorize(Policy = "touristPolicy")]
-    [Route("api/administration/profile")]
-    public class ProfileController : BaseApiController
+    [Authorize(Policy = "authorPolicy")]
+    [Route("api/administration/profile2")]
+    public class ProfileController2 : BaseApiController
     {
         private readonly IProfileService _profileService;
 
-        public ProfileController(IProfileService profileService)
+        public ProfileController2(IProfileService profileService)
         {
             _profileService = profileService;
         }
