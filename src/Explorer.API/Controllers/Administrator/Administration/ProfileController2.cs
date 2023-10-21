@@ -13,10 +13,12 @@ namespace Explorer.API.Controllers.Administrator.Administration
     public class ProfileController2 : BaseApiController
     {
         private readonly IProfileService _profileService;
+        private readonly IWebHostEnvironment _environment;
 
-        public ProfileController2(IProfileService profileService)
+        public ProfileController2(IProfileService profileService, IWebHostEnvironment environment)
         {
             _profileService = profileService;
+            _environment = environment;
         }
 
         [HttpGet("{id:int}")]
@@ -31,6 +33,26 @@ namespace Explorer.API.Controllers.Administrator.Administration
         {
             var result = _profileService.Create(profile);
             return CreateResponse(result);
+        }
+
+        [HttpPost("UploadFile")]
+        public async Task<string> UploadFile()
+        {
+            try
+            {
+                var file = Request.Form.Files[0];
+                string fName = file.FileName;
+                string path = Path.Combine(_environment.ContentRootPath, "Images", file.FileName);
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+                return $"{file.FileName} successfully uploaded to the Server";
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         [HttpPut("{id:int}/{userId:int}")]
