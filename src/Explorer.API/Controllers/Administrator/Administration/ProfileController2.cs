@@ -28,12 +28,29 @@ namespace Explorer.API.Controllers.Administrator.Administration
             return CreateResponse(result);
         }
 
-        [HttpGet("by-user/{userId:int}")]
+        [HttpGet("by-user")]
+        public ActionResult<ProfileDto> GetByUserId()
+        {
+            var userIdClaim = HttpContext.User.Claims.First(x => x.Type == "id");
+            if (userIdClaim != null && int.TryParse(userIdClaim.Value, out int id))
+            {
+
+                var result = _profileService.GetByUserId(id);
+                return CreateResponse(result);
+            }
+            else
+            {
+                return BadRequest("User ID not found or invalid.");
+            }
+
+        }
+        /*
         public ActionResult<ProfileDto> GetByUserId(int userId)
         {
             var result = _profileService.GetByUserId(userId);
             return CreateResponse(result);
         }
+        */
 
         [HttpPost]
         public ActionResult<ProfileDto> Create([FromBody] ProfileDto profile)
