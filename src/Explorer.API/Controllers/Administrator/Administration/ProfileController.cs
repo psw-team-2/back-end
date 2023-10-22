@@ -21,19 +21,18 @@ namespace Explorer.API.Controllers.Administrator.Administration
             _environment = environment;
         }
 
-        
-        [HttpGet("{id:int}")]
-        public ActionResult<ProfileDto> Get(int id)
+
+        [HttpGet("by-id/{id:int}")]
+        public ActionResult<ProfileDto> GetById(int id)
         {
             var result = _profileService.Get(id);
             return CreateResponse(result);
         }
-        
 
-        [HttpGet("{userId:int}")]
-        public ActionResult<ProfileDto> GetByUserId(int userid)
+        [HttpGet("by-user/{userId:int}")]
+        public ActionResult<ProfileDto> GetByUserId(int userId)
         {
-            var result = _profileService.GetByUserId(userid);
+            var result = _profileService.GetByUserId(userId);
             return CreateResponse(result);
         }
 
