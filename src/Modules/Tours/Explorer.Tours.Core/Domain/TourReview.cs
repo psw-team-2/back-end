@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Explorer.Tours.Core.Domain
 {
@@ -19,6 +20,13 @@ namespace Explorer.Tours.Core.Domain
 
         public TourReview(int grade, string comment, long userId, DateTime visitDate, DateTime reviewDate, string images)
         {
+            if (string.IsNullOrWhiteSpace(comment)) throw new ArgumentException("Invalid comment.");
+            if (string.IsNullOrWhiteSpace(images)) throw new ArgumentException("Invalid images.");
+            if (grade < 1 || grade > 5)
+            {
+                throw new ArgumentException("Invalid grade");
+            }
+
             Grade = grade;
             Comment = comment;
             UserId = userId;
