@@ -21,10 +21,19 @@ namespace Explorer.API.Controllers.Administrator.Administration
             _environment = environment;
         }
 
+        
         [HttpGet("{id:int}")]
         public ActionResult<ProfileDto> Get(int id)
         {
             var result = _profileService.Get(id);
+            return CreateResponse(result);
+        }
+        
+
+        [HttpGet("{userId:int}")]
+        public ActionResult<ProfileDto> GetByUserId(int userid)
+        {
+            var result = _profileService.GetByUserId(userid);
             return CreateResponse(result);
         }
 

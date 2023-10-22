@@ -28,6 +28,7 @@ public static class StakeholdersStartup
         services.AddScoped<IAuthenticationService, AuthenticationService>();
         services.AddScoped<ITokenGenerator, JwtGenerator>();
         services.AddScoped<IProfileService, ProfileService>(); //dodato
+        services.AddScoped<IProfileRepository, ProfileDatabaseRepository>(); //dodato
     }
 
     private static void SetupInfrastructure(IServiceCollection services)

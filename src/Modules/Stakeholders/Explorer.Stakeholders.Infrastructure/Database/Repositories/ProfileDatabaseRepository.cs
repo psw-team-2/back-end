@@ -12,6 +12,11 @@ public class ProfileDatabaseRepository : IProfileRepository
         _dbContext = dbContext;
     }
 
+    public List<Profile> GetAll()
+    {
+        return _dbContext.Profiles.ToList();
+    }
+
     /*
     public bool Exists(string username)
     {
