@@ -17,5 +17,7 @@ namespace Explorer.Stakeholders.API.Public
         Result Delete(int id);
         Result<ClubRequestDto> SendRequest(ClubRequestDto clubRequests);
         Result<ClubRequestDto> WithdrawRequest(int id);
+        Result<ClubRequestDto> AcceptRequest(ClubRequestDto clubRequest);
+        Result<ClubRequestDto> RejectRequest(ClubRequestDto clubRequest);
     }
 }

@@ -40,6 +40,15 @@ namespace Explorer.Stakeholders.Core.UseCases
         {
             throw new NotImplementedException();
         }
-       
+
+        public Result<ClubRequestDto> AcceptRequest(ClubRequestDto clubRequest)
+        {
+            throw new NotImplementedException();
+        }
+        
+        public Result<ClubRequestDto> RejectRequest(ClubRequestDto clubRequest)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -4,14 +4,14 @@ using Explorer.Stakeholders.API.Public;
 using Explorer.Stakeholders.Core.Domain;
 using Explorer.Tours.API.Dtos;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Explorer.API.Controllers.Tourist
 {
     [Authorize(Policy = "touristPolicy")]
-    [Route("api/tourist/clubRequests")]
-
-    [ApiController]
+    [Route("api/clubRequests")]
     public class ClubRequestContoller: BaseApiController
     {
         private readonly IClubRequestService _clubRequestService;
@@ -28,40 +28,33 @@ namespace Explorer.API.Controllers.Tourist
             return CreateResponse(result);
         }
 
-        [HttpPost]
-        public ActionResult<ClubRequestDto> Create([FromBody] ClubRequestDto clubRequest)
+        [HttpPost("sendRequest")]
+        public ActionResult<ClubRequestDto> SendRequest([FromBody] ClubRequestDto clubRequest)
         {
             var result = _clubRequestService.Create(clubRequest);
             return CreateResponse(result);
         }
 
-        [HttpPut("{id:int}")]
-        public ActionResult<ClubRequestDto> Update([FromBody] ClubRequestDto clubRequest)
+        [HttpDelete("withdrawRequest/{id:int}")]
+        public ActionResult<ClubRequestDto> WithdrawRequest(int id)
+        {
+            var result = _clubRequestService.Delete(id);
+            return CreateResponse(result);
+        } 
+
+        [HttpPost("acceptRequest")]
+        public ActionResult<ClubRequestDto> AcceptRequest([FromBody] ClubRequestDto clubRequest)
         {
             var result = _clubRequestService.Update(clubRequest);
             return CreateResponse(result);
         }
 
-        [HttpDelete("{id:int}")]
-        public ActionResult<ClubRequestDto> Delete(int id)
+        [HttpPost("rejectRequest")]
+        public ActionResult<ClubRequestDto> RejectRequest([FromBody] ClubRequestDto clubRequest)
         {
-            var result = _clubRequestService.Delete(id);
+            var result = _clubRequestService.Update(clubRequest);
             return CreateResponse(result);
         }
 
-        [HttpPut("sent/{id:int}")]
-        public ActionResult<ClubRequestDto> SendRequest(int id, [FromBody] ClubRequestDto clubRequest)
-        {
-            clubRequest.ClubId = id;
-            var result = _clubRequestService.Create(clubRequest);
-            return CreateResponse(result);
-        }
-
-        [HttpPut("withdraw/{id:int}")]
-        public ActionResult<ClubRequestDto> WithdrawRequest(int clubRequestId)
-        {
-            var result = _clubRequestService.Delete(clubRequestId);
-            return CreateResponse(result);
-        }
     }
 }
