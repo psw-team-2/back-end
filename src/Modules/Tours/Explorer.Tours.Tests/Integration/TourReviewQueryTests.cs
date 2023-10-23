@@ -4,8 +4,10 @@ using Explorer.BuildingBlocks.Core.UseCases;
 using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public;
 using Explorer.Tours.API.Public.Administration;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using Moq;
 using Shouldly;
 using System;
 using System.Collections.Generic;
@@ -38,7 +40,11 @@ namespace Explorer.Tours.Tests.Integration
 
         private static TourReviewController CreateController(IServiceScope scope)
         {
-            return new TourReviewController(scope.ServiceProvider.GetRequiredService<ITourReviewService>())
+            var environment = new Mock<IWebHostEnvironment>().Object; // You might need to create a mock environment for testing.
+
+            return new TourReviewController(
+                scope.ServiceProvider.GetRequiredService<ITourReviewService>(),
+                environment)
             {
                 ControllerContext = BuildContext("-1")
             };

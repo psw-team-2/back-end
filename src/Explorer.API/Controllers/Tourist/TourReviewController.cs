@@ -20,11 +20,6 @@ namespace Explorer.API.Controllers.Tourist
             _environment = environment;
         }
 
-        public TourReviewController(ITourReviewService tourReviewService)
-        {
-            _tourReviewService = tourReviewService;
-        }
-
         [HttpGet]
         public ActionResult<PagedResult<TourReviewDto>> GetAll([FromQuery] int page, [FromQuery] int pageSize)
         {
