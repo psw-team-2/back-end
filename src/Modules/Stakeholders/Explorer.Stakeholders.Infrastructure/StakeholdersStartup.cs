@@ -28,6 +28,8 @@ public static class StakeholdersStartup
         services.AddScoped<IAuthenticationService, AuthenticationService>();
         services.AddScoped<ITokenGenerator, JwtGenerator>();
         services.AddScoped<ITourPreferenceService, TourPreferenceService>();
+        services.AddScoped<IProfileService, ProfileService>(); //dodato
+        services.AddScoped<IProfileRepository, ProfileDatabaseRepository>(); //dodato
     }
 
     private static void SetupInfrastructure(IServiceCollection services)
@@ -35,7 +37,7 @@ public static class StakeholdersStartup
         services.AddScoped(typeof(ICrudRepository<Person>), typeof(CrudDatabaseRepository<Person, StakeholdersContext>));
         services.AddScoped<IUserRepository, UserDatabaseRepository>();
         services.AddScoped(typeof(ICrudRepository<TourPreference>), typeof(CrudDatabaseRepository<TourPreference, StakeholdersContext>));
-
+        services.AddScoped(typeof(ICrudRepository<Profile>), typeof(CrudDatabaseRepository<Profile, StakeholdersContext>));
 
         services.AddDbContext<StakeholdersContext>(opt =>
             opt.UseNpgsql(DbConnectionStringBuilder.Build("stakeholders"),

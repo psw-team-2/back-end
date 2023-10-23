@@ -8,6 +8,8 @@ public class StakeholdersContext : DbContext
     public DbSet<User> Users { get; set; }
     public DbSet<Person> People { get; set; }
     public DbSet<TourPreference> TourPreferences { get; set; }
+    public DbSet<Profile> Profiles { get; set; }
+
     public StakeholdersContext(DbContextOptions<StakeholdersContext> options) : base(options) {}
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -17,12 +19,6 @@ public class StakeholdersContext : DbContext
         modelBuilder.Entity<User>().HasIndex(u => u.Username).IsUnique();
 
         ConfigureStakeholder(modelBuilder);
-
-<<<<<<< HEAD
-=======
-
->>>>>>> 7bf2ecd (Tour Preference CRUD and get by user)
-
     }
 
     private static void ConfigureStakeholder(ModelBuilder modelBuilder)
