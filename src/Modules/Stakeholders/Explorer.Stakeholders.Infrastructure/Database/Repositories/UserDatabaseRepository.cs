@@ -39,7 +39,7 @@ public class UserDatabaseRepository : IUserRepository
         return person.Id;
     }
 
-    public Result<CredentialsDto> GetUserById(long userId)
+    public Result<object> GetUserById(long userId)
     {
         try
         {
@@ -47,7 +47,7 @@ public class UserDatabaseRepository : IUserRepository
 
             if (user != null)
             {
-                var credentialsDto = new CredentialsDto
+                object credentialsDto = new CredentialsDto
                 {
                     Username = user.Username,
                     // Other properties...

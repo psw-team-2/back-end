@@ -55,7 +55,7 @@ public class AuthenticationService : IAuthenticationService
         }
     }
 
-    public Result<CredentialsDto> GetUserById(long userId)
+    public Result<object> GetUserById(long userId)
     {
         return _userRepository.GetUserById(userId);
     }
