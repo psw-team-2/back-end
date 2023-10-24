@@ -9,11 +9,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FluentResults;
 
 namespace Explorer.Tours.Core.UseCases
 {
     public class TourService : CrudService<TourDto, Tour>, ITourService
     {
+
         public TourService(ICrudRepository<Tour> repository, IMapper mapper) : base(repository, mapper) { }
+        
+
+        public Result<TourDto> AddEquipmentsToTour(TourDto tour, int equipmentIds)
+        {
+            if(tour != null)
+            {
+                tour.Equipments.Add(equipmentIds);
+            }
+            return tour;
+
+            
+
+        }
     }
 }

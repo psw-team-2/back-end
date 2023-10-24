@@ -2,6 +2,7 @@
 using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public;
 using Explorer.Tours.API.Public.Administration;
+using Explorer.Tours.Core.UseCases;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -45,5 +46,14 @@ namespace Explorer.API.Controllers.Author
             var result = _tourService.Delete(id);
             return CreateResponse(result);
         }
+
+        [HttpPut("addEquipment")]
+        public ActionResult<TourDto> AddEquipmentToTour([FromBody] TourDto tour, int equipmentIds)
+        {
+            var result = _tourService.AddEquipmentsToTour(tour, equipmentIds);
+            return CreateResponse(result);
+        }
+
+
     }
 }

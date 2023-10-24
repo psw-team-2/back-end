@@ -11,9 +11,5 @@ public class EquipmentService : CrudService<EquipmentDto, Equipment>, IEquipment
 {
     public EquipmentService(ICrudRepository<Equipment> repository, IMapper mapper) : base(repository, mapper) {}
 
-    public Result<Boolean> UpdateTourEquipment(int tourId, List<EquipmentDto> equipments)
-    {
-        List<EquipmentDto> eq = new List<EquipmentDto>();
-        return true;
-    }
+    
 }
