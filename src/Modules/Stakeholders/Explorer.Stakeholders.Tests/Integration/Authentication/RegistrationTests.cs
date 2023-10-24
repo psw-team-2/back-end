@@ -28,7 +28,10 @@ public class RegistrationTests : BaseStakeholdersIntegrationTest
             Email = "turistaA@gmail.com",
             Password = "turistaA",
             Name = "Žika",
-            Surname = "Žikić"
+            Surname = "Žikić",
+            ProfilePicture = "slika",
+            Biography = "bio",
+            Motto = "moto"
         };
 
         // Act
@@ -47,10 +50,10 @@ public class RegistrationTests : BaseStakeholdersIntegrationTest
         var storedAccount = dbContext.Users.FirstOrDefault(u => u.Username == account.Email);
         storedAccount.ShouldNotBeNull();
         storedAccount.Role.ShouldBe(Core.Domain.UserRole.Tourist);
-        var storedPerson = dbContext.People.FirstOrDefault(i => i.Email == account.Email);
+        var storedPerson = dbContext.Profiles.FirstOrDefault(i => i.FirstName == account.Name);
         storedPerson.ShouldNotBeNull();
         storedPerson.UserId.ShouldBe(storedAccount.Id);
-        storedPerson.Name.ShouldBe(account.Name);
+        storedPerson.FirstName.ShouldBe(account.Name);
     }
 
     private static AuthenticationController CreateController(IServiceScope scope)
