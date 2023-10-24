@@ -15,5 +15,7 @@ namespace Explorer.Tours.Core.UseCases
     public class TourService : CrudService<TourDto, Tour>, ITourService
     {
         public TourService(ICrudRepository<Tour> repository, IMapper mapper) : base(repository, mapper) { }
+
+
     }
 }
