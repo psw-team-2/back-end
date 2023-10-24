@@ -4,6 +4,7 @@ using Explorer.Stakeholders.API.Public;
 using Explorer.Stakeholders.Core.Domain;
 using Explorer.Stakeholders.Core.Domain.RepositoryInterfaces;
 using FluentResults;
+using System.ComponentModel;
 
 namespace Explorer.Stakeholders.Core.UseCases;
 
@@ -52,6 +53,29 @@ public class AuthenticationService : IAuthenticationService
         {
             return Result.Fail(FailureCode.InvalidArgument).WithError(e.Message);
             // There is a subtle issue here. Can you find it?
+        }
+    }
+
+    public Result<CredentialsDto> GetUsername(int id)
+    {
+        CredentialsDto dto = new CredentialsDto()
+        {
+            Username = _userRepository.Get(id).Username,
+            Password = string.Empty
+        };
+        return dto;
+    }
+
+    public Result<List<long>> GetAllUserIds()
+    {
+        try
+        {
+            var userIDs = _userRepository.GetAllUserIds();
+            return Result.Ok(userIDs);
+        }
+        catch (Exception ex)
+        {
+            return null;
         }
     }
 }

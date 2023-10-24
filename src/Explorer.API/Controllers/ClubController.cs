@@ -1,12 +1,10 @@
 ﻿using Explorer.BuildingBlocks.Core.UseCases;
 using Explorer.Stakeholders.API.Dtos;
 using Explorer.Stakeholders.API.Public;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Explorer.API.Controllers
 {
-    [Authorize(Policy = "administratorPolicy")]
     [Route("api/clubs")]
 
     [ApiController]
@@ -23,6 +21,13 @@ namespace Explorer.API.Controllers
         public ActionResult<PagedResult<ClubDto>> GetAll([FromQuery] int page, [FromQuery] int pageSize)
         {
             var result = _clubService.GetPaged(page, pageSize);
+            return CreateResponse(result);
+        }
+
+        [HttpGet("{id:int}")]
+        public ActionResult<PagedResult<ClubDto>> GetClubById(int id)
+        {
+            var result = _clubService.Get(id);
             return CreateResponse(result);
         }
 
