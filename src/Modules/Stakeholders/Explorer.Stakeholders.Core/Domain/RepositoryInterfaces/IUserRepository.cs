@@ -9,5 +9,5 @@ public interface IUserRepository
     User? GetActiveByName(string username);
     User Create(User user);
     long GetPersonId(long userId);
-    Result<CredentialsDto> GetUserById(long userId);
+    Result<object> GetUserById(long userId);
 }

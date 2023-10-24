@@ -50,7 +50,7 @@ public class UserDatabaseRepository : IUserRepository
         return person.Id;
     }
 
-    public Result<CredentialsDto> GetUserById(long userId)
+    public Result<object> GetUserById(long userId)
     {
         try
         {
@@ -64,7 +64,7 @@ public class UserDatabaseRepository : IUserRepository
                     Password = user.Password,
                 };
 
-                return Result.Ok(credentialsDto);
+                return Result.Ok((object)credentialsDto);
             }
             else
             {
