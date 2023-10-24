@@ -4,7 +4,7 @@ using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public.Administration;
 using Explorer.Tours.Core.Domain;
 
-namespace Explorer.Tours.Core.UseCases.Administration;
+namespace Explorer.Tours.Core.UseCases;
 
 public class CheckPointService : CrudService<CheckPointDto, CheckPoint>, ICheckPointService
 {
