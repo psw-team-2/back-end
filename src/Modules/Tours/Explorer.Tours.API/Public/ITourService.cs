@@ -18,5 +18,6 @@ namespace Explorer.Tours.API.Public
         Result<TourDto> AddCheckPoint(TourDto tour, int checkPoint);
 
      //   Result<TourDto> GetById(int id);
+        public Result<TourDto> AddEquipmentsToTour(TourDto tour, int equipmentIds);
     }
 }
