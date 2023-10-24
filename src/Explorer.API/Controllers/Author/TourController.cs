@@ -4,6 +4,7 @@ using Explorer.Tours.API.Public;
 using Explorer.Tours.API.Public.Administration;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Explorer.API.Controllers.Author
 {
@@ -43,6 +44,13 @@ namespace Explorer.API.Controllers.Author
         public ActionResult Delete(int id)
         {
             var result = _tourService.Delete(id);
+            return CreateResponse(result);
+        }
+
+        [HttpPut("{tourId:int}/{checkPointId:int}")]
+        public ActionResult<TourDto> AddCheckPoint([FromBody] TourDto tour, int checkPointId)
+        {
+            var result = _tourService.AddCheckPoint(tour, checkPointId);
             return CreateResponse(result);
         }
     }
