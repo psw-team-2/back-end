@@ -25,24 +25,6 @@ namespace Explorer.Stakeholders.Infrastructure.Database.Repositories
         {
             return _dbContext.ApplicationReview.FirstOrDefault(u => u.UserId == userId);
         }
-
-        
-
-        public void Create(ApplicationReview review)
-        {
-            // Dodajte novu ocenu u bazu podataka
-            _dbContext.ApplicationReview.Add(review);
-            _dbContext.SaveChanges();
-        }
-
-
-
-        public ApplicationReview Update(ApplicationReview review)
-        {
-            // Označite entitet kao izmenjen i sačuvajte promene u bazi podataka
-            _dbContext.Entry(review).State = EntityState.Modified;
-            _dbContext.SaveChanges();
-            return review;
-        }
+ 
     }
 }

@@ -36,7 +36,6 @@ namespace Explorer.Stakeholders.Core.UseCases
             {
                 applicationReviewDto.Id = existingReview.Id;
                 base.Delete((int)existingReview.Id);              
-
             }
             
             return base.Create(applicationReviewDto);
