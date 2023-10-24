@@ -1,5 +1,7 @@
 ﻿using Explorer.Blog.API.Dtos;
 using Explorer.Blog.API.Public;
+using Explorer.Blog.Core.Domain;
+using Explorer.Blog.Infrastructure.Database;
 using Explorer.BuildingBlocks.Core.UseCases;
 using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public.Administration;
@@ -14,10 +16,12 @@ namespace Explorer.API.Controllers.Tourist
     {
         private readonly IUserBlogService _userBlogService; 
         private readonly IWebHostEnvironment _environment;
-        public UserBlogController(IUserBlogService userBlogService, IWebHostEnvironment environment)
+        private readonly BlogContext _context;
+        public UserBlogController(IUserBlogService userBlogService, IWebHostEnvironment environment, BlogContext context)
         {
             _userBlogService = userBlogService;
             _environment = environment;
+            _context = context;
         }
 
         [HttpGet]
@@ -39,20 +43,31 @@ namespace Explorer.API.Controllers.Tourist
         {
             try
             {
-                var file = Request.Form.Files[0];
-                string fName = file.FileName;
-                string path = Path.Combine(_environment.ContentRootPath, "Images", file.FileName);
-                using (var stream = new FileStream(path, FileMode.Create))
+                if (Request.Form.Files.Count > 0)
                 {
-                    await file.CopyToAsync(stream);
+                    var file = Request.Form.Files[0];
+                    string fName = file.FileName;
+                    string path = Path.Combine(_environment.ContentRootPath, "Images", file.FileName);
+                    using (var stream = new FileStream(path, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+                    return $"{file.FileName} successfully uploaded to the Server";
                 }
-                return $"{file.FileName} successfully uploaded to the Server";
+                else
+                {
+                    
+                    return "No files uploaded.";
+                }
             }
             catch (Exception ex)
             {
-                throw;
+                
+                return $"Error: {ex.Message}";
             }
         }
+
+
 
         [HttpPut("{id:int}")]
         public ActionResult<UserBlogDto> Update([FromBody] UserBlogDto blog)
@@ -67,5 +82,17 @@ namespace Explorer.API.Controllers.Tourist
             var result = _userBlogService.Delete(id);
             return CreateResponse(result);
         }
+        [HttpGet("{id}")]
+        public ActionResult<UserBlogDto> Get(int id)
+        {
+            var blog = _userBlogService.Get(id);
+            if (blog == null)
+            {
+                return NotFound(); 
+            }
+
+            return CreateResponse(blog);
+        }
+
     }
 }

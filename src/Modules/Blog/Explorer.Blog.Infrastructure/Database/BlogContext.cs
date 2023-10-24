@@ -1,6 +1,7 @@
 ﻿using Explorer.Blog.Core.Domain;
 using Explorer.Stakeholders.Core.Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 
 namespace Explorer.Blog.Infrastructure.Database;
 
@@ -17,6 +18,5 @@ public class BlogContext : DbContext
     }
     private static void ConfigureBlog(ModelBuilder modelBuilder)
     {
-       
     }
 }
