@@ -20,10 +20,10 @@ namespace Explorer.Tours.Core.Domain
         public AccountStatus Status { get; init; }
         public int Difficulty { get; init;}
         public double Price { get; init; }
-        public List<String>? Tags { get; init; }
+        public String? Tags { get; init; }
         public bool IsDeleted { get; init; } = false;
 
-        public TourInfo(String name, String description, AccountStatus status, int difficulty, double price, List<String>? tags)
+        public TourInfo(String name, String description, AccountStatus status, int difficulty, double price, String? tags)
         {
             if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("Invalid Name.");
             if (string.IsNullOrWhiteSpace(description)) throw new ArgumentException("Invalid description.");
