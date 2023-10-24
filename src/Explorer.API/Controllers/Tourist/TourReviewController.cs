@@ -34,7 +34,6 @@ namespace Explorer.API.Controllers.Tourist
             return CreateResponse(result);
         }
 
-        
 
         [HttpPost("UploadFile")]
         public async Task<string> UploadFile()
