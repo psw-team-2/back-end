@@ -27,4 +27,17 @@ public class AuthenticationController : BaseApiController
         var result = _authenticationService.Login(credentials);
         return CreateResponse(result);
     }
+
+    [HttpGet("{userId}")]
+    public ActionResult<CredentialsDto> GetUserById(long userId)
+    {
+        var result = _authenticationService.GetUserById(userId);
+
+        if (result.IsFailed)
+        {
+            return NotFound();
+        }
+
+        return Ok(result.Value); 
+    }
 }

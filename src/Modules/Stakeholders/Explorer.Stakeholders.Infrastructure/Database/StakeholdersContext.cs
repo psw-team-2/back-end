@@ -1,5 +1,6 @@
 ﻿using Explorer.Stakeholders.Core.Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 
 namespace Explorer.Stakeholders.Infrastructure.Database;
 
@@ -9,6 +10,8 @@ public class StakeholdersContext : DbContext
     public DbSet<Person> People { get; set; }
     public DbSet<TourPreference> TourPreferences { get; set; }
     public DbSet<Profile> Profiles { get; set; }
+
+    public DbSet<ApplicationReview> ApplicationReview { get; set; }
 
     public StakeholdersContext(DbContextOptions<StakeholdersContext> options) : base(options) {}
 
@@ -27,5 +30,7 @@ public class StakeholdersContext : DbContext
             .HasOne<User>()
             .WithOne()
             .HasForeignKey<Person>(s => s.UserId);
+
+      
     }
 }

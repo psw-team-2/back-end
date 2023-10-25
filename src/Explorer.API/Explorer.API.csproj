@@ -30,6 +30,7 @@
     <Folder Include="Controllers\Tourist\" />
     <Folder Include="Images\" />
     <Folder Include="Images\" />
+    <Folder Include="Controllers\Administrator\Administration\" />
   </ItemGroup>
 
 </Project>
