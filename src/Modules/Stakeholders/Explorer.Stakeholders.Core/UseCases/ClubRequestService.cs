@@ -131,7 +131,7 @@ namespace Explorer.Stakeholders.Core.UseCases
             _clubRequestService.Update(existingRequest);
         }
 
-        private void UpdateClub(ClubDto club, int accountId)
+        private void UpdateClub(ClubDto club, long accountId)
         {
             club.MemberIds.Add(accountId);
             _clubService.Update(club);
