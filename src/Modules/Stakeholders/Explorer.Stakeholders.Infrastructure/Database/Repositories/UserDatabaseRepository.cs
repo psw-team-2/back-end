@@ -4,6 +4,7 @@ using Explorer.Stakeholders.Core.Domain.RepositoryInterfaces;
 using FluentResults;
 using System.Data;
 
+
 namespace Explorer.Stakeholders.Infrastructure.Database.Repositories;
 
 public class UserDatabaseRepository : IUserRepository
@@ -50,7 +51,6 @@ public class UserDatabaseRepository : IUserRepository
         return person.Id;
     }
 
-
     public User Get(int id)
     {
         return _dbContext.Users.FirstOrDefault(i => i.Id == id);
@@ -76,6 +76,13 @@ public class UserDatabaseRepository : IUserRepository
                 };
 
                 return Result.Ok((object)credentialsDto);
+                object credentialsDto = new CredentialsDto
+                {
+                    Username = user.Username,
+                   
+                };
+
+                return Result.Ok(credentialsDto);
             }
             else
             {
@@ -84,6 +91,10 @@ public class UserDatabaseRepository : IUserRepository
         }
         catch (Exception ex)
         {
+            return Result.Fail($"Error: {ex.Message}");
+        }
+
+            // Handle any exceptions that may occur during database access
             return Result.Fail($"Error: {ex.Message}");
         }
 

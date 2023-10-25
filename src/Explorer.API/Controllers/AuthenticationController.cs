@@ -28,7 +28,6 @@ public class AuthenticationController : BaseApiController
         return CreateResponse(result);
     }
 
-
     [HttpGet("{id:int}")]
     public ActionResult<CredentialsDto> GetUsernameById(int id)
     {
@@ -44,7 +43,7 @@ public class AuthenticationController : BaseApiController
     }
 
     [HttpGet("{userId}")]
-    public ActionResult<CredentialsDto> GetUserById(long userId)
+    public ActionResult<object> GetUserById(long userId)
     {
         var result = _authenticationService.GetUserById(userId);
 
@@ -54,6 +53,5 @@ public class AuthenticationController : BaseApiController
         }
 
         return Ok(result.Value); 
-
     }
 }

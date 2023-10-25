@@ -27,10 +27,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\BuildingBlocks\Explorer.BuildingBlocks.Tests\Explorer.BuildingBlocks.Tests.csproj" />
     <ProjectReference Include="..\..\..\Explorer.API\Explorer.API.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Integration\" />
+    <ProjectReference Include="..\..\Tours\Explorer.Tours.Tests\Explorer.Tours.Tests.csproj" />
   </ItemGroup>
 
 </Project>

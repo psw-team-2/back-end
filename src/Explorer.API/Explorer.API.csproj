@@ -31,5 +31,4 @@
     <Folder Include="Images\" />
     <Folder Include="Controllers\Administrator\Administration\" />
   </ItemGroup>
-
 </Project>
