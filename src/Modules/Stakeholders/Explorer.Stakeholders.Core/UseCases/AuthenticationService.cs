@@ -98,6 +98,8 @@ public class AuthenticationService : IAuthenticationService
         {
             return null;
         }
+    }
+
     public Result<object> GetUserById(long userId)
     {
         return _userRepository.GetUserById(userId);

@@ -59,8 +59,9 @@ public class UserDatabaseRepository : IUserRepository
     public List<long> GetAllUserIds()
     {
         return _dbContext.Users.Select(user => user.Id).ToList();
+    }
 
-public Result<object> GetUserById(long userId)
+    public Result<object> GetUserById(long userId)
     {
         try
         {
