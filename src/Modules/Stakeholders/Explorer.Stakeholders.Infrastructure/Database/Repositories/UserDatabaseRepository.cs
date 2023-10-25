@@ -50,7 +50,17 @@ public class UserDatabaseRepository : IUserRepository
         return person.Id;
     }
 
-    public Result<object> GetUserById(long userId)
+
+    public User Get(int id)
+    {
+        return _dbContext.Users.FirstOrDefault(i => i.Id == id);
+    }
+
+    public List<long> GetAllUserIds()
+    {
+        return _dbContext.Users.Select(user => user.Id).ToList();
+
+public Result<object> GetUserById(long userId)
     {
         try
         {
@@ -75,5 +85,6 @@ public class UserDatabaseRepository : IUserRepository
         {
             return Result.Fail($"Error: {ex.Message}");
         }
+
     }
 }

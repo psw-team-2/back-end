@@ -4,6 +4,7 @@ using Explorer.Stakeholders.API.Public;
 using Explorer.Stakeholders.Core.Domain;
 using Explorer.Stakeholders.Core.Domain.RepositoryInterfaces;
 using FluentResults;
+using System.ComponentModel;
 using UserRole = Explorer.Stakeholders.Core.Domain.UserRole;
 
 namespace Explorer.Stakeholders.Core.UseCases;
@@ -76,6 +77,27 @@ public class AuthenticationService : IAuthenticationService
         }
     }
 
+    public Result<CredentialsDto> GetUsername(int id)
+    {
+        CredentialsDto dto = new CredentialsDto()
+        {
+            Username = _userRepository.Get(id).Username,
+            Password = string.Empty
+        };
+        return dto;
+    }
+
+    public Result<List<long>> GetAllUserIds()
+    {
+        try
+        {
+            var userIDs = _userRepository.GetAllUserIds();
+            return Result.Ok(userIDs);
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
     public Result<object> GetUserById(long userId)
     {
         return _userRepository.GetUserById(userId);
