@@ -28,7 +28,7 @@ else
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(
-           Path.Combine(builder.Environment.ContentRootPath, "Images")),
+          Path.Combine(builder.Environment.ContentRootPath, "Images")),
     RequestPath = "/Images"
 });
 

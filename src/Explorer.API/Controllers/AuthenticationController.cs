@@ -27,4 +27,18 @@ public class AuthenticationController : BaseApiController
         var result = _authenticationService.Login(credentials);
         return CreateResponse(result);
     }
+
+    [HttpGet("{userId}")]
+    public ActionResult<object> GetUserById(long userId)
+    {
+        var result = _authenticationService.GetUserById(userId);
+
+        if (result.IsFailed)
+        {
+            // Handle the failure, e.g., return a 404 (Not Found) response or appropriate error response.
+            return NotFound();
+        }
+
+        return Ok(result.Value); // Return the user information as a successful response.
+    }
 }
