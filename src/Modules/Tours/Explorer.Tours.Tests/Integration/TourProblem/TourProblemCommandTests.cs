@@ -12,9 +12,9 @@ using Explorer.Tours.Tests;
 namespace Explorer.Stakeholders.Tests.Integration.TourProblem
 {
     [Collection("Sequential")]
-    public class ProblemCommandTests : BaseToursIntegrationTest
+    public class TourProblemCommandTests : BaseToursIntegrationTest
     {
-        public ProblemCommandTests(ToursTestFactory factory) : base(factory) { }
+        public TourProblemCommandTests(ToursTestFactory factory) : base(factory) { }
 
         [Fact]
         public void Creates()
@@ -25,10 +25,12 @@ namespace Explorer.Stakeholders.Tests.Integration.TourProblem
             var dbContext = scope.ServiceProvider.GetRequiredService<ToursContext>();
             var newEntity = new TourProblemDto()
             {
-                ProblemCategory = "TourProblemCategory.CATEGORY1",
-                ProblemPriority = "TourProblemPriority.PRIORITY1",
+                Id = -15,
+                ProblemCategory = "CATEGORY 1",
+                ProblemPriority = "PRIORITY 1",
                 Description = "Test Problem Description",
                 TimeStamp = DateTime.UtcNow,
+                MockTourId = 19
             };
 
             // Act
@@ -55,7 +57,11 @@ namespace Explorer.Stakeholders.Tests.Integration.TourProblem
             var controller = CreateController(scope);
             var updatedEntity = new TourProblemDto()
             {
-                Description = "Test Problem Create"
+                Description = "",
+                ProblemCategory = "",
+                ProblemPriority = "",
+                TimeStamp = DateTime.UtcNow,
+                MockTourId = 0
             };
 
             // Act
@@ -75,11 +81,12 @@ namespace Explorer.Stakeholders.Tests.Integration.TourProblem
             var dbContext = scope.ServiceProvider.GetRequiredService<ToursContext>();
             var updatedEntity = new TourProblemDto()
             {
-                Id = -1,
-                ProblemCategory = "TourProblemCategory.CATEGORY2",
-                ProblemPriority = "TourProblemPriority.PRIORITY2",
-                Description = "Updated problem description",
-                TimeStamp = DateTime.UtcNow
+                Id = -15,
+                ProblemCategory = "CATEGORY 2",
+                ProblemPriority = "PRIORITY 2",
+                Description = "Test Problem Description Updated",
+                TimeStamp = DateTime.UtcNow,
+                MockTourId = -1
             };
 
             // Act
@@ -87,13 +94,14 @@ namespace Explorer.Stakeholders.Tests.Integration.TourProblem
 
             // Assert - Response
             result.ShouldNotBeNull();
-            result.Id.ShouldBe(-1);
+            result.Id.ShouldBe(-15);
+            result.MockTourId.ShouldBe(-1);
             result.ProblemCategory.ShouldBe(updatedEntity.ProblemCategory);
             result.ProblemPriority.ShouldBe(updatedEntity.ProblemPriority);
             result.Description.ShouldBe(updatedEntity.Description);
 
             // Assert - Database
-            var storedEntity = dbContext.TourProblems.FirstOrDefault(i => i.Id == -1);
+            var storedEntity = dbContext.TourProblems.FirstOrDefault(i => i.Id == result.Id);
             storedEntity.ShouldNotBeNull();
             storedEntity.Description.ShouldBe(updatedEntity.Description);
             //This should be revised, could have to implement oldEntity
@@ -109,7 +117,11 @@ namespace Explorer.Stakeholders.Tests.Integration.TourProblem
             var updatedEntity = new TourProblemDto()
             {
                 Id = -1000,
-                Description = "Test Problem Update"
+                Description = "Test Update Fail Description",
+                ProblemCategory = "CATEGORY -1",
+                ProblemPriority = "PRIORITY -1",
+                TimeStamp = DateTime.UtcNow,
+                MockTourId = 2000
             };
 
             // Act
@@ -129,14 +141,14 @@ namespace Explorer.Stakeholders.Tests.Integration.TourProblem
             var dbContext = scope.ServiceProvider.GetRequiredService<ToursContext>();
 
             // Act
-            var result = (OkResult)controller.Delete(-3);
+            var result = (OkResult)controller.Delete(-15);
 
             // Assert - Response
             result.ShouldNotBeNull();
             result.StatusCode.ShouldBe(200);
 
             // Assert - Database
-            var storedCourse = dbContext.Equipment.FirstOrDefault(i => i.Id == -3);
+            var storedCourse = dbContext.Equipment.FirstOrDefault(i => i.Id == -15);
             storedCourse.ShouldBeNull();
         }
 
