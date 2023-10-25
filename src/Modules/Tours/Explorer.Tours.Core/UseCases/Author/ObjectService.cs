@@ -15,4 +15,6 @@ namespace Explorer.Tours.Core.UseCases.Author
     {
         public ObjectService(ICrudRepository<Domain.Object> repository, IMapper mapper) : base(repository, mapper) { }
     }
+
+
 }

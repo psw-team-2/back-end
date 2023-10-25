@@ -13,11 +13,12 @@ namespace Explorer.API.Controllers.Author
     {
 
         private readonly IObjectService _objectService;
+        private readonly IWebHostEnvironment _environment;
 
-
-        public ObjectController(IObjectService objectService)
+        public ObjectController(IObjectService objectService, IWebHostEnvironment environment)
         {
             _objectService = objectService;
+            _environment = environment;
         }
 
 
@@ -28,6 +29,26 @@ namespace Explorer.API.Controllers.Author
         {
             var result = _objectService.Create(objectDto);
             return CreateResponse(result);
+        }
+
+        [HttpPost("UploadFile")]
+        public async Task<string> UploadFile()
+        {
+            try
+            {
+                var file = Request.Form.Files[0];
+                string fName = file.FileName;
+                string path = Path.Combine(_environment.ContentRootPath, "Images", file.FileName);
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+                return $"{file.FileName} successfully uploaded to the Server";
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
     }
