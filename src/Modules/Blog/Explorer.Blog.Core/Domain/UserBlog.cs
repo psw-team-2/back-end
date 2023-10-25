@@ -18,6 +18,8 @@ namespace Explorer.Blog.Core.Domain
 
         public UserBlog(long userId, string title, string description, DateTime creationTime, BlogStatus status, string image)
         {
+            if(string.IsNullOrWhiteSpace(title)) throw new ArgumentException ("Invalid title.");
+            if (string.IsNullOrWhiteSpace(description)) throw new ArgumentException("Invalid description.");
             UserId = userId;
             Title = title;
             Description = description;
