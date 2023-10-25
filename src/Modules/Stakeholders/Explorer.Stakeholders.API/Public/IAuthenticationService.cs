@@ -10,4 +10,5 @@ public interface IAuthenticationService
     Result<AuthenticationTokensDto> RegisterTourist(AccountRegistrationDto account);
     Result<CredentialsDto> GetUsername(int id);
     Result<List<long>> GetAllUserIds();
+    public Result<object> GetUserById(long userId);
 }

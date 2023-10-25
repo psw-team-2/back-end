@@ -1,4 +1,5 @@
 using Explorer.API.Startup;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,7 @@ const string corsPolicy = "_corsPolicy";
 builder.Services.ConfigureCors(corsPolicy);
 builder.Services.ConfigureAuth();
 
+builder.Services.AddHttpContextAccessor();
 builder.Services.RegisterModules();
 
 var app = builder.Build();
@@ -24,6 +26,13 @@ else
     app.UseHsts();
 }
 
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+           Path.Combine(builder.Environment.ContentRootPath, "Images")),
+    RequestPath = "/Images"
+});
+
 app.UseRouting();
 app.UseCors(corsPolicy);
 app.UseHttpsRedirection();
@@ -31,6 +40,8 @@ app.UseAuthorization();
 app.UseAuthorization();
 
 app.MapControllers();
+
+
 
 app.Run();
 
