@@ -1,13 +1,17 @@
 ﻿using Explorer.BuildingBlocks.Core.UseCases;
 using Explorer.Stakeholders.API.Dtos;
 using Explorer.Stakeholders.API.Public;
+using Explorer.Stakeholders.Core.Domain;
 using Explorer.Tours.API.Dtos;
-using Explorer.Tours.API.Public.Administration;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Explorer.API.Controllers.Tourist
 {
-    [Route("api/tourist/clubRequests")]
+    [Authorize(Policy = "touristPolicy")]
+    [Route("api/clubRequests")]
     public class ClubRequestContoller: BaseApiController
     {
         private readonly IClubRequestService _clubRequestService;
@@ -24,11 +28,33 @@ namespace Explorer.API.Controllers.Tourist
             return CreateResponse(result);
         }
 
-        [HttpPost]
+        [HttpPost("sendRequest")]
         public ActionResult<ClubRequestDto> SendRequest([FromBody] ClubRequestDto clubRequest)
         {
             var result = _clubRequestService.Create(clubRequest);
             return CreateResponse(result);
         }
+
+        [HttpDelete("withdrawRequest/{id:int}")]
+        public ActionResult<ClubRequestDto> WithdrawRequest(int id)
+        {
+            var result = _clubRequestService.Delete(id);
+            return CreateResponse(result);
+        } 
+
+        [HttpPost("acceptRequest")]
+        public ActionResult<ClubRequestDto> AcceptRequest([FromBody] ClubRequestDto clubRequest)
+        {
+            var result = _clubRequestService.Update(clubRequest);
+            return CreateResponse(result);
+        }
+
+        [HttpPost("rejectRequest")]
+        public ActionResult<ClubRequestDto> RejectRequest([FromBody] ClubRequestDto clubRequest)
+        {
+            var result = _clubRequestService.Update(clubRequest);
+            return CreateResponse(result);
+        }
+
     }
 }

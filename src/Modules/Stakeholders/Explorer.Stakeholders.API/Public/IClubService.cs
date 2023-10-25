@@ -11,4 +11,5 @@ public interface IClubService
     Result<ClubDto> Update(ClubDto club);
     Result<ClubDto> Get(int id);
     Result<ClubDto> Kick(ClubDto club);
+    Result<ClubDto> GetClubById(int id);
 }
