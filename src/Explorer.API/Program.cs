@@ -9,6 +9,7 @@ const string corsPolicy = "_corsPolicy";
 builder.Services.ConfigureCors(corsPolicy);
 builder.Services.ConfigureAuth();
 
+builder.Services.AddHttpContextAccessor();
 builder.Services.RegisterModules();
 
 var app = builder.Build();
@@ -24,6 +25,13 @@ else
     app.UseExceptionHandler("/error");
     app.UseHsts();
 }
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+           Path.Combine(builder.Environment.ContentRootPath, "Images")),
+    RequestPath = "/Images"
+});
 
 app.UseRouting();
 app.UseCors(corsPolicy);

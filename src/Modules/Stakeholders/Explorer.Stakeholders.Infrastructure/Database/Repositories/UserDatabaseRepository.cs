@@ -2,6 +2,8 @@
 using Explorer.Stakeholders.Core.Domain;
 using Explorer.Stakeholders.Core.Domain.RepositoryInterfaces;
 using FluentResults;
+using System.Data;
+
 
 namespace Explorer.Stakeholders.Infrastructure.Database.Repositories;
 
@@ -24,8 +26,19 @@ public class UserDatabaseRepository : IUserRepository
         return _dbContext.Users.FirstOrDefault(user => user.Username == username && user.IsActive);
     }
 
+    public long GetHighestUserId()
+    {
+        long highestUserId = _dbContext.Users
+            .OrderByDescending(user => user.Id)
+            .Select(user => user.Id)
+            .FirstOrDefault();
+
+        return highestUserId;
+    }
+
     public User Create(User user)
     {
+        user.Id = GetHighestUserId()+1;
         _dbContext.Users.Add(user);
         _dbContext.SaveChanges();
         return user;
@@ -38,6 +51,16 @@ public class UserDatabaseRepository : IUserRepository
         return person.Id;
     }
 
+    public User Get(int id)
+    {
+        return _dbContext.Users.FirstOrDefault(i => i.Id == id);
+    }
+
+    public List<long> GetAllUserIds()
+    {
+        return _dbContext.Users.Select(user => user.Id).ToList();
+    }
+
     public Result<object> GetUserById(long userId)
     {
         try
@@ -46,6 +69,13 @@ public class UserDatabaseRepository : IUserRepository
 
             if (user != null)
             {
+                var credentialsDto = new CredentialsDto
+                {
+                    Username = user.Username,
+                    Password = user.Password,
+                };
+
+                return Result.Ok((object)credentialsDto);
                 object credentialsDto = new CredentialsDto
                 {
                     Username = user.Username,
@@ -61,8 +91,12 @@ public class UserDatabaseRepository : IUserRepository
         }
         catch (Exception ex)
         {
+            return Result.Fail($"Error: {ex.Message}");
+        }
+
             // Handle any exceptions that may occur during database access
             return Result.Fail($"Error: {ex.Message}");
         }
+
     }
 }
