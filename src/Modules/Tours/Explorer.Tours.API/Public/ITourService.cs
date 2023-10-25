@@ -12,6 +12,7 @@ namespace Explorer.Tours.API.Public
     public interface ITourService
     {
         Result<PagedResult<TourDto>> GetPaged(int page, int pageSize);
+        Result<TourDto> Get(int id);
         Result<TourDto> Create(TourDto tour);
         Result<TourDto> Update(TourDto tour);
         Result Delete(int id);
