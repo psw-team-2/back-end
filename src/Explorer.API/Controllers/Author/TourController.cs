@@ -70,5 +70,12 @@ namespace Explorer.API.Controllers.Author
             var result = _tourService.AddCheckPoint(tour, checkPointId);
             return CreateResponse(result);
         }
+
+        [HttpPut("delete/{tourId:int}/{checkPointId:int}")]
+        public ActionResult<TourDto> DeleteCheckPoint([FromBody] TourDto tour, int checkPointId)
+        {
+            var result = _tourService.DeleteCheckPoint(tour, checkPointId);
+            return CreateResponse(result);
+        }
     }
 }

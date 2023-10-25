@@ -17,6 +17,7 @@ namespace Explorer.Tours.API.Public
         Result<TourDto> Update(TourDto tour);
         Result Delete(int id);
         Result<TourDto> AddCheckPoint(TourDto tour, int checkPoint);
+        public Result<TourDto> DeleteCheckPoint(TourDto tour, int checkPointId);
 
      //   Result<TourDto> GetById(int id);
         public Result<TourDto> AddEquipmentsToTour(TourDto tour, int equipmentIds);

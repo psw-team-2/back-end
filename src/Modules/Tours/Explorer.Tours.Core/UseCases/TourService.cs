@@ -30,7 +30,18 @@ namespace Explorer.Tours.Core.UseCases
             }
             return tour;
         }
-        
+
+        public Result<TourDto> DeleteCheckPoint(TourDto tour, int checkPointId)
+        {
+
+            if (tour != null)
+            {
+                tour.CheckPoints.Remove(checkPointId);
+                Update(tour);
+            }
+            return tour;
+        }
+
 
         public Result<TourDto> AddEquipmentsToTour(TourDto tour, int equipmentIds)
         {
