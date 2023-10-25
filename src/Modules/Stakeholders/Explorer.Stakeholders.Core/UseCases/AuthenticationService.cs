@@ -54,4 +54,10 @@ public class AuthenticationService : IAuthenticationService
             // There is a subtle issue here. Can you find it?
         }
     }
+
+    public Result<object> GetUserById(long userId)
+    {
+        return _userRepository.GetUserById(userId);
+    }
+
 }
