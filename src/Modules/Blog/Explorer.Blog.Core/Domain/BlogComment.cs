@@ -18,6 +18,7 @@ namespace Explorer.Blog.Core.Domain
 
         public BlogComment(long userId, long blogId, string text, DateTime creationTime, DateTime lastModification)
         {
+            if (string.IsNullOrWhiteSpace(text)) throw new ArgumentException("Invalid comment.");
             UserId = userId;
             BlogId = blogId;
             Text = text;

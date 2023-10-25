@@ -16,16 +16,19 @@ namespace Explorer.Blog.Core.UseCases
     {
         public BlogCommentService(ICrudRepository<BlogComment> repository, IMapper mapper) : base(repository, mapper) { }
 
-        public Result<BlogCommentDto> Create(BlogCommentDto blogCommentDto)
+        public override Result<BlogCommentDto> Create(BlogCommentDto blogCommentDto)
         {
             blogCommentDto.CreationTime = DateTime.UtcNow;
             blogCommentDto.LastModification = DateTime.UtcNow;
+            blogCommentDto.BlogId = 1;
             return base.Create(blogCommentDto);
         }
 
-        public Result<BlogCommentDto> Update(BlogCommentDto blogCommentDto)
+        public override Result<BlogCommentDto> Update(BlogCommentDto blogCommentDto)
         {
+            Console.WriteLine(blogCommentDto) ;
             blogCommentDto.LastModification = DateTime.UtcNow;
+            Console.WriteLine(blogCommentDto);
             return base.Update(blogCommentDto);
         }
 
