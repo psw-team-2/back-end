@@ -83,7 +83,7 @@ namespace Explorer.Blog.Tests.Integration
             var dbContext = scope.ServiceProvider.GetRequiredService<BlogContext>();
             var updatedEntity = new UserBlogDto
             {
-                Id = 1,
+                Id = -1,
                 UserId = 15,
                 Title = "Izmenjen naslov",
                 Description = "Izmenjen opis",
@@ -95,7 +95,7 @@ namespace Explorer.Blog.Tests.Integration
 
             // Assert - Response
             result.ShouldNotBeNull();
-            result.Id.ShouldBe(1);
+            result.Id.ShouldBe(-1);
             result.Title.ShouldBe(updatedEntity.Title);
             result.Description.ShouldBe(updatedEntity.Description);
             result.Status.ShouldBe(updatedEntity.Status);
@@ -145,14 +145,14 @@ namespace Explorer.Blog.Tests.Integration
             var dbContext = scope.ServiceProvider.GetRequiredService<BlogContext>();
 
             // Act
-            var result = (OkResult)controller.Delete(3);
+            var result = (OkResult)controller.Delete(-3);
 
             // Assert - Response
             result.ShouldNotBeNull();
             result.StatusCode.ShouldBe(200);
 
             // Assert - Database
-            var storedCourse = dbContext.Blogs.FirstOrDefault(i => i.Id == 3);
+            var storedCourse = dbContext.Blogs.FirstOrDefault(i => i.Id == -3);
             storedCourse.ShouldBeNull();
         }
 

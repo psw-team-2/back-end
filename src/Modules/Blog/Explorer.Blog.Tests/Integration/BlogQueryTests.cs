@@ -47,7 +47,7 @@ namespace Explorer.Blog.Tests.Integration
             // Arrange
             using var scope = Factory.Services.CreateScope();
             var controller = CreateController(scope);
-            int blogIdToRetrieve = 1;
+            int blogIdToRetrieve = -1;
 
             // Act
             var result = ((ObjectResult)controller.Get(blogIdToRetrieve).Result)?.Value as UserBlogDto;
