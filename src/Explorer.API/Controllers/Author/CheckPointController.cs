@@ -53,6 +53,12 @@ namespace Explorer.API.Controllers.Author
             }
         }
 
+        [HttpGet("{id:int}")]
+        public ActionResult<CheckPointDto> Get(int id)
+        {
+            var result = _checkPointService.Get(id);
+            return CreateResponse(result);
+        }
         [HttpPut("{id:int}")]
         public ActionResult<CheckPointDto> Update([FromBody] CheckPointDto checkPoint)
         {

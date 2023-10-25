@@ -21,7 +21,7 @@ namespace Explorer.API.Controllers.Author
         }
 
         [HttpGet("{id:int}")]
-        public ActionResult<TourDto> Get([FromQuery] int id)
+        public ActionResult<TourDto> Get(int id)
         {
             var result = _tourService.Get(id);
             return CreateResponse(result);
