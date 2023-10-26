@@ -43,16 +43,26 @@ namespace Explorer.Tours.Core.UseCases
         }
 
 
-        public Result<TourDto> AddEquipmentsToTour(TourDto tour, int equipmentIds)
+        public Result<TourDto> AddEquipmentToTour(TourDto tour, int equipmentId)
         {
             if(tour != null)
             {
-                tour.Equipments.Add(equipmentIds);
+                tour.Equipments.Add(equipmentId);
+                Update(tour);
             }
             return tour;
-
-            
-
         }
+
+        public Result<TourDto> RemoveEquipmentFromTour(TourDto tour, int equipmentId)
+        {
+            if (tour != null)
+            {
+                tour.Equipments.Remove(equipmentId);
+                Update(tour);
+            }
+            return tour;
+        }
+
+
     }
 }
