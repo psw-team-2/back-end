@@ -10,5 +10,5 @@ public class TourProblemDto
     public string? ProblemPriority { get; init; }
     public string? Description { get; set; }
     public DateTime TimeStamp { get; init; }
-    public long MockTourId { get; set; }
+    public long TourId { get; set; }
 }
