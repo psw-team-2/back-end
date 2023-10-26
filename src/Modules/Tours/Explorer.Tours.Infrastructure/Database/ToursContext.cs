@@ -5,6 +5,8 @@ namespace Explorer.Tours.Infrastructure.Database;
 public class ToursContext : DbContext
 {
     public DbSet<Equipment> Equipment { get; set; }
+
+    public DbSet<TourProblem> TourProblems { get; set; }
     public DbSet<Tour> Tour { get; set; }
     public DbSet<CheckPoint> CheckPoint { get; set; }
     public DbSet<TouristSelectedEquipment> TouristSelectedEquipment { get; set; }
@@ -17,5 +19,10 @@ public class ToursContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.HasDefaultSchema("tours");
+
+        modelBuilder.Entity<TourProblem>()
+            .HasOne<Tour>()
+            .WithOne()
+            .HasForeignKey<TourProblem>(s => s.MockTourId);
     }
 }
