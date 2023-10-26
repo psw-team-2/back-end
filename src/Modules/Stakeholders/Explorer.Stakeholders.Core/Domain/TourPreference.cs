@@ -31,7 +31,12 @@ namespace Explorer.Stakeholders.Core.Domain
 
         private void Validate()
         {
-
+            if (TouristId == 0) throw new ArgumentException("Invalid TouristId");    
+            if (Difficulty < 1 || Difficulty > 5) throw new ArgumentException("Invalid Difficulty");
+            if (WalkingRating < 1 || WalkingRating > 5) throw new ArgumentException("Invalid WalkingRating");
+            if (BoatRating < 1 || BoatRating > 5) throw new ArgumentException("Invalid BoatRating");
+            if (CarRating < 1 || CarRating > 5) throw new ArgumentException("Invalid CarRating");
+            if (BicycleRating < 1 || BicycleRating > 5) throw new ArgumentException("Invalid BicycleRating");
         }
     }
 }
