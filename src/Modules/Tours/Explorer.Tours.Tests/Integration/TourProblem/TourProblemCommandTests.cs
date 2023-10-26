@@ -30,7 +30,7 @@ namespace Explorer.Stakeholders.Tests.Integration.TourProblem
                 ProblemPriority = "PRIORITY 1",
                 Description = "Test Problem Description",
                 TimeStamp = DateTime.UtcNow,
-                MockTourId = 2000
+                TourId = -1
             };
 
             // Act
@@ -61,7 +61,7 @@ namespace Explorer.Stakeholders.Tests.Integration.TourProblem
                 ProblemCategory = "",
                 ProblemPriority = "",
                 TimeStamp = DateTime.UtcNow,
-                MockTourId = 0
+                TourId = 0
             };
 
             // Act
@@ -86,7 +86,7 @@ namespace Explorer.Stakeholders.Tests.Integration.TourProblem
                 ProblemPriority = "PRIORITY 2",
                 Description = "Test Problem Description Updated",
                 TimeStamp = DateTime.UtcNow,
-                MockTourId = 2000
+                TourId = -1
             };
 
             // Act
@@ -120,7 +120,7 @@ namespace Explorer.Stakeholders.Tests.Integration.TourProblem
                 ProblemCategory = "CATEGORY -1",
                 ProblemPriority = "PRIORITY -1",
                 TimeStamp = DateTime.UtcNow,
-                MockTourId = 2000
+                TourId = -1
             };
 
             // Act
