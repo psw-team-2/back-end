@@ -1,5 +1,8 @@
-﻿using Explorer.Stakeholders.Core.Domain;
+﻿using Explorer.Stakeholders.API.Dtos;
+using Explorer.Stakeholders.Core.Domain;
 using Explorer.Stakeholders.Core.Domain.RepositoryInterfaces;
+using FluentResults;
+using System.Net;
 
 namespace Explorer.Stakeholders.Infrastructure.Database.Repositories;
 
@@ -46,4 +49,33 @@ public class UserDatabaseRepository : IUserRepository
         if (person == null) throw new KeyNotFoundException("Not found.");
         return person.Id;
     }
+
+    public Result<object> GetUserById(long userId)
+    {
+        try
+        {
+            var user = _dbContext.Users.FirstOrDefault(u => u.Id == userId);
+
+            if (user != null)
+            {
+                object credentialsDto = new CredentialsDto
+                {
+                    Username = user.Username,
+                    // Other properties...
+                };
+
+                return Result.Ok(credentialsDto);
+            }
+            else
+            {
+                return Result.Fail("User not found.");
+            }
+        }
+        catch (Exception ex)
+        {
+            // Handle any exceptions that may occur during database access
+            return Result.Fail($"Error: {ex.Message}");
+        }
+    }
+
 }

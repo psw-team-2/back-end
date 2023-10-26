@@ -55,14 +55,20 @@ namespace Explorer.API.Controllers.Author
             return CreateResponse(result);
         }
 
-        [HttpPut("addEquipment")]
-        public ActionResult<TourDto> AddEquipmentToTour([FromBody] TourDto tour, int equipmentIds)
+        [HttpPost("tourEquipment/{tourId:int}/{equipmentId:int}")]
+        public ActionResult<TourDto> AddEquipmentToTour([FromBody] TourDto tour, int equipmentId)
         {
-            var result = _tourService.AddEquipmentsToTour(tour, equipmentIds);
+
+            var result = _tourService.AddEquipmentToTour(tour, equipmentId);
             return CreateResponse(result);
         }
 
-
+        [HttpPut("remove/{tourId:int}/{equipmentId:int}")]
+        public ActionResult<TourDto> RemoveEquipmentFromTour([FromBody] TourDto tour, int equipmentId)
+        {
+            var result = _tourService.RemoveEquipmentFromTour(tour, equipmentId);
+            return CreateResponse(result);
+        }
 
         [HttpPut("{tourId:int}/{checkPointId:int}")]
         public ActionResult<TourDto> AddCheckPoint([FromBody] TourDto tour, int checkPointId)
@@ -77,5 +83,7 @@ namespace Explorer.API.Controllers.Author
             var result = _tourService.DeleteCheckPoint(tour, checkPointId);
             return CreateResponse(result);
         }
+        
     }
 }
+
