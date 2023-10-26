@@ -31,6 +31,13 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath = "/Images"
 });
 
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+          Path.Combine(builder.Environment.ContentRootPath, "Images")),
+    RequestPath = "/Images"
+});
+
 app.UseRouting();
 app.UseCors(corsPolicy);
 app.UseHttpsRedirection();

@@ -44,5 +44,12 @@ namespace Explorer.API.Controllers.Administrator.Administration
             var result = _equipmentService.Delete(id);
             return CreateResponse(result);
         }
+        
+        [HttpGet("getTouristSelected/{id:int}")]
+        public ActionResult<PagedResult<EquipmentDto>> GetAllTouristSelectedEquipment(int id)
+        {
+            var result = _equipmentService.GetAllForSelection(id);
+            return CreateResponse(result);
+        }
     }
 }
