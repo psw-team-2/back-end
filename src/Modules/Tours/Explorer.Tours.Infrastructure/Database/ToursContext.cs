@@ -8,9 +8,6 @@ public class ToursContext : DbContext
     public DbSet<Equipment> Equipment { get; set; }
     public DbSet<TourProblem> TourProblems { get; set; }
 
-    public DbSet<MockTour> MockTours { get; set; }
-    public DbSet<Tour> Tour { get; set; }
-    public DbSet<CheckPoint> CheckPoint { get; set; }
 
     public ToursContext(DbContextOptions<ToursContext> options) : base(options) {}
 
@@ -19,7 +16,7 @@ public class ToursContext : DbContext
         modelBuilder.HasDefaultSchema("tours");
 
         modelBuilder.Entity<TourProblem>()
-            .HasOne<MockTour>()
+            .HasOne<Tour>()
             .WithOne()
             .HasForeignKey<TourProblem>(s => s.MockTourId);
     }
