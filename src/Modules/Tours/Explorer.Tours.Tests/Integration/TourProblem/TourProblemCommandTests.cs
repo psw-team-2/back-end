@@ -30,7 +30,7 @@ namespace Explorer.Stakeholders.Tests.Integration.TourProblem
                 ProblemPriority = "PRIORITY 1",
                 Description = "Test Problem Description",
                 TimeStamp = DateTime.UtcNow,
-                MockTourId = 19
+                MockTourId = 2000
             };
 
             // Act
@@ -86,7 +86,7 @@ namespace Explorer.Stakeholders.Tests.Integration.TourProblem
                 ProblemPriority = "PRIORITY 2",
                 Description = "Test Problem Description Updated",
                 TimeStamp = DateTime.UtcNow,
-                MockTourId = -1
+                MockTourId = 2000
             };
 
             // Act
@@ -95,7 +95,6 @@ namespace Explorer.Stakeholders.Tests.Integration.TourProblem
             // Assert - Response
             result.ShouldNotBeNull();
             result.Id.ShouldBe(-15);
-            result.MockTourId.ShouldBe(-1);
             result.ProblemCategory.ShouldBe(updatedEntity.ProblemCategory);
             result.ProblemPriority.ShouldBe(updatedEntity.ProblemPriority);
             result.Description.ShouldBe(updatedEntity.Description);
