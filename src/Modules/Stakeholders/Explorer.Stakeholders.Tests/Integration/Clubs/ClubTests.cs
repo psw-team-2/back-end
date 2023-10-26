@@ -1,6 +1,10 @@
 ﻿using Explorer.API.Controllers;
+using Explorer.API.Controllers.Tourist;
+using Explorer.Blog.API.Public;
+using Explorer.Blog.Infrastructure.Database;
 using Explorer.Stakeholders.API.Dtos;
 using Explorer.Stakeholders.API.Public;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
@@ -10,6 +14,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Explorer.Tours.Infrastructure.Database;
 
 namespace Explorer.Stakeholders.Tests.Integration.Clubs
 {
@@ -40,7 +45,11 @@ namespace Explorer.Stakeholders.Tests.Integration.Clubs
 
         private static ClubController CreateController(IServiceScope scope)
         {
-            return new ClubController(scope.ServiceProvider.GetRequiredService<IClubService>());
+            var environment = scope.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
+            return new ClubController(scope.ServiceProvider.GetRequiredService<IClubService>(), environment)
+            {
+                ControllerContext = BuildContext("-1")
+            };
         }
     }
 }
