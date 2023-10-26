@@ -4,6 +4,7 @@ using Explorer.Stakeholders.Core.Domain.RepositoryInterfaces;
 using FluentResults;
 using System.Data;
 
+using System.Net;
 
 namespace Explorer.Stakeholders.Infrastructure.Database.Repositories;
 
