@@ -7,16 +7,16 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
-namespace Explorer.API.Controllers.Author
+namespace Explorer.API.Controllers.Administrator
 {
-    [Authorize(Policy = "authorPolicy")]
-//    [Authorize(Policy = "administratorPolicy")]
-    [Route("api/author/tour")]
-    public class TourController : BaseApiController
+
+    [Authorize(Policy = "administratorPolicy")]
+    [Route("api/administrator/tour")]
+    public class TourAdminController : BaseApiController
     {
         private readonly ITourService _tourService;
 
-        public TourController(ITourService tourService)
+        public TourAdminController(ITourService tourService)
         {
             _tourService = tourService;
         }
@@ -85,7 +85,7 @@ namespace Explorer.API.Controllers.Author
             var result = _tourService.DeleteCheckPoint(tour, checkPointId);
             return CreateResponse(result);
         }
-        
+
     }
 }
 
