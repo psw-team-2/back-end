@@ -10,7 +10,6 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 namespace Explorer.API.Controllers.Author
 {
     [Authorize(Policy = "authorPolicy")]
-//    [Authorize(Policy = "administratorPolicy")]
     [Route("api/author/tour")]
     public class TourController : BaseApiController
     {
@@ -29,7 +28,6 @@ namespace Explorer.API.Controllers.Author
         }
 
         [HttpGet]
-        [Authorize(Roles = "administrator")]
         public ActionResult<PagedResult<TourDto>> GetAll([FromQuery] int page, [FromQuery] int pageSize)
         {
             var result = _tourService.GetPaged(page, pageSize);
