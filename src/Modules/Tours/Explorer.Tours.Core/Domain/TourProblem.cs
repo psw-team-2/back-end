@@ -15,16 +15,16 @@ public class TourProblem : Entity
     public string? ProblemPriority { get; init; }
     public string? Description { get; init; }
     public DateTime TimeStamp { get; init; }
-    public long MockTourId { get; init; }
+    public long TourId { get; init; }
 
     public TourProblem(string? problemCategory, string? problemPriority,
-        string? description, DateTime timeStamp, long mockTourId)
+        string? description, DateTime timeStamp, long tourId)
     {
         ProblemCategory = problemCategory;
         ProblemPriority = problemPriority;
         Description = description;
         TimeStamp = timeStamp;
-        MockTourId = mockTourId;
+        TourId = tourId;
         Validate();
     }
 
@@ -34,6 +34,6 @@ public class TourProblem : Entity
         if (string.IsNullOrWhiteSpace(ProblemCategory)) throw new ArgumentNullException("Problem Category is empty");
         if (string.IsNullOrWhiteSpace(ProblemPriority)) throw new ArgumentException("Problem Priority is empty");
         if (TimeStamp == null) throw new ArgumentException("Time Stamp is empty");
-        if(MockTourId == 0) throw new ArgumentException("Invalid MockTourId");
+        if(TourId == 0) throw new ArgumentException("Invalid TourId");
     }
 }

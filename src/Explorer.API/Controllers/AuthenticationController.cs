@@ -28,6 +28,20 @@ public class AuthenticationController : BaseApiController
         return CreateResponse(result);
     }
 
+    [HttpGet("{id:int}")]
+    public ActionResult<CredentialsDto> GetUsernameById(int id)
+    {
+        var result = _authenticationService.GetUsername(id);
+        return CreateResponse(result);
+    }
+
+    [HttpGet("userids")]
+    public ActionResult<List<long>> GetAllUserIds()
+    {
+        var result = _authenticationService.GetAllUserIds();
+        return CreateResponse(result);
+    }
+
     [HttpGet("{userId}")]
     public ActionResult<object> GetUserById(long userId)
     {

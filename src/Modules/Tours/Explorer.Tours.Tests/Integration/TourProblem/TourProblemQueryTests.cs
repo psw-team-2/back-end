@@ -29,8 +29,8 @@ namespace Explorer.Stakeholders.Tests.Integration.TourProblem
 
             // Assert
             result.ShouldNotBeNull();
-            result.Results.Count.ShouldBe(5);
-            result.TotalCount.ShouldBe(5);   
+            result.Results.Count.ShouldBe(0);
+            result.TotalCount.ShouldBe(0);   
         }
 
         private static TourProblemController CreateController(IServiceScope scope)

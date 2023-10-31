@@ -2,6 +2,8 @@
 using Explorer.Stakeholders.Core.Domain;
 using Explorer.Stakeholders.Core.Domain.RepositoryInterfaces;
 using FluentResults;
+using System.Data;
+
 using System.Net;
 
 namespace Explorer.Stakeholders.Infrastructure.Database.Repositories;
@@ -50,6 +52,16 @@ public class UserDatabaseRepository : IUserRepository
         return person.Id;
     }
 
+    public User Get(int id)
+    {
+        return _dbContext.Users.FirstOrDefault(i => i.Id == id);
+    }
+
+    public List<long> GetAllUserIds()
+    {
+        return _dbContext.Users.Select(user => user.Id).ToList();
+    }
+
     public Result<object> GetUserById(long userId)
     {
         try
@@ -58,13 +70,14 @@ public class UserDatabaseRepository : IUserRepository
 
             if (user != null)
             {
-                object credentialsDto = new CredentialsDto
+                var credentialsDto = new CredentialsDto
                 {
                     Username = user.Username,
-                    // Other properties...
+                    Password = user.Password,
                 };
 
-                return Result.Ok(credentialsDto);
+                return Result.Ok((object)credentialsDto);
+
             }
             else
             {
@@ -73,9 +86,12 @@ public class UserDatabaseRepository : IUserRepository
         }
         catch (Exception ex)
         {
-            // Handle any exceptions that may occur during database access
             return Result.Fail($"Error: {ex.Message}");
         }
-    }
 
+        // Handle any exceptions that may occur during database access
+        //return Result.Fail($"Error: {ex.Message}");
+    }
 }
+
+    
