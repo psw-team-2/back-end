@@ -104,5 +104,4 @@ public class AuthenticationService : IAuthenticationService
     {
         return _userRepository.GetUserById(userId);
     }
-
 }

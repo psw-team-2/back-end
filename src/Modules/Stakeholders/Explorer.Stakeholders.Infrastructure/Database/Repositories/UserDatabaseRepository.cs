@@ -4,6 +4,7 @@ using Explorer.Stakeholders.Core.Domain.RepositoryInterfaces;
 using FluentResults;
 using System.Data;
 
+using System.Net;
 
 namespace Explorer.Stakeholders.Infrastructure.Database.Repositories;
 
@@ -38,7 +39,7 @@ public class UserDatabaseRepository : IUserRepository
 
     public User Create(User user)
     {
-        user.Id = GetHighestUserId()+1;
+        user.Id = GetHighestUserId() + 1;
         _dbContext.Users.Add(user);
         _dbContext.SaveChanges();
         return user;
@@ -76,13 +77,7 @@ public class UserDatabaseRepository : IUserRepository
                 };
 
                 return Result.Ok((object)credentialsDto);
-                object credentialsDto = new CredentialsDto
-                {
-                    Username = user.Username,
-                   
-                };
 
-                return Result.Ok(credentialsDto);
             }
             else
             {
@@ -94,9 +89,9 @@ public class UserDatabaseRepository : IUserRepository
             return Result.Fail($"Error: {ex.Message}");
         }
 
-            // Handle any exceptions that may occur during database access
-            return Result.Fail($"Error: {ex.Message}");
-        }
-
+        // Handle any exceptions that may occur during database access
+        //return Result.Fail($"Error: {ex.Message}");
     }
 }
+
+    

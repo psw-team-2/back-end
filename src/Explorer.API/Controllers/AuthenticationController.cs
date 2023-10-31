@@ -49,9 +49,10 @@ public class AuthenticationController : BaseApiController
 
         if (result.IsFailed)
         {
+            // Handle the failure, e.g., return a 404 (Not Found) response or appropriate error response.
             return NotFound();
         }
 
-        return Ok(result.Value); 
+        return Ok(result.Value); // Return the user information as a successful response.
     }
 }

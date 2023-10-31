@@ -13,10 +13,12 @@ namespace Explorer.API.Controllers
     public class ClubController : BaseApiController
     {
         private readonly IClubService _clubService;
+        private readonly IWebHostEnvironment _environment;
 
-        public ClubController(IClubService clubService)
+        public ClubController(IClubService clubService, IWebHostEnvironment environment)
         {
             _clubService = clubService;
+            _environment = environment;
         }
 
         [HttpGet]
@@ -60,6 +62,26 @@ namespace Explorer.API.Controllers
             club.OwnerId = longValue;
             var result = _clubService.Update(club);
             return CreateResponse(result);
+        }
+
+        [HttpPost("UploadFile")]
+        public async Task<string> UploadFile()
+        {
+            try
+            {
+                var file = Request.Form.Files[0];
+                string fName = file.FileName;
+                string path = Path.Combine(_environment.ContentRootPath, "Images", file.FileName);
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+                return $"{file.FileName} successfully uploaded to the Server";
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
     }
 }
