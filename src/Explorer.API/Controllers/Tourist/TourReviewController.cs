@@ -4,6 +4,7 @@ using Explorer.Tours.API.Public;
 using Explorer.Tours.API.Public.Administration;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Explorer.API.Controllers.Tourist
 {
@@ -30,9 +31,15 @@ namespace Explorer.API.Controllers.Tourist
         [HttpPost]
         public ActionResult<TourReviewDto> Create([FromBody] TourReviewDto tourReview)
         {
+            // int loggedInUserId = (int)tourReview.UserId;
+
+            // var result = _tourReviewService.Create(tourReview, loggedInUserId);
             var result = _tourReviewService.Create(tourReview);
+
             return CreateResponse(result);
         }
+
+
 
 
         [HttpPost("UploadFile")]
@@ -68,6 +75,34 @@ namespace Explorer.API.Controllers.Tourist
             var result = _tourReviewService.Delete(id);
             return CreateResponse(result);
         }
+        
+        [HttpGet("average-grade/{tourId:int}")]
+        public ActionResult<double> GetAverageGrade(int tourId)
+        {
+            double averageGrade = _tourReviewService.GetAverageGradeForTour(tourId);
+            return Ok(averageGrade);
+        }
+
+        [HttpGet("byTour/{tourId}")]
+        public ActionResult<PagedResult<TourReviewDto>> GetByTourId(int tourId)
+        {
+            var reviewsDto = _tourReviewService.GetByTourId(tourId);
+
+            if (reviewsDto == null || !reviewsDto.Any())
+            {
+                return NotFound("No reviews found for the specified tour ID.");
+            }
+
+            return Ok(reviewsDto);
+        }
+
+
+
+
+
+
+
+
 
     }
 }

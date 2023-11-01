@@ -50,7 +50,7 @@ public static class ToursStartup
         services.AddScoped<ITouristSelectedEquipmentRepository, TouristSelectedEquipmentRepository>();
         services.AddScoped(typeof(ICrudRepository<Core.Domain.Object>), typeof(CrudDatabaseRepository<Core.Domain.Object, ToursContext>));
         services.AddScoped(typeof(ICrudRepository<TourReview>), typeof(CrudDatabaseRepository<TourReview, ToursContext>));
-
+        services.AddScoped<ITourReviewRepository, TourReviewRepository>();
         services.AddScoped(typeof(ICrudRepository<TourProblem>), typeof(CrudDatabaseRepository<TourProblem, ToursContext>));
 
 

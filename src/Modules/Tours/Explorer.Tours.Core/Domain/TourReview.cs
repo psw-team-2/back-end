@@ -12,13 +12,13 @@ namespace Explorer.Tours.Core.Domain
     {
         public int Grade { get; init; }
         public string Comment { get; init; }
-
         public long UserId { get; init; }
         public DateTime VisitDate { get; init; }
         public DateTime ReviewDate { get; init; }
-        public string Images { get; init; } //proveri
+        public string Images { get; init; } 
+        public long TourId { get; init; }
 
-        public TourReview(int grade, string comment, long userId, DateTime visitDate, DateTime reviewDate, string images)
+        public TourReview(int grade, string comment, long userId, DateTime visitDate, DateTime reviewDate, string images, long tourId)
         {
             if (string.IsNullOrWhiteSpace(comment)) throw new ArgumentException("Invalid comment.");
             if (string.IsNullOrWhiteSpace(images)) throw new ArgumentException("Invalid images.");
@@ -33,6 +33,7 @@ namespace Explorer.Tours.Core.Domain
             VisitDate = visitDate;
             ReviewDate = reviewDate;
             Images = images;
+            TourId = tourId;
         }
 
     }
