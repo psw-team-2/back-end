@@ -28,11 +28,12 @@ namespace Explorer.Blog.Core.Domain
             Image = image;
         }
     }
-
     public enum BlogStatus
     {
         Draft,
         Published,
         Closed
     }
+
+
 }

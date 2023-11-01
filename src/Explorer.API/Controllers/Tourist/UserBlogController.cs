@@ -94,5 +94,18 @@ namespace Explorer.API.Controllers.Tourist
             return CreateResponse(blog);
         }
 
+        [HttpGet("byUser/{userId}")]
+        public ActionResult<PagedResult<UserBlogDto>> GetByUserId(int userId)
+        {
+            var blogsDtos = _userBlogService.GetByUserId(userId);
+
+            if (blogsDtos == null || !blogsDtos.Any())
+            {
+                return NotFound("No blogs found for the specified user ID.");
+            }
+
+            return Ok(blogsDtos);
+        }
+
     }
 }

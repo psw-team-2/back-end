@@ -10,6 +10,7 @@ namespace Explorer.Blog.API.Dtos
         public DateTime CreationTime { get; set; }
         public BlogStatus Status { get; set; }
         public string Image { get; set; }
+        
     }
 
     public enum BlogStatus
@@ -18,4 +19,5 @@ namespace Explorer.Blog.API.Dtos
         Published,
         Closed
     }
+
 }
