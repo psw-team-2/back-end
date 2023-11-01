@@ -18,6 +18,8 @@ public class StakeholdersContext : DbContext
 
     public DbSet<ApplicationReview> ApplicationReview { get; set; }
 
+    public DbSet<Follow> Follows { get; set; }
+
 
     public StakeholdersContext(DbContextOptions<StakeholdersContext> options) : base(options) {}
 

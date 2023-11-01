@@ -33,10 +33,11 @@ public static class StakeholdersStartup
         services.AddScoped<IClubRequestService, ClubRequestService>();
 
         services.AddScoped<ITourPreferenceService, TourPreferenceService>();
-        services.AddScoped<IProfileService, ProfileService>(); //dodato
-        services.AddScoped<IProfileRepository, ProfileDatabaseRepository>(); //dodato
+        services.AddScoped<IProfileService, ProfileService>();
+        services.AddScoped<IProfileRepository, ProfileDatabaseRepository>();
         services.AddScoped<IUserAccountAdministrationService, UserAccountAdministrationService>();
 
+        services.AddScoped<IFollowService, FollowService>();
     }
 
     private static void SetupInfrastructure(IServiceCollection services)
@@ -52,6 +53,8 @@ public static class StakeholdersStartup
         services.AddScoped(typeof(ICrudRepository<Profile>), typeof(CrudDatabaseRepository<Profile, StakeholdersContext>));
         services.AddScoped(typeof(ICrudRepository<User>), typeof(CrudDatabaseRepository<User, StakeholdersContext>));
         services.AddScoped<IApplicationReviewRepository, ApplicationReviewDatabaseRepository>();
+
+        services.AddScoped(typeof(ICrudRepository<Follow>), typeof(CrudDatabaseRepository<Follow, StakeholdersContext>));
 
 
         services.AddDbContext<StakeholdersContext>(opt =>

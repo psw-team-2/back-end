@@ -3,6 +3,7 @@ using ProfileD = Explorer.Stakeholders.Core.Domain.Profile;
 using ProfileA = AutoMapper.Profile;
 using Explorer.Stakeholders.API.Dtos;
 using Explorer.Stakeholders.Core.Domain;
+using Explorer.BuildingBlocks.Core.Domain;
 
 namespace Explorer.Stakeholders.Core.Mappers;
 
@@ -16,5 +17,6 @@ public class StakeholderProfile : ProfileA
         CreateMap<ProfileDto, ProfileD>().ReverseMap();
         CreateMap<UserAccountDto, User>().ReverseMap();
         CreateMap<ApplicationReviewDto, ApplicationReview>().ReverseMap();
+        CreateMap<FollowDto, Follow>().ReverseMap();
     }
 }
