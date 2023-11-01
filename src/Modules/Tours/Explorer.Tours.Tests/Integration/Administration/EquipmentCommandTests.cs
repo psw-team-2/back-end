@@ -1,4 +1,5 @@
 ﻿using Explorer.API.Controllers.Administrator.Administration;
+using Explorer.BuildingBlocks.Core.UseCases;
 using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public.Administration;
 using Explorer.Tours.Infrastructure.Database;
@@ -144,7 +145,24 @@ public class EquipmentCommandTests : BaseToursIntegrationTest
         result.ShouldNotBeNull();
         result.StatusCode.ShouldBe(404);
     }
-    
+
+    [Fact]
+    public void GetAllTouristSelectedEquipment_Success()
+    {
+        // Arrange
+        using var scope = Factory.Services.CreateScope();
+        var controller = CreateController(scope);
+        var touristId = 1;
+
+        // Act
+        var result = (ObjectResult)controller.GetAllTouristSelectedEquipment(touristId).Result;
+
+        // Assert
+        result.ShouldNotBeNull();
+        result.StatusCode.ShouldBe(200);
+        result.Value.ShouldBeAssignableTo<List<EquipmentForSelectionDto>>();
+    }
+
     private static EquipmentController CreateController(IServiceScope scope)
     {
         return new EquipmentController(scope.ServiceProvider.GetRequiredService<IEquipmentService>())
