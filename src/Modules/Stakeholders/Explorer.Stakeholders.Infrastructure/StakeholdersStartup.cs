@@ -38,6 +38,7 @@ public static class StakeholdersStartup
         services.AddScoped<IUserAccountAdministrationService, UserAccountAdministrationService>();
 
         services.AddScoped<IFollowService, FollowService>();
+        services.AddScoped<IFollowRepository, FollowDatabaseRepository>();
     }
 
     private static void SetupInfrastructure(IServiceCollection services)

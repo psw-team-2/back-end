@@ -33,5 +33,12 @@ namespace Explorer.API.Controllers.Tourist
             var result = _followService.GetPaged(page, pageSize);
             return CreateResponse(result);
         }
+
+        [HttpGet("all-followers/{profileId:int}")]
+        public ActionResult<PagedResult<ProfileDto>> GetAllFollowers([FromQuery] int page, [FromQuery] int pageSize, long profileId)
+        {
+            var result = _followService.GetAllFollowers(page, pageSize, profileId);
+            return CreateResponse(result);
+        }
     }
 }

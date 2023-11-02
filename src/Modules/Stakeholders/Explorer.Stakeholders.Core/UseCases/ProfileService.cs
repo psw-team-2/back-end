@@ -20,20 +20,16 @@ namespace Explorer.Stakeholders.Core.UseCases
 
         public Result<ProfileDto> GetByUserId(int userId)
         {
-            // Loop through your collection of profiles.
             foreach (var profile in _profileRepository.GetAll())
             {
                 if (profile.UserId == userId)
                 {
-                    // Map the retrieved profile to a ProfileDto using AutoMapper.
                     var profileDto = _mapper.Map<ProfileDto>(profile);
 
-                    // Return the result with the mapped ProfileDto.
                     return Result.Ok(profileDto);
                 }
             }
 
-            // Handle the case where no profile with the specified userId is found.
             return Result.Fail("Profile not found for the given userId.");
         }
     }
