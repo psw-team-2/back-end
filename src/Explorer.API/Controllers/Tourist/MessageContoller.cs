@@ -1,4 +1,5 @@
-﻿using Explorer.Stakeholders.API.Dtos;
+﻿using Explorer.BuildingBlocks.Core.UseCases;
+using Explorer.Stakeholders.API.Dtos;
 using Explorer.Stakeholders.API.Public;
 using Explorer.Stakeholders.Core.UseCases;
 using Microsoft.AspNetCore.Authorization;
@@ -21,6 +22,13 @@ namespace Explorer.API.Controllers.Tourist
         public ActionResult<MessageDto> Create([FromBody] MessageDto message)
         {
             var result = _messageService.Create(message);
+            return CreateResponse(result);
+        }
+
+        [HttpGet("unread-messages/{profileId:int}")]
+        public ActionResult<PagedResult<MessageDto>> GetUnreadMessages([FromQuery] int page, [FromQuery] int pageSize, long profileId)
+        {
+            var result = _messageService.GetUnreadMessages(page, pageSize, profileId);
             return CreateResponse(result);
         }
     }

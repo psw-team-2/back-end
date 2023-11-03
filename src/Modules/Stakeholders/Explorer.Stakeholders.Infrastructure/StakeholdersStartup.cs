@@ -40,6 +40,7 @@ public static class StakeholdersStartup
         services.AddScoped<IFollowService, FollowService>();
         services.AddScoped<IFollowRepository, FollowDatabaseRepository>();
         services.AddScoped<IMessageService, MessageService>();
+        services.AddScoped<IMessageRepository, MessageDatabaseRepository>();
     }
 
     private static void SetupInfrastructure(IServiceCollection services)
@@ -58,6 +59,7 @@ public static class StakeholdersStartup
 
         services.AddScoped(typeof(ICrudRepository<Follow>), typeof(CrudDatabaseRepository<Follow, StakeholdersContext>));
         services.AddScoped(typeof(ICrudRepository<Message>), typeof(CrudDatabaseRepository<Message, StakeholdersContext>));
+        services.AddScoped<IMessageRepository, MessageDatabaseRepository>();
 
 
         services.AddDbContext<StakeholdersContext>(opt =>
