@@ -20,6 +20,8 @@ public class StakeholdersContext : DbContext
 
     public DbSet<Follow> Follows { get; set; }
 
+    public DbSet<Message> Messages { get; set; }
+
 
     public StakeholdersContext(DbContextOptions<StakeholdersContext> options) : base(options) {}
 
