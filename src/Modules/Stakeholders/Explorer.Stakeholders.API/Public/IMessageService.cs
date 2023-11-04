@@ -12,7 +12,7 @@ namespace Explorer.Stakeholders.API.Public
     public interface IMessageService
     {
         Result<MessageDto> Create(MessageDto message);
-
         Result<PagedResult<MessageDto>> GetUnreadMessages(int page, int pageSize, long profileId);
+        Result<MessageDto> Update(MessageDto message);
     }
 }
