@@ -46,5 +46,18 @@ namespace Explorer.API.Controllers.Tourist
             var result = _blogCommentService.Delete(id);
             return CreateResponse(result);
         }
+
+        [HttpGet("byBlog/{blogId}")]
+        public ActionResult<PagedResult<BlogCommentDto>> GetCommentsByBlogId(int blogId)
+        {
+            var reviewsDto = _blogCommentService.GetCommentsByBlogId(blogId);
+
+            if (reviewsDto == null || !reviewsDto.Any())
+            {
+                return NotFound("No reviews found for the specified tour ID.");
+            }
+
+            return Ok(reviewsDto);
+        }
     }
 }
