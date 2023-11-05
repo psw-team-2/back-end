@@ -1,5 +1,4 @@
-﻿using Explorer.API.Controllers.Administrator.Administration;
-using Explorer.BuildingBlocks.Core.UseCases;
+﻿using Explorer.BuildingBlocks.Core.UseCases;
 using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public.Administration;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +8,7 @@ using System;
 using Explorer.Stakeholders.Tests;
 using Explorer.Tours.Tests;
 using Xunit;
+using Explorer.API.Controllers.Tourist;
 
 namespace Explorer.Stakeholders.Tests.Integration.TourProblem
 {
@@ -33,9 +33,9 @@ namespace Explorer.Stakeholders.Tests.Integration.TourProblem
             result.TotalCount.ShouldBe(0);   
         }
 
-        private static TourProblemController CreateController(IServiceScope scope)
+        private static TourProblemTouristController CreateController(IServiceScope scope)
         {
-            return new TourProblemController(scope.ServiceProvider.GetRequiredService<ITourProblemService>())
+            return new TourProblemTouristController(scope.ServiceProvider.GetRequiredService<ITourProblemService>())
             {
                 ControllerContext = BuildContext("-1")
             };

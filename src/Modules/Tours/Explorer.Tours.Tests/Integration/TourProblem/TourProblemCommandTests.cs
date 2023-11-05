@@ -1,5 +1,4 @@
-﻿using Explorer.API.Controllers.Administrator.Administration;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
 using Explorer.Stakeholders.Infrastructure.Database;
@@ -7,7 +6,7 @@ using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public.Administration;
 using Explorer.Tours.Infrastructure.Database;
 using Explorer.Tours.Tests;
-
+using Explorer.API.Controllers.Tourist;
 
 namespace Explorer.Stakeholders.Tests.Integration.TourProblem
 {
@@ -30,7 +29,10 @@ namespace Explorer.Stakeholders.Tests.Integration.TourProblem
                 ProblemPriority = "PRIORITY 1",
                 Description = "Test Problem Description",
                 TimeStamp = DateTime.UtcNow,
-                TourId = -1
+                TourId = -1,
+                IsClosed = false,
+                IsResolved = false,
+                TouristId = -1
             };
 
             // Act
@@ -61,7 +63,9 @@ namespace Explorer.Stakeholders.Tests.Integration.TourProblem
                 ProblemCategory = "",
                 ProblemPriority = "",
                 TimeStamp = DateTime.UtcNow,
-                TourId = 0
+                TourId = 0,
+                IsClosed = false,
+                TouristId = 0
             };
 
             // Act
@@ -86,7 +90,10 @@ namespace Explorer.Stakeholders.Tests.Integration.TourProblem
                 ProblemPriority = "PRIORITY 2",
                 Description = "Test Problem Description Updated",
                 TimeStamp = DateTime.UtcNow,
-                TourId = -1
+                TourId = -1,
+                IsClosed = false,
+                IsResolved = false,
+                TouristId = -1
             };
 
             // Act
@@ -120,7 +127,10 @@ namespace Explorer.Stakeholders.Tests.Integration.TourProblem
                 ProblemCategory = "CATEGORY -1",
                 ProblemPriority = "PRIORITY -1",
                 TimeStamp = DateTime.UtcNow,
-                TourId = -1
+                TourId = -1,
+                IsClosed = false,
+                IsResolved = false,
+                TouristId = -1
             };
 
             // Act
@@ -167,9 +177,9 @@ namespace Explorer.Stakeholders.Tests.Integration.TourProblem
         }
 
 
-        private static TourProblemController CreateController(IServiceScope scope)
+        private static TourProblemTouristController CreateController(IServiceScope scope)
         {
-            return new TourProblemController(scope.ServiceProvider.GetRequiredService<ITourProblemService>())
+            return new TourProblemTouristController(scope.ServiceProvider.GetRequiredService<ITourProblemService>())
             {
                 ControllerContext = BuildContext("-1")
             };
