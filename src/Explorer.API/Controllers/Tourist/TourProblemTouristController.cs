@@ -4,29 +4,37 @@ using Explorer.Tours.API.Public.Administration;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Explorer.API.Controllers.Administrator.Administration
+namespace Explorer.API.Controllers.Tourist
 {
     [Authorize]
-    [Route("api/tour-problem/tour-problems")]
-    public class TourProblemController : BaseApiController
+    [Authorize(Policy = "touristPolicy")]
+    [Route("api/tourist/tour-problems")]
+    public class TourProblemTouristController : BaseApiController
     {
         private readonly ITourProblemService _tourProblemService;
 
-        public TourProblemController(ITourProblemService tourProblemService)
+        public TourProblemTouristController(ITourProblemService tourProblemService)
         {
             _tourProblemService = tourProblemService;
         }
 
         [HttpGet]
-        [Authorize(Roles = "administrator")]
         public ActionResult<PagedResult<TourProblemDto>> GetAll([FromQuery] int page, [FromQuery] int pageSize)
         {
-            var result = _tourProblemService.GetPaged(page, pageSize);
-            return CreateResponse(result);
+            var userIdClaim = HttpContext.User.Claims.First(x => x.Type == "id");
+            if (userIdClaim != null && int.TryParse(userIdClaim.Value, out int touristId))
+            {
+
+                var result = _tourProblemService.GetByTouristId(touristId);
+                return CreateResponse(result);
+            }
+            else
+            {
+                return BadRequest("User ID not found or invalid.");
+            }
         }
 
         [HttpPost]
-        [Authorize(Roles = "tourist,administrator")]
         public ActionResult<TourProblemDto> Create([FromBody] TourProblemDto tourProblem)
         {
             var result = _tourProblemService.Create(tourProblem);
@@ -34,7 +42,6 @@ namespace Explorer.API.Controllers.Administrator.Administration
         }
 
         [HttpPut("{id:int}")]
-        [Authorize(Roles = "administrator")]
         public ActionResult<EquipmentDto> Update([FromBody] TourProblemDto tourProblem)
         {
             var result = _tourProblemService.Update(tourProblem);
@@ -42,7 +49,6 @@ namespace Explorer.API.Controllers.Administrator.Administration
         }
 
         [HttpDelete("{id:int}")]
-        [Authorize(Roles = "administrator")]
         public ActionResult Delete(int id)
         {
             var result = _tourProblemService.Delete(id);

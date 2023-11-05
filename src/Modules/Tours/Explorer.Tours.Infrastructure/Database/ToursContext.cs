@@ -1,4 +1,5 @@
-﻿using Explorer.Tours.Core.Domain;
+﻿using Explorer.Stakeholders.Core.Domain;
+using Explorer.Tours.Core.Domain;
 using Microsoft.EntityFrameworkCore;
 namespace Explorer.Tours.Infrastructure.Database;
 
@@ -24,5 +25,21 @@ public class ToursContext : DbContext
             .HasOne<Tour>()
             .WithOne()
             .HasForeignKey<TourProblem>(s => s.TourId);
+
+
+    }
+
+    public async Task<List<TourProblem>> GetTourProblemsByTourId(long tourId)
+    {
+        return await TourProblems
+            .Where(tourProblem => tourProblem.TourId == tourId)
+            .ToListAsync();
+    }
+
+    public async Task<List<TourProblem>> GetTourProblemsByTouristId(long touristId)
+    {
+        return await TourProblems
+            .Where(tourProblem => tourProblem.TouristId == touristId)
+            .ToListAsync();
     }
 }
