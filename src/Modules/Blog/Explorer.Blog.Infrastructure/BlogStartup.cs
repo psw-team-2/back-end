@@ -46,6 +46,7 @@ public static class BlogStartup
         services.AddScoped(typeof(ICrudRepository<BlogComment>), typeof(CrudDatabaseRepository<BlogComment, BlogContext>));
         services.AddScoped<IUserBlogRepository, UserBlogRepository>();
 
+        services.AddScoped<IBlogCommentRepository, BlogCommentRepository>();
         services.AddDbContext<BlogContext>(opt =>
             opt.UseNpgsql(DbConnectionStringBuilder.Build("blog"),
                 x => x.MigrationsHistoryTable("__EFMigrationsHistory", "blog")));
