@@ -23,7 +23,6 @@ public abstract class CrudService<TDto, TDomain> : BaseService<TDto, TDomain> wh
         var result = CrudRepository.GetPaged(page, pageSize);
         return MapToDto(result);
     }
-
     public Result<TDto> Get(int id)
     {
         try
