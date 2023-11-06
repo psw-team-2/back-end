@@ -25,6 +25,13 @@ namespace Explorer.API.Controllers.Administrator.Administration
             return CreateResponse(result);
         }
 
+        [HttpGet("{id:int}")]
+        public ActionResult<TourDto> Get(int id)
+        {
+            var result = _tourProblemService.Get(id);
+            return CreateResponse(result);
+        }
+
         [HttpPost]
         public ActionResult<TourProblemDto> Create([FromBody] TourProblemDto tourProblem)
         {
