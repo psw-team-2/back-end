@@ -1,4 +1,5 @@
-﻿using Explorer.Stakeholders.API.Dtos;
+﻿using Explorer.BuildingBlocks.Core.UseCases;
+using Explorer.Stakeholders.API.Dtos;
 using Explorer.Stakeholders.API.Public;
 using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public.Administration;
@@ -51,6 +52,13 @@ namespace Explorer.API.Controllers.Administrator.Administration
             return CreateResponse(result);
         }
         */
+
+        [HttpGet("all-profiles")]
+        public ActionResult<PagedResult<ProfileDto>> GetAll([FromQuery] int page, [FromQuery] int pageSize)
+        {
+            var result = _profileService.GetPaged(page, pageSize);
+            return CreateResponse(result);
+        }
 
         [HttpPost]
         public ActionResult<ProfileDto> Create([FromBody] ProfileDto profile)
