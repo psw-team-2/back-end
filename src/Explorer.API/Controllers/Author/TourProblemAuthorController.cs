@@ -14,6 +14,7 @@ namespace Explorer.API.Controllers.Administrator.Administration
     {
         private readonly ITourProblemService _tourProblemService;
         private readonly ITourService _tourService;
+        private readonly ITourProblemResponseService _problemResponseService;
 
         public TourProblemAuthorController(ITourProblemService tourProblemService)
         {
@@ -53,6 +54,13 @@ namespace Explorer.API.Controllers.Administrator.Administration
         {
             var result = _tourProblemService.Delete(id);
             return CreateResponse(result);
+        }
+
+        [HttpPost("{problemId:int}/respond")]
+        public ActionResult RespondToProblem(int problemId, [FromBody] string response, int userId)
+        {
+            var result = _problemResponseService.RespondToProblem(problemId, response, userId);
+            return CreateResponse(result); 
         }
     }
 }
