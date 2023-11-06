@@ -32,7 +32,8 @@ namespace Explorer.Stakeholders.Tests.Integration.TourProblem
                 TourId = -1,
                 IsClosed = false,
                 IsResolved = false,
-                TouristId = -1
+                TouristId = -1,
+                DeadlineTimeStamp = null
             };
 
             // Act
@@ -65,7 +66,8 @@ namespace Explorer.Stakeholders.Tests.Integration.TourProblem
                 TimeStamp = DateTime.UtcNow,
                 TourId = 0,
                 IsClosed = false,
-                TouristId = 0
+                TouristId = 0,
+                DeadlineTimeStamp = null
             };
 
             // Act
@@ -93,7 +95,8 @@ namespace Explorer.Stakeholders.Tests.Integration.TourProblem
                 TourId = -1,
                 IsClosed = false,
                 IsResolved = false,
-                TouristId = -1
+                TouristId = -1,
+                DeadlineTimeStamp = null
             };
 
             // Act
@@ -130,7 +133,8 @@ namespace Explorer.Stakeholders.Tests.Integration.TourProblem
                 TourId = -1,
                 IsClosed = false,
                 IsResolved = false,
-                TouristId = -1
+                TouristId = -1,
+                DeadlineTimeStamp = null
             };
 
             // Act
