@@ -26,7 +26,7 @@ namespace Explorer.Tours.Core.Domain
         public void Validate()
         {
             if (string.IsNullOrWhiteSpace(Response)) throw new ArgumentNullException("Response is empty");
-            if (TimeStamp == DateTime.MinValue) throw new ArgumentException("Time Stamp is empty");
+            if (TimeStamp == null) throw new ArgumentException("Time Stamp is empty");
             if (TourProblemId <= 0) throw new ArgumentException("Invalid TourProblemId");
             if (CommenterId <= 0) throw new ArgumentException("Invalid CommenterId");
         }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Explorer.BuildingBlocks.Core.UseCases;
+using Explorer.Stakeholders.API.Dtos;
 using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public;
 using Explorer.Tours.API.Public.Administration;
@@ -17,21 +18,41 @@ namespace Explorer.Tours.Core.UseCases
     {
         public TourProblemResponseService(ICrudRepository<TourProblemResponse> repository, IMapper mapper) : base(repository, mapper) { }
 
-        public Result<TourProblemResponseDto> RespondToProblem(int problemId, string response, int userId)
+        public Result<TourProblemResponseDto> RespondToProblem(TourProblemResponseDto problemResponse)
         {
             try
             {
-                var newResponse = new TourProblemResponse(response, DateTime.Now, problemId, userId);
-                CrudRepository.Create(newResponse);
-
-                var responseDto = MapToDto(newResponse);
-
-                return Result.Ok(responseDto).WithSuccess("Response added successfully.");
+                var result = CrudRepository.Create(MapToDomain(problemResponse));
+                return MapToDto(result);
             }
-            catch (Exception ex)
+            catch (ArgumentException e)
             {
-                return Result.Fail<TourProblemResponseDto>(FailureCode.Internal).WithError(ex.Message);
+                return Result.Fail(FailureCode.InvalidArgument).WithError(e.Message);
             }
         }
+
+        public Result<IEnumerable<TourProblemResponseDto>> GetProblemResponses(int problemId)
+        {
+            try
+            {
+                var pagedResult = CrudRepository.GetPaged(1, int.MaxValue);
+                var responses = pagedResult.Results.Where(r => r.TourProblemId == problemId).ToList();
+
+                if (responses.Count > 0)
+                {
+                    return Result.Ok(responses.Select(MapToDto));
+                }
+                else
+                {
+                    return Result.Ok<IEnumerable<TourProblemResponseDto>>(new List<TourProblemResponseDto>()).WithSuccess("No responses to reported problem");
+                }
+            }
+            catch (KeyNotFoundException e)
+            {
+                return Result.Fail<IEnumerable<TourProblemResponseDto>>(FailureCode.NotFound).WithError(e.Message);
+            }
+        }
+
+
     }
 }

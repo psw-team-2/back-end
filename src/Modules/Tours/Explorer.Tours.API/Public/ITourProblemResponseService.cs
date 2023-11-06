@@ -15,6 +15,7 @@ namespace Explorer.Tours.API.Public
         Result<TourProblemResponseDto> Create(TourProblemResponseDto problemResponse);
         Result<TourProblemResponseDto> Update(TourProblemResponseDto problemResponse);
         Result Delete(int id);
-        Result<TourProblemResponseDto> RespondToProblem(int problemId, string response, int userId);
+        Result<TourProblemResponseDto> RespondToProblem(TourProblemResponseDto problemResponse);
+        Result<IEnumerable<TourProblemResponseDto>> GetProblemResponses(int problemId);
     }
 }
