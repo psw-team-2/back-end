@@ -13,7 +13,7 @@ public class ToursContext : DbContext
     public DbSet<TourReview> TourReview { get; set; }
 
     public DbSet<TourProblem> TourProblems { get; set; }
-
+    public DbSet<TouristPosition> TouristPosition { get; set; }
     public ToursContext(DbContextOptions<ToursContext> options) : base(options) {}
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
