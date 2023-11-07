@@ -19,8 +19,9 @@ public class TourProblem : Entity
     public bool IsClosed { get; init; }
     public bool IsResolved { get; init; }
     public long TouristId { get;init; }
+    public DateTime? DeadlineTimeStamp {get; init; }
     public TourProblem(string? problemCategory, string? problemPriority,
-        string? description, DateTime timeStamp, long tourId, bool isClosed, bool isResolved, long touristId)
+        string? description, DateTime timeStamp, long tourId, bool isClosed, bool isResolved, long touristId, DateTime? deadlineTimeStamp)
     {
         ProblemCategory = problemCategory;
         ProblemPriority = problemPriority;
@@ -30,6 +31,7 @@ public class TourProblem : Entity
         IsClosed = isClosed;
         IsResolved = isResolved;
         TouristId = touristId;
+        DeadlineTimeStamp = deadlineTimeStamp;
         Validate();
     }
 
