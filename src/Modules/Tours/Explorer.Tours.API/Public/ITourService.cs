@@ -22,5 +22,9 @@ namespace Explorer.Tours.API.Public
         public Result<TourDto> AddEquipmentToTour(TourDto tour, int equipmentId);
         public Result<TourDto> RemoveEquipmentFromTour(TourDto tour, int equipmentId);
 
+        public Result<TourDto> PublishTour(TourDto tour);
+        public Result<TourDto> ArchiveTour(TourDto tour);
+
+
     }
 }
