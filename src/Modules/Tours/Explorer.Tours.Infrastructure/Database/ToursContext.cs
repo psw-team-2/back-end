@@ -13,6 +13,7 @@ public class ToursContext : DbContext
     public DbSet<TourReview> TourReview { get; set; }
 
     public DbSet<TourProblem> TourProblems { get; set; }
+    public DbSet<PublicRequest> PublicRequests { get; set; }
 
     public ToursContext(DbContextOptions<ToursContext> options) : base(options) {}
 
