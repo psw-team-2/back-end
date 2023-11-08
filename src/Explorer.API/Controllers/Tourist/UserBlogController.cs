@@ -79,7 +79,7 @@ namespace Explorer.API.Controllers.Tourist
         [HttpDelete("{id:int}")]
         public ActionResult Delete(int id)
         {
-            var result = _userBlogService.Delete(id);
+            var result = _userBlogService.DeleteAll(id);
             return CreateResponse(result);
         }
         [HttpGet("{id}")]

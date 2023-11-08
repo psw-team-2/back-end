@@ -48,11 +48,29 @@ namespace Explorer.Blog.Core.UseCases
                 LastModification = review.LastModification,
                 UserId = review.UserId,
                 BlogId = review.BlogId,
-                Id = (int)review.Id
+                Id = (int)review.Id,
+                Username = review.Username
             }).ToList();
 
             return reviewsDto;
         }
 
+        public Result DeleteCommentsByBlogId(int blogId) 
+        {
+            var comments = _blogCommentRepository.GetCommentsByBlogId(blogId);
+
+            if (comments == null || !comments.Any())
+            {
+                return Result.Fail("No comments found for the specified blog ID.");
+            }
+
+            foreach (var comment in comments)
+            {
+                Delete((int)comment.Id);
+            }
+
+
+            return Result.Ok();
+        }
     }
 }

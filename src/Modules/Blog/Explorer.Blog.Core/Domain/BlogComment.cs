@@ -10,16 +10,18 @@ namespace Explorer.Blog.Core.Domain
     public class BlogComment : Entity
     {
         public long UserId { get; init; }
+        public string Username { get; init; }   
         public long BlogId { get; init; }
         public string Text { get; init; }
         public DateTime CreationTime { get; init; }
         public DateTime LastModification { get; init; }
 
 
-        public BlogComment(long userId, long blogId, string text, DateTime creationTime, DateTime lastModification)
+        public BlogComment(long userId, string username, long blogId, string text, DateTime creationTime, DateTime lastModification)
         {
             if (string.IsNullOrWhiteSpace(text)) throw new ArgumentException("Invalid comment.");
             UserId = userId;
+            Username = username;
             BlogId = blogId;
             Text = text;
             CreationTime = creationTime;

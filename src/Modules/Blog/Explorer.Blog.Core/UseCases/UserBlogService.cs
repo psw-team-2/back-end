@@ -17,9 +17,11 @@ namespace Explorer.Blog.Core.UseCases
     public class UserBlogService : CrudService<UserBlogDto, UserBlog>, IUserBlogService
     {
         private readonly IUserBlogRepository _blogRepository;
-        public UserBlogService(IUserBlogRepository blogRepository, ICrudRepository<UserBlog> repository, IMapper mapper) : base(repository, mapper) 
+        private readonly IBlogCommentService _blogCommentService;
+        public UserBlogService(IUserBlogRepository blogRepository,  IBlogCommentService blogCommentService, ICrudRepository<UserBlog> repository, IMapper mapper) : base(repository, mapper) 
         {
             _blogRepository = blogRepository;
+            _blogCommentService = blogCommentService;
         }
 
         public Result<UserBlogDto> Create(UserBlogDto blogDto)
@@ -46,6 +48,33 @@ namespace Explorer.Blog.Core.UseCases
 
             return blogDtos;
         }
+
+        public Result DeleteAll(int blogId)
+        {
+            var result = _blogCommentService.DeleteCommentsByBlogId(blogId);
+
+            if (result.IsSuccess)
+            {
+               
+                var deleteResult = Delete(blogId);
+
+                if (deleteResult.IsSuccess)
+                {
+                    return Result.Ok();
+                }
+                else
+                {
+                    
+                    return deleteResult;
+                }
+            }
+            else
+            {
+               
+                return result;
+            }
+        }
+
 
     }
 }

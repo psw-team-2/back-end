@@ -18,5 +18,6 @@ namespace Explorer.Blog.API.Public
         Result Delete(int id);
         Result<UserBlogDto> Get(int id);
         List<UserBlogDto> GetByUserId(int userId);
+        Result DeleteAll(int blogId);
     }
 }
