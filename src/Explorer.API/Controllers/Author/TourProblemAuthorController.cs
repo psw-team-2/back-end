@@ -72,7 +72,7 @@ namespace Explorer.API.Controllers.Administrator.Administration
             return CreateResponse(result);
         }
 
-        [HttpGet("/author/{authorId:int}/responses")]
+        [HttpGet("author/{authorId:int}/responses")]
         public ActionResult<IEnumerable<TourProblemResponseDto>> GetTourProblemResponsesForAuthor(int authorId)
         {
             var result = _problemResponseService.GetTourProblemResponsesForUser(authorId);
