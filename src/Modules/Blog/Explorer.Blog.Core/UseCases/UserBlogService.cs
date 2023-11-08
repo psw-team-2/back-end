@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Explorer.Blog.API.Dtos;
 using Explorer.Blog.API.Public;
-using Explorer.Blog.Core.Domain;
+using Explorer.Blog.Core.Domain.Blog;
 using Explorer.Blog.Core.Domain.RepositoryInterfaces;
 using Explorer.BuildingBlocks.Core.UseCases;
 using FluentResults;
@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -27,6 +28,7 @@ namespace Explorer.Blog.Core.UseCases
         public Result<UserBlogDto> Create(UserBlogDto blogDto)
         {
             blogDto.CreationTime = DateTime.UtcNow;
+
             return base.Create(blogDto);
         }
 
@@ -38,6 +40,7 @@ namespace Explorer.Blog.Core.UseCases
             {
                 Id = (int)blog.Id,
                 UserId = blog.UserId,
+                Username = blog.Username,
                 Title = blog.Title,
                 Description = blog.Description,
                 CreationTime = blog.CreationTime,
@@ -76,5 +79,29 @@ namespace Explorer.Blog.Core.UseCases
         }
 
 
+
+        public Result AddRating(RatingDto ratingDto)
+        {
+            Rating rating = new Rating(ratingDto.isUpvote, ratingDto.UserId, DateTime.UtcNow);
+
+            UserBlog userBlog = _blogRepository.GetById((int)ratingDto.BlogId);
+            userBlog.AddRating(rating);
+
+            _blogRepository.Update(userBlog);
+           
+
+            return Result.Ok();
+
+        }
+
+        public Result<RatingCount> GetRatingsCount(int blogId)
+        {
+            UserBlog blog = _blogRepository.GetById(blogId);
+            RatingCount count = new RatingCount { Count = blog.GetRatingsCount()};
+            return count;
+        }
+        
+
+        
     }
 }

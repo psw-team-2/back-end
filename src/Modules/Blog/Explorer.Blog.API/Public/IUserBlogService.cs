@@ -19,5 +19,8 @@ namespace Explorer.Blog.API.Public
         Result<UserBlogDto> Get(int id);
         List<UserBlogDto> GetByUserId(int userId);
         Result DeleteAll(int blogId);
+        Result AddRating(RatingDto rating);
+
+        Result<RatingCount> GetRatingsCount(int id);
     }
 }

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Explorer.Blog.API.Dtos;
-using Explorer.Blog.Core.Domain;
+using Explorer.Blog.Core.Domain.Blog;
 
 namespace Explorer.Blog.Core.Mappers;
 

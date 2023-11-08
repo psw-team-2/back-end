@@ -6,6 +6,7 @@ using Explorer.BuildingBlocks.Core.UseCases;
 using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public.Administration;
 using Explorer.Tours.Core.UseCases.Administration;
+using FluentResults;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -106,6 +107,21 @@ namespace Explorer.API.Controllers.Tourist
 
             return Ok(blogsDtos);
         }
+
+        [HttpPut("AddRating")]
+        public ActionResult AddRating(RatingDto ratingDto)
+        {
+            var result = _userBlogService.AddRating(ratingDto);
+            return CreateResponse(result);
+        }
+
+        [HttpGet("RatingCount")]
+        public ActionResult<RatingCount> GetRatingsCount([FromQuery] int blogId)
+        {
+            var count = _userBlogService.GetRatingsCount(blogId);
+            return CreateResponse(count);
+        }
+
 
     }
 }
