@@ -63,6 +63,29 @@ namespace Explorer.Tours.Core.UseCases
             return tour;
         }
 
+        List<TourDto> publishedTours = new List<TourDto>();
+        public Result<TourDto> PublishTour(TourDto tour)
+        {
+            //DODATI KOLOMETRAZU I VREME
+            if (tour.Status == API.Dtos.AccountStatus.DRAFT || tour.Status == API.Dtos.AccountStatus.ARCHIVED & tour.CheckPoints.Count >= 2)
+            {
+                tour.Status = API.Dtos.AccountStatus.PUBLISHED;
+                tour.PublishTime = DateTime.Now;
+                publishedTours.Add(tour);
+            }
+
+            return tour;
+        }
+        List<TourDto> archivedTours = new List<TourDto>();
+        public Result<TourDto> ArchiveTour(TourDto tour)
+        {
+            if (tour.Status == API.Dtos.AccountStatus.PUBLISHED)
+            {
+                tour.Status = API.Dtos.AccountStatus.ARCHIVED;
+                archivedTours.Add(tour);
+            }
+            return tour;
+        }
 
     }
 }
