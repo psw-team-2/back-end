@@ -72,7 +72,13 @@ namespace Explorer.Blog.Core.Domain.Blog
 
             return upvotes - downvotes;
         }
+
+        public void AddComment(BlogComment blogComment)
+        {
+            BlogComments.Add(blogComment);
+        }
     }
+
     public enum BlogStatus
     {
         Draft,
