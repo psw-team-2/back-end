@@ -37,6 +37,13 @@ namespace Explorer.API.Controllers.Tourist
             }
         }
 
+        [HttpGet("{id:int}")]
+        public ActionResult<TourDto> Get(int id)
+        {
+            var result = _tourProblemService.Get(id);
+            return CreateResponse(result);
+        }
+
         [HttpPost]
         public ActionResult<TourProblemDto> Create([FromBody] TourProblemDto tourProblem)
         {
@@ -69,6 +76,13 @@ namespace Explorer.API.Controllers.Tourist
         public ActionResult<IEnumerable<TourProblemResponseDto>> GetProblemResponses(int problemId)
         {
             var result = _problemResponseService.GetProblemResponses(problemId);
+            return CreateResponse(result);
+        }
+
+        [HttpGet("/tourist/{touristId:int}/responses")]
+        public ActionResult<IEnumerable<TourProblemResponseDto>> GetTourProblemResponsesForAuthor(int touristId)
+        {
+            var result = _problemResponseService.GetTourProblemResponsesForUser(touristId);
             return CreateResponse(result);
         }
     }

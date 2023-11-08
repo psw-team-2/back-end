@@ -71,5 +71,12 @@ namespace Explorer.API.Controllers.Administrator.Administration
             var result = _problemResponseService.GetProblemResponses(problemId);
             return CreateResponse(result);
         }
+
+        [HttpGet("/author/{authorId:int}/responses")]
+        public ActionResult<IEnumerable<TourProblemResponseDto>> GetTourProblemResponsesForAuthor(int authorId)
+        {
+            var result = _problemResponseService.GetTourProblemResponsesForUser(authorId);
+            return CreateResponse(result);
+        }
     }
 }

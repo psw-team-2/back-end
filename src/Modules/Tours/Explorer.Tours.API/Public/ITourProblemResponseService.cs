@@ -17,5 +17,6 @@ namespace Explorer.Tours.API.Public
         Result Delete(int id);
         Result<TourProblemResponseDto> RespondToProblem(TourProblemResponseDto problemResponse);
         Result<IEnumerable<TourProblemResponseDto>> GetProblemResponses(int problemId);
+        Result<IEnumerable<TourProblemResponseDto>> GetTourProblemResponsesForUser(int userId);
     }
 }

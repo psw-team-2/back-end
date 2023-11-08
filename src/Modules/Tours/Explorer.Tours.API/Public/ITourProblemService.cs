@@ -12,6 +12,5 @@ public interface ITourProblemService
     Result<TourProblemDto> Create(TourProblemDto problem);
     Result<TourProblemDto> Update(TourProblemDto problem);
     Result Delete(int id);
-
     Result<TourProblemDto> GetByTouristId(int touristId);
 }
