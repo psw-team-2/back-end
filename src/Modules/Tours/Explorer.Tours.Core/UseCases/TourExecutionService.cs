@@ -3,6 +3,7 @@ using Explorer.BuildingBlocks.Core.UseCases;
 using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public;
 using Explorer.Tours.Core.Domain;
+using Explorer.Tours.Core.Domain.RepositoryInterfaces;
 using FluentResults;
 using System;
 using System.Collections.Generic;
@@ -14,89 +15,37 @@ namespace Explorer.Tours.Core.UseCases
 {
     public class TourExecutionService : CrudService<TourExecutionDto, TourExecution>, ITourExecutionService
     {
-        public TourExecutionService(ICrudRepository<TourExecution> crudRepository, IMapper mapper) : base(crudRepository, mapper)
-        { }
-
-        public Result<TourExecutionDto> StartTour(int touristId, int tourId, double startLatitude, double startLongitude)
+        private readonly ITourExecutionRepository _tourExecutionRepository;
+        public TourExecutionService(ITourExecutionRepository tourExecutionRepository, ICrudRepository<TourExecution> repository, IMapper mapper) : base(repository, mapper)
         {
-            try
-            {
-                var tourExecution = new TourExecution
-                {
-                    TouristId = touristId,
-                    TourId = tourId,
-                    StartTime = DateTime.UtcNow,
-                    CurrentLatitude = startLatitude,
-                    CurrentLongitude = startLongitude
-                };
-
-                var createdTourExecution = Create(tourExecution);
-                var tourExecutionDto = Mapper.Map<TourExecutionDto>(createdTourExecution);
-
-                return Result.Ok(tourExecutionDto);
-            }
-            catch (Exception ex)
-            {
-                return Result.Fail<TourExecutionDto>(ex.Message);
-            }
+            _tourExecutionRepository = tourExecutionRepository;
+        }
+        public Result StartTour(TourExecutionDto dto)
+        {
+            TourExecution tourExecution = new TourExecution() {TouristId = dto.TouristId, TourId = dto.TourId, StartTime = dto.StartTime, 
+                                                               EndTime = dto.EndTime, Completed = dto.Completed, Abandoned = dto.Abandoned,
+                                                               CurrentLatitude = dto.CurrentLatitude, CurrentLongitude = dto.CurrentLongitude};
+            tourExecution = _tourExecutionRepository.Create(tourExecution);
+            
+            return Result.Ok();
         }
 
-        public Result<TourExecutionDto> CompleteTour(int tourExecutionId, double endLatitude, double endLongitude)
+        public Result<TourExecutionDto> CompleteTour(int tourExecutionId)
         {
-            try
-            {
-                var tourExecution = CrudRepository.Get(tourExecutionId);
-
-                if (tourExecution == null)
-                    return Result.Fail<TourExecutionDto>("Tour execution not found.");
-
-                if (tourExecution.Completed || tourExecution.Abandoned)
-                    return Result.Fail<TourExecutionDto>("Tour execution is already completed or abandoned.");
-
-                tourExecution.EndTime = DateTime.UtcNow;
-                tourExecution.CurrentLatitude = endLatitude;
-                tourExecution.CurrentLongitude = endLongitude;
-                tourExecution.Completed = true;
-
-                Update(tourExecution);
-
-                var tourExecutionDto = Mapper.Map<TourExecutionDto>(tourExecution);
-
-                return Result.Ok(tourExecutionDto);
-            }
-            catch (Exception ex)
-            {
-                return Result.Fail<TourExecutionDto>(ex.Message);
-            }
+            TourExecution tourExecution = _tourExecutionRepository.Get(tourExecutionId);
+            tourExecution.Completed = true;
+            tourExecution.EndTime = DateTime.UtcNow;
+            _tourExecutionRepository.Update(tourExecution);
+            return Result.Ok();
         }
 
-        public Result<TourExecutionDto> AbandonTour(int tourExecutionId, double abandonLatitude, double abandonLongitude)
+        public Result<TourExecutionDto> AbandonTour(int tourExecutionId)
         {
-            try
-            {
-                var tourExecution = CrudRepository.Get(tourExecutionId);
-
-                if (tourExecution == null)
-                    return Result.Fail<TourExecutionDto>("Tour execution not found.");
-
-                if (tourExecution.Completed || tourExecution.Abandoned)
-                    return Result.Fail<TourExecutionDto>("Tour execution is already completed or abandoned.");
-
-                tourExecution.EndTime = DateTime.UtcNow;
-                tourExecution.CurrentLatitude = abandonLatitude;
-                tourExecution.CurrentLongitude = abandonLongitude;
-                tourExecution.Abandoned = true;
-
-                Update(tourExecution);
-
-                var tourExecutionDto = Mapper.Map<TourExecutionDto>(tourExecution);
-
-                return Result.Ok(tourExecutionDto);
-            }
-            catch (Exception ex)
-            {
-                return Result.Fail<TourExecutionDto>(ex.Message);
-            }
+            TourExecution tourExecution = _tourExecutionRepository.Get(tourExecutionId);
+            tourExecution.Abandoned = true;
+            tourExecution.EndTime = DateTime.UtcNow;
+            _tourExecutionRepository.Update(tourExecution);
+            return Result.Ok();
         }
     }
 
