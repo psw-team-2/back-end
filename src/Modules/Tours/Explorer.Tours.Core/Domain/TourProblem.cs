@@ -40,8 +40,8 @@ public class TourProblem : Entity
         if (string.IsNullOrWhiteSpace(ProblemPriority)) throw new ArgumentException("Problem Priority is empty");
         if (TimeStamp == null) throw new ArgumentException("Time Stamp is empty");
         if (IsClosed == null) throw new ArgumentException("IsClosed is null");
-        if (IsResolved) throw new ArgumentException("IsResolved is null");
-        if(TourId == 0) throw new ArgumentException("Invalid TourId");
+        if (IsResolved == null) throw new ArgumentException("IsResolved is null");
+        if (TourId == 0) throw new ArgumentException("Invalid TourId");
         if (TouristId == 0) throw new ArgumentException("Invalid TouristId");
     }
 }
