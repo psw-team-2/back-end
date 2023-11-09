@@ -19,7 +19,8 @@ namespace Explorer.Tours.Core.Domain
 
         public double FootTime { get; init; } 
         public double BicycleTime { get; init; } 
-        public double CarTime { get; init; } 
+        public double CarTime { get; init; }
+        public double TotalLength { get; set; }
 
         public DateTime PublishTime { get; init; }
 

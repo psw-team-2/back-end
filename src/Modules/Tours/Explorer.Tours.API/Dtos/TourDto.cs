@@ -27,6 +27,7 @@ namespace Explorer.Tours.API.Dtos
         public double FootTime { get; set; }
         public double BicycleTime { get; set; }
         public double CarTime { get; set; }
+        public double TotalLength { get; set; }
 
         public DateTime PublishTime { get; set; }
     }
