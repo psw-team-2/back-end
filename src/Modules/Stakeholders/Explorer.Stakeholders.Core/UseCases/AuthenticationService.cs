@@ -68,6 +68,8 @@ public class AuthenticationService : IAuthenticationService
 
                     });
 
+           
+
             return _tokenGenerator.GenerateAccessToken(user, profile.Id);
         }
         catch (ArgumentException e)
@@ -104,4 +106,15 @@ public class AuthenticationService : IAuthenticationService
     {
         return _userRepository.GetUserById(userId);
     }
+    /*
+    public Result DeleteApplicationReviewByUser(ApplicationReviewDto applicationReviewDto)
+    {
+        ApplicationReview applicationReview = new ApplicationReview(applicationReviewDto.Grade, DateTime.UtcNow, applicationReviewDto.UserId, applicationReviewDto.Comment);
+
+        User user = _userRepository.GetUserById<User>(applicationReviewDto.UserId);
+        user.DeleteApplicationReview(applicationReview.Id);
+
+        _userRepository.Update(user.Id);
+    }*/
+    
 }

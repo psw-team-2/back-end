@@ -9,15 +9,16 @@ namespace Explorer.Tours.Core.Domain
 {
     public class Tour : TourInfo
     {
+
         public List<int>? Equipments { get; init; }
 
         public List<long>? Checkpoints { get; init; }
 
         //public List <Object> Objects { get; init;
 
-       // public bool IsDeleted { get; set; } = false;
+        // public bool IsDeleted { get; set; } = false;
 
-        public Tour(String name, String description, AccountStatus status,int difficulty, double price, String? tags) : base(name,description, status,difficulty, price, tags)
+        public Tour(String name, String description, AccountStatus status,int difficulty, Price price, String? tags) : base(name,description, status,difficulty, price, tags)
         {
             if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("Invalid Name.");
             if (string.IsNullOrWhiteSpace(description)) throw new ArgumentException("Invalid description.");
@@ -27,7 +28,7 @@ namespace Explorer.Tours.Core.Domain
             Description = description;
             Difficulty = difficulty;
             Status = AccountStatus.DRAFT;
-            Price = 0;
+            Price = price;
             Tags = tags;
             Equipments = new List<int>();
             Checkpoints = new List<long>();

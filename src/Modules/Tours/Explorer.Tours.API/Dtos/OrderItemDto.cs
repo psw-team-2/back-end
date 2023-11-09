@@ -9,9 +9,9 @@ namespace Explorer.Tours.API.Dtos
     public class OrderItemDto
     {
         public int Id { get; set; }
-        public long TourId { get; set; }
+        public int TourId { get; set; }
         public string TourName { get; set; }
-        public double Price { get; set; }
+        public PriceDto Price { get; set; }
         public long ShoppingCartId { get; set; }
     }
 }
