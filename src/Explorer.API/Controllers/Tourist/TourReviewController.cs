@@ -28,13 +28,12 @@ namespace Explorer.API.Controllers.Tourist
             return CreateResponse(result);
         }
 
-        [HttpPost]
-        public ActionResult<TourReviewDto> Create([FromBody] TourReviewDto tourReview)
+        [HttpPost("{userId}")]
+        public ActionResult<TourReviewDto> Create([FromBody] TourReviewDto tourReview, int userId)
         {
-            // int loggedInUserId = (int)tourReview.UserId;
-
-            // var result = _tourReviewService.Create(tourReview, loggedInUserId);
-            var result = _tourReviewService.Create(tourReview);
+           
+            var result = _tourReviewService.Create(tourReview, userId);
+           
 
             return CreateResponse(result);
         }

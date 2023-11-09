@@ -30,9 +30,7 @@ public static class ToursStartup
     private static void SetupCore(IServiceCollection services)
     {
         services.AddScoped<IEquipmentService, EquipmentService>();
-
         services.AddScoped<ITourProblemService, TourProblemService>();
-
         services.AddScoped<ICheckPointService, CheckPointService>();
         services.AddScoped<ITourService, TourService>();
         services.AddScoped<ITouristSelectedEquipmentService, TouristSelectedEquipmentService>();
@@ -52,7 +50,7 @@ public static class ToursStartup
         services.AddScoped(typeof(ICrudRepository<TourReview>), typeof(CrudDatabaseRepository<TourReview, ToursContext>));
         services.AddScoped<ITourReviewRepository, TourReviewRepository>();
         services.AddScoped(typeof(ICrudRepository<TourProblem>), typeof(CrudDatabaseRepository<TourProblem, ToursContext>));
-
+        services.AddScoped<ITourRepository, TourRepository>();
 
         services.AddDbContext<ToursContext>(opt =>
             opt.UseNpgsql(DbConnectionStringBuilder.Build("tours"),

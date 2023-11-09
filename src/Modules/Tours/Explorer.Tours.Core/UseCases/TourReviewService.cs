@@ -19,29 +19,30 @@ namespace Explorer.Tours.Core.UseCases
     {
         private readonly ITourReviewRepository _tourReviewRepository;
   
-
+        private readonly ITourRepository _tourRepository;
         public TourReviewService(ICrudRepository<TourReview> repository, IMapper mapper) : base(repository, mapper) { }
 
-        public TourReviewService(ITourReviewRepository tourReviewRepository, ICrudRepository<TourReview> repository, IMapper mapper)
+        public TourReviewService(ITourReviewRepository tourReviewRepository, ICrudRepository<TourReview> repository, IMapper mapper, ITourRepository tourRepository)
            : base(repository, mapper)
         {
             _tourReviewRepository = tourReviewRepository;
+            _tourRepository = tourRepository;
         }
+
+        /*
         public Result<TourReviewDto> Create(TourReviewDto tourReviewDto)
         {
             tourReviewDto.ReviewDate = DateTime.UtcNow;
             return base.Create(tourReviewDto);
-        }
-        /*
+        }*/
+        
         public Result<TourReviewDto> Create(TourReviewDto tourReviewDto, long loggedInUserId)
         {
-            // Check if the logged in user ID matches the purchaseToken user ID
             if (tourReviewDto.UserId != loggedInUserId)
             {
                 return Result.Fail("User ID in the review does not match the logged-in user ID");
             }
 
-            // Check if there is a purchase token with matching tourId and UserId
             var purchaseToken = _tourReviewRepository.GetPurchaseToken((int)tourReviewDto.TourId, (int)loggedInUserId);
 
             if (purchaseToken == null)
@@ -49,11 +50,16 @@ namespace Explorer.Tours.Core.UseCases
                 return Result.Fail("No purchase token found for the specified tour and user");
             }
 
-            // Now you can proceed with creating the review since the checks passed
             tourReviewDto.ReviewDate = DateTime.UtcNow;
-            return base.Create(tourReviewDto);
-        }*/
-
+            var tour = _tourRepository.GetOne((int)tourReviewDto.TourId);
+            TourReview tourReview = new TourReview(tourReviewDto.Grade, tourReviewDto.Comment, tourReviewDto.UserId, tourReviewDto.VisitDate, tourReviewDto.ReviewDate, tourReviewDto.Images, tour.Id);
+            tour.AddTourReview(tourReview);
+            //tour.TourReviews.Add(tourReview);
+            _tourRepository.Update(tour);
+            //tourReview = _tourReviewRepository.Create(tourReview);
+            return MapToDto(tourReview);
+        }
+        
         public double GetAverageGradeForTour(int tourId)
         {
             var tourReviews = _tourReviewRepository.GetReviewsForTour(tourId);

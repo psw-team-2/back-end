@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Explorer.Tours.API.Dtos;
+using Explorer.Tours.Core.UseCases;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Security.AccessControl;
 using System.Text;
@@ -12,6 +15,8 @@ namespace Explorer.Tours.Core.Domain
         public List<int>? Equipments { get; init; }
 
         public List<long>? Checkpoints { get; init; }
+
+        public List<TourReview>? TourReviews { get; init;}
 
         //public List <Object> Objects { get; init;
 
@@ -31,13 +36,42 @@ namespace Explorer.Tours.Core.Domain
             Tags = tags;
             Equipments = new List<int>();
             Checkpoints = new List<long>();
+            TourReviews = new List<TourReview>();
             //Equipments=equipments;
             //Checkpoints = checkpoints;
             //Objects = objects;
 
-
-
         }
+        public double GetAverageGradeForTour()
+        {
+            if (TourReviews.Count == 0)
+            {
+                return 0; 
+            }
+
+            int totalGrade = 0;
+
+            foreach (var grade in TourReviews)
+            {  
+                totalGrade += grade.Grade;
+            }
+
+            double averageGrade = (double)totalGrade / TourReviews.Count;
+
+            return averageGrade;
+        }
+
+        public void AddTourReview(TourReview review)
+        {
+            if (TourReviews == null)
+            {
+                throw new InvalidOperationException("TourReviews list is null.");
+            }
+
+            TourReviews.Add(review);
+           
+        }
+
 
     }
 }

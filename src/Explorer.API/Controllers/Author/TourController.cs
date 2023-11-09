@@ -82,7 +82,14 @@ namespace Explorer.API.Controllers.Author
             var result = _tourService.DeleteCheckPoint(tour, checkPointId);
             return CreateResponse(result);
         }
-        
+
+        [HttpGet("average-grade/{tourId:int}")]
+        public ActionResult<AverageGradeDto> GetAverageGrade(int tourId)
+        {
+            var averageGrade = _tourService.GetAverageGradeForTour(tourId);
+            return CreateResponse(averageGrade);
+        }
+
     }
 }
 

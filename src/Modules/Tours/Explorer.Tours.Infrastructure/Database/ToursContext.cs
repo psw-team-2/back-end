@@ -1,5 +1,7 @@
 ﻿using Explorer.Tours.Core.Domain;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Metadata;
+
 namespace Explorer.Tours.Infrastructure.Database;
 
 public class ToursContext : DbContext
@@ -25,5 +27,6 @@ public class ToursContext : DbContext
             .HasOne<Tour>()
             .WithOne()
             .HasForeignKey<TourProblem>(s => s.TourId);
+
     }
 }

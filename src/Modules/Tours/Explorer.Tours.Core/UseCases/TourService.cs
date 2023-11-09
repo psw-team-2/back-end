@@ -12,14 +12,18 @@ using System.Threading.Tasks;
 using Explorer.BuildingBlocks.Core;
 using FluentResults;
 using FluentResults;
-
+using Explorer.Tours.Core.Domain.RepositoryInterfaces;
 
 namespace Explorer.Tours.Core.UseCases
 {
     public class TourService : CrudService<TourDto, Tour>, ITourService
     {
-
-        public TourService(ICrudRepository<Tour> repository, IMapper mapper) : base(repository, mapper) { }
+        public readonly ITourRepository _tourRepository;
+        public TourService(ICrudRepository<Tour> repository, IMapper mapper, ITourRepository tourRepository) : base(repository, mapper) 
+        {
+            _tourRepository = tourRepository;
+        
+        }
 
         public Result<TourDto> AddCheckPoint(TourDto tour, int checkPointId) {
 
@@ -63,6 +67,20 @@ namespace Explorer.Tours.Core.UseCases
             return tour;
         }
 
+        public Result<AverageGradeDto> GetAverageGradeForTour(int tourId)
+        {
+            var tour = _tourRepository.GetOne(tourId);
+            if (tour == null)
+            {
+                return null;
+            }
+            double avg  = tour.GetAverageGradeForTour();
+            AverageGradeDto dto = new AverageGradeDto { AverageGrade = avg };
+            return dto;
+            //return avg;
+        }
 
+
+      
     }
 }
