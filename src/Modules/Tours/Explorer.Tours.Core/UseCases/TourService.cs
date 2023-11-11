@@ -78,6 +78,60 @@ namespace Explorer.Tours.Core.UseCases
             AverageGradeDto dto = new AverageGradeDto { AverageGrade = avg };
             return dto;
             //return avg;
+        public Result<TourExecutionDto> StartTour(int touristId, int tourId, double startLatitude, double startLongitude)
+        {
+            try
+            {
+                var tourExecutionDto = new TourExecutionDto
+                {
+                    TouristId = touristId,
+                    TourId = tourId,
+                    StartTime = DateTime.UtcNow,
+                    CurrentLatitude = startLatitude,
+                    CurrentLongitude = startLongitude
+                };
+                return Result.Ok(tourExecutionDto);
+            }
+            catch (Exception ex)
+            {
+                return Result.Fail<TourExecutionDto>(ex.Message);
+            }
+        }
+
+        public Result<TourExecutionDto> CompleteTour(int tourExecutionId, double endLatitude, double endLongitude)
+        {
+            try
+            {
+                var tourExecutionDto = new TourExecutionDto
+                {
+                    Id = tourExecutionId,
+                    EndTime = DateTime.UtcNow,
+                };
+
+                return Result.Ok(tourExecutionDto);
+            }
+            catch (Exception ex)
+            {
+                return Result.Fail<TourExecutionDto>(ex.Message);
+            }
+        }
+
+        public Result<TourExecutionDto> AbandonTour(int tourExecutionId, double abandonLatitude, double abandonLongitude)
+        {
+            try
+            {
+                var tourExecutionDto = new TourExecutionDto
+                {
+                    Id = tourExecutionId,
+                    EndTime = DateTime.UtcNow,
+                };
+
+                return Result.Ok(tourExecutionDto);
+            }
+            catch (Exception ex)
+            {
+                return Result.Fail<TourExecutionDto>(ex.Message);
+            }
         }
 
 

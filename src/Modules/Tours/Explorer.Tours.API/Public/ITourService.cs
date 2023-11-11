@@ -18,7 +18,6 @@ namespace Explorer.Tours.API.Public
         Result Delete(int id);
         Result<TourDto> AddCheckPoint(TourDto tour, int checkPoint);
         Result<TourDto> DeleteCheckPoint(TourDto tour, int checkPointId);
-
         Result<TourDto> AddEquipmentToTour(TourDto tour, int equipmentId);
         Result<TourDto> RemoveEquipmentFromTour(TourDto tour, int equipmentId);
         Result<AverageGradeDto> GetAverageGradeForTour(int tourId);

@@ -13,8 +13,9 @@ public class ToursContext : DbContext
     public DbSet<TouristSelectedEquipment> TouristSelectedEquipment { get; set; }
     public DbSet<Core.Domain.Object> Object { get; set; }
     public DbSet<TourReview> TourReview { get; set; }
-
     public DbSet<TourProblem> TourProblems { get; set; }
+    public DbSet<TourExecution> TourExecutions { get; set; }
+    public DbSet<Secret> Secrets { get; set; }
 
     public DbSet<TourPurchaseToken> TourPurchaseToken { get; set; }
     public ToursContext(DbContextOptions<ToursContext> options) : base(options) {}
