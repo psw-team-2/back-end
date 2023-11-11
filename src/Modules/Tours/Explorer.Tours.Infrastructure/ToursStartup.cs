@@ -1,5 +1,7 @@
 using Explorer.BuildingBlocks.Core.UseCases;
 using Explorer.BuildingBlocks.Infrastructure.Database;
+using Explorer.Stakeholders.API.Public;
+using Explorer.Stakeholders.Core.UseCases;
 using Explorer.Tours.API.Public;
 using Explorer.Tours.API.Public.Administration;
 using Explorer.Tours.API.Public.Author;
@@ -35,6 +37,9 @@ public static class ToursStartup
 
         services.AddScoped<ICheckPointService, CheckPointService>();
         services.AddScoped<ITourService, TourService>();
+
+        services.AddScoped<IUserAccountAdministrationService, UserAccountAdministrationService>();
+
         services.AddScoped<ITouristSelectedEquipmentService, TouristSelectedEquipmentService>();
         services.AddScoped<IObjectService, ObjectService>();
         services.AddScoped<ITourReviewService, TourReviewService>();

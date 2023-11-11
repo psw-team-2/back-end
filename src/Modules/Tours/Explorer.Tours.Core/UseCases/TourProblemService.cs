@@ -1,16 +1,22 @@
 ﻿using AutoMapper;
 using Explorer.BuildingBlocks.Core.UseCases;
 using Explorer.Tours.API.Dtos;
+using Explorer.Tours.API.Public;
 using Explorer.Tours.API.Public.Administration;
 using Explorer.Tours.Core.Domain;
 using FluentResults;
-
+using System.Linq;
 
 namespace Explorer.Tours.Core.UseCases;
 
 public class TourProblemService : CrudService<TourProblemDto, TourProblem>, ITourProblemService
 {
-    public TourProblemService(ICrudRepository<TourProblem> repository, IMapper mapper) : base(repository, mapper) { }
+    private readonly ITourService _tourService;
+
+    public TourProblemService(ICrudRepository<TourProblem> repository, IMapper mapper, ITourService tourService) : base(repository, mapper)
+    {
+        _tourService = tourService;
+    }
 
 
     public Result<TourProblemDto> GetByTouristId(int touristId)
@@ -56,6 +62,45 @@ public class TourProblemService : CrudService<TourProblemDto, TourProblem>, ITou
         catch (KeyNotFoundException e)
         {
             return Result.Fail(FailureCode.NotFound).WithError(e.Message);
+        }
+    }
+
+    public Result<PagedResult<TourProblemDto>> GetByAuthorId(int authorId, int page, int pageSize)
+    {
+        try
+        {
+            var authorsToursResult = _tourService.GetToursListByAuthor(authorId, page, pageSize);
+            var tourProblemsResult = GetPaged(page, pageSize);
+
+            if (authorsToursResult.IsSuccess && tourProblemsResult.IsSuccess)
+            {
+                var authorTourIds = authorsToursResult.Value.Select(authorTour => authorTour.Id);
+
+                var filteredTourProblems = tourProblemsResult.Value.Results.Where(tp => authorTourIds.Contains((int)tp.TourId)).ToList();
+                
+                var filteredTourProblemsPagedResult = new PagedResult<TourProblemDto>(
+                    filteredTourProblems,
+                    filteredTourProblems.Count
+                );
+
+                return Result.Ok(filteredTourProblemsPagedResult);
+            }
+            if (!authorsToursResult.IsSuccess && !tourProblemsResult.IsSuccess)
+            {
+                return Result.Fail("Tour Service Fail && TourProblem Service Fail").WithError(new KeyNotFoundException().Message);
+            }
+            else if (authorsToursResult.IsSuccess && !tourProblemsResult.IsSuccess)
+            {
+                return Result.Fail("TourProblem Service Fail").WithError(new KeyNotFoundException().Message);
+            }
+            else
+            {
+                return Result.Fail("Tour Service Fail").WithError(new KeyNotFoundException().Message);
+            }
+        }
+        catch (KeyNotFoundException e)
+        {
+            return Result.Fail("FailureCode.NotFound, Nije nadjen").WithError(e.Message);
         }
     }
 }

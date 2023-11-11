@@ -14,4 +14,6 @@ public interface ITourProblemService
     Result Delete(int id);
 
     Result<TourProblemDto> GetByTouristId(int touristId);
+
+    public Result<PagedResult<TourProblemDto>> GetByAuthorId(int authorId, int page, int pageSize);
 }

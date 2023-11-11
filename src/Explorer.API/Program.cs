@@ -1,4 +1,7 @@
 using Explorer.API.Startup;
+using Explorer.Blog.Infrastructure;
+using Explorer.Stakeholders.Infrastructure;
+using Explorer.Tours.Infrastructure;
 using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +14,12 @@ builder.Services.ConfigureAuth();
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.RegisterModules();
+
+
+//Builder Module Configurations
+builder.Services.ConfigureBlogModule();
+builder.Services.ConfigureToursModule();
+builder.Services.ConfigureStakeholdersModule();
 
 var app = builder.Build();
 

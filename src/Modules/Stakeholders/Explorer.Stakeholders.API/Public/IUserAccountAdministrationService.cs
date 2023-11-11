@@ -9,5 +9,6 @@ namespace Explorer.Stakeholders.API.Public
         Result<PagedResult<UserAccountDto>> GetPaged(int page, int pageSize);
         Result<UserAccountDto> Update(UserAccountDto equipment);
         Result Delete(int id);
+        public Result<UserAccountDto> GetUserById(long userId);
     }
 }
