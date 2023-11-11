@@ -1,5 +1,6 @@
 ﻿using Explorer.BuildingBlocks.Core.UseCases;
 using Explorer.Tours.API.Dtos;
+using Explorer.Tours.API.Public;
 using Explorer.Tours.API.Public.Administration;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,10 +13,12 @@ namespace Explorer.API.Controllers.Administrator.Administration
     public class TourProblemAdministratorController : BaseApiController
     {
         private readonly ITourProblemService _tourProblemService;
+        private readonly ITourProblemResponseService _problemResponseService;
 
-        public TourProblemAdministratorController(ITourProblemService tourProblemService)
+        public TourProblemAdministratorController(ITourProblemService tourProblemService, ITourProblemResponseService problemResponseService)
         {
             _tourProblemService = tourProblemService;
+            _problemResponseService = problemResponseService;
         }
 
         [HttpGet]
@@ -50,6 +53,20 @@ namespace Explorer.API.Controllers.Administrator.Administration
         public ActionResult Delete(int id)
         {
             var result = _tourProblemService.Delete(id);
+            return CreateResponse(result);
+        }
+
+        [HttpPost("respond")]
+        public ActionResult RespondToProblem([FromBody] TourProblemResponseDto tourProblemResponse)
+        {
+            var result = _problemResponseService.Create(tourProblemResponse);
+            return CreateResponse(result);
+        }
+
+        [HttpGet("{problemId:int}/responses")]
+        public ActionResult<IEnumerable<TourProblemResponseDto>> GetProblemResponses(int problemId)
+        {
+            var result = _problemResponseService.GetProblemResponses(problemId);
             return CreateResponse(result);
         }
     }

@@ -14,6 +14,7 @@ public class ToursContext : DbContext
     public DbSet<TourReview> TourReview { get; set; }
 
     public DbSet<TourProblem> TourProblems { get; set; }
+    public DbSet<TourProblemResponse> TourProblemResponse { get; set; }
 
 //    public DbSet<Explorer.Stakeholders.Core.Domain.User> StakeholdersUser { get; set; }
 
