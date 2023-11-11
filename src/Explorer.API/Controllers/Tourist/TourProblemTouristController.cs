@@ -8,7 +8,7 @@ namespace Explorer.API.Controllers.Tourist
 {
     [Authorize]
     [Authorize(Policy = "touristPolicy")]
-    [Route("api/tourist/tour-problems")]
+    [Route("api/tourist/tour-problem")]
     public class TourProblemTouristController : BaseApiController
     {
         private readonly ITourProblemService _tourProblemService;
@@ -18,20 +18,11 @@ namespace Explorer.API.Controllers.Tourist
             _tourProblemService = tourProblemService;
         }
 
-        [HttpGet]
-        public ActionResult<PagedResult<TourProblemDto>> GetAll([FromQuery] int page, [FromQuery] int pageSize)
+        [HttpGet("by-tourist/{touristId:int}")]
+        public ActionResult<PagedResult<TourProblemDto>> GetAll(int touristId, [FromQuery] int page, [FromQuery] int pageSize)
         {
-            var userIdClaim = HttpContext.User.Claims.First(x => x.Type == "id");
-            if (userIdClaim != null && int.TryParse(userIdClaim.Value, out int touristId))
-            {
-
-                var result = _tourProblemService.GetByTouristId(touristId);
-                return CreateResponse(result);
-            }
-            else
-            {
-                return BadRequest("User ID not found or invalid.");
-            }
+            var result = _tourProblemService.GetByTouristId(touristId, page, pageSize);
+            return CreateResponse(result);
         }
 
         [HttpPost]

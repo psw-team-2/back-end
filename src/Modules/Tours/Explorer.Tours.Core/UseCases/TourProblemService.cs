@@ -19,22 +19,23 @@ public class TourProblemService : CrudService<TourProblemDto, TourProblem>, ITou
     }
 
 
-    public Result<TourProblemDto> GetByTouristId(int touristId)
+    public Result<PagedResult<TourProblemDto>> GetByTouristId(int touristId, int page, int pageSize)
     {
         try
         {
-            var pagedResult = CrudRepository.GetPaged(1, int.MaxValue);
-            var tourProblems = pagedResult.Results.Where(tp => tp.TouristId == touristId).FirstOrDefault();
+            var pagedResult = GetPaged(page, pageSize);
+            if(pagedResult != null){
 
-            if (tourProblems != null)
-            {
-                return MapToDto(tourProblems);
-            }
-            else
-            {
-                return Result.Ok().WithSuccess("There are no tour problems reported");
+                var filteredTourProblems = pagedResult.Value.Results.Where(tp => tp.TouristId == touristId).ToList();
 
+                var filteredTourProblemsPagedResult = new PagedResult<TourProblemDto>(
+                    filteredTourProblems,
+                    filteredTourProblems.Count
+                );
+
+                return Result.Ok(filteredTourProblemsPagedResult);
             }
+            return Result.Fail("Tour Problem pagedResult is null");
         }
         catch(KeyNotFoundException e)
         {

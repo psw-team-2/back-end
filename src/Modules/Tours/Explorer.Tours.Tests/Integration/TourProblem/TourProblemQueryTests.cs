@@ -25,7 +25,7 @@ namespace Explorer.Stakeholders.Tests.Integration.TourProblem
             var controller = CreateController(scope);
 
             // Act
-            var result = ((ObjectResult)controller.GetAll(0, 0).Result)?.Value as PagedResult<TourProblemDto>;
+            var result = ((ObjectResult)controller.GetAll(1, 0, 0).Result)?.Value as PagedResult<TourProblemDto>;
 
             // Assert
             result.ShouldNotBeNull();
