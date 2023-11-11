@@ -22,6 +22,7 @@ public class ToursProfile : Profile
         CreateMap<ShoppingCartDto, ShoppingCart>().ReverseMap();
         CreateMap<OrderItemDto, OrderItem>().ReverseMap();
         CreateMap<PriceDto, Price>().ReverseMap();
+        CreateMap<TourPurchaseTokenDto, TourPurchaseToken>().ReverseMap();
         /*CreateMap<OrderItemDto, OrderItem>()
             .IncludeAllDerived()
             .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price));
