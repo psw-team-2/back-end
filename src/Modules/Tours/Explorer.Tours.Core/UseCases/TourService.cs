@@ -134,8 +134,25 @@ namespace Explorer.Tours.Core.UseCases
                 return Result.Fail<TourExecutionDto>(ex.Message);
             }
         }
+        public List<TourReviewDto> GetByTourId(int tourId)
+        {
+            var reviews = _tourRepository.GetByTourId(tourId);
+
+            var reviewsDto = reviews.Select(review => new TourReviewDto
+            {
+                Grade = review.Grade,
+                Comment = review.Comment,
+                ReviewDate = review.ReviewDate,
+                VisitDate = review.VisitDate,
+                UserId = review.UserId,
+                TourId = review.TourId,
+                Images = review.Images,
+                Id = (int)review.Id
+            }).ToList();
+
+            return reviewsDto;
+        }
 
 
-      
     }
 }

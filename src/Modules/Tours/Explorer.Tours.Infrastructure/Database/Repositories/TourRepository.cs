@@ -39,7 +39,12 @@ namespace Explorer.Tours.Infrastructure.Database.Repositories
             return (Tour)tour;
         }
 
-
+        public List<TourReview> GetByTourId(int tourId)
+        {
+            return _context.TourReview
+                .Where(tr => tr.TourId == tourId)
+                .ToList();
+        }
 
     }
 }

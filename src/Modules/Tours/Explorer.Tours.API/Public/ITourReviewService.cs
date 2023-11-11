@@ -16,7 +16,7 @@ namespace Explorer.Tours.API.Public
         //Result<TourReviewDto> Create(TourReviewDto tourReviewDt);
         Result<TourReviewDto> Update(TourReviewDto tourReview);
         Result Delete(int id);
-        double GetAverageGradeForTour(int tourId);
-        List<TourReviewDto> GetByTourId(int tourId);
+       // double GetAverageGradeForTour(int tourId);
+        //List<TourReviewDto> GetByTourId(int tourId);
     }
 }

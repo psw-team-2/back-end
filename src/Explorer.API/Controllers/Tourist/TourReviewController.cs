@@ -15,10 +15,13 @@ namespace Explorer.API.Controllers.Tourist
         private readonly ITourReviewService _tourReviewService;
 
         private readonly IWebHostEnvironment _environment;
-        public TourReviewController(ITourReviewService tourReviewService, IWebHostEnvironment environment)
+
+        private readonly ITourService _tourService;
+        public TourReviewController(ITourReviewService tourReviewService, IWebHostEnvironment environment, ITourService tourService)
         {
             _tourReviewService = tourReviewService;
             _environment = environment;
+            _tourService = tourService;
         }
 
         [HttpGet]
@@ -74,18 +77,18 @@ namespace Explorer.API.Controllers.Tourist
             var result = _tourReviewService.Delete(id);
             return CreateResponse(result);
         }
-        
+        /*
         [HttpGet("average-grade/{tourId:int}")]
         public ActionResult<double> GetAverageGrade(int tourId)
         {
             double averageGrade = _tourReviewService.GetAverageGradeForTour(tourId);
             return Ok(averageGrade);
-        }
+        }*/
 
         [HttpGet("byTour/{tourId}")]
         public ActionResult<PagedResult<TourReviewDto>> GetByTourId(int tourId)
         {
-            var reviewsDto = _tourReviewService.GetByTourId(tourId);
+            var reviewsDto = _tourService.GetByTourId(tourId);
 
             if (reviewsDto == null || !reviewsDto.Any())
             {

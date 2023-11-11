@@ -72,7 +72,7 @@ namespace Explorer.Tours.Core.UseCases
             _tourRepository.Update(tour);
             return MapToDto(tourReview);
         }
-
+        /*
         public double GetAverageGradeForTour(int tourId)
         {
             var tourReviews = _tourReviewRepository.GetReviewsForTour(tourId);
@@ -107,7 +107,7 @@ namespace Explorer.Tours.Core.UseCases
             return reviewsDto;
         }
 
-
+        */
 
 
 
