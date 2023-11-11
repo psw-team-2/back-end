@@ -90,5 +90,47 @@ namespace Explorer.Stakeholders.Core.UseCases
             var pagedResult = new PagedResult<ProfileDto>(followers, followers.Count());
             return Result.Ok(pagedResult);
         }
+
+
+
+
+        public Result<PagedResult<ProfileDto>> GetAllFollowing(int page, int pageSize, long profileId)
+        {
+            List<Profile> profiles = _profileRepository.GetAll();
+            List<ProfileDto> following = new List<ProfileDto>();
+
+            foreach (var profile in profiles)
+            {
+                following = profile.Follows
+                .Where(follow => follow.FollowerId == profileId)
+                .Select(follow =>
+                {
+                    var profileResult = Get((int)follow.ProfileId);
+
+                    if (profileResult.IsSuccess)
+                    {
+                        var profile = profileResult.Value;
+
+                        return new ProfileDto
+                        {
+                            Id = profile.Id,
+                            FirstName = profile.FirstName,
+                            LastName = profile.LastName,
+                            ProfilePicture = profile.ProfilePicture,
+                            Biography = profile.Biography,
+                            Motto = profile.Motto,
+                            UserId = profile.UserId,
+                            IsActive = profile.IsActive
+                        };
+                    }
+
+                    return new ProfileDto();
+                })
+                .ToList();
+            }
+
+            var pagedResult = new PagedResult<ProfileDto>(following, following.Count());
+            return Result.Ok(pagedResult);
+        }
     }
 }

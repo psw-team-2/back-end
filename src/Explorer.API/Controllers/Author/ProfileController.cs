@@ -107,5 +107,12 @@ namespace Explorer.API.Controllers.Administrator.Administration
             var result = _profileService.GetAllFollowers(page, pageSize, profileId);
             return CreateResponse(result);
         }
+
+        [HttpGet("all-following/{profileId:int}")]
+        public ActionResult<PagedResult<ProfileDto>> GetAllFollowing([FromQuery] int page, [FromQuery] int pageSize, long profileId)
+        {
+            var result = _profileService.GetAllFollowing(page, pageSize, profileId);
+            return CreateResponse(result);
+        }
     }
 }

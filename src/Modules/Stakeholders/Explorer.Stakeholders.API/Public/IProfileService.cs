@@ -20,5 +20,6 @@ namespace Explorer.Stakeholders.API.Public
 
         Result AddFollow(FollowDto follow);
         Result<PagedResult<ProfileDto>> GetAllFollowers(int page, int pageSize, long profileId);
+        Result<PagedResult<ProfileDto>> GetAllFollowing(int page, int pageSize, long profileId);
     }
 }
