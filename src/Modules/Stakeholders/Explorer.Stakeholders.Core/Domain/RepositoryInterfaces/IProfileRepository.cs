@@ -1,4 +1,6 @@
-﻿namespace Explorer.Stakeholders.Core.Domain.RepositoryInterfaces;
+﻿using Explorer.Stakeholders.Core.Domain.Users;
+
+namespace Explorer.Stakeholders.Core.Domain.RepositoryInterfaces;
 
 public interface IProfileRepository
 {

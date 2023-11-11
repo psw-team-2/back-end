@@ -2,8 +2,8 @@
 using Explorer.BuildingBlocks.Core.UseCases;
 using Explorer.Stakeholders.API.Dtos;
 using Explorer.Stakeholders.API.Public;
-using Explorer.Stakeholders.Core.Domain;
 using Explorer.Stakeholders.Core.Domain.RepositoryInterfaces;
+using Explorer.Stakeholders.Core.Domain.Users;
 using FluentResults;
 using System;
 using System.Collections.Generic;
@@ -14,8 +14,10 @@ using System.Threading.Tasks;
 
 namespace Explorer.Stakeholders.Core.UseCases
 {
-    public class TourPreferenceService : CrudService<TourPreferenceDto, TourPreference>, ITourPreferenceService
+    
+    public class TourPreferenceService
     {
+        /*
         public TourPreferenceService(ICrudRepository<TourPreference> repository, IMapper mapper) : base(repository, mapper) { }
 
         public Result<TourPreferenceDto> GetByTouristId(int touristId)
@@ -39,6 +41,7 @@ namespace Explorer.Stakeholders.Core.UseCases
                 return Result.Fail(FailureCode.NotFound).WithError(e.Message);
             }
         }
-
+        */
     }
+
 }

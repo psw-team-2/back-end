@@ -2,7 +2,7 @@
 using System.Net.Mail;
 using System.Xml.Linq;
 
-namespace Explorer.Stakeholders.Core.Domain;
+namespace Explorer.Stakeholders.Core.Domain.Users;
 
 public class Profile : Entity
 {

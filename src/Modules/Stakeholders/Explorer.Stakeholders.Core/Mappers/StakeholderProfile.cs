@@ -1,9 +1,10 @@
 using AutoMapper;
-using ProfileD = Explorer.Stakeholders.Core.Domain.Profile;
+using ProfileD = Explorer.Stakeholders.Core.Domain.Users.Profile;
 using ProfileA = AutoMapper.Profile;
 using Explorer.Stakeholders.API.Dtos;
 using Explorer.Stakeholders.Core.Domain;
 using Explorer.BuildingBlocks.Core.Domain;
+using Explorer.Stakeholders.Core.Domain.Users;
 
 namespace Explorer.Stakeholders.Core.Mappers;
 

@@ -1,4 +1,5 @@
 ﻿using Explorer.Stakeholders.Core.Domain;
+using Explorer.Stakeholders.Core.Domain.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -13,7 +14,7 @@ public class StakeholdersContext : DbContext
     public DbSet<Club> Clubs { get; set; }
     public DbSet<ClubRequest> ClubRequests { get; set; }
 
-    public DbSet<TourPreference> TourPreferences { get; set; }
+    //public DbSet<TourPreference> TourPreferences { get; set; }
     public DbSet<Profile> Profiles { get; set; }
 
     public DbSet<ApplicationReview> ApplicationReview { get; set; }
@@ -27,6 +28,9 @@ public class StakeholdersContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<User>()
+            .Property(item => item.TourPreference).HasColumnType("jsonb");
+
         modelBuilder.HasDefaultSchema("stakeholders");
 
         modelBuilder.Entity<User>().HasIndex(u => u.Username).IsUnique();

@@ -1,7 +1,7 @@
 ﻿using Explorer.BuildingBlocks.Core.Domain;
 using System.Net.Mail;
 
-namespace Explorer.Stakeholders.Core.Domain;
+namespace Explorer.Stakeholders.Core.Domain.Users;
 
 public class User : Entity
 {
@@ -10,6 +10,7 @@ public class User : Entity
     public UserRole Role { get; private set; }
     public bool IsActive { get; set; }
     public string Email { get; init; }
+    public TourPreference TourPreference { get; set; }
 
     public User(string username, string password, UserRole role, bool isActive, string email)
     {
@@ -18,6 +19,7 @@ public class User : Entity
         Role = role;
         IsActive = isActive;
         Email = email;
+        TourPreference = new TourPreference(1, 1, 1, 1, 1, new List<string>());
         Validate();
     }
 
@@ -31,6 +33,11 @@ public class User : Entity
     public string GetPrimaryRoleName()
     {
         return Role.ToString().ToLower();
+    }
+
+    public void AddTourPreference(TourPreference tourPreference)
+    {
+        TourPreference = tourPreference;
     }
 }
 

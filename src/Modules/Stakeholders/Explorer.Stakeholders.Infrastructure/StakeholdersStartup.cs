@@ -3,6 +3,7 @@ using Explorer.BuildingBlocks.Infrastructure.Database;
 using Explorer.Stakeholders.API.Public;
 using Explorer.Stakeholders.Core.Domain;
 using Explorer.Stakeholders.Core.Domain.RepositoryInterfaces;
+using Explorer.Stakeholders.Core.Domain.Users;
 using Explorer.Stakeholders.Core.Mappers;
 using Explorer.Stakeholders.Core.UseCases;
 using Explorer.Stakeholders.Infrastructure.Authentication;
@@ -32,10 +33,10 @@ public static class StakeholdersStartup
         services.AddScoped<IClubService, ClubService>();
         services.AddScoped<IClubRequestService, ClubRequestService>();
 
-        services.AddScoped<ITourPreferenceService, TourPreferenceService>();
+        services.AddScoped<IUserAccountAdministrationService, UserAccountAdministrationService>();
+        //services.AddScoped<ITourPreferenceService, TourPreferenceService>();
         services.AddScoped<IProfileService, ProfileService>();
         services.AddScoped<IProfileRepository, ProfileDatabaseRepository>();
-        services.AddScoped<IUserAccountAdministrationService, UserAccountAdministrationService>();
 
         services.AddScoped<IFollowService, FollowService>();
         services.AddScoped<IFollowRepository, FollowDatabaseRepository>();
@@ -52,7 +53,7 @@ public static class StakeholdersStartup
         services.AddScoped(typeof(ICrudRepository<Club>), typeof(CrudDatabaseRepository<Club, StakeholdersContext>));
         services.AddScoped(typeof(ICrudRepository<ClubRequest>), typeof(CrudDatabaseRepository<ClubRequest, StakeholdersContext>));
 
-        services.AddScoped(typeof(ICrudRepository<TourPreference>), typeof(CrudDatabaseRepository<TourPreference, StakeholdersContext>));
+        //services.AddScoped(typeof(ICrudRepository<TourPreference>), typeof(CrudDatabaseRepository<TourPreference, StakeholdersContext>));
         services.AddScoped(typeof(ICrudRepository<Profile>), typeof(CrudDatabaseRepository<Profile, StakeholdersContext>));
         services.AddScoped(typeof(ICrudRepository<User>), typeof(CrudDatabaseRepository<User, StakeholdersContext>));
         services.AddScoped<IApplicationReviewRepository, ApplicationReviewDatabaseRepository>();
@@ -60,6 +61,8 @@ public static class StakeholdersStartup
         services.AddScoped(typeof(ICrudRepository<Follow>), typeof(CrudDatabaseRepository<Follow, StakeholdersContext>));
         services.AddScoped(typeof(ICrudRepository<Message>), typeof(CrudDatabaseRepository<Message, StakeholdersContext>));
         services.AddScoped<IMessageRepository, MessageDatabaseRepository>();
+
+        services.AddScoped<IUserRepository, UserDatabaseRepository>();
 
 
         services.AddDbContext<StakeholdersContext>(opt =>

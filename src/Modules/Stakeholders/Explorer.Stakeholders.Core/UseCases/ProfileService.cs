@@ -2,10 +2,9 @@
 using Explorer.BuildingBlocks.Core.UseCases;
 using Explorer.Stakeholders.API.Dtos;
 using Explorer.Stakeholders.API.Public;
-using Explorer.Stakeholders.Core.Domain;
 using Explorer.Stakeholders.Core.Domain.RepositoryInterfaces;
 using FluentResults;
-using Profile = Explorer.Stakeholders.Core.Domain.Profile;
+using Profile = Explorer.Stakeholders.Core.Domain.Users.Profile;
 
 namespace Explorer.Stakeholders.Core.UseCases
 {
