@@ -88,7 +88,14 @@ namespace Explorer.API.Controllers.Tourist
         }
 
         [HttpPost("problemSolved")]
-        public ActionResult<TourProblemDto> AcceptRequest([FromBody] TourProblemDto tourProblem)
+        public ActionResult<TourProblemDto> ProblemSolved([FromBody] TourProblemDto tourProblem)
+        {
+            var result = _tourProblemService.Update(tourProblem);
+            return CreateResponse(result);
+        }
+
+        [HttpPost("problemUnsolved")]
+        public ActionResult<TourProblemDto> ProblemUnsolved([FromBody] TourProblemDto tourProblem)
         {
             var result = _tourProblemService.Update(tourProblem);
             return CreateResponse(result);
