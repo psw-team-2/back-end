@@ -29,14 +29,14 @@ namespace Explorer.API.Controllers
             return CreateResponse(result);
         }
 
-        [HttpGet("{id:int}")]
-        public ActionResult<TouristPositionDto> Get(int id)
+        [HttpGet("getbyuser/{userId:int}")]
+        public ActionResult<TouristPositionDto> GetByUser(long userId)
         {
-            var result = _touristPositionService.Get(id);
+            var result = _touristPositionService.GetByUser(userId);
             return CreateResponse(result);
         }
 
-        [HttpPut("{id:int}")]
+        [HttpPut("update/{id:int}")]
         public ActionResult<TouristPositionDto> Update([FromBody] TouristPositionDto touristPositionDto)
         {
             var result = _touristPositionService.Update(touristPositionDto);

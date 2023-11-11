@@ -8,7 +8,7 @@ namespace Explorer.Tours.API.Public
     {
         Result<TouristPositionDto> Create(TouristPositionDto checkPoint);
         Result<TouristPositionDto> Update(TouristPositionDto checkPoint);
-        Result<TouristPositionDto> Get(int id);
+        Result<TouristPositionDto> GetByUser(long userId);
         Result Delete(int id);
     }
 }
