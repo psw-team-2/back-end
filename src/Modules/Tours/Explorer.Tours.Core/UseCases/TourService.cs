@@ -74,10 +74,11 @@ namespace Explorer.Tours.Core.UseCases
             {
                 return null;
             }
-            double avg  = tour.GetAverageGradeForTour();
+            double avg = tour.GetAverageGradeForTour();
             AverageGradeDto dto = new AverageGradeDto { AverageGrade = avg };
             return dto;
             //return avg;
+        }
         public Result<TourExecutionDto> StartTour(int touristId, int tourId, double startLatitude, double startLongitude)
         {
             try

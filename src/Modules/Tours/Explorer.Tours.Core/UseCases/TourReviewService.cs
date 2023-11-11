@@ -18,15 +18,18 @@ namespace Explorer.Tours.Core.UseCases
     public class TourReviewService : CrudService<TourReviewDto, TourReview>, ITourReviewService
     {
         private readonly ITourReviewRepository _tourReviewRepository;
-  
+
         private readonly ITourRepository _tourRepository;
+
+        private readonly ITourExecutionRepository _tourExecutionRepository;
         public TourReviewService(ICrudRepository<TourReview> repository, IMapper mapper) : base(repository, mapper) { }
 
-        public TourReviewService(ITourReviewRepository tourReviewRepository, ICrudRepository<TourReview> repository, IMapper mapper, ITourRepository tourRepository)
+        public TourReviewService(ITourReviewRepository tourReviewRepository, ICrudRepository<TourReview> repository, IMapper mapper, ITourRepository tourRepository, ITourExecutionRepository tourExecutionRepository)
            : base(repository, mapper)
         {
             _tourReviewRepository = tourReviewRepository;
             _tourRepository = tourRepository;
+            _tourExecutionRepository = tourExecutionRepository;
         }
 
         /*
@@ -35,7 +38,7 @@ namespace Explorer.Tours.Core.UseCases
             tourReviewDto.ReviewDate = DateTime.UtcNow;
             return base.Create(tourReviewDto);
         }*/
-        
+
         public Result<TourReviewDto> Create(TourReviewDto tourReviewDto, long loggedInUserId)
         {
             if (tourReviewDto.UserId != loggedInUserId)
@@ -49,6 +52,26 @@ namespace Explorer.Tours.Core.UseCases
             {
                 return Result.Fail("No purchase token found for the specified tour and user");
             }
+            // Check if the tourExecution LastActivity was at most one week ago
+            var tourExecution = _tourExecutionRepository.GetTourExecutionForTourist((int)tourReviewDto.TourId, (int)loggedInUserId);
+
+            if (tourExecution == null)
+            {
+                return Result.Fail("No tour execution found for the specified tour and user");
+            }
+
+            var oneWeekAgo = DateTime.UtcNow.AddDays(-7);
+
+            if (tourExecution.LastActivity < oneWeekAgo)
+            {
+                return Result.Fail("Tour execution LastActivity is more than one week ago");
+            }
+
+            // Check if TourId and TouristId match the loggedIn user and the TourId in the review
+            if (tourExecution.TourId != tourReviewDto.TourId || tourExecution.TouristId != loggedInUserId)
+            {
+                return Result.Fail("TourId or TouristId does not match the specified tour execution");
+            }
 
             tourReviewDto.ReviewDate = DateTime.UtcNow;
             var tour = _tourRepository.GetOne((int)tourReviewDto.TourId);
@@ -59,7 +82,7 @@ namespace Explorer.Tours.Core.UseCases
             //tourReview = _tourReviewRepository.Create(tourReview);
             return MapToDto(tourReview);
         }
-        
+
         public double GetAverageGradeForTour(int tourId)
         {
             var tourReviews = _tourReviewRepository.GetReviewsForTour(tourId);
@@ -71,8 +94,8 @@ namespace Explorer.Tours.Core.UseCases
             }
             else
             {
-               
-                return 0.0; 
+
+                return 0.0;
             }
         }
         public List<TourReviewDto> GetByTourId(int tourId)

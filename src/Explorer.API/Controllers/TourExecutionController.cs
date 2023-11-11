@@ -14,7 +14,7 @@ namespace Explorer.API.Controllers
             {
                 _tourExecutionService = tourExecutionService;
             }
-
+            /*
             [HttpPost("start")]
             public ActionResult<TourExecutionDto> StartTour([FromBody] TourDto tourDto)
             {
@@ -27,7 +27,7 @@ namespace Explorer.API.Controllers
                 {
                     return BadRequest($"Greška pri pokretanju ture: {ex.Message}");
                 }
-            }
+            }*/
 
             [HttpPost("complete/{tourExecutionId}")]
             public ActionResult CompleteTour(int tourExecutionId)

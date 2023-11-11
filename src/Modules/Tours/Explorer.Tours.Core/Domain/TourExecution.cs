@@ -19,15 +19,18 @@ namespace Explorer.Tours.Core.Domain
         public double CurrentLatitude { get; set; }
         public double CurrentLongitude { get; set; }
 
+        public DateTime LastActivity { get; set; }
+
         public TourExecution() { }
 
-        public TourExecution(int touristId, int tourId, DateTime startTime)
+        public TourExecution(int touristId, int tourId, DateTime startTime, DateTime lastActivity)
         {
             TouristId = touristId;
             TourId = tourId;
             StartTime = startTime;
             Completed = false;
             Abandoned = false;
+            LastActivity = lastActivity;
         }
         public void UpdateFromDto(TourExecutionDto dto)
         {

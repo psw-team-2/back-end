@@ -11,5 +11,7 @@ namespace Explorer.Tours.Core.Domain.RepositoryInterfaces
         TourExecution Create(TourExecution entity);
         TourExecution Get(long id);
         TourExecution Update(TourExecution entity);
+
+        TourExecution GetTourExecutionForTourist(int tourId, int touristId);
     }
 }

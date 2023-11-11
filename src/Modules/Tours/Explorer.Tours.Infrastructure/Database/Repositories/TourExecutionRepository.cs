@@ -43,5 +43,11 @@ namespace Explorer.Tours.Infrastructure.Database.Repositories
             }
             return entity;
         }
+
+        public TourExecution GetTourExecutionForTourist(int tourId, int touristId)
+        {
+            return _dbContext.TourExecutions
+                .FirstOrDefault(te => te.TourId == tourId && te.TouristId == touristId);
+        }
     }
 }
