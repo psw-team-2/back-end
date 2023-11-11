@@ -28,5 +28,7 @@ namespace Explorer.Tours.API.Dtos
         public List<int>? Equipments { get; set; }
         public List<long>? CheckPoints { get; set; }
 
+        public long AuthorId { get; set; }
+
     }
 }

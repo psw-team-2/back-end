@@ -17,7 +17,9 @@ namespace Explorer.Tours.Core.Domain
 
        // public bool IsDeleted { get; set; } = false;
 
-        public Tour(String name, String description, AccountStatus status,int difficulty, double price, String? tags) : base(name,description, status,difficulty, price, tags)
+       public long AuthorId { get; set; }
+
+        public Tour(String name, String description, AccountStatus status,int difficulty, double price, String? tags, long authorId) : base(name, description, status, difficulty, price, tags)
         {
             if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("Invalid Name.");
             if (string.IsNullOrWhiteSpace(description)) throw new ArgumentException("Invalid description.");
@@ -31,6 +33,7 @@ namespace Explorer.Tours.Core.Domain
             Tags = tags;
             Equipments = new List<int>();
             Checkpoints = new List<long>();
+            AuthorId = authorId;
             //Equipments=equipments;
             //Checkpoints = checkpoints;
             //Objects = objects;

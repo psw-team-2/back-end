@@ -24,19 +24,19 @@ namespace Explorer.API.Controllers.Administrator.Administration
         }
 
         [HttpGet("{id:int}")]
-        public ActionResult<TourDto> Get(int id)
+        public ActionResult<TourProblemDto> Get(int id)
         {
             var result = _tourProblemService.Get(id);
             return CreateResponse(result);
         }
 
-        [HttpGet]
-        public ActionResult<PagedResult<TourProblemDto>> GetAll([FromQuery] int page, [FromQuery] int pageSize)
+        [HttpGet("by-author/{authorId:int}")]
+        public ActionResult<PagedResult<TourProblemDto>> GetAll(int authorId, [FromQuery] int page, [FromQuery] int pageSize)
         {
-            var result = _tourProblemService.GetPaged(page, pageSize);
+            var result = _tourProblemService.GetByAuthorId(authorId, page, pageSize);
             return CreateResponse(result);
         }
-
+         
         [HttpPost]
         public ActionResult<TourProblemDto> Create([FromBody] TourProblemDto tourProblem)
         {
@@ -45,7 +45,7 @@ namespace Explorer.API.Controllers.Administrator.Administration
         }
 
         [HttpPut("{id:int}")]
-        public ActionResult<EquipmentDto> Update([FromBody] TourProblemDto tourProblem)
+        public ActionResult<TourProblemDto> Update([FromBody] TourProblemDto tourProblem)
         {
             var result = _tourProblemService.Update(tourProblem);
             return CreateResponse(result);
