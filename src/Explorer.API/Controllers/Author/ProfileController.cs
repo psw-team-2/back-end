@@ -1,6 +1,8 @@
 ﻿using Explorer.BuildingBlocks.Core.UseCases;
 using Explorer.Stakeholders.API.Dtos;
 using Explorer.Stakeholders.API.Public;
+using Explorer.Stakeholders.Core.Domain.Users;
+using Explorer.Stakeholders.Core.UseCases;
 using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public.Administration;
 using Explorer.Tours.Core.UseCases.Administration;
@@ -82,13 +84,27 @@ namespace Explorer.API.Controllers.Administrator.Administration
             }
         }
 
-        [HttpPut("{id:int}/{userId:int}")]
+        [HttpPatch("{id:int}/{userId:int}")]
         public ActionResult<ProfileDto> Update(int id, int userId, [FromBody] ProfileDto profile)
         {
             profile.Id = id;
             profile.UserId = userId;
 
             var result = _profileService.Update(profile);
+            return CreateResponse(result);
+        }
+
+        [HttpPut("AddFollow")]
+        public ActionResult AddFollow(FollowDto followDto)
+        {
+            var result = _profileService.AddFollow(followDto);
+            return CreateResponse(result);
+        }
+
+        [HttpGet("all-followers/{profileId:int}")]
+        public ActionResult<PagedResult<ProfileDto>> GetAllFollowers([FromQuery] int page, [FromQuery] int pageSize, long profileId)
+        {
+            var result = _profileService.GetAllFollowers(page, pageSize, profileId);
             return CreateResponse(result);
         }
     }

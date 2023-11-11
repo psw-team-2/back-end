@@ -3,6 +3,7 @@ using Explorer.BuildingBlocks.Core.UseCases;
 using Explorer.Stakeholders.API.Dtos;
 using Explorer.Stakeholders.API.Public;
 using Explorer.Stakeholders.Core.Domain.RepositoryInterfaces;
+using Explorer.Stakeholders.Core.Domain.Users;
 using FluentResults;
 using Profile = Explorer.Stakeholders.Core.Domain.Users.Profile;
 
@@ -12,9 +13,12 @@ namespace Explorer.Stakeholders.Core.UseCases
     {
         private readonly IProfileRepository _profileRepository;
         private readonly IMapper _mapper;
-        public ProfileService(ICrudRepository<Profile> repository, IMapper mapper, IProfileRepository profileRepository) : base(repository, mapper) {
+        private readonly IFollowRepository _followRepository;
+        public ProfileService(ICrudRepository<Profile> repository, IMapper mapper, IProfileRepository profileRepository, IFollowRepository followRepository) : base(repository, mapper)
+        {
             _profileRepository = profileRepository;
             _mapper = mapper;
+            _followRepository = followRepository;
         }
 
         public Result<ProfileDto> GetByUserId(int userId)
@@ -30,6 +34,61 @@ namespace Explorer.Stakeholders.Core.UseCases
             }
 
             return Result.Fail("Profile not found for the given userId.");
+        }
+
+        public Result AddFollow(FollowDto followDto)
+        {
+            Follow follow = new Follow(followDto.ProfileId, followDto.FollowerId);
+
+            Profile profile = _profileRepository.Get((int)followDto.ProfileId);
+            profile.AddFollow(follow);
+
+            _profileRepository.Update(profile);
+
+
+            return Result.Ok();
+
+        }
+
+
+
+
+
+
+
+        public Result<PagedResult<ProfileDto>> GetAllFollowers(int page, int pageSize, long profileId)
+        {
+            Profile profile = _profileRepository.Get(Convert.ToInt32(profileId));
+
+            var followers = profile.Follows
+                .Where(follow => follow.ProfileId == profileId)
+                .Select(follow =>
+                {
+                    var profileResult = Get((int)follow.FollowerId);
+
+                    if (profileResult.IsSuccess)
+                    {
+                        var profile = profileResult.Value;
+
+                        return new ProfileDto
+                        {
+                            Id = profile.Id,
+                            FirstName = profile.FirstName,
+                            LastName = profile.LastName,
+                            ProfilePicture = profile.ProfilePicture,
+                            Biography = profile.Biography,
+                            Motto = profile.Motto,
+                            UserId = profile.UserId,
+                            IsActive = profile.IsActive
+                        };
+                    }
+
+                    return new ProfileDto();
+                })
+                .ToList();
+
+            var pagedResult = new PagedResult<ProfileDto>(followers, followers.Count());
+            return Result.Ok(pagedResult);
         }
     }
 }

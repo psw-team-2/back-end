@@ -18,9 +18,11 @@ namespace Explorer.Stakeholders.Infrastructure.Database.Repositories
             _dbContext = dbContext;
         }
 
+        /*
         public List<Follow> GetAll()
         {
             return _dbContext.Follows.ToList();
         }
+        */
     }
 }

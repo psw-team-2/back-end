@@ -23,7 +23,7 @@ public static class StakeholdersStartup
         SetupInfrastructure(services);
         return services;
     }
-    
+
     private static void SetupCore(IServiceCollection services)
     {
         services.AddScoped<IAuthenticationService, AuthenticationService>();
@@ -38,7 +38,7 @@ public static class StakeholdersStartup
         services.AddScoped<IProfileService, ProfileService>();
         services.AddScoped<IProfileRepository, ProfileDatabaseRepository>();
 
-        services.AddScoped<IFollowService, FollowService>();
+        //services.AddScoped<IFollowService, FollowService>();
         services.AddScoped<IFollowRepository, FollowDatabaseRepository>();
         services.AddScoped<IMessageService, MessageService>();
         services.AddScoped<IMessageRepository, MessageDatabaseRepository>();
@@ -58,11 +58,12 @@ public static class StakeholdersStartup
         services.AddScoped(typeof(ICrudRepository<User>), typeof(CrudDatabaseRepository<User, StakeholdersContext>));
         services.AddScoped<IApplicationReviewRepository, ApplicationReviewDatabaseRepository>();
 
-        services.AddScoped(typeof(ICrudRepository<Follow>), typeof(CrudDatabaseRepository<Follow, StakeholdersContext>));
+        //services.AddScoped(typeof(ICrudRepository<Follow>), typeof(CrudDatabaseRepository<Follow, StakeholdersContext>));
         services.AddScoped(typeof(ICrudRepository<Message>), typeof(CrudDatabaseRepository<Message, StakeholdersContext>));
         services.AddScoped<IMessageRepository, MessageDatabaseRepository>();
 
         services.AddScoped<IUserRepository, UserDatabaseRepository>();
+        services.AddScoped<IProfileRepository, ProfileDatabaseRepository>();
 
 
         services.AddDbContext<StakeholdersContext>(opt =>

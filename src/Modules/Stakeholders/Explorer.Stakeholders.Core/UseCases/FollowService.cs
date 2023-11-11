@@ -13,8 +13,9 @@ using System.Threading.Tasks;
 
 namespace Explorer.Stakeholders.Core.UseCases
 {
-    public class FollowService : CrudService<FollowDto, Follow>, IFollowService
+    public class FollowService
     {
+        /*
         private readonly IFollowRepository _followRepository;
         private readonly IProfileService _profileService;
 
@@ -56,5 +57,6 @@ namespace Explorer.Stakeholders.Core.UseCases
             var pagedResult = new PagedResult<ProfileDto>(followers, followers.Count());
             return Result.Ok(pagedResult);
         }
+        */
     }
 }

@@ -19,17 +19,20 @@ public class StakeholdersContext : DbContext
 
     public DbSet<ApplicationReview> ApplicationReview { get; set; }
 
-    public DbSet<Follow> Follows { get; set; }
+    //public DbSet<Follow> Follows { get; set; }
 
     public DbSet<Message> Messages { get; set; }
 
 
-    public StakeholdersContext(DbContextOptions<StakeholdersContext> options) : base(options) {}
+    public StakeholdersContext(DbContextOptions<StakeholdersContext> options) : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<User>()
             .Property(item => item.TourPreference).HasColumnType("jsonb");
+
+        modelBuilder.Entity<Profile>()
+            .Property(item => item.Follows).HasColumnType("jsonb");
 
         modelBuilder.HasDefaultSchema("stakeholders");
 
@@ -45,6 +48,6 @@ public class StakeholdersContext : DbContext
             .WithOne()
             .HasForeignKey<Person>(s => s.UserId);
 
-      
+
     }
 }

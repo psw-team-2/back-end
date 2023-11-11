@@ -9,6 +9,6 @@ namespace Explorer.Stakeholders.Core.Domain.RepositoryInterfaces
 {
     public interface IFollowRepository
     {
-        List<Follow> GetAll();
+        //List<Follow> GetAll();
     }
 }
