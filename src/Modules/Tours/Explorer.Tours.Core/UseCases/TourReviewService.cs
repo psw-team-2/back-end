@@ -32,12 +32,6 @@ namespace Explorer.Tours.Core.UseCases
             _tourExecutionRepository = tourExecutionRepository;
         }
 
-        /*
-        public Result<TourReviewDto> Create(TourReviewDto tourReviewDto)
-        {
-            tourReviewDto.ReviewDate = DateTime.UtcNow;
-            return base.Create(tourReviewDto);
-        }*/
 
         public Result<TourReviewDto> Create(TourReviewDto tourReviewDto, long loggedInUserId)
         {
@@ -52,7 +46,6 @@ namespace Explorer.Tours.Core.UseCases
             {
                 return Result.Fail("No purchase token found for the specified tour and user");
             }
-            // Check if the tourExecution LastActivity was at most one week ago
             var tourExecution = _tourExecutionRepository.GetTourExecutionForTourist((int)tourReviewDto.TourId, (int)loggedInUserId);
 
             if (tourExecution == null)
@@ -67,7 +60,6 @@ namespace Explorer.Tours.Core.UseCases
                 return Result.Fail("Tour execution LastActivity is more than one week ago");
             }
 
-            // Check if TourId and TouristId match the loggedIn user and the TourId in the review
             if (tourExecution.TourId != tourReviewDto.TourId || tourExecution.TouristId != loggedInUserId)
             {
                 return Result.Fail("TourId or TouristId does not match the specified tour execution");
@@ -77,9 +69,7 @@ namespace Explorer.Tours.Core.UseCases
             var tour = _tourRepository.GetOne((int)tourReviewDto.TourId);
             TourReview tourReview = new TourReview(tourReviewDto.Grade, tourReviewDto.Comment, tourReviewDto.UserId, tourReviewDto.VisitDate, tourReviewDto.ReviewDate, tourReviewDto.Images, tour.Id);
             tour.AddTourReview(tourReview);
-            //tour.TourReviews.Add(tourReview);
             _tourRepository.Update(tour);
-            //tourReview = _tourReviewRepository.Create(tourReview);
             return MapToDto(tourReview);
         }
 
@@ -102,7 +92,6 @@ namespace Explorer.Tours.Core.UseCases
         {
             var reviews = _tourReviewRepository.GetByTourId(tourId);
 
-            // Perform the necessary mapping to DTOs here.
             var reviewsDto = reviews.Select(review => new TourReviewDto
             {
                 Grade = review.Grade,
