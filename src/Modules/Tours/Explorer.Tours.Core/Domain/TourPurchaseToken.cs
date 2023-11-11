@@ -13,9 +13,8 @@ namespace Explorer.Tours.Core.Domain
         public int TourId { get; init; }
         public DateTime PurchaseDate { get; init; }
 
-        public TourPurchaseToken (int id, long userId, int tourId, DateTime purchaseDate)
+        public TourPurchaseToken (long userId, int tourId, DateTime purchaseDate)
         {
-            Id = id;
             UserId = userId;
             TourId = tourId;
             PurchaseDate = purchaseDate;
