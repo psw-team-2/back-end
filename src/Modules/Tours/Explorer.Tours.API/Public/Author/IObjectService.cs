@@ -10,12 +10,8 @@ namespace Explorer.Tours.API.Public.Author
 {
     public interface IObjectService
     {
-
-
         Result<ObjectDto> Create(ObjectDto objectDto);
-
-
-
-
+        Result<ObjectDto> Update(ObjectDto objectDto);
+        Result<ObjectDto> Get(int id);
     }
 }
