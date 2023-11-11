@@ -8,6 +8,6 @@ namespace Explorer.Tours.Core.Domain.RepositoryInterfaces
 {
     public interface IOrderItemRepository
     {
-        public OrderItem GetAllByShoppingCartId(int shoppingCartId);
+        public IEnumerable<OrderItem> GetOrderItemsByShoppingCart(int shoppingCartId);
     }
 }

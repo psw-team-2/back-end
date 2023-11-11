@@ -22,12 +22,26 @@ namespace Explorer.Tours.Core.UseCases
             _orderItemRepository = orderItemRepository;
         }
 
-        public Result<OrderItemDto> GetAllByShoppingCartId(int shoppingCartId)
+        public Result<IEnumerable<OrderItemDto>> GetOrderItemsByShoppingCart(int shoppingCartId)
         {
-            OrderItem orderItems =  _orderItemRepository.GetAllByShoppingCartId(shoppingCartId);
-            OrderItemDto orderItemsDto = MapToDto(orderItems);
-            return Result.Ok(orderItemsDto);
+            IEnumerable<OrderItem> orderItems = _orderItemRepository.GetOrderItemsByShoppingCart(shoppingCartId);
+            List<OrderItemDto> dtosForItems = new List<OrderItemDto>();
+            foreach (var item in orderItems)
+            {
+                OrderItemDto dto = new OrderItemDto
+                {
+                    TourId = item.TourId,
+                    TourName = item.TourName,
+                    Price = new PriceDto(),   //????
+                    ShoppingCartId = shoppingCartId
+                };
+                dtosForItems.Add(dto);
+            }
+            
+            return dtosForItems;
         }
+
+
     }
 
 }

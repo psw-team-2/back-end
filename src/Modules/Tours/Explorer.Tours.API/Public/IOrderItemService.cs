@@ -10,6 +10,6 @@ namespace Explorer.Tours.API.Public
 {
     public interface IOrderItemService
     {
-        public Result<OrderItemDto> GetAllByShoppingCartId(int shoppingCartId);
+        public Result<IEnumerable<OrderItemDto>> GetOrderItemsByShoppingCart(int shoppingCartId);
     }
 }

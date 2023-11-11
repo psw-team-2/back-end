@@ -37,11 +37,13 @@ namespace Explorer.API.Controllers.Tourist
             if (result == null)
             {
                 //_shoppingCartService.Create(new ShoppingCartDto);
-                return NotFound(); 
+                return new ObjectResult(new { Message = "Uer don't have a cart.", StatusCode = 400 }) { StatusCode = 400 };
+
             }
 
             return CreateResponse(result);
         }
+
 
         [HttpGet("{id:int}")]
         public ActionResult<ShoppingCartDto> Get(int id)
@@ -83,13 +85,13 @@ namespace Explorer.API.Controllers.Tourist
             return CreateResponse(result);
         }
 
-       /* [HttpPut("remove/{shoppingCartId:int}/{tourId:int}")]
+        [HttpPut("removeItem/{shoppingCartId:int}/{tourId:int}")]
         public ActionResult<ShoppingCartDto> RemoveItem([FromBody] ShoppingCartDto shoppingCart, int itemId)
         {
             var result = _shoppingCartService.RemoveItem(shoppingCart, itemId);
             return CreateResponse(result);
         }
-       */
+       
 
     }
 }

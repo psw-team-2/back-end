@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Claims;
+using FluentResults;
 
 namespace Explorer.API.Controllers.Tourist;
 
@@ -23,12 +24,11 @@ public class OrderItemController : BaseApiController
         _orderItemService = orderItemService;
     }
 
-    [HttpGet("shoppingCart/{shoppingCartId}")]
-    public ActionResult GetOrderItems(int shoppingCartId)
+    [HttpGet("orderItems/{userId}")]
+    public ActionResult<PagedResult<OrderItemDto>> GetOrderItemsByShoppingCart(int userId)
     {
-        var result = _orderItemService.GetAllByShoppingCartId(shoppingCartId);
-        return CreateResponse(result);     
+        var result = _orderItemService.GetOrderItemsByShoppingCart(userId);
+        return CreateResponse(result);
     }
 
-    
 }

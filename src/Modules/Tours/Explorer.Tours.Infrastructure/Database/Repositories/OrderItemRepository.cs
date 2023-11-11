@@ -17,9 +17,9 @@ namespace Explorer.Tours.Infrastructure.Database.Repositories
             _dbContext = dbContext;
         }
 
-        public OrderItem GetAllByShoppingCartId(int shoppingCartId)
+        public IEnumerable<OrderItem> GetOrderItemsByShoppingCart(int shoppingCartId)
         {
-            return _dbContext.OrderItems.FirstOrDefault(oi => oi.ShoppingCartId == shoppingCartId);
+            return _dbContext.OrderItems.Where(o => o.ShoppingCartId == shoppingCartId).ToList();
         }
     }
 }

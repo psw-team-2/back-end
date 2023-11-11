@@ -18,7 +18,7 @@ namespace Explorer.Tours.API.Public
         Result<ShoppingCartDto> Update(ShoppingCartDto shoppingCart);
         Result Delete(int id);
         public Result<ShoppingCartDto> AddItem(ShoppingCartDto shoppingCart, int tourId);
-        //public Result<ShoppingCartDto> RemoveItem(ShoppingCartDto shoppingCart, int itemId);
+        public Result<ShoppingCartDto> RemoveItem(ShoppingCartDto shoppingCart, int itemId);
         public Result<ShoppingCartDto> GetShoppingCartByUserId(int userId);
     }
 }

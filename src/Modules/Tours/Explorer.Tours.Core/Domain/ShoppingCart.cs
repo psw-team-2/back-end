@@ -29,6 +29,14 @@ namespace Explorer.Tours.Core.Domain
             }
         }
 
+        public void RemoveItem(int itemId)
+        {
+            if (Items != null)
+            {
+                Items.Remove(itemId);
+            }
+        }
+
         public void CalculateTotalPrice(Price totalPrice, Price itemPrice, bool isAdding)
         {
             if (Items != null)

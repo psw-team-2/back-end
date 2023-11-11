@@ -34,6 +34,7 @@ namespace Explorer.Tours.Core.UseCases
             _orderItemRepository = orderItemRepository;
         }
 
+
         public Result<ShoppingCartDto> AddItem(ShoppingCartDto shoppingCartDto, int tourId)
         {
             Tour tour = _tourRepository.Get(tourId);
@@ -68,26 +69,31 @@ namespace Explorer.Tours.Core.UseCases
             }
         }
 
-        /*public Result<ShoppingCartDto> RemoveItem(ShoppingCartDto shoppingCart, int itemId)
+        public Result<ShoppingCartDto> RemoveItem(ShoppingCartDto shoppingCartDto, int itemId)
         {
              try
-             {
-                 var itemIdToRemove = shoppingCart.Items.FirstOrDefault(oi => oi == itemId);
+             {               
+                ShoppingCart shoppingCart = _shoppingCartRepository.GetById(shoppingCartDto.Id);
+                OrderItem orderItem = GetOrderItemById(itemId);
+                shoppingCart.RemoveItem(itemId);
 
-                 shoppingCart.Items.Remove(itemIdToRemove);
+                shoppingCart.CalculateTotalPrice(shoppingCart.TotalPrice, orderItem.Price, true);
+                _shoppingCartRepository.Update(shoppingCart);
+                _orderItemRepository.Delete(itemId);
 
-                OrderItem itemToRemove = _orderItemRepository.GetAllByShoppingCartId(shoppingCart.Id);
-
-                shoppingCart.TotalPrice = new Price(shoppingCart.TotalPrice.Amount - orderItem.Price.Amount);
-                _shoppingCartRepository.Update(MapToDomain(shoppingCart));
-
-                 return Result.Ok(shoppingCart);
+                return Result.Ok(shoppingCartDto);
              }
              catch (ArgumentException e)
              {
                  return Result.Fail<ShoppingCartDto>(FailureCode.InvalidArgument).WithError(e.Message);
              }
-        }*/
+        }
+
+        private OrderItem GetOrderItemById(int id)
+        {
+            OrderItem orderItem = _orderItemRepository.Get(id);
+            return orderItem;
+        }
         
         
     }
