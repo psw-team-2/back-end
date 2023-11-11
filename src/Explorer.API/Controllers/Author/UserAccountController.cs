@@ -7,7 +7,6 @@ using Explorer.Stakeholders.Core.UseCases;
 
 namespace Explorer.API.Controllers.Administrator.Administration
 {
-    [Authorize(Policy = "administratorPolicy")]
     [Route("api/administration/userAccounts")]
     public class UserAccountController : BaseApiController
     {
@@ -22,6 +21,13 @@ namespace Explorer.API.Controllers.Administrator.Administration
         public ActionResult<PagedResult<UserAccountDto>> GetAll([FromQuery] int page, [FromQuery] int pageSize)
         {
             var result = _userAccountAdministrationService.GetPaged(page, pageSize);
+            return CreateResponse(result);
+        }
+
+        [HttpGet("{id:int}")]
+        public ActionResult<UserAccountDto> GetById(int id)
+        {
+            var result = _userAccountAdministrationService.Get(id);
             return CreateResponse(result);
         }
 

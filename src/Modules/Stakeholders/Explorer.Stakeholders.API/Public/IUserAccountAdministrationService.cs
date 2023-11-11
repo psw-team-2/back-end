@@ -10,6 +10,6 @@ namespace Explorer.Stakeholders.API.Public
         Result<UserAccountDto> Update(UserAccountDto equipment);
         Result Delete(int id);
 
-        //Result<User> Get(int id);
+        Result<UserAccountDto> Get(int id);
     }
 }

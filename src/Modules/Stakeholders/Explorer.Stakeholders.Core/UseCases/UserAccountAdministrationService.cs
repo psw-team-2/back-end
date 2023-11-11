@@ -16,27 +16,11 @@ namespace Explorer.Stakeholders.Core.UseCases
             _userRepository = userRepository;
         }
 
-        /*
-        public Result<UserDto> Get(int id)
+        
+        public Result<User> Get(int id)
         {
             return _userRepository.Get(id);
         }
-        */
-
-        /*
-        public Result AddTourPreference(TourPreferenceDto tourPreferenceDto)
-        {
-            TourPreference tourPreference = new TourPreference(tourPreferenceDto.Difficulty, tourPreferenceDto.WalkingRating, tourPreferenceDto.BicycleRating, tourPreferenceDto.CarRating, tourPreferenceDto.BoatRating, tourPreferenceDto.Tags);
-
-            User user = _userRepository.Get((int)tourPreferenceDto.TouristId);
-            user.AddTourPreference(tourPreference);
-
-            _userRepository.Update(user);
-
-
-            return Result.Ok();
-
-        }
-        */
+        
     }
 }
