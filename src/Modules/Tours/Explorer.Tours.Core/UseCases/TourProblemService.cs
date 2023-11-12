@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Explorer.BuildingBlocks.Core.UseCases;
+using Explorer.Stakeholders.API.Dtos;
 using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public;
 using Explorer.Tours.API.Public.Administration;
@@ -104,4 +105,5 @@ public class TourProblemService : CrudService<TourProblemDto, TourProblem>, ITou
             return Result.Fail("FailureCode.NotFound, Nije nadjen").WithError(e.Message);
         }
     }
+
 }

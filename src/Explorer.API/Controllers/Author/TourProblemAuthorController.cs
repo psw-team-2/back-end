@@ -58,8 +58,8 @@ namespace Explorer.API.Controllers.Administrator.Administration
             return CreateResponse(result);
         }
 
-        [HttpPost("respond")]
-        public ActionResult RespondToProblem([FromBody] TourProblemResponseDto tourProblemResponse)
+        [HttpPost("{id}/respond")]
+        public ActionResult RespondToProblem(int id, [FromBody] TourProblemResponseDto tourProblemResponse)
         {
             var result = _problemResponseService.Create(tourProblemResponse);
             return CreateResponse(result); 

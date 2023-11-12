@@ -1,4 +1,5 @@
 ﻿using Explorer.BuildingBlocks.Core.UseCases;
+using Explorer.Stakeholders.API.Dtos;
 using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public;
 using Explorer.Tours.API.Public.Administration;
@@ -56,8 +57,8 @@ namespace Explorer.API.Controllers.Tourist
             return CreateResponse(result);
         }
 
-        [HttpPost("respond")]
-        public ActionResult RespondToProblem([FromBody] TourProblemResponseDto tourProblemResponse)
+        [HttpPost("{id}/respond")]
+        public ActionResult RespondToProblem(int id, [FromBody] TourProblemResponseDto tourProblemResponse)
         {
             var result = _problemResponseService.Create(tourProblemResponse);
             return CreateResponse(result);
@@ -67,6 +68,21 @@ namespace Explorer.API.Controllers.Tourist
         public ActionResult<IEnumerable<TourProblemResponseDto>> GetProblemResponses(int problemId)
         {
             var result = _problemResponseService.GetProblemResponses(problemId);
+            return CreateResponse(result);
+        }
+
+
+        [HttpPost("problemSolved")]
+        public ActionResult<TourProblemDto> ProblemSolved([FromBody] TourProblemDto tourProblem)
+        {
+            var result = _tourProblemService.Update(tourProblem);
+            return CreateResponse(result);
+        }
+
+        [HttpPost("problemUnsolved")]
+        public ActionResult<TourProblemDto> ProblemUnsolved([FromBody] TourProblemDto tourProblem)
+        {
+            var result = _tourProblemService.Update(tourProblem);
             return CreateResponse(result);
         }
 
