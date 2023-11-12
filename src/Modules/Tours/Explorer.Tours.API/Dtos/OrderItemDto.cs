@@ -13,5 +13,6 @@ namespace Explorer.Tours.API.Dtos
         public string TourName { get; set; }
         public PriceDto Price { get; set; }
         public long ShoppingCartId { get; set; }
+        public bool IsBought { get; set; }
     }
 }

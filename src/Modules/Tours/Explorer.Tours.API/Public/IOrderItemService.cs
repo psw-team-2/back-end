@@ -11,5 +11,6 @@ namespace Explorer.Tours.API.Public
     public interface IOrderItemService
     {
         public Result<IEnumerable<OrderItemDto>> GetOrderItemsByShoppingCart(int shoppingCartId);
+        Result<OrderItemDto> Update(OrderItemDto orderItem);
     }
 }

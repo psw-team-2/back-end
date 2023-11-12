@@ -30,10 +30,13 @@ namespace Explorer.Tours.Core.UseCases
             {
                 OrderItemDto dto = new OrderItemDto
                 {
+                    Id = (int)item.Id,
                     TourId = item.TourId,
                     TourName = item.TourName,
-                    Price = new PriceDto(),   ///???
-                    ShoppingCartId = shoppingCartId
+                    Price = new PriceDto(),   //????
+                    ShoppingCartId = shoppingCartId,
+                    IsBought = item.IsBought
+
                 };
                 dtosForItems.Add(dto);
             }
