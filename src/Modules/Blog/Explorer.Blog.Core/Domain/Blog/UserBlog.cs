@@ -14,7 +14,7 @@ namespace Explorer.Blog.Core.Domain.Blog
         public string Title { get; init; }
         public string Description { get; init; }
         public DateTime CreationTime { get; init; }
-        public BlogStatus Status { get; init; }
+        public BlogStatus Status { get; set; }
         public string Image { get; init; }
         public List<Rating> Ratings { get; init; }
 
@@ -52,8 +52,31 @@ namespace Explorer.Blog.Core.Domain.Blog
             {
                 Ratings.Add(new Rating(rating.isUpvote, rating.UserId, rating.CreationTime));
             }
+
+            CheckBlogStatus();
+            
         }
 
+        public void CheckBlogStatus()
+        {
+            int ratingsCount = GetRatingsCount();
+            int commentsCount = BlogComments.Count();
+
+            if (ratingsCount <= -10)
+            {
+                Status = BlogStatus.Closed;
+            }
+            else if (ratingsCount > 100 || commentsCount > 10)
+            {
+                Status = BlogStatus.Active;
+            }
+            else if (ratingsCount > 500 && commentsCount > 30) 
+            {
+                Status = BlogStatus.Famous;
+            }
+
+           
+        }
         public int GetRatingsCount()
         {
             int upvotes = 0;
