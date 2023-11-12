@@ -13,22 +13,25 @@ namespace Explorer.Tours.Core.Domain
         public DateTime TimeStamp { get; private set; }
         public long TourProblemId { get; private set; }
         public long CommenterId { get; private set; }
+        public long AuthorId { get; private set; }
 
-        public TourProblemResponse(string? response, DateTime timeStamp, long tourProblemId, long commenterId)
+        public TourProblemResponse(string? response, DateTime timeStamp, long tourProblemId, long commenterId, long authorId)
         {
             Response = response;
-            TimeStamp= timeStamp;
+            TimeStamp = timeStamp;
             TourProblemId = tourProblemId;
             CommenterId = commenterId;
+            AuthorId = authorId;
             Validate();
         }
 
         public void Validate()
         {
-            //if (string.IsNullOrWhiteSpace(Response)) throw new ArgumentNullException("Response is empty");
-            //if (TimeStamp == null) throw new ArgumentException("Time Stamp is empty");
-            //if (TourProblemId <= 0) throw new ArgumentException("Invalid TourProblemId");
-            //if (CommenterId <= 0) throw new ArgumentException("Invalid CommenterId");
+            if (string.IsNullOrWhiteSpace(Response)) throw new ArgumentNullException("Response is empty");
+            if (TimeStamp == null) throw new ArgumentException("Time Stamp is empty");
+            if (TourProblemId <= 0) throw new ArgumentException("Invalid TourProblemId");
+            if (CommenterId <= 0) throw new ArgumentException("Invalid CommenterId");
+            if (AuthorId <= 0) throw new ArgumentException("Invalid AuthorId");
         }
     }
 }

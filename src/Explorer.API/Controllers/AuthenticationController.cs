@@ -43,7 +43,7 @@ public class AuthenticationController : BaseApiController
     }
 
     [HttpGet("{userId}")]
-    public ActionResult<object> GetUserById(long userId)
+    public ActionResult<UserAccountDto> GetUserById(long userId)
     {
         var result = _authenticationService.GetUserById(userId);
 

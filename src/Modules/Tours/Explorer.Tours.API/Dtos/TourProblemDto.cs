@@ -14,4 +14,5 @@ public class TourProblemDto
     public bool IsClosed { get; set; }
     public bool IsResolved { get; set; }
     public long TouristId { get; set; }
+    public DateTime? DeadlineTimeStamp { get; init; }
 }

@@ -22,26 +22,10 @@ namespace Explorer.API.Controllers.Tourist
             _problemResponseService = problemResponseService;
         }
 
-        /*  [HttpGet]
-          public ActionResult<PagedResult<TourProblemDto>> GetAll([FromQuery] int page, [FromQuery] int pageSize)
-          {
-              var userIdClaim = HttpContext.User.Claims.First(x => x.Type == "id");
-              if (userIdClaim != null && int.TryParse(userIdClaim.Value, out int touristId))
-              {
-
-                  var result = _tourProblemService.GetByTouristId(touristId);
-                  return CreateResponse(result);
-              }
-              else
-              {
-                  return BadRequest("User ID not found or invalid.");
-              }
-          }*/
-
-        [HttpGet]
-        public ActionResult<PagedResult<TourProblemDto>> GetAll([FromQuery] int page, [FromQuery] int pageSize)
+        [HttpGet("by-tourist/{touristId:int}")]
+        public ActionResult<PagedResult<TourProblemDto>> GetAll(int touristId, [FromQuery] int page, [FromQuery] int pageSize)
         {
-            var result = _tourProblemService.GetPaged(page, pageSize);
+            var result = _tourProblemService.GetByTouristId(touristId, page, pageSize);
             return CreateResponse(result);
         }
 
@@ -87,6 +71,7 @@ namespace Explorer.API.Controllers.Tourist
             return CreateResponse(result);
         }
 
+
         [HttpPost("problemSolved")]
         public ActionResult<TourProblemDto> ProblemSolved([FromBody] TourProblemDto tourProblem)
         {
@@ -98,6 +83,13 @@ namespace Explorer.API.Controllers.Tourist
         public ActionResult<TourProblemDto> ProblemUnsolved([FromBody] TourProblemDto tourProblem)
         {
             var result = _tourProblemService.Update(tourProblem);
+            return CreateResponse(result);
+        }
+
+        [HttpGet("/tourist/{touristId:int}/responses")]
+        public ActionResult<IEnumerable<TourProblemResponseDto>> GetTourProblemResponsesForAuthor(int touristId)
+        {
+            var result = _problemResponseService.GetTourProblemResponsesForUser(touristId);
             return CreateResponse(result);
         }
     }

@@ -53,6 +53,28 @@ namespace Explorer.Tours.Core.UseCases
             }
         }
 
+        public Result<IEnumerable<TourProblemResponseDto>> GetTourProblemResponsesForUser(int userId)
+        {
+            try
+            {
+                var pagedResult = CrudRepository.GetPaged(1, int.MaxValue);
+                var responses = pagedResult.Results.Where(r => r.CommenterId != userId).ToList();
+
+                if (responses.Count > 0)
+                {
+                    return Result.Ok(responses.Select(MapToDto));
+                }
+                else
+                {
+                    return Result.Ok<IEnumerable<TourProblemResponseDto>>(new List<TourProblemResponseDto>()).WithSuccess("No responses to reported problem");
+                }
+            }
+            catch (KeyNotFoundException e)
+            {
+                return Result.Fail<IEnumerable<TourProblemResponseDto>>(FailureCode.NotFound).WithError(e.Message);
+            }
+        }
+
 
     }
 }
