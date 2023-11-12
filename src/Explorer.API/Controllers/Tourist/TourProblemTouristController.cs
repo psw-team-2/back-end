@@ -86,8 +86,8 @@ namespace Explorer.API.Controllers.Tourist
             return CreateResponse(result);
         }
 
-        [HttpGet("/tourist/{touristId:int}/responses")]
-        public ActionResult<IEnumerable<TourProblemResponseDto>> GetTourProblemResponsesForAuthor(int touristId)
+        [HttpGet("tourist/{touristId:int}/responses")]
+        public ActionResult<IEnumerable<TourProblemResponseDto>> GetTourProblemResponsesForTourist(int touristId)
         {
             var result = _problemResponseService.GetTourProblemResponsesForUser(touristId);
             return CreateResponse(result);

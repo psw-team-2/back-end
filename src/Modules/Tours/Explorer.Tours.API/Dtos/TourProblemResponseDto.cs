@@ -13,6 +13,5 @@ namespace Explorer.Tours.API.Dtos
         public DateTime TimeStamp { get; init; }
         public long TourProblemId { get; set; }
         public long CommenterId { get; set; }
-        public long AuthorId { get; set; }
     }
 }
