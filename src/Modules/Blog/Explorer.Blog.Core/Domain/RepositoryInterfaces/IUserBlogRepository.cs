@@ -11,9 +11,8 @@ namespace Explorer.Blog.Core.Domain.RepositoryInterfaces
     {
         List<UserBlog> GetByUserId(int userId);
         //UserBlog GetWithComments(int blogId);
-
         UserBlog GetById(int blogId);
-
         UserBlog Update(UserBlog blog);
+        List<UserBlog> GetByStatus(BlogStatus status);
     }
 }

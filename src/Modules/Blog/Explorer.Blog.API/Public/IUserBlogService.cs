@@ -22,5 +22,6 @@ namespace Explorer.Blog.API.Public
         Result AddRating(RatingDto rating);
 
         Result<RatingCount> GetRatingsCount(int id);
+        List<UserBlogDto> GetByStatus(BlogStatus status);
     }
 }

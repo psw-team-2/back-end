@@ -101,7 +101,25 @@ namespace Explorer.Blog.Core.UseCases
             return count;
         }
         
+        public List<UserBlogDto> GetByStatus(API.Dtos.BlogStatus status)
+        {
+            var blogs = _blogRepository.GetByStatus((Domain.Blog.BlogStatus)status);
 
-        
+            var blogDtos = blogs.Select(blog => new UserBlogDto
+            {
+                Id = (int)blog.Id,
+                UserId = blog.UserId,
+                Username = blog.Username,
+                Title = blog.Title,
+                Description = blog.Description,
+                CreationTime = blog.CreationTime,
+                Status = (API.Dtos.BlogStatus)blog.Status,
+                Image = blog.Image
+
+            }).ToList();
+
+            return blogDtos;
+        }
+
     }
 }
