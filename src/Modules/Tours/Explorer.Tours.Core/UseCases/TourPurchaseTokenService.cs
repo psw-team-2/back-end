@@ -10,11 +10,39 @@ using System.Threading.Tasks;
 using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public.Administration;
 using Explorer.Tours.API.Public;
+using Explorer.Stakeholders.Core.UseCases;
+using FluentResults;
 
 namespace Explorer.Tours.Core.UseCases
 {
     public class TourPurchaseTokenService : CrudService<TourPurchaseTokenDto, TourPurchaseToken>, ITourPurchaseTokenService
     {
-        public TourPurchaseTokenService(ICrudRepository<TourPurchaseToken> repository, IMapper mapper) : base(repository, mapper) { }
+        private readonly ICrudRepository<TourPurchaseToken> _tourPurchaseTokenRepository;
+        private readonly ICrudRepository<OrderItem> _orderItemRepository;
+        private readonly IShoppingCartRepository _shoppingCartRepository;
+        public TourPurchaseTokenService(ICrudRepository<TourPurchaseToken> repository, IMapper mapper, ICrudRepository<OrderItem> orderItemRepository, IShoppingCartRepository shoppingCartRepository) : base(repository, mapper)
+        {
+            _tourPurchaseTokenRepository = repository;
+            _orderItemRepository = orderItemRepository;
+            _shoppingCartRepository = shoppingCartRepository;
+        }
+
+        public Result<TourPurchaseTokenDto> CreateTourPurchaseToken(List<OrderItemDto> orderItems, int userId)
+        {
+            ShoppingCart shoppingCart = _shoppingCartRepository.GetShoppingCartByUserId(userId);
+            foreach (OrderItemDto item in orderItems)
+            {
+                TourPurchaseToken purchaseToken = new TourPurchaseToken(userId, item.TourId, DateTime.UtcNow);
+                _tourPurchaseTokenRepository.Create(purchaseToken);
+                //ovde treba dodati da se polje u OrderItem-u isPurchased promeni na true
+                //item.isPurchased = true;
+                //u OrderItemService u metodi GetOrderItemsByShoppingCart izmeni da se dodaju samo one kod kojih je isPurchased=false
+                shoppingCart.RemoveItem(item.Id);
+                _shoppingCartRepository.Update(shoppingCart);
+            }           
+
+            return Result.Ok();
+        }
+
     }
 }

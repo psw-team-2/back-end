@@ -13,5 +13,6 @@ namespace Explorer.Tours.API.Public
     {
         Result<PagedResult<TourPurchaseTokenDto>> GetPaged(int page, int pageSize);
         Result<TourPurchaseTokenDto> Create(TourPurchaseTokenDto tour);
+        Result<TourPurchaseTokenDto> CreateTourPurchaseToken(List<OrderItemDto> orderItems, int userId);
     }
 }
