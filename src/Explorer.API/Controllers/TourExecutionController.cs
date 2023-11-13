@@ -1,5 +1,6 @@
 ﻿using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public;
+using Explorer.Tours.API.Public.Administration;
 using Explorer.Tours.Core.Domain;
 using Explorer.Tours.Core.UseCases;
 using FluentResults;
@@ -30,12 +31,12 @@ namespace Explorer.API.Controllers
                     return BadRequest($"Greška pri pokretanju ture: {ex.Message}");
                 }
             }
-        [HttpGet("get/{userId:int}")]
-        public ActionResult<TourExecutionDto> GetTourExecution(int userId)
-        {
-            var result = _tourExecutionService.GetTourExecution(userId);
-            return CreateResponse(result);
-        }
+            [HttpGet("get/{userId:int}")]
+            public ActionResult<TourExecutionDto> GetTourExecution(int userId)
+            {
+                var result = _tourExecutionService.GetTourExecution(userId);
+                return CreateResponse(result);
+            }
 
             [HttpPost("complete/{tourExecutionId:int}")]
             public ActionResult CompleteTour(int tourExecutionId)
@@ -65,5 +66,12 @@ namespace Explorer.API.Controllers
                 }
             }
 
+        [HttpPut("{id:int}")]
+        public ActionResult<CheckPointDto> Update([FromBody] TourExecutionDto tourExecution)
+        {
+            tourExecution.LastActivity = DateTime.UtcNow;
+            var result = _tourExecutionService.Update(tourExecution);
+            return CreateResponse(result);
+        }
     }
 }

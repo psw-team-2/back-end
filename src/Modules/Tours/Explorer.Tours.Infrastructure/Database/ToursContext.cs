@@ -14,7 +14,7 @@ public class ToursContext : DbContext
     public DbSet<Core.Domain.Object> Object { get; set; }
     public DbSet<TourReview> TourReview { get; set; }
     public DbSet<TourProblem> TourProblems { get; set; }
-    public DbSet<TouristPosition> TouristPosition { get; set; }
+    public DbSet<CheckpointVisited> CheckpointVisited { get; set; }
     public DbSet<TourExecution> TourExecutions { get; set; }
     public DbSet<Secret> Secrets { get; set; }
 
