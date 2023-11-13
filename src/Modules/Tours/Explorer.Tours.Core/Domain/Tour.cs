@@ -33,7 +33,7 @@ namespace Explorer.Tours.Core.Domain
             Name = name;
             Description = description;
             Difficulty = difficulty;
-            Status = AccountStatus.DRAFT;
+            Status = status;
             Price = 0;
             Tags = tags;
             Equipments = new List<int>();
