@@ -63,21 +63,7 @@ namespace Explorer.Tours.Core.UseCases
             return tour;
         }
 
-        public Result<TourDto> PublishTour(TourDto tour)
-        {
-
-                tour.Status = API.Dtos.AccountStatus.PUBLISHED;
-                tour.PublishTime = DateTime.Now;
-
-            return tour;
-        }
-        public Result<TourDto> ArchiveTour(TourDto tour)
-        {
-            tour.Status = API.Dtos.AccountStatus.ARCHIVED;
         
-            return tour;
-        }
-
 
     }
 }

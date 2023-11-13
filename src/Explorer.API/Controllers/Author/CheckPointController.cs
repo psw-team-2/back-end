@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Explorer.API.Controllers.Author
 {
-    [Authorize(Policy = "authorPolicy")]
     [Route("api/addcheckpoint/checkpoint")]
     public class CheckPointController : BaseApiController
     {
