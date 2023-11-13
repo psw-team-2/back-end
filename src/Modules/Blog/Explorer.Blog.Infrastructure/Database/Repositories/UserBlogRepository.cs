@@ -40,7 +40,7 @@ namespace Explorer.Blog.Infrastructure.Database.Repositories
 
         public UserBlog GetById(int blogId)
         {
-            return _dbContext.Blogs
+            return _dbContext.Blogs.Include(t => t.BlogComments)
                             .FirstOrDefault(b => b.Id == blogId);
         }
 
