@@ -9,6 +9,6 @@ namespace Explorer.Tours.API.Dtos
     public class PriceDto
     {
         public int Id { get; set; }
-        public double Amount { get; }
+        public double Amount { get; set; }
     }
 }

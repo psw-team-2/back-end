@@ -53,6 +53,10 @@ public class AuthenticationService : IAuthenticationService
             //var person = _personRepository.Create(new Person(user.Id, account.Name, account.Surname, account.Email));
             var profile = _profileRepository.Create(new Profile(account.Name, account.Surname, account.ProfilePicture, account.Biography, account.Motto, user.Id, true));
 
+            //kreiranje korpe
+            List<OrderItem> items = new List<OrderItem>();
+            ShoppingCart shoppingCart = new ShoppingCart((int)user.Id, items);
+
             var tourPreference = _tourPreferenceService.Create(
                     new TourPreferenceDto
                     {
@@ -68,7 +72,6 @@ public class AuthenticationService : IAuthenticationService
 
                     });
 
-           
 
             return _tokenGenerator.GenerateAccessToken(user, profile.Id);
         }

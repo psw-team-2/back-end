@@ -9,5 +9,6 @@ namespace Explorer.Tours.Core.Domain.RepositoryInterfaces
     public interface IOrderItemRepository
     {
         public IEnumerable<OrderItem> GetOrderItemsByShoppingCart(int shoppingCartId);
+        public void RemoveAllItemsByShoppingCartId(int shoppingCartId);
     }
 }

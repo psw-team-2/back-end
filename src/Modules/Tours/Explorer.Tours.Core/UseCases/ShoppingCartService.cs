@@ -23,14 +23,15 @@ namespace Explorer.Tours.Core.UseCases
 
         private readonly IShoppingCartRepository _shoppingCartRepository;
         private readonly ICrudRepository<Tour> _tourRepository;
-        private readonly ICrudRepository<OrderItem> _orderItemRepository;
+        private readonly ICrudRepository<OrderItem> _crudOrderItemRepository;
+        private readonly IOrderItemRepository _orderItemRepository;
 
 
-
-        public ShoppingCartService(ICrudRepository<ShoppingCart> repository, IMapper mapper, IShoppingCartRepository shoppingCartRepository, ICrudRepository<Tour> tourRepository, ICrudRepository<OrderItem> orderItemRepository) : base(repository, mapper)
+        public ShoppingCartService(ICrudRepository<ShoppingCart> repository, IMapper mapper, IShoppingCartRepository shoppingCartRepository, ICrudRepository<Tour> tourRepository, ICrudRepository<OrderItem> crudOrderItemRepository, IOrderItemRepository orderItemRepository) : base(repository, mapper)
         {
             _shoppingCartRepository = shoppingCartRepository;
             _tourRepository = tourRepository;
+            _crudOrderItemRepository = crudOrderItemRepository;
             _orderItemRepository = orderItemRepository;
         }
 
@@ -41,7 +42,7 @@ namespace Explorer.Tours.Core.UseCases
             if (shoppingCartDto != null)
             {
                 OrderItem orderItem = new OrderItem(tourId,tour.Name,new Price(tour.Price.Amount),shoppingCartDto.Id);
-                _orderItemRepository.Create(orderItem);
+                _crudOrderItemRepository.Create(orderItem);
 
                 ShoppingCart shoppingCart = _shoppingCartRepository.GetById(shoppingCartDto.Id);
 
@@ -61,7 +62,8 @@ namespace Explorer.Tours.Core.UseCases
             try
             {
                 var shoppingCart = _shoppingCartRepository.GetShoppingCartByUserId(userId);
-                return Result.Ok();
+                ShoppingCartDto shoppingCartDto = MapToDto(shoppingCart);
+                return Result.Ok(shoppingCartDto);
             }
             catch (Exception e)
             {
@@ -69,19 +71,19 @@ namespace Explorer.Tours.Core.UseCases
             }
         }
 
-        public Result<ShoppingCartDto> RemoveItem(ShoppingCartDto shoppingCartDto, int itemId)
+        public Result<ShoppingCartDto> RemoveItem(int shoppingCartId, int itemId)
         {
              try
              {               
-                ShoppingCart shoppingCart = _shoppingCartRepository.GetById(shoppingCartDto.Id);
+                ShoppingCart shoppingCart = _shoppingCartRepository.GetById(shoppingCartId);
                 OrderItem orderItem = GetOrderItemById(itemId);
                 shoppingCart.RemoveItem(itemId);
 
-                shoppingCart.CalculateTotalPrice(shoppingCart.TotalPrice, orderItem.Price, true);
+                shoppingCart.CalculateTotalPrice(shoppingCart.TotalPrice, orderItem.Price, false);
                 _shoppingCartRepository.Update(shoppingCart);
-                _orderItemRepository.Delete(itemId);
+                _crudOrderItemRepository.Delete(itemId);
 
-                return Result.Ok(shoppingCartDto);
+                return Result.Ok();
              }
              catch (ArgumentException e)
              {
@@ -89,9 +91,27 @@ namespace Explorer.Tours.Core.UseCases
              }
         }
 
+
+        public Result<ShoppingCartDto> RemoveAllItems(int shoppingCartId)
+        {
+            try
+            {
+                ShoppingCart shoppingCart = _shoppingCartRepository.GetById(shoppingCartId);
+                shoppingCart.RemoveAllItems();
+                _orderItemRepository.RemoveAllItemsByShoppingCartId(shoppingCartId);
+                _shoppingCartRepository.Update(shoppingCart);
+
+                return Result.Ok();
+            }
+            catch (ArgumentException e)
+            {
+                return Result.Fail<ShoppingCartDto>(FailureCode.InvalidArgument).WithError(e.Message);
+            }
+        }
+
         private OrderItem GetOrderItemById(int id)
         {
-            OrderItem orderItem = _orderItemRepository.Get(id);
+            OrderItem orderItem = _crudOrderItemRepository.Get(id);
             return orderItem;
         }
         

@@ -21,28 +21,32 @@ public class ToursProfile : Profile
         CreateMap<TourReviewDto, TourReview>().ReverseMap();
         CreateMap<ShoppingCartDto, ShoppingCart>().ReverseMap();
         CreateMap<OrderItemDto, OrderItem>().ReverseMap();
-        CreateMap<PriceDto, Price>().ReverseMap();
-        CreateMap<TourPurchaseTokenDto, TourPurchaseToken>().ReverseMap();
-        /*CreateMap<OrderItemDto, OrderItem>()
+        /*CreateMap<TourInfoDto, TourInfo>()
             .IncludeAllDerived()
             .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price));
-        CreateMap<TourDto, Tour>()
-            .IncludeAllDerived()
-            .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price));*/
-        CreateMap<OrderItemDto, OrderItem>()
-            .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price.Amount))
-            .AfterMap((src, dest) =>
-            {
-                // Add debug statements to log the Price value
-                Debug.WriteLine($"Mapped Price: {src.Price.Amount} to {dest.Price.Amount}");
-            });
         CreateMap<TourDto, Tour>().ReverseMap()
            .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price.Amount))
            .AfterMap((src, dest) =>
            {
                // Add debug statements to log the Price value
                Debug.WriteLine($"Mapped Price: {src.Price.Amount} to {dest.Price}");
-           });
+           });*/
+        CreateMap<PriceDto, Price>().ReverseMap();
+        CreateMap<TourPurchaseTokenDto, TourPurchaseToken>().ReverseMap();
+        /*CreateMap<PriceDto, Price>()
+            .ConstructUsing(dto => new Price(dto.Amount));*/
+        /*CreateMap<OrderItemDto, OrderItem>()
+            .IncludeAllDerived()
+            .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price));*/
+        
+        /*CreateMap<OrderItemDto, OrderItem>()
+            .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price.Amount))
+            .AfterMap((src, dest) =>
+            {
+                // Add debug statements to log the Price value
+                Debug.WriteLine($"Mapped Price: {src.Price.Amount} to {dest.Price.Amount}");
+            });
+        */
 
         /*CreateMap<OrderItemDto, OrderItem>().IncludeAllDerived()
             .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price.Select(h => new Price(h))));*/

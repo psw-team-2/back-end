@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Explorer.Tours.API.Public
 {
-    public interface IShoppingCartService
+    public interface IShoppingCartService 
     {
         Result<PagedResult<ShoppingCartDto>> GetPaged(int page, int pageSize);
         Result<ShoppingCartDto> Get(int id);
@@ -18,7 +18,9 @@ namespace Explorer.Tours.API.Public
         Result<ShoppingCartDto> Update(ShoppingCartDto shoppingCart);
         Result Delete(int id);
         public Result<ShoppingCartDto> AddItem(ShoppingCartDto shoppingCart, int tourId);
-        public Result<ShoppingCartDto> RemoveItem(ShoppingCartDto shoppingCart, int itemId);
+        public Result<ShoppingCartDto> RemoveItem(int shoppingCartId, int itemId);
         public Result<ShoppingCartDto> GetShoppingCartByUserId(int userId);
+        public Result<ShoppingCartDto> RemoveAllItems(int shoppingCartId);
+
     }
 }

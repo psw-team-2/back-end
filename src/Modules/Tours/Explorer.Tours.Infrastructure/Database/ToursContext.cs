@@ -33,6 +33,5 @@ public class ToursContext : DbContext
         modelBuilder.Entity<Tour>().Property(sc => sc.Price).HasColumnType("jsonb");
 
 
-
     }
 }

@@ -11,7 +11,7 @@ namespace Explorer.Tours.Core.Domain
     public class ShoppingCart : Entity
     {
         public long UserId { get; init; }
-        public List<int>? Items { get; init; }
+        public List<int>? Items { get; set; }
         public Price TotalPrice { get; set; }
 
         public ShoppingCart(long userId, Price totalPrice)
@@ -36,6 +36,13 @@ namespace Explorer.Tours.Core.Domain
                 Items.Remove(itemId);
             }
         }
+
+        public void RemoveAllItems()
+        {
+            Items = new List<int>();
+            TotalPrice = new Price();
+        }
+
 
         public void CalculateTotalPrice(Price totalPrice, Price itemPrice, bool isAdding)
         {
