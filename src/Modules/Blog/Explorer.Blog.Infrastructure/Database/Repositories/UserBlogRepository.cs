@@ -1,7 +1,9 @@
 ﻿using Explorer.Blog.Core.Domain.Blog;
 using Explorer.Blog.Core.Domain.RepositoryInterfaces;
 using Explorer.BuildingBlocks.Core.Domain;
+using Explorer.BuildingBlocks.Core.UseCases;
 using Explorer.Stakeholders.Core.Domain;
+using FluentResults;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -57,11 +59,17 @@ namespace Explorer.Blog.Infrastructure.Database.Repositories
             return (UserBlog)blog;
         }
 
-        public List<UserBlog> GetByStatus(BlogStatus status)
+       
+        public PagedResult<UserBlog> GetByStatus(BlogStatus status, int page, int pageSize)
         {
-            return _dbContext.Blogs
+            var blogs = _dbContext.Blogs
                 .Where(b => b.Status == status)
                 .ToList();
+
+            var totalItems = blogs.Count;
+            var results = blogs.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            return new PagedResult<UserBlog>(results, totalItems);
         }
     }
 }

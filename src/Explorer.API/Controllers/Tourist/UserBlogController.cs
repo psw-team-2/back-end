@@ -123,16 +123,11 @@ namespace Explorer.API.Controllers.Tourist
         }
 
         [HttpGet("byStatus/{status}")]
-        public ActionResult<PagedResult<UserBlogDto>> GetByStatus(BlogStatus status)
+        public ActionResult<PagedResult<UserBlogDto>> GetByStatus(BlogStatus status, [FromQuery] int page = 1, [FromQuery] int pageSize = 12)
         {
-            var blogsDtos = _userBlogService.GetByStatus(status);
-
-            if (blogsDtos == null || !blogsDtos.Any())
-            {
-                return NotFound("No blogs found for the specified status.");
-            }
-
-            return Ok(blogsDtos);
+            var blogsDtos = _userBlogService.GetByStatus(status, page, pageSize);
+            
+            return CreateResponse(blogsDtos);
         }
 
     }

@@ -100,12 +100,12 @@ namespace Explorer.Blog.Core.UseCases
             RatingCount count = new RatingCount { Count = blog.GetRatingsCount()};
             return count;
         }
-        
-        public List<UserBlogDto> GetByStatus(API.Dtos.BlogStatus status)
-        {
-            var blogs = _blogRepository.GetByStatus((Domain.Blog.BlogStatus)status);
 
-            var blogDtos = blogs.Select(blog => new UserBlogDto
+        public Result<PagedResult<UserBlogDto>> GetByStatus(API.Dtos.BlogStatus status, int page, int pageSize)
+        {
+            var blogs = _blogRepository.GetByStatus((Domain.Blog.BlogStatus)status, page, pageSize);
+
+            var blogDtos = blogs.Results.Select(blog => new UserBlogDto
             {
                 Id = (int)blog.Id,
                 UserId = blog.UserId,
@@ -118,7 +118,7 @@ namespace Explorer.Blog.Core.UseCases
 
             }).ToList();
 
-            return blogDtos;
+            return new PagedResult<UserBlogDto>(blogDtos, blogs.TotalCount);
         }
 
         public  Result AddComment(BlogCommentDto blogCommentDto)

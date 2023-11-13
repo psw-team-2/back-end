@@ -22,7 +22,7 @@ namespace Explorer.Blog.API.Public
         Result AddRating(RatingDto rating);
 
         Result<RatingCount> GetRatingsCount(int id);
-        List<UserBlogDto> GetByStatus(BlogStatus status);
+        Result<PagedResult<UserBlogDto>> GetByStatus(BlogStatus status, int page, int pageSize);
         Result AddComment(BlogCommentDto blogCommentDto);
     }
 }
