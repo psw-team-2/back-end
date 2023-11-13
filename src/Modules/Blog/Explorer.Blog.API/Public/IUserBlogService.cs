@@ -23,5 +23,6 @@ namespace Explorer.Blog.API.Public
 
         Result<RatingCount> GetRatingsCount(int id);
         List<UserBlogDto> GetByStatus(BlogStatus status);
+        Result AddComment(BlogCommentDto blogCommentDto);
     }
 }

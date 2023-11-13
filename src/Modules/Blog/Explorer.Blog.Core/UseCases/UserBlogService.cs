@@ -25,7 +25,7 @@ namespace Explorer.Blog.Core.UseCases
             _blogCommentService = blogCommentService;
         }
 
-        public Result<UserBlogDto> Create(UserBlogDto blogDto)
+        public override Result<UserBlogDto> Create(UserBlogDto blogDto)
         {
             blogDto.CreationTime = DateTime.UtcNow;
 
@@ -119,6 +119,17 @@ namespace Explorer.Blog.Core.UseCases
             }).ToList();
 
             return blogDtos;
+        }
+
+        public  Result AddComment(BlogCommentDto blogCommentDto)
+        {
+            var commentDto = _blogCommentService.Create(blogCommentDto);
+            BlogComment comment = new BlogComment(blogCommentDto.UserId, blogCommentDto.Username, blogCommentDto.BlogId, blogCommentDto.Text, blogCommentDto.CreationTime, blogCommentDto.LastModification);
+            var blog = _blogRepository.GetById((int)blogCommentDto.BlogId);
+            blog.AddComment(comment);
+            _blogRepository.Update(blog);
+
+            return Result.Ok();
         }
 
     }

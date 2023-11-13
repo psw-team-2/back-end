@@ -14,9 +14,11 @@ namespace Explorer.API.Controllers.Tourist
     public class BlogCommentController : BaseApiController
     {
         private readonly IBlogCommentService _blogCommentService;
-        public BlogCommentController(IBlogCommentService blogCommentService)
+        private readonly IUserBlogService _blogService;
+        public BlogCommentController(IBlogCommentService blogCommentService, IUserBlogService blogService)
         {
             _blogCommentService = blogCommentService;
+            _blogService = blogService;
         }
 
         [HttpGet]
@@ -29,7 +31,7 @@ namespace Explorer.API.Controllers.Tourist
         [HttpPost]
         public ActionResult<BlogCommentDto> Create([FromBody] BlogCommentDto comment)
         {
-            var result = _blogCommentService.Create(comment);
+            var result = _blogService.AddComment(comment);
             return CreateResponse(result);
         }
 
