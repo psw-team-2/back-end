@@ -3,6 +3,7 @@ using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public;
 using Explorer.Tours.API.Public.Administration;
 using Explorer.Tours.Core.UseCases;
+using FluentResults;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -88,6 +89,19 @@ namespace Explorer.API.Controllers.Author
         {
             var averageGrade = _tourService.GetAverageGradeForTour(tourId);
             return CreateResponse(averageGrade);
+
+        [HttpPut("publish/{tourId:int}")]
+        public ActionResult<TourDto> PublishTour([FromBody] TourDto tour)
+        {
+            var result = _tourService.PublishTour(tour);
+            return CreateResponse(result);
+        }
+
+        [HttpPut("archive/{tourId:int}")]
+        public ActionResult<TourDto> ArchiveTour([FromBody] TourDto tour)
+        {
+            var result = _tourService.ArchiveTour(tour);
+            return CreateResponse(result);
         }
 
     }

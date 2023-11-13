@@ -20,7 +20,14 @@ namespace Explorer.Tours.Core.Domain
 
         //public List <Object> Objects { get; init;
 
-       // public bool IsDeleted { get; set; } = false;
+        // public bool IsDeleted { get; set; } = false;
+
+        public double FootTime { get; init; } 
+        public double BicycleTime { get; init; } 
+        public double CarTime { get; init; }
+        public double TotalLength { get; set; }
+
+        public DateTime PublishTime { get; init; }
 
         public Tour(String name, String description, AccountStatus status,int difficulty, double price, String? tags) : base(name,description, status,difficulty, price, tags)
         {

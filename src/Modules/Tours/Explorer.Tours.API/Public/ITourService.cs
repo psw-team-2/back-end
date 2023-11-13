@@ -23,5 +23,9 @@ namespace Explorer.Tours.API.Public
         Result<AverageGradeDto> GetAverageGradeForTour(int tourId);
         List<TourReviewDto> GetByTourId(int tourId);
 
+        public Result<TourDto> PublishTour(TourDto tour);
+        public Result<TourDto> ArchiveTour(TourDto tour);
+
+
     }
 }
