@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Explorer.BuildingBlocks.Core.Domain;
 using FluentResults;
+using System.Security.AccessControl;
 
 namespace Explorer.BuildingBlocks.Core.UseCases;
 
@@ -21,6 +22,7 @@ public abstract class CrudService<TDto, TDomain> : BaseService<TDto, TDomain> wh
     public Result<PagedResult<TDto>> GetPaged(int page, int pageSize)
     {
         var result = CrudRepository.GetPaged(page, pageSize);
+        Console.WriteLine(result);
         return MapToDto(result);
     }
     public Result<TDto> Get(int id)
