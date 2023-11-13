@@ -25,7 +25,7 @@ namespace Explorer.Stakeholders.Tests.Integration.TourProblem
             var dbContext = scope.ServiceProvider.GetRequiredService<ToursContext>();
             var newEntity = new TourProblemDto()
             {
-                Id = -15,
+                Id = -1,
                 ProblemCategory = "CATEGORY 1",
                 ProblemPriority = "PRIORITY 1",
                 Description = "Test Problem Description",
@@ -180,6 +180,54 @@ namespace Explorer.Stakeholders.Tests.Integration.TourProblem
             result.ShouldNotBeNull();
             result.StatusCode.ShouldBe(404);
         }
+
+
+        [Theory]
+        [InlineData(-1, "Test Response", -15,200)]
+        [InlineData(-2, "", -8000, 404)]
+        public void RespondToProblem_tests(int id, string response, int tourProblemId, int expectedResponseCode)
+        {
+            using var scope = Factory.Services.CreateScope();
+            var controller = CreateController(scope);
+            var dbContext = scope.ServiceProvider.GetRequiredService<ToursContext>();
+            var newTourProblemResponseEntity = new TourProblemResponseDto()
+            {
+                Id = id,
+                Response = response,
+                TimeStamp = DateTime.UtcNow,
+                TourProblemId = tourProblemId,
+                CommenterId = expectedResponseCode
+            };
+
+            var result =
+                ((ObjectResult)controller.RespondToProblem(tourProblemId, newTourProblemResponseEntity));
+
+            var resultEntity = result.Value as TourProblemResponseDto;
+
+            resultEntity.ShouldNotBeNull();
+            resultEntity.TimeStamp.ShouldBe(newTourProblemResponseEntity.TimeStamp);
+            resultEntity.Response.ShouldBe(newTourProblemResponseEntity.Response);
+            resultEntity.CommenterId.ShouldBe(newTourProblemResponseEntity.CommenterId);
+            resultEntity.TourProblemId.ShouldBe(newTourProblemResponseEntity.TourProblemId);
+
+            result.StatusCode.ShouldBe(200);
+        }
+
+
+        [Theory]
+        [InlineData(-1)]
+        [InlineData(-2)]
+        public void GetProblemResponses_tests(int tourProblemId)
+        {
+            using var scope = Factory.Services.CreateScope();
+            var controller = CreateController(scope);
+            var dbContext = scope.ServiceProvider.GetRequiredService<ToursContext>();
+
+
+            //NEEDS FURTHER IMEPLEMENTATION
+        }
+
+
 
 
         private static TourProblemTouristController CreateController(IServiceScope scope)
