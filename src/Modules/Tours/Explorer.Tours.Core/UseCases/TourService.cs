@@ -164,9 +164,6 @@ namespace Explorer.Tours.Core.UseCases
         {
             tour.Status = API.Dtos.AccountStatus.ARCHIVED;
         
-            return tour;
-        }
-
 
     }
 }
