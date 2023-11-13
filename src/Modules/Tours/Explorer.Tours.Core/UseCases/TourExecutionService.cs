@@ -24,7 +24,7 @@ namespace Explorer.Tours.Core.UseCases
         {
             TourExecution tourExecution = new TourExecution() {TouristId = dto.TouristId, TourId = dto.TourId, StartTime = dto.StartTime, 
                                                                EndTime = dto.EndTime, Completed = dto.Completed, Abandoned = dto.Abandoned,
-                                                               CurrentLatitude = dto.CurrentLatitude, CurrentLongitude = dto.CurrentLongitude};
+                                                               CurrentLatitude = dto.CurrentLatitude, CurrentLongitude = dto.CurrentLongitude, LastActivity = dto.LastActivity};
             tourExecution = _tourExecutionRepository.Create(tourExecution);
             
             return Result.Ok();
@@ -46,6 +46,24 @@ namespace Explorer.Tours.Core.UseCases
             tourExecution.EndTime = DateTime.UtcNow;
             _tourExecutionRepository.Update(tourExecution);
             return Result.Ok();
+        }
+
+        public Result<TourExecutionDto> GetTourExecution(int userId)
+        {
+            Result<PagedResult<TourExecutionDto>> pagedResult = GetPaged(1, int.MaxValue);
+            TourExecutionDto foundItem;
+            if (pagedResult.IsSuccess)
+            {
+                PagedResult<TourExecutionDto> pagedData = pagedResult.Value;
+                List<TourExecutionDto> allItems = pagedData.Results;
+                foundItem = allItems.FirstOrDefault(dto => dto.TouristId == userId && dto.EndTime == null);   
+            }
+            else
+            {
+                return new Result<TourExecutionDto>();
+            }
+
+            return foundItem;
         }
     }
 

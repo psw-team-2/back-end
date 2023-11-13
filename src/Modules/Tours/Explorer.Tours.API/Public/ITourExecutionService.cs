@@ -13,5 +13,6 @@ namespace Explorer.Tours.API.Public
         Result StartTour(TourExecutionDto dto);
         Result<TourExecutionDto> CompleteTour(int tourExecutionId);
         Result<TourExecutionDto> AbandonTour(int tourExecutionId);
+        Result<TourExecutionDto> GetTourExecution (int userId);
     }
 }
