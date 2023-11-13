@@ -89,6 +89,7 @@ namespace Explorer.API.Controllers.Author
         {
             var averageGrade = _tourService.GetAverageGradeForTour(tourId);
             return CreateResponse(averageGrade);
+        }
 
         [HttpPut("publish/{tourId:int}")]
         public ActionResult<TourDto> PublishTour([FromBody] TourDto tour)
