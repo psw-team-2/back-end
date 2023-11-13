@@ -68,10 +68,11 @@ namespace Explorer.Tours.Core.UseCases
             tourReviewDto.ReviewDate = DateTime.UtcNow;
             var tour = _tourRepository.GetOne((int)tourReviewDto.TourId);
             TourReview tourReview = new TourReview(tourReviewDto.Grade, tourReviewDto.Comment, tourReviewDto.UserId, tourReviewDto.VisitDate, tourReviewDto.ReviewDate, tourReviewDto.Images, tour.Id);
-            tour.AddTourReview(tourReview);
+            tour.AddTourReview(tourReview); 
             _tourRepository.Update(tour);
             return MapToDto(tourReview);
         }
+
         /*
         public double GetAverageGradeForTour(int tourId)
         {
