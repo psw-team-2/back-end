@@ -11,7 +11,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Explorer.BuildingBlocks.Core;
 using FluentResults;
-using FluentResults;
 
 
 namespace Explorer.Tours.Core.UseCases

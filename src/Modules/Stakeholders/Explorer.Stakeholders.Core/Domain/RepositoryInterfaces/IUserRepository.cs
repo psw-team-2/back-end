@@ -12,4 +12,5 @@ public interface IUserRepository
     User Get(int id);
     List<long> GetAllUserIds();
     Result<object> GetUserById(long userId);
+    public Result GetUserById(int userId);
 }
