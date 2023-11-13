@@ -44,6 +44,10 @@ namespace Explorer.API.Controllers.Author
         [HttpPut("{id:int}")]
         public ActionResult<TourDto> Update([FromBody] TourDto tour)
         {
+            if(tour.Status == AccountStatus.PUBLISHED) 
+            {
+                tour.PublishTime = DateTime.UtcNow;
+            }
             var result = _tourService.Update(tour);
             return CreateResponse(result);
         }
