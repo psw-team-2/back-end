@@ -56,5 +56,12 @@ namespace Explorer.Blog.Infrastructure.Database.Repositories
             }
             return (UserBlog)blog;
         }
+
+        public List<UserBlog> GetByStatus(BlogStatus status)
+        {
+            return _dbContext.Blogs
+                .Where(b => b.Status == status)
+                .ToList();
+        }
     }
 }

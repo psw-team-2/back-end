@@ -122,6 +122,18 @@ namespace Explorer.API.Controllers.Tourist
             return CreateResponse(count);
         }
 
+        [HttpGet("byStatus/{status}")]
+        public ActionResult<PagedResult<UserBlogDto>> GetByStatus(BlogStatus status)
+        {
+            var blogsDtos = _userBlogService.GetByStatus(status);
+
+            if (blogsDtos == null || !blogsDtos.Any())
+            {
+                return NotFound("No blogs found for the specified status.");
+            }
+
+            return Ok(blogsDtos);
+        }
 
     }
 }
