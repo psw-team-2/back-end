@@ -151,6 +151,7 @@ namespace Explorer.Tours.Core.UseCases
             }).ToList();
 
             return reviewsDto;
+        }
         public Result<TourDto> PublishTour(TourDto tour)
         {
             //DODATI KOLOMETRAZU I VREME

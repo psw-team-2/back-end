@@ -32,7 +32,7 @@ namespace Explorer.Tours.Tests.Integration
                 Id = -1,
                 Name = "New Tour",
                 Description = "Description of the new tour",
-                Status = AccountStatus.STARTED,
+                Status = AccountStatus.DRAFT,
                 Difficulty = 3,
                 Price = 50.0,
                 Tags = "Adventure, Hiking",
@@ -64,7 +64,7 @@ namespace Explorer.Tours.Tests.Integration
             {
                 Name = "",
                 Description = "",
-                Status = AccountStatus.STARTED,
+                Status = AccountStatus.DRAFT,
                 Difficulty = 0,
                 Price = 50.0,
                 Tags = "",
@@ -92,7 +92,7 @@ namespace Explorer.Tours.Tests.Integration
                 Id = -1, // Replace with a valid tour ID from your test data
                 Name = "Updated Tour Name",
                 Description = "Updated tour description",
-                Status = AccountStatus.STARTED,
+                Status = AccountStatus.DRAFT,
                 Difficulty = 4,
                 Price = 75.0,
                 Tags = "Updated, Adventure",
