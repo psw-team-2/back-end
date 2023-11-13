@@ -123,7 +123,7 @@ namespace Explorer.API.Controllers.Tourist
         }
 
         [HttpGet("byStatus/{status}")]
-        public ActionResult<PagedResult<UserBlogDto>> GetByStatus(BlogStatus status, [FromQuery] int page, [FromQuery] int pageSize)
+        public ActionResult<PagedResult<UserBlogDto>> GetByStatus(BlogStatus status, [FromQuery] int page = 1, [FromQuery] int pageSize = 12)
         {
             var blogsDtos = _userBlogService.GetByStatus(status, page, pageSize);
             
