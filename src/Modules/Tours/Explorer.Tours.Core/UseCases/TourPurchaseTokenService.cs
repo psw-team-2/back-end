@@ -38,8 +38,9 @@ namespace Explorer.Tours.Core.UseCases
                 //item.isPurchased = true;
                 //u OrderItemService u metodi GetOrderItemsByShoppingCart izmeni da se dodaju samo one kod kojih je isPurchased=false
                 shoppingCart.RemoveItem(item.Id);
-                _shoppingCartRepository.Update(shoppingCart);
-            }           
+            }    
+            shoppingCart.TotalPrice = 0;
+            _shoppingCartRepository.Update(shoppingCart);
 
             return Result.Ok();
         }

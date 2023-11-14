@@ -31,10 +31,8 @@ namespace Explorer.API.Controllers.Tourist
         [HttpPost("createTokens/{userId}")]
         public ActionResult CreateTourPurchaseToken([FromBody] List<OrderItemDto> orderItems, [FromRoute] int userId)
         {
-
             var result = _tourPurchaseTokenService.CreateTourPurchaseToken(orderItems, userId);
-            return CreateResponse(result);
-           
+            return CreateResponse(result);          
         }
 
 

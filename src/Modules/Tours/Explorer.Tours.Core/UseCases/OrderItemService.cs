@@ -33,7 +33,7 @@ namespace Explorer.Tours.Core.UseCases
                     Id = (int)item.Id,
                     TourId = item.TourId,
                     TourName = item.TourName,
-                    Price = new PriceDto { Amount = item.Price.Amount },   
+                    Price = item.Price,   
                     ShoppingCartId = shoppingCartId
                 };
                 dtosForItems.Add(dto);

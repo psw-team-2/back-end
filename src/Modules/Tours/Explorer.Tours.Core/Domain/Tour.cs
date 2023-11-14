@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
+using Explorer.Tours.API.Dtos;
 
 namespace Explorer.Tours.Core.Domain
 {
@@ -18,7 +19,7 @@ namespace Explorer.Tours.Core.Domain
 
         // public bool IsDeleted { get; set; } = false;
 
-        public Tour(String name, String description, AccountStatus status,int difficulty, Price price, String? tags) : base(name,description, status,difficulty, price, tags)
+        public Tour(String name, String description, AccountStatus status,int difficulty, double price, String? tags) : base(name,description, status,difficulty, price, tags)
         {
             if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("Invalid Name.");
             if (string.IsNullOrWhiteSpace(description)) throw new ArgumentException("Invalid description.");

@@ -21,6 +21,7 @@ namespace Explorer.Tours.API.Public
         public Result<ShoppingCartDto> RemoveItem(int shoppingCartId, int itemId);
         public Result<ShoppingCartDto> GetShoppingCartByUserId(int userId);
         public Result<ShoppingCartDto> RemoveAllItems(int shoppingCartId);
+        public Result<double> GetTotalPriceByUserId(int userId);
 
     }
 }

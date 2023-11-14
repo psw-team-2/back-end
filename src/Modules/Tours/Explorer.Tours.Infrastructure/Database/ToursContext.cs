@@ -28,9 +28,9 @@ public class ToursContext : DbContext
             .WithOne()
             .HasForeignKey<TourProblem>(s => s.TourId);
 
-        modelBuilder.Entity<OrderItem>().Property(item => item.Price).HasColumnType("jsonb");
+        /*modelBuilder.Entity<OrderItem>().Property(item => item.Price).HasColumnType("jsonb");
         modelBuilder.Entity<ShoppingCart>().Property(sc => sc.TotalPrice).HasColumnType("jsonb");
-        modelBuilder.Entity<Tour>().Property(sc => sc.Price).HasColumnType("jsonb");
+        modelBuilder.Entity<Tour>().Property(sc => sc.Price).HasColumnType("jsonb");*/
 
 
     }

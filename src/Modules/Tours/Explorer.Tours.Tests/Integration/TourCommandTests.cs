@@ -34,7 +34,7 @@ namespace Explorer.Tours.Tests.Integration
                 Description = "Description of the new tour",
                 Status = AccountStatus.STARTED,
                 Difficulty = 3,
-                Price = new PriceDto { Amount = 50.0 },
+                Price = 50.0,
                 Tags = "Adventure, Hiking",
                 Equipments = new List<int> { 1, 2 },
                 CheckPoints = new List<long> { 123, 456 }
@@ -66,7 +66,7 @@ namespace Explorer.Tours.Tests.Integration
                 Description = "",
                 Status = AccountStatus.STARTED,
                 Difficulty = 0,
-                Price = new PriceDto { Amount = 50.0 },
+                Price = 50.0,
                 Tags = "",
                 Equipments = new List<int> {  },
                 CheckPoints = new List<long> { }
@@ -94,7 +94,7 @@ namespace Explorer.Tours.Tests.Integration
                 Description = "Updated tour description",
                 Status = AccountStatus.STARTED,
                 Difficulty = 4,
-                Price = new PriceDto { Amount = 75.0 },
+                Price = 75.0,
                 Tags = "Updated, Adventure",
                 Equipments = new List<int> { 3, 4 },
                 CheckPoints = new List<long> { 789, 101 }
@@ -134,7 +134,7 @@ namespace Explorer.Tours.Tests.Integration
                 Description = "Update fail TEST",
                 Status = AccountStatus.DRAFT,
                 Difficulty = 0,
-                Price = new PriceDto { Amount = 50.0 },
+                Price = 50.0,
                 Tags = "Update fail TEST",
                 Equipments = new List<int> { },
                 CheckPoints = new List<long> { }

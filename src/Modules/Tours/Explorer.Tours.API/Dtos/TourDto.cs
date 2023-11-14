@@ -23,7 +23,7 @@ namespace Explorer.Tours.API.Dtos
         public string Description { get; set; }
         public AccountStatus Status { get; set; }
         public int Difficulty { get; set; }
-        public PriceDto Price { get; set; }
+        public double Price { get; set; }
         public String? Tags { get; set; }
         public List<int>? Equipments { get; set; }
         public List<long>? CheckPoints { get; set; }

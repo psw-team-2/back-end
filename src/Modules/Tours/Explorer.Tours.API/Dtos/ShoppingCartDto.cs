@@ -12,7 +12,7 @@ namespace Explorer.Tours.API.Dtos
         public int Id { get; set; }
         public long UserId { get; set; }
         public List<int>? Items { get; set; }
-        public PriceDto TotalPrice { get; set; }
+        public double TotalPrice { get; set; }
     }
 }
 

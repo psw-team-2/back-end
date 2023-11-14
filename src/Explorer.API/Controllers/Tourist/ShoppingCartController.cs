@@ -94,6 +94,12 @@ namespace Explorer.API.Controllers.Tourist
             return CreateResponse(result);
         }
 
+        [HttpGet("totalPrice/{userId:int}")]
+        public ActionResult<double> GetTotalPriceByUserId(int userId)
+        {
+            var result = _shoppingCartService.GetTotalPriceByUserId(userId);
+            return CreateResponse(result);
+        }
 
     }
 }

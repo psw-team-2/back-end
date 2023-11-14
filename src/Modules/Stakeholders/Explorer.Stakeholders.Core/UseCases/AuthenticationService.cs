@@ -6,6 +6,8 @@ using Explorer.Stakeholders.Core.Domain.RepositoryInterfaces;
 using FluentResults;
 using System.ComponentModel;
 using UserRole = Explorer.Stakeholders.Core.Domain.UserRole;
+using Explorer.Tours.API.Public;
+using Explorer.Tours.Core.Domain;
 
 namespace Explorer.Stakeholders.Core.UseCases;
 
@@ -16,14 +18,16 @@ public class AuthenticationService : IAuthenticationService
     private readonly ICrudRepository<Person> _personRepository;
     private readonly ICrudRepository<Profile> _profileRepository;
     private readonly ITourPreferenceService _tourPreferenceService;
+    private readonly IShoppingCartService _shoppingCartService;
 
-    public AuthenticationService(IUserRepository userRepository, ICrudRepository<Person> personRepository, ITokenGenerator tokenGenerator, ICrudRepository<Profile> profileRepository, ITourPreferenceService tourPreferenceService)
+    public AuthenticationService(IUserRepository userRepository, ICrudRepository<Person> personRepository, ITokenGenerator tokenGenerator, ICrudRepository<Profile> profileRepository, ITourPreferenceService tourPreferenceService, IShoppingCartService shoppingCartService)
     {
         _tokenGenerator = tokenGenerator;
         _userRepository = userRepository;
         _personRepository = personRepository;
         _profileRepository = profileRepository;
         _tourPreferenceService = tourPreferenceService;
+        _shoppingCartService = shoppingCartService;
     }
 
     public Result<AuthenticationTokensDto> Login(CredentialsDto credentials)
@@ -54,8 +58,13 @@ public class AuthenticationService : IAuthenticationService
             var profile = _profileRepository.Create(new Profile(account.Name, account.Surname, account.ProfilePicture, account.Biography, account.Motto, user.Id, true));
 
             //kreiranje korpe
-            List<OrderItem> items = new List<OrderItem>();
-            ShoppingCart shoppingCart = new ShoppingCart((int)user.Id, items);
+            var shoppingCart = _shoppingCartService.Create(new Tours.API.Dtos.ShoppingCartDto
+                    {
+                        Id = (int)user.Id,
+                        UserId = user.Id,
+                        Items = new List<int>(),
+                        TotalPrice = 0
+                    });
 
             var tourPreference = _tourPreferenceService.Create(
                     new TourPreferenceDto

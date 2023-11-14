@@ -12,9 +12,8 @@ namespace Explorer.Tours.Core.Domain.RepositoryInterfaces
     public interface IShoppingCartRepository
     {
         public ShoppingCart GetById(int shoppingCartId);
-        //public List<OrderItem> GetAllItemsForShoppingCart(long shoppingCartId);
         public void Update(ShoppingCart shoppingCart);
-        //public void UpdateTotalPrice(ShoppingCart shoppingCart);
         public ShoppingCart GetShoppingCartByUserId(int userId);
+        public double GetTotalPriceByUserId(int userId);
     }
 }
