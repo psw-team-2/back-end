@@ -1,4 +1,5 @@
-﻿using Explorer.Tours.Core.Domain;
+﻿using Explorer.Tours.API.Dtos;
+using Explorer.Tours.Core.Domain;
 using Explorer.Tours.Core.Domain.RepositoryInterfaces;
 using System;
 using System.Collections.Generic;
@@ -21,5 +22,6 @@ namespace Explorer.Tours.Infrastructure.Database.Repositories
         {
             return _dbContext.Secrets.FirstOrDefault(s => s.CheckPointId == checkPointId);
         }
+
     }
 }

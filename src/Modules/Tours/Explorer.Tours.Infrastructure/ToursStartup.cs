@@ -39,6 +39,7 @@ public static class ToursStartup
         services.AddScoped<ITourReviewService, TourReviewService>();
         services.AddScoped<ICheckpointVisitedService, CheckpointVisitedService>();
         services.AddScoped<ITourExecutionService, TourExecutionService>();
+        services.AddScoped<ISecretService, SecretService>();
     }
 
     private static void SetupInfrastructure(IServiceCollection services)
@@ -58,6 +59,7 @@ public static class ToursStartup
         services.AddScoped<ITourExecutionRepository, TourExecutionRepository>();
         services.AddScoped(typeof(ICrudRepository<TourExecution>), typeof(CrudDatabaseRepository<TourExecution, ToursContext>));
         services.AddScoped<ICheckpointVisitedRepository, CheckpointVisitedRepository>();
+        services.AddScoped<ISecretRepository, SecretRepository>();
 
         services.AddDbContext<ToursContext>(opt =>
             opt.UseNpgsql(DbConnectionStringBuilder.Build("tours"),

@@ -17,7 +17,7 @@ namespace Explorer.Tours.API.Dtos
         public bool Abandoned { get; set; }
         public double CurrentLatitude { get; set; }
         public double CurrentLongitude { get; set; }
-        //public List<int> VisitedCheckpoints { get; set; }
+        public List<int>? VisitedCheckpoints { get; set; }
         public DateTime LastActivity { get; set; }
     }
 }

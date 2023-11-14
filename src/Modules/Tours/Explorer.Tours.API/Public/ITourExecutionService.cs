@@ -15,6 +15,6 @@ namespace Explorer.Tours.API.Public
         Result<TourExecutionDto> CompleteTour(int tourExecutionId);
         Result<TourExecutionDto> AbandonTour(int tourExecutionId);
         Result<TourExecutionDto> GetTourExecution (int userId);
-       // public Result<TourExecutionDto> CompleteCheckpoint(int userId, List<CheckPointDto> checkpoints);
+       public Result<TourExecutionDto> CompleteCheckpoint(int userId, List<CheckPointDto> checkpoints);
     }
 }

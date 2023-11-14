@@ -13,9 +13,12 @@ namespace Explorer.API.Controllers
     public class TourExecutionController : BaseApiController
     {
             private readonly ITourExecutionService _tourExecutionService;
-            public TourExecutionController(ITourExecutionService tourExecutionService)
+            //private readonly ISecretService _secretService;
+
+            public TourExecutionController(ITourExecutionService tourExecutionService, ISecretService secretService)
             {
                 _tourExecutionService = tourExecutionService;
+                //_secretService = secretService;
             }
             
             [HttpPost("start")]
@@ -37,6 +40,13 @@ namespace Explorer.API.Controllers
                 var result = _tourExecutionService.GetTourExecution(userId);
                 return CreateResponse(result);
             }
+
+            /*[HttpGet("getSecret/{userId:int}")]
+            public ActionResult<SecretDto> GetSecretForCheckPoint(int cpId)
+            {
+                var result = _secretService.GetSecretForCheckPoint(cpId);
+                return CreateResponse(result);
+            }*/
 
             [HttpPost("complete/{tourExecutionId:int}")]
             public ActionResult CompleteTour(int tourExecutionId)
@@ -66,12 +76,19 @@ namespace Explorer.API.Controllers
                 }
             }
 
-        [HttpPut("{id:int}")]
-        public ActionResult<CheckPointDto> Update([FromBody] TourExecutionDto tourExecution)
-        {
-            tourExecution.LastActivity = DateTime.UtcNow;
-            var result = _tourExecutionService.Update(tourExecution);
-            return CreateResponse(result);
-        }
+            [HttpPut("{id:int}")]
+            public ActionResult<TourExecutionDto> Update([FromBody] TourExecutionDto tourExecution)
+            {
+                tourExecution.LastActivity = DateTime.UtcNow;
+                var result = _tourExecutionService.Update(tourExecution);
+                return CreateResponse(result);
+            }
+
+            [HttpPut("checkpointComplete/{tourExecutionId:int}")]
+            public ActionResult<TourExecutionDto> CompleteCheckpoint( int tourExecutionId, [FromBody] List<CheckPointDto> checkpoints)
+            {
+                var result = _tourExecutionService.CompleteCheckpoint(tourExecutionId, checkpoints);
+                return CreateResponse(result);
+            }
     }
 }

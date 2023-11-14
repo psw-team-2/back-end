@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Explorer.BuildingBlocks.Core.UseCases;
+using Explorer.Stakeholders.Core.Domain;
 using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public;
 using Explorer.Tours.Core.Domain;
@@ -10,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper.Internal.Mappers;
 
 namespace Explorer.Tours.Core.UseCases
 {
@@ -26,9 +28,11 @@ namespace Explorer.Tours.Core.UseCases
         {
             TourExecution tourExecution = new TourExecution() {TouristId = dto.TouristId, TourId = dto.TourId, StartTime = dto.StartTime, 
                                                                EndTime = dto.EndTime, Completed = dto.Completed, Abandoned = dto.Abandoned,
-                                                               CurrentLatitude = dto.CurrentLatitude, CurrentLongitude = dto.CurrentLongitude, LastActivity = dto.LastActivity};
+                                                               CurrentLatitude = dto.CurrentLatitude, CurrentLongitude = dto.CurrentLongitude, LastActivity = dto.LastActivity, VisitedCheckpoints = dto.VisitedCheckpoints};
             tourExecution = _tourExecutionRepository.Create(tourExecution);
-            
+            CheckpointVisited cp = new CheckpointVisited(tourExecution.TouristId, tourExecution.VisitedCheckpoints[0], DateTime.UtcNow);
+            _checkpointVisitedRepository.Add(cp);
+
             return Result.Ok();
         }
 
@@ -68,7 +72,7 @@ namespace Explorer.Tours.Core.UseCases
             return foundItem;
         }
 
-        /*public Result<TourExecutionDto> CompleteCheckpoint(int userId, List<CheckPointDto> checkpoints)
+        public Result<TourExecutionDto> CompleteCheckpoint(int userId, List<CheckPointDto> checkpoints)
         {
             Result<PagedResult<TourExecutionDto>> pagedResult = GetPaged(1, int.MaxValue);
             TourExecutionDto foundItem;
@@ -101,10 +105,10 @@ namespace Explorer.Tours.Core.UseCases
                         foundItem.VisitedCheckpoints.Add(checkPoint.Id);
                         CheckpointVisited cp = new CheckpointVisited(userId, checkPoint.Id, DateTime.UtcNow);
                         _checkpointVisitedRepository.Add(cp);
+                        
                     }                   
                 }
             }
-
             foundItem.LastActivity = DateTime.UtcNow;
             Update(foundItem);
             return foundItem;
@@ -113,7 +117,7 @@ namespace Explorer.Tours.Core.UseCases
         private double ToRadians(double degrees)
         {
             return degrees * (Math.PI / 180.0);
-        }*/
+        }
     }
 
 }

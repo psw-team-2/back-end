@@ -1,4 +1,5 @@
-﻿using FluentResults;
+﻿using Explorer.Tours.API.Dtos;
+using FluentResults;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace Explorer.Tours.API.Public
 {
     public interface ISecretService
     {
-        Result GetSecretForCheckPoint(int checkPointId);
+        Result<SecretDto> GetSecretForCheckPoint(int checkPointId);
     }
 }
 
