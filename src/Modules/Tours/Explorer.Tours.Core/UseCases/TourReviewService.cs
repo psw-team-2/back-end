@@ -59,14 +59,19 @@ namespace Explorer.Tours.Core.UseCases
             {
                 return Result.Fail("Tour execution LastActivity is more than one week ago");
             }
-
+            
             if (tourExecution.TourId != tourReviewDto.TourId || tourExecution.TouristId != loggedInUserId)
             {
                 return Result.Fail("TourId or TouristId does not match the specified tour execution");
             }
 
+            var tour = _tourRepository.GetOne(tourExecution.TourId);
+                
+            if(tourExecution.TouristDistance < 0.35 * tour.TotalLength) 
+            {
+                return Result.Fail("Tourist has not completed 35% of the tour");
+            }
             tourReviewDto.ReviewDate = DateTime.UtcNow;
-            var tour = _tourRepository.GetOne((int)tourReviewDto.TourId);
             TourReview tourReview = new TourReview(tourReviewDto.Grade, tourReviewDto.Comment, tourReviewDto.UserId, tourReviewDto.VisitDate, tourReviewDto.ReviewDate, tourReviewDto.Images, tour.Id);
             tour.AddTourReview(tourReview); 
             _tourRepository.Update(tour);
