@@ -14,9 +14,11 @@ namespace Explorer.API.Controllers.Tourist
     public class BlogCommentController : BaseApiController
     {
         private readonly IBlogCommentService _blogCommentService;
-        public BlogCommentController(IBlogCommentService blogCommentService)
+        private readonly IUserBlogService _blogService;
+        public BlogCommentController(IBlogCommentService blogCommentService, IUserBlogService blogService)
         {
             _blogCommentService = blogCommentService;
+            _blogService = blogService;
         }
 
         [HttpGet]
@@ -29,7 +31,7 @@ namespace Explorer.API.Controllers.Tourist
         [HttpPost]
         public ActionResult<BlogCommentDto> Create([FromBody] BlogCommentDto comment)
         {
-            var result = _blogCommentService.Create(comment);
+            var result = _blogService.AddComment(comment);
             return CreateResponse(result);
         }
 
@@ -45,6 +47,19 @@ namespace Explorer.API.Controllers.Tourist
         {
             var result = _blogCommentService.Delete(id);
             return CreateResponse(result);
+        }
+
+        [HttpGet("byBlog/{blogId}")]
+        public ActionResult<PagedResult<BlogCommentDto>> GetCommentsByBlogId(int blogId)
+        {
+            var reviewsDto = _blogCommentService.GetCommentsByBlogId(blogId);
+
+            if (reviewsDto == null || !reviewsDto.Any())
+            {
+                return NotFound("No reviews found for the specified tour ID.");
+            }
+
+            return Ok(reviewsDto);
         }
     }
 }
