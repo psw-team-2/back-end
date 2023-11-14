@@ -14,13 +14,15 @@ namespace Explorer.Tours.Core.Domain
         public string TourName { get; init; }
         public double Price { get; init; }
         public long ShoppingCartId { get; init; }
+        public bool IsBought { get; init; }
 
-        public OrderItem(int tourId, string tourName, double price, long shoppingCartId)
+        public OrderItem(int tourId, string tourName, Price price, long shoppingCartId, bool isBought)
         {
             TourId = tourId;
             TourName = tourName;
             Price = price;
             ShoppingCartId = shoppingCartId;
+            IsBought = isBought;
         }
     }
 }

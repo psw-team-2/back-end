@@ -34,7 +34,9 @@ namespace Explorer.Tours.Core.UseCases
                     TourId = item.TourId,
                     TourName = item.TourName,
                     Price = item.Price,   
-                    ShoppingCartId = shoppingCartId
+                    ShoppingCartId = shoppingCartId,
+                    IsBought = item.IsBought
+
                 };
                 dtosForItems.Add(dto);
             }

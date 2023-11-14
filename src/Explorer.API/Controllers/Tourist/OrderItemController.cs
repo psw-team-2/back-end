@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Claims;
 using FluentResults;
+using Explorer.Stakeholders.API.Dtos;
 
 namespace Explorer.API.Controllers.Tourist;
 
@@ -30,4 +31,10 @@ public class OrderItemController : BaseApiController
         return CreateResponse(result);
     }
 
+    [HttpPut("update/{id:int}")]
+    public ActionResult<OrderItemDto> Update([FromBody] OrderItemDto orderItem)
+    {
+        var result = _orderItemService.Update(orderItem);
+        return CreateResponse(result);
+    }
 }

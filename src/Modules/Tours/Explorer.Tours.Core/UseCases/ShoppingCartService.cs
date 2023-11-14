@@ -43,7 +43,7 @@ namespace Explorer.Tours.Core.UseCases
                 Tour tour = _tourRepository.Get(tourId);
                 if (shoppingCartDto != null)
                 {
-                    OrderItem orderItem = new OrderItem(tourId, tour.Name, tour.Price, shoppingCartDto.Id);
+                    OrderItem orderItem = new OrderItem(tourId, tour.Name, tour.Price, shoppingCartDto.Id, false);
                     _crudOrderItemRepository.Create(orderItem);
 
                     ShoppingCart shoppingCart = _shoppingCartRepository.GetById(shoppingCartDto.Id);
