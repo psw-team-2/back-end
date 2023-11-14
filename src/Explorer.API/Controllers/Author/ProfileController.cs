@@ -16,12 +16,14 @@ namespace Explorer.API.Controllers.Administrator.Administration
     public class ProfileController : BaseApiController
     {
         private readonly IProfileService _profileService;
+        private readonly IUserAccountAdministrationService _userService;
         private readonly IWebHostEnvironment _environment;
 
-        public ProfileController(IProfileService profileService, IWebHostEnvironment environment)
+        public ProfileController(IProfileService profileService, IUserAccountAdministrationService userService, IWebHostEnvironment environment)
         {
             _profileService = profileService;
             _environment = environment;
+            _userService = userService;
         }
 
 
@@ -39,7 +41,7 @@ namespace Explorer.API.Controllers.Administrator.Administration
             if (userIdClaim != null && int.TryParse(userIdClaim.Value, out int id))
             {
 
-                var result = _profileService.GetByUserId(id);
+                var result = _userService.GetByUserId(id);
                 return CreateResponse(result);
             }
             else
@@ -97,21 +99,21 @@ namespace Explorer.API.Controllers.Administrator.Administration
         [HttpPut("AddFollow")]
         public ActionResult AddFollow(FollowDto followDto)
         {
-            var result = _profileService.AddFollow(followDto);
+            var result = _userService.AddFollow(followDto);
             return CreateResponse(result);
         }
 
         [HttpGet("all-followers/{profileId:int}")]
         public ActionResult<PagedResult<ProfileDto>> GetAllFollowers([FromQuery] int page, [FromQuery] int pageSize, long profileId)
         {
-            var result = _profileService.GetAllFollowers(page, pageSize, profileId);
+            var result = _userService.GetAllFollowers(page, pageSize, profileId);
             return CreateResponse(result);
         }
 
         [HttpGet("all-following/{profileId:int}")]
         public ActionResult<PagedResult<ProfileDto>> GetAllFollowing([FromQuery] int page, [FromQuery] int pageSize, long profileId)
         {
-            var result = _profileService.GetAllFollowing(page, pageSize, profileId);
+            var result = _userService.GetAllFollowing(page, pageSize, profileId);
             return CreateResponse(result);
         }
     }

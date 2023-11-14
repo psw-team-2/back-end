@@ -13,10 +13,12 @@ namespace Explorer.API.Controllers.Author
     public class MessageContoller2 : BaseApiController
     {
         private readonly IMessageService _messageService;
+        private readonly IUserAccountAdministrationService _userService;
 
-        public MessageContoller2(IMessageService messageService)
+        public MessageContoller2(IMessageService messageService, IUserAccountAdministrationService userService)
         {
             _messageService = messageService;
+            _userService = userService;
         }
 
         [HttpPost]
@@ -29,7 +31,7 @@ namespace Explorer.API.Controllers.Author
         [HttpGet("unread-messages/{profileId:int}")]
         public ActionResult<PagedResult<MessageDto>> GetUnreadMessages([FromQuery] int page, [FromQuery] int pageSize, long profileId)
         {
-            var result = _messageService.GetUnreadMessages(page, pageSize, profileId);
+            var result = _userService.GetUnreadMessages(page, pageSize, profileId);
             return CreateResponse(result);
         }
 

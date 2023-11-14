@@ -26,21 +26,5 @@ namespace Explorer.Stakeholders.Core.UseCases
             _profileService = profileService;
             _mapper = mapper;
         }
-
-        public Result<PagedResult<MessageDto>> GetUnreadMessages(int page, int pageSize, long profileId)
-        {
-            // Get all unread messages for the specified profile ID
-            var unreadMessages = _messageRepository.GetAll()
-                .Where(message => message.ReceiverId == profileId && message.Status == 0)
-                .ToList();
-
-            // Optionally, you can map the unread messages to MessageDto if needed.
-            var unreadMessageDtos = _mapper.Map<List<MessageDto>>(unreadMessages);
-
-            // Create a paged result based on your custom PagedResult class
-            var pagedResult = Result.Ok(new PagedResult<MessageDto>(unreadMessageDtos, unreadMessageDtos.Count));
-
-            return pagedResult;
-        }
     }
 }
