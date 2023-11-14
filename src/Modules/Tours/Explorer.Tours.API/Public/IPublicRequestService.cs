@@ -10,5 +10,6 @@ namespace Explorer.Tours.API.Public
         Result<PublicRequestDto> Create(PublicRequestDto publicRequest);
         Result<PublicRequestDto> Update(PublicRequestDto publicRequest);
         Result Delete(int id);
+        Result<IEnumerable<PublicRequestDto>> GetPublicRequestsByUserId(int userId);
     }
 }

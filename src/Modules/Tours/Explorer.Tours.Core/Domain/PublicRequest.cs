@@ -9,5 +9,16 @@ namespace Explorer.Tours.Core.Domain
         public string Comment { get; private set; }
         public bool IsCheckPoint { get; private set; }
         public bool IsNotified { get; private set; }
+        public bool IsApproved { get; private set; }
+
+        public PublicRequest(long entityId, long authorId, string comment, bool isCheckPoint, bool isNotified, bool isApproved)
+        {
+            EntityId = entityId;
+            AuthorId = authorId;
+            Comment = comment;
+            IsCheckPoint = isCheckPoint;
+            IsNotified = isNotified;
+            IsApproved = isApproved;
+        }
     }
 }

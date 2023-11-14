@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Explorer.API.Controllers.Administrator
 {
-    [Authorize(Policy = "administratorPolicy")]
     [Route("api/administrator/publicRequest")]
     [ApiController]
     public class PublicRequestController : BaseApiController
@@ -24,7 +23,7 @@ namespace Explorer.API.Controllers.Administrator
 
         [HttpGet]
         [Authorize(Roles = "administrator")]
-        public ActionResult<PagedResult<TourDto>> GetAll([FromQuery] int page, [FromQuery] int pageSize)
+        public ActionResult<PagedResult<PublicRequestDto>> GetAll([FromQuery] int page, [FromQuery] int pageSize)
         {
             var result = _publicRequestService.GetPaged(page, pageSize);
             return CreateResponse(result);
@@ -34,6 +33,13 @@ namespace Explorer.API.Controllers.Administrator
         public ActionResult<PublicRequestDto> Update([FromBody] PublicRequestDto publicRequest)
         {
             var result = _publicRequestService.Update(publicRequest);
+            return CreateResponse(result);
+        }
+
+        [HttpGet("get/{userId:int}")]
+        public ActionResult<PagedResult<PublicRequestDto>> GetPublicRequestsByUserId(int userId)
+        {
+            var result = _publicRequestService.GetPublicRequestsByUserId(userId);
             return CreateResponse(result);
         }
     }

@@ -7,6 +7,7 @@
         public int AuthorId { get; set; }
         public string Comment { get; set; }
         public bool IsCheckPoint { get; set; }
-        public bool IsNotified{ get; set; }
+        public bool IsNotified { get; set; }
+        public bool IsApproved { get; set; }
     }
 }
