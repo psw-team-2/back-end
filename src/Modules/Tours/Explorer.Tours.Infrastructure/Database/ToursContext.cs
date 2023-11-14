@@ -24,13 +24,12 @@ public class ToursContext : DbContext
     {
         modelBuilder.HasDefaultSchema("tours");
 
+        
+
         modelBuilder.Entity<TourProblem>()
-            .HasOne<Tour>()
-            .WithOne()
-            .HasForeignKey<TourProblem>(s => s.TourId);
-
-
-
+            .HasOne<Tour>() // Dependent entity
+            .WithMany() // Principal entity
+            .HasForeignKey(tp => tp.TourId);
 
 
     }

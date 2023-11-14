@@ -19,7 +19,7 @@ namespace Explorer.Tours.Core.Domain
 
        public long AuthorId { get; set; }
 
-        public Tour(String name, String description, AccountStatus status,int difficulty, double price, String? tags, long authorId) : base(name, description, status, difficulty, price, tags)
+       public Tour(String name, String description, AccountStatus status,int difficulty, double price, String? tags, long authorId) : base(name, description, status, difficulty, price, tags)
         {
             if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("Invalid Name.");
             if (string.IsNullOrWhiteSpace(description)) throw new ArgumentException("Invalid description.");
