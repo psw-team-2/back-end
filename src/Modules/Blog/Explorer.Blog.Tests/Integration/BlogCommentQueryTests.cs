@@ -38,7 +38,7 @@ public class BlogCommentQueryTests : BaseBlogIntegrationTest
 
     private static BlogCommentController CreateController(IServiceScope scope)
     {
-        return new BlogCommentController(scope.ServiceProvider.GetRequiredService<IBlogCommentService>())
+        return new BlogCommentController(scope.ServiceProvider.GetRequiredService<IBlogCommentService>(), scope.ServiceProvider.GetRequiredService<IUserBlogService>())
         {
             ControllerContext = BuildContext("-1")
         };

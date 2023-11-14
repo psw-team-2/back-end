@@ -123,7 +123,6 @@ namespace Explorer.Blog.Core.UseCases
 
         public  Result AddComment(BlogCommentDto blogCommentDto)
         {
-            //var commentDto = _blogCommentService.Create(blogCommentDto);
             BlogComment comment = new BlogComment(blogCommentDto.UserId, blogCommentDto.Username, blogCommentDto.BlogId, blogCommentDto.Text, DateTime.UtcNow, DateTime.UtcNow);
             var blog = _blogRepository.GetById((int)blogCommentDto.BlogId);
             blog.AddComment(comment);
