@@ -13,12 +13,12 @@ namespace Explorer.API.Controllers
     public class TourExecutionController : BaseApiController
     {
             private readonly ITourExecutionService _tourExecutionService;
-            //private readonly ISecretService _secretService;
+            private readonly ISecretService _secretService;
 
             public TourExecutionController(ITourExecutionService tourExecutionService, ISecretService secretService)
             {
                 _tourExecutionService = tourExecutionService;
-                //_secretService = secretService;
+                _secretService = secretService;
             }
             
             [HttpPost("start")]
@@ -41,14 +41,14 @@ namespace Explorer.API.Controllers
                 return CreateResponse(result);
             }
 
-            /*[HttpGet("getSecret/{userId:int}")]
+            [HttpGet("getSecret/{cpId:int}")]
             public ActionResult<SecretDto> GetSecretForCheckPoint(int cpId)
             {
                 var result = _secretService.GetSecretForCheckPoint(cpId);
                 return CreateResponse(result);
-            }*/
+            }
 
-            [HttpPost("complete/{tourExecutionId:int}")]
+            /*[HttpPost("complete/{tourExecutionId:int}")]
             public ActionResult CompleteTour(int tourExecutionId)
             {
                 try
@@ -74,7 +74,7 @@ namespace Explorer.API.Controllers
                 {
                     return BadRequest($"Greška pri napuštanju ture: {ex.Message}");
                 }
-            }
+            }*/
 
             [HttpPut("{id:int}")]
             public ActionResult<TourExecutionDto> Update([FromBody] TourExecutionDto tourExecution)

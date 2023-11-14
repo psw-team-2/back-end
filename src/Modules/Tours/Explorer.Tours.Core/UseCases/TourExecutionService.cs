@@ -36,23 +36,23 @@ namespace Explorer.Tours.Core.UseCases
             return Result.Ok();
         }
 
-        public Result<TourExecutionDto> CompleteTour(int tourExecutionId)
+        /*public Result<TourExecutionDto> CompleteTour(int tourExecutionId)
         {
             TourExecution tourExecution = _tourExecutionRepository.Get(tourExecutionId);
             tourExecution.Completed = true;
             tourExecution.EndTime = DateTime.UtcNow;
             _tourExecutionRepository.Update(tourExecution);
-            return Result.Ok();
-        }
+            return tourExecution;
+        }*/
 
-        public Result<TourExecutionDto> AbandonTour(int tourExecutionId)
-        {
-            TourExecution tourExecution = _tourExecutionRepository.Get(tourExecutionId);
-            tourExecution.Abandoned = true;
-            tourExecution.EndTime = DateTime.UtcNow;
-            _tourExecutionRepository.Update(tourExecution);
-            return Result.Ok();
-        }
+         /*public Result<TourExecutionDto> AbandonTour(int tourExecutionId)
+         {
+             TourExecution tourExecution = _tourExecutionRepository.Get(tourExecutionId);
+             tourExecution.Abandoned = true;
+             tourExecution.EndTime = DateTime.UtcNow;
+             _tourExecutionRepository.Update(tourExecution);
+             return Result.Ok();
+         }*/
 
         public Result<TourExecutionDto> GetTourExecution(int userId)
         {
@@ -81,6 +81,10 @@ namespace Explorer.Tours.Core.UseCases
                 PagedResult<TourExecutionDto> pagedData = pagedResult.Value;
                 List<TourExecutionDto> allItems = pagedData.Results;
                 foundItem = allItems.FirstOrDefault(dto => dto.TouristId == userId && dto.EndTime == null);
+                if(foundItem == null)
+                {
+                    return new Result<TourExecutionDto>();
+                }
             }
             else
             {
@@ -89,6 +93,7 @@ namespace Explorer.Tours.Core.UseCases
 
             foreach(CheckPointDto checkPoint in checkpoints)
             {
+
                 double dLat = ToRadians(checkPoint.Latitude - foundItem.CurrentLatitude);
                 double dLon = ToRadians(checkPoint.Longitude - foundItem.CurrentLongitude);
 

@@ -24,11 +24,7 @@ namespace Explorer.Tours.Core.UseCases
 
         public Result<SecretDto> GetSecretForCheckPoint(int checkPointId)
         {
-            //if (!turistaOtkljucaoTacku(checkPointId))
-            //{
-            //    return Result.Fail("Check point not Unlocked");
-            //}
-            Secret secret = _secretRepository.GetByCheckPointId(checkPointId);//SECRET NAM JE NULL
+            Secret secret = _secretRepository.GetByCheckPointId(checkPointId);
             SecretDto secretDto = new SecretDto()
             {
                 CheckPointId = secret.CheckPointId,
