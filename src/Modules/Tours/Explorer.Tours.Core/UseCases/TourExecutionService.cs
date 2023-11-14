@@ -98,7 +98,7 @@ namespace Explorer.Tours.Core.UseCases
 
                 double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
                 
-                if( c * 6371.0 < 0.5) // 500 metara
+                if( c * 6371.0 < 0.15) // 150 metara
                 {               
                     if(_checkpointVisitedRepository.GetVisitedCheckpoint(userId, checkPoint.Id) == null ) 
                     {
@@ -110,7 +110,7 @@ namespace Explorer.Tours.Core.UseCases
                 }
             }
             foundItem.LastActivity = DateTime.UtcNow;
-            Update(foundItem);
+            //Update(foundItem);
             return foundItem;
         }
 
