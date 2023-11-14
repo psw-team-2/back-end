@@ -19,5 +19,7 @@ namespace Explorer.Tours.API.Dtos
         public double CurrentLongitude { get; set; }
         public List<int>? VisitedCheckpoints { get; set; }
         public DateTime LastActivity { get; set; }
+        public double TouristDistance { get; set; }
+
     }
 }

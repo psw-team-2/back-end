@@ -21,9 +21,10 @@ namespace Explorer.Tours.Core.Domain
         public List<int>? VisitedCheckpoints { get; set; }
         public DateTime LastActivity { get; set; }
 
+        public double TouristDistance { get; set; }
         public TourExecution() { }
 
-        public TourExecution(int touristId, int tourId, DateTime startTime, DateTime lastActivity)
+        public TourExecution(int touristId, int tourId, DateTime startTime, DateTime lastActivity, double touristDistance)
         {
             TouristId = touristId;
             TourId = tourId;
@@ -31,6 +32,7 @@ namespace Explorer.Tours.Core.Domain
             Completed = false;
             Abandoned = false;
             LastActivity = lastActivity;
+            TouristDistance = touristDistance;  
         }
         public void UpdateFromDto(TourExecutionDto dto)
         {
@@ -40,6 +42,7 @@ namespace Explorer.Tours.Core.Domain
             CurrentLatitude = dto.CurrentLatitude;
             CurrentLongitude = dto.CurrentLongitude;
             VisitedCheckpoints = dto.VisitedCheckpoints;
+            TouristDistance = dto.TouristDistance;
         }
     }
 }
