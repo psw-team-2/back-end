@@ -1,5 +1,4 @@
-﻿using Explorer.API.Controllers.Administrator.Administration;
-using Explorer.BuildingBlocks.Core.UseCases;
+﻿using Explorer.BuildingBlocks.Core.UseCases;
 using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public.Administration;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +8,8 @@ using System;
 using Explorer.Stakeholders.Tests;
 using Explorer.Tours.Tests;
 using Xunit;
+using Explorer.API.Controllers.Tourist;
+using Explorer.Tours.API.Public;
 
 namespace Explorer.Stakeholders.Tests.Integration.TourProblem
 {
@@ -25,7 +26,7 @@ namespace Explorer.Stakeholders.Tests.Integration.TourProblem
             var controller = CreateController(scope);
 
             // Act
-            var result = ((ObjectResult)controller.GetAll(0, 0).Result)?.Value as PagedResult<TourProblemDto>;
+            var result = ((ObjectResult)controller.GetAll(1, 0, 0).Result)?.Value as PagedResult<TourProblemDto>;
 
             // Assert
             result.ShouldNotBeNull();
@@ -33,9 +34,9 @@ namespace Explorer.Stakeholders.Tests.Integration.TourProblem
             result.TotalCount.ShouldBe(0);   
         }
 
-        private static TourProblemController CreateController(IServiceScope scope)
+        private static TourProblemTouristController CreateController(IServiceScope scope)
         {
-            return new TourProblemController(scope.ServiceProvider.GetRequiredService<ITourProblemService>())
+            return new TourProblemTouristController(scope.ServiceProvider.GetRequiredService<ITourProblemService>(), scope.ServiceProvider.GetRequiredService<ITourProblemResponseService>())
             {
                 ControllerContext = BuildContext("-1")
             };

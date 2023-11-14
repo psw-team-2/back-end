@@ -1,5 +1,7 @@
 using Explorer.BuildingBlocks.Core.UseCases;
 using Explorer.BuildingBlocks.Infrastructure.Database;
+using Explorer.Stakeholders.API.Public;
+using Explorer.Stakeholders.Core.UseCases;
 using Explorer.Tours.API.Public;
 using Explorer.Tours.API.Public.Administration;
 using Explorer.Tours.API.Public.Author;
@@ -35,10 +37,14 @@ public static class ToursStartup
 
         services.AddScoped<ICheckPointService, CheckPointService>();
         services.AddScoped<ITourService, TourService>();
+
+        services.AddScoped<IUserAccountAdministrationService, UserAccountAdministrationService>();
+
         services.AddScoped<ITouristSelectedEquipmentService, TouristSelectedEquipmentService>();
         services.AddScoped<IObjectService, ObjectService>();
         services.AddScoped<ITourReviewService, TourReviewService>();
         services.AddScoped<IPublicRequestService, PublicRequestService>();
+        services.AddScoped<ITourProblemResponseService, TourProblemResponseService>();
     }
 
     private static void SetupInfrastructure(IServiceCollection services)
@@ -55,6 +61,7 @@ public static class ToursStartup
         services.AddScoped(typeof(ICrudRepository<TourProblem>), typeof(CrudDatabaseRepository<TourProblem, ToursContext>));
         services.AddScoped(typeof(ICrudRepository<PublicRequest>), typeof(CrudDatabaseRepository<PublicRequest, ToursContext>));
 
+        services.AddScoped(typeof(ICrudRepository<TourProblemResponse>), typeof(CrudDatabaseRepository<TourProblemResponse, ToursContext>));
 
         services.AddDbContext<ToursContext>(opt =>
             opt.UseNpgsql(DbConnectionStringBuilder.Build("tours"),

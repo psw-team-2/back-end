@@ -11,4 +11,8 @@ public class TourProblemDto
     public string? Description { get; set; }
     public DateTime TimeStamp { get; init; }
     public long TourId { get; set; }
+    public bool IsClosed { get; set; }
+    public bool IsResolved { get; set; }
+    public long TouristId { get; set; }
+    public DateTime? DeadlineTimeStamp { get; init; }
 }

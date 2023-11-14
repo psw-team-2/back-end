@@ -37,7 +37,8 @@ namespace Explorer.Tours.Tests.Integration
                 Price = 50.0,
                 Tags = "Adventure, Hiking",
                 Equipments = new List<int> { 1, 2 },
-                CheckPoints = new List<long> { 123, 456 }
+                CheckPoints = new List<long> { 123, 456 },
+                AuthorId = -1,
             };
 
             // Act

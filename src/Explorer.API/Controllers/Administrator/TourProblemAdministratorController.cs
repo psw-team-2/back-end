@@ -1,5 +1,6 @@
 ﻿using Explorer.BuildingBlocks.Core.UseCases;
 using Explorer.Tours.API.Dtos;
+using Explorer.Tours.API.Public;
 using Explorer.Tours.API.Public.Administration;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -7,26 +8,34 @@ using Microsoft.AspNetCore.Mvc;
 namespace Explorer.API.Controllers.Administrator.Administration
 {
     [Authorize]
-    [Route("api/tour-problem/tour-problems")]
-    public class TourProblemController : BaseApiController
+    [Authorize(Policy = "administratorPolicy")]
+    [Route("api/administrator/tour-problem")]
+    public class TourProblemAdministratorController : BaseApiController
     {
         private readonly ITourProblemService _tourProblemService;
+        private readonly ITourProblemResponseService _problemResponseService;
 
-        public TourProblemController(ITourProblemService tourProblemService)
+        public TourProblemAdministratorController(ITourProblemService tourProblemService, ITourProblemResponseService problemResponseService)
         {
             _tourProblemService = tourProblemService;
+            _problemResponseService = problemResponseService;
         }
 
         [HttpGet]
-        [Authorize(Roles = "administrator")]
         public ActionResult<PagedResult<TourProblemDto>> GetAll([FromQuery] int page, [FromQuery] int pageSize)
         {
             var result = _tourProblemService.GetPaged(page, pageSize);
             return CreateResponse(result);
         }
 
+        [HttpGet("{id:int}")]
+        public ActionResult<TourDto> Get(int id)
+        {
+            var result = _tourProblemService.Get(id);
+            return CreateResponse(result);
+        }
+
         [HttpPost]
-        [Authorize(Roles = "tourist,administrator")]
         public ActionResult<TourProblemDto> Create([FromBody] TourProblemDto tourProblem)
         {
             var result = _tourProblemService.Create(tourProblem);
@@ -34,7 +43,6 @@ namespace Explorer.API.Controllers.Administrator.Administration
         }
 
         [HttpPut("{id:int}")]
-        [Authorize(Roles = "administrator")]
         public ActionResult<EquipmentDto> Update([FromBody] TourProblemDto tourProblem)
         {
             var result = _tourProblemService.Update(tourProblem);
@@ -42,10 +50,23 @@ namespace Explorer.API.Controllers.Administrator.Administration
         }
 
         [HttpDelete("{id:int}")]
-        [Authorize(Roles = "administrator")]
         public ActionResult Delete(int id)
         {
             var result = _tourProblemService.Delete(id);
+            return CreateResponse(result);
+        }
+
+        [HttpPost("{id}/respond")]
+        public ActionResult RespondToProblem(int id, [FromBody] TourProblemResponseDto tourProblemResponse)
+        {
+            var result = _problemResponseService.Create(tourProblemResponse);
+            return CreateResponse(result);
+        }
+
+        [HttpGet("{problemId:int}/responses")]
+        public ActionResult<IEnumerable<TourProblemResponseDto>> GetProblemResponses(int problemId)
+        {
+            var result = _problemResponseService.GetProblemResponses(problemId);
             return CreateResponse(result);
         }
     }
