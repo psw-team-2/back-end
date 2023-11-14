@@ -9,11 +9,9 @@ using System.Threading.Tasks;
 
 namespace Explorer.Stakeholders.API.Public
 {
-    public interface IProfileService
+    public interface IMessageService
     {
-        Result<ProfileDto> Get(int id);
-        Result<PagedResult<ProfileDto>> GetPaged(int page, int pageSize);
-        Result<ProfileDto> Create(ProfileDto profiles);
-        Result<ProfileDto> Update(ProfileDto profiles);
+        Result<MessageDto> Create(MessageDto message);
+        Result<MessageDto> Update(MessageDto message);
     }
 }

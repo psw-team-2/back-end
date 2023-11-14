@@ -1,4 +1,5 @@
 ﻿using Explorer.Stakeholders.API.Dtos;
+using Explorer.Stakeholders.Core.Domain.Users;
 using FluentResults;
 
 namespace Explorer.Stakeholders.Core.Domain.RepositoryInterfaces;
@@ -13,4 +14,5 @@ public interface IUserRepository
     List<long> GetAllUserIds();
     Result<object> GetUserById(long userId);
     public Result GetUserById(int userId);
+    User Update(User user);
 }

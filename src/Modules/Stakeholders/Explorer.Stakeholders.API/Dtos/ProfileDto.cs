@@ -1,4 +1,6 @@
-﻿namespace Explorer.Stakeholders.API.Dtos;
+﻿
+
+namespace Explorer.Stakeholders.API.Dtos;
 
 public class ProfileDto
 {
@@ -10,5 +12,5 @@ public class ProfileDto
     public string Motto { get; set; }
     public long UserId { get; set; }
     public bool IsActive { get; set; }
-
+    public List<FollowDto> Follows { get; set; }
 }

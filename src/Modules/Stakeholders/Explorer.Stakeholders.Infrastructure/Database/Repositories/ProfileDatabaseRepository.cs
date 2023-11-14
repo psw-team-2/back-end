@@ -1,5 +1,6 @@
-﻿using Explorer.Stakeholders.Core.Domain;
-using Explorer.Stakeholders.Core.Domain.RepositoryInterfaces;
+﻿using Explorer.Stakeholders.Core.Domain.RepositoryInterfaces;
+using Explorer.Stakeholders.Core.Domain.Users;
+using Microsoft.EntityFrameworkCore;
 
 namespace Explorer.Stakeholders.Infrastructure.Database.Repositories;
 
@@ -15,6 +16,25 @@ public class ProfileDatabaseRepository : IProfileRepository
     public List<Profile> GetAll()
     {
         return _dbContext.Profiles.ToList();
+    }
+
+    public Profile Get(int id)
+    {
+        return _dbContext.Profiles.SingleOrDefault(p => p.Id == id);
+    }
+
+    public Profile Update(Profile profile)
+    {
+        try
+        {
+            _dbContext.Update(profile);
+            _dbContext.SaveChanges();
+        }
+        catch (DbUpdateException e)
+        {
+            throw new KeyNotFoundException(e.Message);
+        }
+        return (Profile)profile;
     }
 
     /*

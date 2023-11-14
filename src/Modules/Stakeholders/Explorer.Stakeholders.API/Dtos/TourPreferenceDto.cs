@@ -8,8 +8,6 @@ namespace Explorer.Stakeholders.API.Dtos
 {
     public class TourPreferenceDto
     {
-        public int Id { get; set; }
-        public int TouristId { get; set; }
         public int Difficulty { get; set; }
         public int WalkingRating { get; set; }
         public int BicycleRating { get; set; }

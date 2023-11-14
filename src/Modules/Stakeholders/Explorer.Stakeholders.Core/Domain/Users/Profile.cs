@@ -2,7 +2,7 @@
 using System.Net.Mail;
 using System.Xml.Linq;
 
-namespace Explorer.Stakeholders.Core.Domain;
+namespace Explorer.Stakeholders.Core.Domain.Users;
 
 public class Profile : Entity
 {
@@ -13,6 +13,7 @@ public class Profile : Entity
     public string Motto { get; init; }
     public long UserId { get; init; }
     public bool IsActive { get; init; }
+    public List<Follow> Follows { get; init; }
 
     public Profile(string firstName, string lastName, string profilePicture, string biography, string motto, long userId, bool isActive)
     {
@@ -23,6 +24,7 @@ public class Profile : Entity
         Motto = motto;
         UserId = userId;
         IsActive = isActive;
+        Follows = new List<Follow>();
         Validate();
     }
 
@@ -34,5 +36,10 @@ public class Profile : Entity
         if (string.IsNullOrWhiteSpace(Biography)) throw new ArgumentException("Invalid Biography");
         if (string.IsNullOrWhiteSpace(Motto)) throw new ArgumentException("Invalid Motto");
         if (UserId == 0) throw new ArgumentException("Invalid UserId");
+    }
+
+    public void AddFollow(Follow follow)
+    {
+        Follows.Add(follow);
     }
 }

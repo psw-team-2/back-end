@@ -3,13 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace Explorer.Stakeholders.Core.Domain
+namespace Explorer.Stakeholders.Core.Domain.Users
 {
-    public class TourPreference : Entity
+    public class TourPreference : ValueObject
     {
-        public int TouristId { get; private set; }
         public int Difficulty { get; private set; }
         public int WalkingRating { get; private set; }
         public int BicycleRating { get; private set; }
@@ -17,9 +17,11 @@ namespace Explorer.Stakeholders.Core.Domain
         public int BoatRating { get; private set; }
         public List<string>? Tags { get; private set; }
 
-        public TourPreference(int touristId, int difficulty, int walkingRating, int bicycleRating, int carRating, int boatRating, List<string>? tags)
+        
+
+        [JsonConstructor]
+        public TourPreference(int difficulty, int walkingRating, int bicycleRating, int carRating, int boatRating, List<string>? tags)
         {
-            TouristId = touristId; 
             Difficulty = difficulty;
             WalkingRating = walkingRating;
             BicycleRating = bicycleRating;
@@ -31,12 +33,23 @@ namespace Explorer.Stakeholders.Core.Domain
 
         private void Validate()
         {
-            if (TouristId == 0) throw new ArgumentException("Invalid TouristId");    
             if (Difficulty < 1 || Difficulty > 5) throw new ArgumentException("Invalid Difficulty");
             if (WalkingRating < 1 || WalkingRating > 5) throw new ArgumentException("Invalid WalkingRating");
             if (BoatRating < 1 || BoatRating > 5) throw new ArgumentException("Invalid BoatRating");
             if (CarRating < 1 || CarRating > 5) throw new ArgumentException("Invalid CarRating");
             if (BicycleRating < 1 || BicycleRating > 5) throw new ArgumentException("Invalid BicycleRating");
         }
+
+        
+        protected override IEnumerable<object> GetEqualityComponents()
+        {
+            yield return Difficulty;
+            yield return WalkingRating;
+            yield return BicycleRating;
+            yield return CarRating;
+            yield return BoatRating;
+            yield return Tags;
+        }
+
     }
 }

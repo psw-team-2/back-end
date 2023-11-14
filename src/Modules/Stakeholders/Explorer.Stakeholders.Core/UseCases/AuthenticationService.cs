@@ -1,13 +1,14 @@
 ﻿using Explorer.BuildingBlocks.Core.UseCases;
 using Explorer.Stakeholders.API.Dtos;
 using Explorer.Stakeholders.API.Public;
-using Explorer.Stakeholders.Core.Domain;
 using Explorer.Stakeholders.Core.Domain.RepositoryInterfaces;
+using Explorer.Stakeholders.Core.Domain.Users;
 using FluentResults;
 using System.ComponentModel;
 using UserRole = Explorer.Stakeholders.Core.Domain.UserRole;
 using Explorer.Tours.API.Public;
 using Explorer.Tours.Core.Domain;
+using UserRole = Explorer.Stakeholders.Core.Domain.Users.UserRole;
 
 namespace Explorer.Stakeholders.Core.UseCases;
 
@@ -53,6 +54,7 @@ public class AuthenticationService : IAuthenticationService
 
         try
         {
+
             var user = _userRepository.Create(new User(account.Username, account.Password, UserRole.Tourist, true, account.Email));
             //var person = _personRepository.Create(new Person(user.Id, account.Name, account.Surname, account.Email));
             var profile = _profileRepository.Create(new Profile(account.Name, account.Surname, account.ProfilePicture, account.Biography, account.Motto, user.Id, true));
