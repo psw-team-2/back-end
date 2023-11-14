@@ -12,6 +12,7 @@ namespace Explorer.Tours.Core.Domain
 {
     public class Tour : TourInfo
     {
+
         public List<int>? Equipments { get; init; }
 
         public List<long>? Checkpoints { get; init; }
@@ -29,7 +30,7 @@ namespace Explorer.Tours.Core.Domain
 
         public DateTime PublishTime { get; init; }
 
-        public Tour(String name, String description, AccountStatus status,int difficulty, double price, String? tags, double footTime, double bicycleTime, double carTime, double totalLength) : base(name,description, status,difficulty, price, tags)
+        public Tour(String name, String description, AccountStatus status,int difficulty, Price price, String? tags, double footTime, double bicycleTime, double carTime, double totalLength) : base(name,description, status,difficulty, price, tags)
         {
             if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("Invalid Name.");
             if (string.IsNullOrWhiteSpace(description)) throw new ArgumentException("Invalid description.");
@@ -38,13 +39,12 @@ namespace Explorer.Tours.Core.Domain
             Name = name;
             Description = description;
             Difficulty = difficulty;
-            Status = status;
-            Price = 0;
+            Status = AccountStatus.DRAFT;
+            Price = price;
             Tags = tags;
             Equipments = new List<int>();
             Checkpoints = new List<long>();
             TourReviews = new List<TourReview>();
-            CarTime = carTime;
             TotalLength = totalLength;
             BicycleTime = bicycleTime;
             CarTime = carTime;
