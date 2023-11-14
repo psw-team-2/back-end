@@ -5,18 +5,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
 using System;
-using Explorer.Stakeholders.Tests;
 using Explorer.Tours.Tests;
 using Xunit;
 using Explorer.API.Controllers.Tourist;
 using Explorer.Tours.API.Public;
 
-namespace Explorer.Stakeholders.Tests.Integration.TourProblem
+namespace Explorer.Tours.Tests.Integration
 {
     [Collection("Sequential")]
-    public class TourProblemQueryTests : BaseToursIntegrationTest
+    public class TourProblemTouristQueryTests : BaseToursIntegrationTest
     {
-        public TourProblemQueryTests(ToursTestFactory factory) : base(factory) { }
+        public TourProblemTouristQueryTests(ToursTestFactory factory) : base(factory) { }
 
         [Fact]
         public void Retrieves_all()
@@ -31,7 +30,7 @@ namespace Explorer.Stakeholders.Tests.Integration.TourProblem
             // Assert
             result.ShouldNotBeNull();
             result.Results.Count.ShouldBe(0);
-            result.TotalCount.ShouldBe(0);   
+            result.TotalCount.ShouldBe(0);
         }
 
         private static TourProblemTouristController CreateController(IServiceScope scope)

@@ -34,7 +34,7 @@ namespace Explorer.Tours.Core.UseCases
 
             var userResult = _userAccountService.GetUserById(authorId);
 
-            if (userResult.IsSuccess)
+            if (userResult.IsSuccess && userResult.Value != null)
             {
                 var tours = base.GetPaged(page, pageSize);
                 var authorsTours = tours.Value.Results.Where(tour => tour.AuthorId == authorId).ToList();
@@ -44,7 +44,7 @@ namespace Explorer.Tours.Core.UseCases
             }
             else
             {
-                return Result.Fail("Failed to retrieve author information");
+                return Result.Fail(FailureCode.NotFound).WithError("Failed to retrieve author information");
             }
         }
 
