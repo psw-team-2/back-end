@@ -66,12 +66,14 @@ namespace Explorer.Stakeholders.Core.UseCases
 
             _profileRepository.Update(profile);
 
-
             return Result.Ok();
-
         }
 
+
+
+
         public Result<PagedResult<ProfileDto>> GetAllFollowers(int page, int pageSize, long profileId)
+
         {
             Profile profile = _profileRepository.Get(Convert.ToInt32(profileId));
 

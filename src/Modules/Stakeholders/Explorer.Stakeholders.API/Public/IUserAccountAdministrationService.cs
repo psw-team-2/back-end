@@ -14,6 +14,9 @@ namespace Explorer.Stakeholders.API.Public
 
 
 
+
+
+
         // PROFILE
         Result<ProfileDto> GetByUserId(int id);
         Result AddFollow(FollowDto follow);
@@ -24,6 +27,7 @@ namespace Explorer.Stakeholders.API.Public
 
         // MESSAGE
         Result<PagedResult<MessageDto>> GetUnreadMessages(int page, int pageSize, long profileId);
+
 
     }
 }
