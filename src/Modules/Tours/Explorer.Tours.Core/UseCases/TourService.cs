@@ -32,7 +32,7 @@ namespace Explorer.Tours.Core.UseCases
         {
 
 
-            var userResult = _userAccountService.GetUserAccountById(authorId);
+            var userResult = _userAccountService.Get((int)authorId);
 
 
             if (userResult.IsSuccess && userResult.Value != null)

@@ -66,13 +66,11 @@ namespace Explorer.Stakeholders.Core.UseCases
 
             _profileRepository.Update(profile);
 
-
-
-        public Result<UserAccountDto> GetUserAccountById(long userId)
-
             return Result.Ok();
-
         }
+
+
+
 
         public Result<PagedResult<ProfileDto>> GetAllFollowers(int page, int pageSize, long profileId)
 

@@ -12,7 +12,7 @@ namespace Explorer.Stakeholders.API.Public
         Result<UserAccountDto> Update(UserAccountDto equipment);
         Result Delete(int id);
 
-        public Result<UserAccountDto> GetUserAccountById(long userId);
+
 
 
 
