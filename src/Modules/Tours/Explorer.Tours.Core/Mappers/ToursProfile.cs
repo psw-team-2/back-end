@@ -29,7 +29,7 @@ public class ToursProfile : Profile
         CreateMap<TourDto, Tour>()
             .IncludeAllDerived()
             .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price));*/
-        CreateMap<OrderItemDto, OrderItem>()
+       /* CreateMap<OrderItemDto, OrderItem>()
             .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price.Amount))
             .AfterMap((src, dest) =>
             {
@@ -42,7 +42,7 @@ public class ToursProfile : Profile
            {
                // Add debug statements to log the Price value
                Debug.WriteLine($"Mapped Price: {src.Price.Amount} to {dest.Price}");
-           });
+           });*/
 
         /*CreateMap<OrderItemDto, OrderItem>().IncludeAllDerived()
             .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price.Select(h => new Price(h))));*/
