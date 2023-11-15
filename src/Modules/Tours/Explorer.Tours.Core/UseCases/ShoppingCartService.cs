@@ -23,45 +23,59 @@ namespace Explorer.Tours.Core.UseCases
 
         private readonly IShoppingCartRepository _shoppingCartRepository;
         private readonly ICrudRepository<Tour> _tourRepository;
-        private readonly ICrudRepository<OrderItem> _orderItemRepository;
+        private readonly ICrudRepository<OrderItem> _crudOrderItemRepository;
+        private readonly IOrderItemRepository _orderItemRepository;
 
 
-
-        public ShoppingCartService(ICrudRepository<ShoppingCart> repository, IMapper mapper, IShoppingCartRepository shoppingCartRepository, ICrudRepository<Tour> tourRepository, ICrudRepository<OrderItem> orderItemRepository) : base(repository, mapper)
+        public ShoppingCartService(ICrudRepository<ShoppingCart> repository, IMapper mapper, IShoppingCartRepository shoppingCartRepository, ICrudRepository<Tour> tourRepository, ICrudRepository<OrderItem> crudOrderItemRepository, IOrderItemRepository orderItemRepository) : base(repository, mapper)
         {
             _shoppingCartRepository = shoppingCartRepository;
             _tourRepository = tourRepository;
+            _crudOrderItemRepository = crudOrderItemRepository;
             _orderItemRepository = orderItemRepository;
         }
 
 
         public Result<ShoppingCartDto> AddItem(ShoppingCartDto shoppingCartDto, int tourId)
         {
-            Tour tour = _tourRepository.Get(tourId);
-            if (shoppingCartDto != null)
+            try
             {
-                OrderItem orderItem = new OrderItem(tourId,tour.Name,new Price(tour.Price.Amount),shoppingCartDto.Id, false);
-                _orderItemRepository.Create(orderItem);
+                Tour tour = _tourRepository.Get(tourId);
+                if (shoppingCartDto != null)
+                {
+                    OrderItem orderItem = new OrderItem(tourId, tour.Name, tour.Price, shoppingCartDto.Id, false);
+                    _crudOrderItemRepository.Create(orderItem);
 
-                ShoppingCart shoppingCart = _shoppingCartRepository.GetById(shoppingCartDto.Id);
+                    ShoppingCart shoppingCart = _shoppingCartRepository.GetById(shoppingCartDto.Id);
 
-                shoppingCart.AddItem((int)orderItem.Id);
+                    shoppingCart.AddItem((int)orderItem.Id);
 
-                shoppingCart.CalculateTotalPrice(shoppingCart.TotalPrice, orderItem.Price,true);
-                _shoppingCartRepository.Update(shoppingCart);
+                    shoppingCart.CalculateTotalPrice(shoppingCart.TotalPrice, orderItem.Price, true);
+                    _shoppingCartRepository.Update(shoppingCart);
+                    return Result.Ok(shoppingCartDto);
+                }
+                else
+                {
+                    return Result.Fail(FailureCode.NotFound).WithError("Tour not found.");
+                }
+
             }
-            return Result.Ok(shoppingCartDto);
+            catch (KeyNotFoundException e)
+            {
+                return Result.Fail(FailureCode.NotFound).WithError(e.Message);
+            }           
 
         }
 
 
         public Result<ShoppingCartDto> GetShoppingCartByUserId(int userId)
         {
-            
+
             try
             {
                 var shoppingCart = _shoppingCartRepository.GetShoppingCartByUserId(userId);
-                return Result.Ok();
+                ShoppingCartDto shoppingCartDto = MapToDto(shoppingCart);
+                return Result.Ok(shoppingCartDto);
             }
             catch (Exception e)
             {
@@ -69,32 +83,62 @@ namespace Explorer.Tours.Core.UseCases
             }
         }
 
-        public Result<ShoppingCartDto> RemoveItem(ShoppingCartDto shoppingCartDto, int itemId)
+        public Result<ShoppingCartDto> RemoveItem(int shoppingCartId, int itemId)
         {
-             try
-             {               
-                ShoppingCart shoppingCart = _shoppingCartRepository.GetById(shoppingCartDto.Id);
+            try
+            {
+                ShoppingCart shoppingCart = _shoppingCartRepository.GetById(shoppingCartId);
                 OrderItem orderItem = GetOrderItemById(itemId);
                 shoppingCart.RemoveItem(itemId);
 
-                shoppingCart.CalculateTotalPrice(shoppingCart.TotalPrice, orderItem.Price, true);
+                shoppingCart.CalculateTotalPrice(shoppingCart.TotalPrice, orderItem.Price, false);
                 _shoppingCartRepository.Update(shoppingCart);
-                _orderItemRepository.Delete(itemId);
+                _crudOrderItemRepository.Delete(itemId);
 
-                return Result.Ok(shoppingCartDto);
-             }
-             catch (ArgumentException e)
-             {
-                 return Result.Fail<ShoppingCartDto>(FailureCode.InvalidArgument).WithError(e.Message);
-             }
+                return Result.Ok();
+            }
+            catch (ArgumentException e)
+            {
+                return Result.Fail<ShoppingCartDto>(FailureCode.InvalidArgument).WithError(e.Message);
+            }
+        }
+
+
+        public Result<ShoppingCartDto> RemoveAllItems(int shoppingCartId)
+        {
+            try
+            {
+                ShoppingCart shoppingCart = _shoppingCartRepository.GetById(shoppingCartId);
+                shoppingCart.RemoveAllItems();
+                _orderItemRepository.RemoveAllItemsByShoppingCartId(shoppingCartId);
+                _shoppingCartRepository.Update(shoppingCart);
+
+                return Result.Ok();
+            }
+            catch (ArgumentException e)
+            {
+                return Result.Fail<ShoppingCartDto>(FailureCode.InvalidArgument).WithError(e.Message);
+            }
         }
 
         private OrderItem GetOrderItemById(int id)
         {
-            OrderItem orderItem = _orderItemRepository.Get(id);
+            OrderItem orderItem = _crudOrderItemRepository.Get(id);
             return orderItem;
         }
-        
-        
+
+        public Result<double> GetTotalPriceByUserId(int userId)
+        {
+            try
+            {
+                double TotalPrice = _shoppingCartRepository.GetTotalPriceByUserId(userId);
+                return Result.Ok(TotalPrice);
+            }
+            catch (ArgumentException e)
+            {
+                return Result.Fail<double>(FailureCode.InvalidArgument).WithError(e.Message);
+            }
+
+        }
     }
 }

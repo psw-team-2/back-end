@@ -28,17 +28,21 @@ namespace Explorer.Tours.Core.UseCases
             List<OrderItemDto> dtosForItems = new List<OrderItemDto>();
             foreach (var item in orderItems)
             {
-                OrderItemDto dto = new OrderItemDto
+                if(item.IsBought == false)
                 {
-                    Id = (int)item.Id,
-                    TourId = item.TourId,
-                    TourName = item.TourName,
-                    Price = new PriceDto(),   //????
-                    ShoppingCartId = shoppingCartId,
-                    IsBought = item.IsBought
+                    OrderItemDto dto = new OrderItemDto
+                    {
+                        Id = (int)item.Id,
+                        TourId = item.TourId,
+                        TourName = item.TourName,
+                        Price = item.Price,
+                        ShoppingCartId = shoppingCartId,
+                        IsBought = item.IsBought
 
-                };
-                dtosForItems.Add(dto);
+                    };
+                    dtosForItems.Add(dto);
+                }
+                
             }
             
             return dtosForItems;

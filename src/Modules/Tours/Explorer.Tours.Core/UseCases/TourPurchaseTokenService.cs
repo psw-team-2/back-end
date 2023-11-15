@@ -34,12 +34,10 @@ namespace Explorer.Tours.Core.UseCases
             {
                 TourPurchaseToken purchaseToken = new TourPurchaseToken(userId, item.TourId, DateTime.UtcNow);
                 _tourPurchaseTokenRepository.Create(purchaseToken);
-                //ovde treba dodati da se polje u OrderItem-u isPurchased promeni na true
-                //item.isPurchased = true;
-                //u OrderItemService u metodi GetOrderItemsByShoppingCart izmeni da se dodaju samo one kod kojih je isPurchased=false
                 shoppingCart.RemoveItem(item.Id);
-                _shoppingCartRepository.Update(shoppingCart);
-            }           
+            }    
+            shoppingCart.TotalPrice = 0;
+            _shoppingCartRepository.Update(shoppingCart);
 
             return Result.Ok();
         }

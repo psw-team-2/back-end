@@ -36,9 +36,7 @@ namespace Explorer.API.Controllers.Tourist
 
             if (result == null)
             {
-                //_shoppingCartService.Create(new ShoppingCartDto);
                 return new ObjectResult(new { Message = "Uer don't have a cart.", StatusCode = 400 }) { StatusCode = 400 };
-
             }
 
             return CreateResponse(result);
@@ -55,9 +53,6 @@ namespace Explorer.API.Controllers.Tourist
         [HttpPost]
         public ActionResult<ShoppingCartDto> Create([FromBody] ShoppingCartDto shoppingCart)
         {
-
-            //shoppingCart.TotalPrice = 0;
-            //shoppingCart.Items = new List<int>();
             var result = _shoppingCartService.Create(shoppingCart);
             return CreateResponse(result);
         }
@@ -77,7 +72,6 @@ namespace Explorer.API.Controllers.Tourist
         }
 
 
-
         [HttpPost("shoppingItem/{shoppingCartId:int}/{tourId:int}")]
         public ActionResult<ShoppingCartDto> AddItem([FromBody] ShoppingCartDto shoppingCart, int tourId)
         {
@@ -85,13 +79,27 @@ namespace Explorer.API.Controllers.Tourist
             return CreateResponse(result);
         }
 
-        [HttpPut("removeItem/{shoppingCartId:int}/{tourId:int}")]
-        public ActionResult<ShoppingCartDto> RemoveItem([FromBody] ShoppingCartDto shoppingCart, int itemId)
+        [HttpPut("removeItem/{shoppingCartId:int}/{itemId:int}")]
+        public ActionResult<ShoppingCartDto> RemoveItem(int shoppingCartId, int itemId)
         {
-            var result = _shoppingCartService.RemoveItem(shoppingCart, itemId);
+            var result = _shoppingCartService.RemoveItem(shoppingCartId, itemId);
             return CreateResponse(result);
         }
-       
+
+
+        [HttpPut("removeAllItems/{shoppingCartId:int}")]
+        public ActionResult<ShoppingCartDto> RemoveAllItems(int shoppingCartId)
+        {
+            var result = _shoppingCartService.RemoveAllItems(shoppingCartId);
+            return CreateResponse(result);
+        }
+
+        [HttpGet("totalPrice/{userId:int}")]
+        public ActionResult<double> GetTotalPriceByUserId(int userId)
+        {
+            var result = _shoppingCartService.GetTotalPriceByUserId(userId);
+            return CreateResponse(result);
+        }
 
     }
 }

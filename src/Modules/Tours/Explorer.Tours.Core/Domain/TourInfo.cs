@@ -1,6 +1,7 @@
 ﻿using Explorer.BuildingBlocks.Core.Domain;
 using System.Security.Principal;
 using System.Transactions;
+using Explorer.Tours.API.Dtos;
 
 namespace Explorer.Tours.Core.Domain
 {
@@ -15,11 +16,11 @@ namespace Explorer.Tours.Core.Domain
         public String Description { get; init; }
         public AccountStatus Status { get; init; }
         public int Difficulty { get; init;}
-        public Price Price { get; init; }
+        public double Price { get; init; }
         public String? Tags { get; init; }
         public bool IsDeleted { get; init; } = false;
 
-        public TourInfo(String name, String description, AccountStatus status, int difficulty, Price price, String? tags)
+        public TourInfo(String name, String description, AccountStatus status, int difficulty, double price, String? tags)
         {
             if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("Invalid Name.");
             if (string.IsNullOrWhiteSpace(description)) throw new ArgumentException("Invalid description.");

@@ -11,10 +11,10 @@ namespace Explorer.Tours.Core.Domain
     public class ShoppingCart : Entity
     {
         public long UserId { get; init; }
-        public List<int>? Items { get; init; }
-        public Price TotalPrice { get; set; }
+        public List<int>? Items { get; set; }
+        public double TotalPrice { get; set; }
 
-        public ShoppingCart(long userId, Price totalPrice)
+        public ShoppingCart(long userId, double totalPrice)
         {
             UserId = userId;
             Items = new List<int>();
@@ -37,17 +37,24 @@ namespace Explorer.Tours.Core.Domain
             }
         }
 
-        public void CalculateTotalPrice(Price totalPrice, Price itemPrice, bool isAdding)
+        public void RemoveAllItems()
+        {
+            Items = new List<int>();
+            TotalPrice = 0;
+        }
+
+
+        public void CalculateTotalPrice(double totalPrice, double itemPrice, bool isAdding)
         {
             if (Items != null)
             {
                 if (isAdding)
                 {
-                    totalPrice = new Price(totalPrice.Amount + itemPrice.Amount);
+                    totalPrice += itemPrice;
                 }
                 else
                 {
-                    totalPrice = new Price(totalPrice.Amount - itemPrice.Amount);
+                    totalPrice -= itemPrice;
                 }
                 
                 TotalPrice = totalPrice; 

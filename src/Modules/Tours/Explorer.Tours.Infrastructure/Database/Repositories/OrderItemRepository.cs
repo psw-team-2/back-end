@@ -21,5 +21,16 @@ namespace Explorer.Tours.Infrastructure.Database.Repositories
         {
             return _dbContext.OrderItems.Where(o => o.ShoppingCartId == shoppingCartId).ToList();
         }
+
+        public void RemoveAllItemsByShoppingCartId(int shoppingCartId)
+        {
+            var allItems = GetOrderItemsByShoppingCart(shoppingCartId);
+            foreach (OrderItem item in allItems)
+            {
+                _dbContext.OrderItems.Remove(item);
+                _dbContext.SaveChanges();
+            }
+
+        }
     }
 }
