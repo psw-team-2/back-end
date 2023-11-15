@@ -6,7 +6,6 @@ using Explorer.Tours.API.Public.Author;
 
 namespace Explorer.API.Controllers.Author
 {
-    [Authorize(Policy = "authorOrAdminPolicy")]
     [Route("api/administration/object")]
     public class ObjectController : BaseApiController
     {

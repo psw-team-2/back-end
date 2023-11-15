@@ -42,5 +42,6 @@ namespace Explorer.Tours.Core.UseCases
             return Result.Ok();
         }
 
+
     }
 }

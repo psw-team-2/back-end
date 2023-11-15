@@ -9,13 +9,10 @@ namespace Explorer.Tours.API.Dtos
 {
     public enum AccountStatus
     {
-        DRAFT, STARTED, FINISH
+        DRAFT, PUBLISHED, ARCHIVED
     }
 
-    //public enum Difficulty
-    //{
-    //    EASY, MEDIUM, HARD, EXTRA_HARD
-    //}
+
     public class TourDto
     {
         public int Id { get; set; }
@@ -27,8 +24,11 @@ namespace Explorer.Tours.API.Dtos
         public String? Tags { get; set; }
         public List<int>? Equipments { get; set; }
         public List<long>? CheckPoints { get; set; }
-
+        public double FootTime { get; set; }
+        public double BicycleTime { get; set; }
+        public double CarTime { get; set; }
+        public double TotalLength { get; set; }
+        public DateTime PublishTime { get; set; }
         public long AuthorId { get; set; }
-
     }
 }

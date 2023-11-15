@@ -19,7 +19,7 @@ public class CrudDatabaseRepository<TEntity, TDbContext> : ICrudRepository<TEnti
 
     public PagedResult<TEntity> GetPaged(int page, int pageSize)
     {
-        var task = _dbSet.GetPagedById(page, pageSize);
+        var task = _dbSet.AsNoTracking().GetPagedById(page, pageSize);
         task.Wait();
         return task.Result;
     }

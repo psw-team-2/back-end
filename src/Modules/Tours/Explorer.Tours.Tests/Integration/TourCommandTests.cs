@@ -93,7 +93,7 @@ namespace Explorer.Tours.Tests.Integration
                 Id = -1, // Replace with a valid tour ID from your test data
                 Name = "Updated Tour Name",
                 Description = "Updated tour description",
-                Status = AccountStatus.STARTED,
+                Status = AccountStatus.DRAFT,
                 Difficulty = 4,
                 Price = 75.0,
                 Tags = "Updated, Adventure",

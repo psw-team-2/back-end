@@ -25,7 +25,33 @@ public class ToursProfile : Profile
         CreateMap<OrderItemDto, OrderItem>().ReverseMap();
         //CreateMap<PriceDto, Price>().ReverseMap();
         CreateMap<TourPurchaseTokenDto, TourPurchaseToken>().ReverseMap();
-        
+        /*CreateMap<OrderItemDto, OrderItem>()
+            .IncludeAllDerived()
+            .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price));
+        CreateMap<TourDto, Tour>()
+            .IncludeAllDerived()
+            .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price));*/
+       /* CreateMap<OrderItemDto, OrderItem>()
+            .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price.Amount))
+            .AfterMap((src, dest) =>
+            {
+                // Add debug statements to log the Price value
+                Debug.WriteLine($"Mapped Price: {src.Price.Amount} to {dest.Price.Amount}");
+            });
+        CreateMap<TourDto, Tour>().ReverseMap()
+           .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price.Amount))
+           .AfterMap((src, dest) =>
+           {
+               // Add debug statements to log the Price value
+               Debug.WriteLine($"Mapped Price: {src.Price.Amount} to {dest.Price}");
+           });*/
 
+        /*CreateMap<OrderItemDto, OrderItem>().IncludeAllDerived()
+            .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price.Select(h => new Price(h))));*/
+        CreateMap<ObjectDto,Domain.Object>().ReverseMap();
+        CreateMap<TourReviewDto, TourReview>().ReverseMap();
+        CreateMap<CheckpointVisitedDto, CheckpointVisited>().ReverseMap();
+        CreateMap<TourExecutionDto, TourExecution>().ReverseMap();
+        CreateMap<SecretDto, Secret>().ReverseMap();
     }
 }

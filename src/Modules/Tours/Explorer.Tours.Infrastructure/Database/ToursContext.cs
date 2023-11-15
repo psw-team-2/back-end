@@ -1,6 +1,8 @@
 ﻿using Explorer.Stakeholders.Core.Domain;
 using Explorer.Tours.Core.Domain;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Metadata;
+
 using Microsoft.EntityFrameworkCore.Internal;
 
 namespace Explorer.Tours.Infrastructure.Database;
@@ -22,6 +24,9 @@ public class ToursContext : DbContext
     public DbSet<ShoppingCart> ShoppingCarts { get; set; }
     public DbSet<OrderItem> OrderItems { get; set; }
     public DbSet<TourPurchaseToken> TourPurchaseToken { get; set; }
+    public DbSet<CheckpointVisited> CheckpointVisited { get; set; }
+    public DbSet<TourExecution> TourExecutions { get; set; }
+    public DbSet<Secret> Secrets { get; set; }
 
 
     public ToursContext(DbContextOptions<ToursContext> options) : base(options) {}

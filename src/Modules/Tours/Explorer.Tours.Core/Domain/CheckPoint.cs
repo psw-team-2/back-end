@@ -1,4 +1,5 @@
 ﻿using Explorer.BuildingBlocks.Core.Domain;
+using System.Net.Sockets;
 using System.Diagnostics;
 
 namespace Explorer.Tours.Core.Domain;
