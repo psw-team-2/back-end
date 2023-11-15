@@ -9,6 +9,7 @@ using Explorer.Stakeholders.Tests;
 using Explorer.Tours.Tests;
 using Xunit;
 using Explorer.API.Controllers.Tourist;
+using Explorer.Tours.API.Public;
 
 namespace Explorer.Stakeholders.Tests.Integration.TourProblem
 {
@@ -35,7 +36,7 @@ namespace Explorer.Stakeholders.Tests.Integration.TourProblem
 
         private static TourProblemTouristController CreateController(IServiceScope scope)
         {
-            return new TourProblemTouristController(scope.ServiceProvider.GetRequiredService<ITourProblemService>())
+            return new TourProblemTouristController(scope.ServiceProvider.GetRequiredService<ITourProblemService>(), scope.ServiceProvider.GetRequiredService<ITourProblemResponseService>())
             {
                 ControllerContext = BuildContext("-1")
             };
