@@ -31,7 +31,7 @@ namespace Explorer.Tours.Core.UseCases
         public Result<List<TourDto>> GetToursListByAuthor(long authorId, int page, int pageSize)
         {
 
-            var userResult = _userAccountService.GetUserById((int)authorId);
+            var userResult = _userAccountService.GetByUserId((int)authorId);
 
             if (userResult.IsSuccess && userResult.Value != null)
             {
