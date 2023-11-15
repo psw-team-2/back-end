@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Explorer.BuildingBlocks.Core.UseCases;
+using Explorer.Stakeholders.API.Dtos;
 using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public;
 using Explorer.Tours.API.Public.Administration;
@@ -88,15 +89,15 @@ public class TourProblemService : CrudService<TourProblemDto, TourProblem>, ITou
             }
             if (!authorsToursResult.IsSuccess && !tourProblemsResult.IsSuccess)
             {
-                return Result.Fail("Tour Service Fail && TourProblem Service Fail").WithError(new KeyNotFoundException().Message);
+                return Result.Fail(FailureCode.NotFound).WithError(new KeyNotFoundException().Message);
             }
             else if (authorsToursResult.IsSuccess && !tourProblemsResult.IsSuccess)
             {
-                return Result.Fail("TourProblem Service Fail").WithError(new KeyNotFoundException().Message);
+                return Result.Fail(FailureCode.NotFound).WithError(new KeyNotFoundException().Message);
             }
             else
             {
-                return Result.Fail("Tour Service Fail").WithError(new KeyNotFoundException().Message);
+                return Result.Fail(FailureCode.NotFound).WithError(new KeyNotFoundException().Message);
             }
         }
         catch (KeyNotFoundException e)
@@ -104,4 +105,5 @@ public class TourProblemService : CrudService<TourProblemDto, TourProblem>, ITou
             return Result.Fail("FailureCode.NotFound, Nije nadjen").WithError(e.Message);
         }
     }
+
 }

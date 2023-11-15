@@ -1,4 +1,5 @@
 ﻿using Explorer.BuildingBlocks.Core.UseCases;
+using Explorer.Stakeholders.API.Dtos;
 using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public;
 using Explorer.Tours.API.Public.Administration;
@@ -43,7 +44,7 @@ namespace Explorer.API.Controllers.Tourist
         }
 
         [HttpPut("{id:int}")]
-        public ActionResult<EquipmentDto> Update([FromBody] TourProblemDto tourProblem)
+        public ActionResult<TourProblemDto> Update([FromBody] TourProblemDto tourProblem)
         {
             var result = _tourProblemService.Update(tourProblem);
             return CreateResponse(result);
@@ -56,8 +57,8 @@ namespace Explorer.API.Controllers.Tourist
             return CreateResponse(result);
         }
 
-        [HttpPost("respond")]
-        public ActionResult RespondToProblem([FromBody] TourProblemResponseDto tourProblemResponse)
+        [HttpPost("{id}/respond")]
+        public ActionResult RespondToProblem(int id, [FromBody] TourProblemResponseDto tourProblemResponse)
         {
             var result = _problemResponseService.Create(tourProblemResponse);
             return CreateResponse(result);
@@ -70,8 +71,23 @@ namespace Explorer.API.Controllers.Tourist
             return CreateResponse(result);
         }
 
-        [HttpGet("/tourist/{touristId:int}/responses")]
-        public ActionResult<IEnumerable<TourProblemResponseDto>> GetTourProblemResponsesForAuthor(int touristId)
+
+        [HttpPost("problemSolved")]
+        public ActionResult<TourProblemDto> ProblemSolved([FromBody] TourProblemDto tourProblem)
+        {
+            var result = _tourProblemService.Update(tourProblem);
+            return CreateResponse(result);
+        }
+
+        [HttpPost("problemUnsolved")]
+        public ActionResult<TourProblemDto> ProblemUnsolved([FromBody] TourProblemDto tourProblem)
+        {
+            var result = _tourProblemService.Update(tourProblem);
+            return CreateResponse(result);
+        }
+
+        [HttpGet("tourist/{touristId:int}/responses")]
+        public ActionResult<IEnumerable<TourProblemResponseDto>> GetTourProblemResponsesForTourist(int touristId)
         {
             var result = _problemResponseService.GetTourProblemResponsesForUser(touristId);
             return CreateResponse(result);

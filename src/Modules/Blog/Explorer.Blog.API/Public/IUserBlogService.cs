@@ -16,7 +16,13 @@ namespace Explorer.Blog.API.Public
         Result<UserBlogDto> Create(UserBlogDto blog);
         Result<UserBlogDto> Update(UserBlogDto blog);
         Result Delete(int id);
-
         Result<UserBlogDto> Get(int id);
+        List<UserBlogDto> GetByUserId(int userId);
+        Result DeleteAll(int blogId);
+        Result AddRating(RatingDto rating);
+
+        Result<RatingCount> GetRatingsCount(int id);
+        Result<PagedResult<UserBlogDto>> GetByStatus(BlogStatus status, int page, int pageSize);
+        Result AddComment(BlogCommentDto blogCommentDto);
     }
 }

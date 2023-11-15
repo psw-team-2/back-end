@@ -13,7 +13,6 @@ using Explorer.BuildingBlocks.Core;
 using Explorer.Stakeholders.API.Public;
 using Explorer.Stakeholders.Core.Domain;
 using FluentResults;
-using FluentResults;
 
 
 namespace Explorer.Tours.Core.UseCases
@@ -32,9 +31,11 @@ namespace Explorer.Tours.Core.UseCases
         public Result<List<TourDto>> GetToursListByAuthor(long authorId, int page, int pageSize)
         {
 
+
             var userResult = _userAccountService.GetUserAccountById(authorId);
 
-            if (userResult.IsSuccess)
+
+            if (userResult.IsSuccess && userResult.Value != null)
             {
                 var tours = base.GetPaged(page, pageSize);
                 var authorsTours = tours.Value.Results.Where(tour => tour.AuthorId == authorId).ToList();
@@ -44,7 +45,7 @@ namespace Explorer.Tours.Core.UseCases
             }
             else
             {
-                return Result.Fail("Failed to retrieve author information");
+                return Result.Fail(FailureCode.NotFound).WithError("Failed to retrieve author information");
             }
         }
 
