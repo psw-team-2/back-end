@@ -32,13 +32,13 @@ namespace Explorer.Tours.Tests.Integration
                 Id = -1,
                 Name = "New Tour",
                 Description = "Description of the new tour",
-                Status = AccountStatus.STARTED,
+                Status = AccountStatus.DRAFT,
                 Difficulty = 3,
                 Price = 50.0,
                 Tags = "Adventure, Hiking",
                 Equipments = new List<int> { 1, 2 },
                 CheckPoints = new List<long> { 123, 456 },
-                AuthorId = -1,
+                AuthorId = -11,
             };
 
             // Act
@@ -65,7 +65,7 @@ namespace Explorer.Tours.Tests.Integration
             {
                 Name = "",
                 Description = "",
-                Status = AccountStatus.STARTED,
+                Status = AccountStatus.DRAFT,
                 Difficulty = 0,
                 Price = 50.0,
                 Tags = "",
@@ -98,7 +98,8 @@ namespace Explorer.Tours.Tests.Integration
                 Price = 75.0,
                 Tags = "Updated, Adventure",
                 Equipments = new List<int> { 3, 4 },
-                CheckPoints = new List<long> { 789, 101 }
+                CheckPoints = new List<long> { 789, 101 },
+                AuthorId = -1
             };
 
             // Act
@@ -159,11 +160,10 @@ namespace Explorer.Tours.Tests.Integration
             var tourIdToDelete = 1; // Replace with a valid tour ID from your test data
 
             // Act
-            var result = (OkResult)controller.Delete(tourIdToDelete);
+            var result = (ObjectResult)controller.Delete(tourIdToDelete);
 
             // Assert - Response
-            result.ShouldNotBeNull();
-            result.StatusCode.ShouldBe(200);
+            result.StatusCode.ShouldBe(204);
 
             // Assert - Database
             var deletedTour = dbContext.Tour.FirstOrDefault(t => t.Id == tourIdToDelete);

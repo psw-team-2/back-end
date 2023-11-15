@@ -89,15 +89,15 @@ public class TourProblemService : CrudService<TourProblemDto, TourProblem>, ITou
             }
             if (!authorsToursResult.IsSuccess && !tourProblemsResult.IsSuccess)
             {
-                return Result.Fail("Tour Service Fail && TourProblem Service Fail").WithError(new KeyNotFoundException().Message);
+                return Result.Fail(FailureCode.NotFound).WithError(new KeyNotFoundException().Message);
             }
             else if (authorsToursResult.IsSuccess && !tourProblemsResult.IsSuccess)
             {
-                return Result.Fail("TourProblem Service Fail").WithError(new KeyNotFoundException().Message);
+                return Result.Fail(FailureCode.NotFound).WithError(new KeyNotFoundException().Message);
             }
             else
             {
-                return Result.Fail("Tour Service Fail").WithError(new KeyNotFoundException().Message);
+                return Result.Fail(FailureCode.NotFound).WithError(new KeyNotFoundException().Message);
             }
         }
         catch (KeyNotFoundException e)

@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using Explorer.Blog.API.Dtos;
 using Explorer.Blog.API.Public;
-using Explorer.Blog.Core.Domain;
+using Explorer.Blog.Core.Domain.Blog;
+using Explorer.Blog.Core.Domain.RepositoryInterfaces;
 using Explorer.BuildingBlocks.Core.UseCases;
 using FluentResults;
 using System;
@@ -14,13 +15,16 @@ namespace Explorer.Blog.Core.UseCases
 {
     public class BlogCommentService : CrudService<BlogCommentDto, BlogComment>, IBlogCommentService
     {
-        public BlogCommentService(ICrudRepository<BlogComment> repository, IMapper mapper) : base(repository, mapper) { }
+        public BlogCommentService(IBlogCommentRepository blogCommentRepository, ICrudRepository<BlogComment> repository, IMapper mapper) : base(repository, mapper) 
+        {
+            _blogCommentRepository = blogCommentRepository;
+        }
 
+        public IBlogCommentRepository _blogCommentRepository;
         public override Result<BlogCommentDto> Create(BlogCommentDto blogCommentDto)
         {
             blogCommentDto.CreationTime = DateTime.UtcNow;
             blogCommentDto.LastModification = DateTime.UtcNow;
-            blogCommentDto.BlogId = 1;
             return base.Create(blogCommentDto);
         }
 
@@ -32,5 +36,41 @@ namespace Explorer.Blog.Core.UseCases
             return base.Update(blogCommentDto);
         }
 
+        public List<BlogCommentDto> GetCommentsByBlogId(int blogId)
+        {
+            var reviews = _blogCommentRepository.GetCommentsByBlogId(blogId);
+
+            // Perform the necessary mapping to DTOs here.
+            var reviewsDto = reviews.Select(review => new BlogCommentDto
+            {
+                Text = review.Text,
+                CreationTime = review.CreationTime,
+                LastModification = review.LastModification,
+                UserId = review.UserId,
+                BlogId = review.BlogId,
+                Id = (int)review.Id,
+                Username = review.Username
+            }).ToList();
+
+            return reviewsDto;
+        }
+
+        public Result DeleteCommentsByBlogId(int blogId) 
+        {
+            var comments = _blogCommentRepository.GetCommentsByBlogId(blogId);
+
+            if (comments == null || !comments.Any())
+            {
+                return Result.Fail("No comments found for the specified blog ID.");
+            }
+
+            foreach (var comment in comments)
+            {
+                Delete((int)comment.Id);
+            }
+
+
+            return Result.Ok();
+        }
     }
 }

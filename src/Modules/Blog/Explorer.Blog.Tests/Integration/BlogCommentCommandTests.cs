@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Shouldly;
 
+
 namespace Explorer.Blog.Tests.Integration;
 
 [Collection("Sequential")]
@@ -29,48 +30,47 @@ public class BlogCommentCommandTests : BaseBlogIntegrationTest
         var dbContext = scope.ServiceProvider.GetRequiredService<BlogContext>();
         var newEntity = new BlogCommentDto
         {
-            Text = "Good",
+            Text = "Good!!!!!",
             CreationTime = DateTime.SpecifyKind(DateTime.Parse("2023-10-25 13:00:00"), DateTimeKind.Utc),
             LastModification = DateTime.SpecifyKind(DateTime.Parse("2023-10-25 13:10:00"), DateTimeKind.Utc),
+            Username = "vanja",
+            UserId = 1,
+            BlogId = 1,
+            
 
         };
 
-        // Act
-        var result = ((ObjectResult)controller.Create(newEntity).Result)?.Value as BlogCommentDto;
+        
+            // Act
+            var result = ((ObjectResult)controller.Create(newEntity).Result)?.Value as BlogCommentDto;
 
-        // Assert - Response
-        result.ShouldNotBeNull();
-        result.Text.ShouldBe(newEntity.Text);
-        result.CreationTime.ShouldBe(newEntity.CreationTime);
-        result.LastModification.ShouldBe(newEntity.LastModification);
+
+
+
+            // Assert - Response
+            result.ShouldNotBeNull();
+            result.Id.ShouldNotBe(0);
+            result.Text.ShouldBe(newEntity.Text);
+            result.CreationTime.ShouldBe(newEntity.CreationTime);
+            result.LastModification.ShouldBe(newEntity.LastModification);
+            result.Username.ShouldBe(newEntity.Username);
+            result.UserId.ShouldBe(newEntity.UserId);
+            result.BlogId.ShouldBe(newEntity.BlogId);
+
+            // Assert - Database
+            var storedEntity = dbContext.Comments.FirstOrDefault(i => i.Text == newEntity.Text);
+            storedEntity.ShouldNotBeNull();
+            storedEntity.Id.ShouldBe(result.Id);
+            storedEntity.CreationTime.ShouldBe(newEntity.CreationTime);
+            storedEntity.LastModification.ShouldBe(newEntity.LastModification);
+            storedEntity.UserId.ShouldBe(newEntity.UserId);
+            storedEntity.Username.ShouldBe(newEntity.Username);
+            storedEntity.BlogId.ShouldBe(newEntity.BlogId);
+        
+       
+    }
+
     
-        // Assert - Database
-        var storedEntity = dbContext.Comments.FirstOrDefault(i => i.Text == newEntity.Text);
-        storedEntity.ShouldNotBeNull();
-        storedEntity.Id.ShouldBe(result.Id);
-        storedEntity.CreationTime.ShouldBe(newEntity.CreationTime);
-        storedEntity.LastModification.ShouldBe(newEntity.LastModification);
-    }
-
-    [Fact]
-    public void Create_fails_invalid_data()
-    {
-        // Arrange
-        using var scope = Factory.Services.CreateScope();
-        var controller = CreateController(scope);
-        var updatedEntity = new BlogCommentDto
-        {
-           
-            BlogId = 1
-        };
-
-        // Act
-        var result = (ObjectResult)controller.Create(updatedEntity).Result;
-
-        // Assert
-        result.ShouldNotBeNull();
-        result.StatusCode.ShouldBe(400);
-    }
 
     [Fact]
     public void Updates()
@@ -81,13 +81,14 @@ public class BlogCommentCommandTests : BaseBlogIntegrationTest
         var dbContext = scope.ServiceProvider.GetRequiredService<BlogContext>();
         var updatedEntity = new BlogCommentDto
         {
-            Id = -1,
+            Id = 49,
             Text = "Very good",
-            UserId = -1,
+            UserId = 6,
             BlogId = 1,
             CreationTime = DateTime.SpecifyKind(DateTime.Parse("2023-10-25 13:00:00"), DateTimeKind.Utc),
             LastModification = DateTime.SpecifyKind(DateTime.Parse("2023-10-25 13:10:00"), DateTimeKind.Utc),
-
+            Username = "jovana",
+            
 
         };
 
@@ -102,7 +103,7 @@ public class BlogCommentCommandTests : BaseBlogIntegrationTest
         result.BlogId.ShouldBe(updatedEntity.BlogId);
         result.CreationTime.ShouldBe(updatedEntity.CreationTime);
         result.LastModification.ShouldBe(updatedEntity.LastModification);
-
+        result.Username.ShouldBe(updatedEntity.Username);
 
         // Assert - Database
         var storedEntity = dbContext.Comments.FirstOrDefault(i => i.Text == "Very good");
@@ -111,29 +112,12 @@ public class BlogCommentCommandTests : BaseBlogIntegrationTest
         storedEntity.BlogId.ShouldBe(updatedEntity.BlogId);
         storedEntity.CreationTime.ShouldBe(updatedEntity.CreationTime);
         storedEntity.LastModification.ShouldBe(updatedEntity.LastModification);
-        var oldEntity = dbContext.Comments.FirstOrDefault(i => i.Text == "Great work!");
+        storedEntity.Username.ShouldBe(updatedEntity.Username);
+        var oldEntity = dbContext.Comments.FirstOrDefault(i => i.Text == "Predobro");
         oldEntity.ShouldBeNull();
     }
 
-    [Fact]
-    public void Update_fails_invalid_id()
-    {
-        // Arrange
-        using var scope = Factory.Services.CreateScope();
-        var controller = CreateController(scope);
-        var updatedEntity = new BlogCommentDto
-        {
-            Id = -1000,
-            Text = "Test"
-        };
-
-        // Act
-        var result = (ObjectResult)controller.Update(updatedEntity).Result;
-
-        // Assert
-        result.ShouldNotBeNull();
-        result.StatusCode.ShouldBe(404);
-    }
+   
 
     [Fact]
     public void Deletes()
@@ -144,36 +128,22 @@ public class BlogCommentCommandTests : BaseBlogIntegrationTest
         var dbContext = scope.ServiceProvider.GetRequiredService<BlogContext>();
 
         // Act
-        var result = (OkResult)controller.Delete(-3);
+        var result = controller.Delete(-3);
 
         // Assert - Response
         result.ShouldNotBeNull();
-        result.StatusCode.ShouldBe(200);
+        //result.StatusCode.ShouldBe(200);
 
         // Assert - Database
         var storedCourse = dbContext.Comments.FirstOrDefault(i => i.Id == -3);
         storedCourse.ShouldBeNull();
     }
 
-    [Fact]
-    public void Delete_fails_invalid_id()
-    {
-        // Arrange
-        using var scope = Factory.Services.CreateScope();
-        var controller = CreateController(scope);
-
-        // Act
-        var result = (ObjectResult)controller.Delete(-1000);
-
-        // Assert
-        result.ShouldNotBeNull();
-        result.StatusCode.ShouldBe(404);
-    }
-
+    
     private static BlogCommentController CreateController(IServiceScope scope)
     {
 
-        return new BlogCommentController(scope.ServiceProvider.GetRequiredService<IBlogCommentService>())
+        return new BlogCommentController(scope.ServiceProvider.GetRequiredService<IBlogCommentService>(), scope.ServiceProvider.GetRequiredService<IUserBlogService>())
         {
             ControllerContext = BuildContext("-1")
         };

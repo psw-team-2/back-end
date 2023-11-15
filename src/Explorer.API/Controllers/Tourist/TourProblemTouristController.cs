@@ -44,7 +44,7 @@ namespace Explorer.API.Controllers.Tourist
         }
 
         [HttpPut("{id:int}")]
-        public ActionResult<EquipmentDto> Update([FromBody] TourProblemDto tourProblem)
+        public ActionResult<TourProblemDto> Update([FromBody] TourProblemDto tourProblem)
         {
             var result = _tourProblemService.Update(tourProblem);
             return CreateResponse(result);
