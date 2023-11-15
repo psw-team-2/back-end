@@ -6,7 +6,6 @@ using Explorer.API.Controllers;
 using Explorer.Stakeholders.API.Dtos;
 using Explorer.Stakeholders.API.Public;
 using Explorer.Stakeholders.Infrastructure.Database;
-using Explorer.Stakeholders.Core.Domain;
 
 namespace Explorer.Stakeholders.Tests.Integration.Authentication;
 
@@ -49,7 +48,7 @@ public class RegistrationTests : BaseStakeholdersIntegrationTest
         dbContext.ChangeTracker.Clear();
         var storedAccount = dbContext.Users.FirstOrDefault(u => u.Username == account.Email);
         storedAccount.ShouldNotBeNull();
-        storedAccount.Role.ShouldBe(Core.Domain.UserRole.Tourist);
+        storedAccount.Role.ShouldBe(Core.Domain.Users.UserRole.Tourist);
         var storedPerson = dbContext.Profiles.FirstOrDefault(i => i.FirstName == account.Name);
         storedPerson.ShouldNotBeNull();
         storedPerson.UserId.ShouldBe(storedAccount.Id);

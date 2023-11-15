@@ -37,7 +37,8 @@ namespace Explorer.Tours.Tests.Integration
                 Price = 50.0,
                 Tags = "Adventure, Hiking",
                 Equipments = new List<int> { 1, 2 },
-                CheckPoints = new List<long> { 123, 456 }
+                CheckPoints = new List<long> { 123, 456 },
+                AuthorId = -11,
             };
 
             // Act
@@ -97,7 +98,8 @@ namespace Explorer.Tours.Tests.Integration
                 Price = 75.0,
                 Tags = "Updated, Adventure",
                 Equipments = new List<int> { 3, 4 },
-                CheckPoints = new List<long> { 789, 101 }
+                CheckPoints = new List<long> { 789, 101 },
+                AuthorId = -1
             };
 
             // Act
@@ -158,11 +160,10 @@ namespace Explorer.Tours.Tests.Integration
             var tourIdToDelete = 1; // Replace with a valid tour ID from your test data
 
             // Act
-            var result = (OkResult)controller.Delete(tourIdToDelete);
+            var result = (ObjectResult)controller.Delete(tourIdToDelete);
 
             // Assert - Response
-            result.ShouldNotBeNull();
-            result.StatusCode.ShouldBe(200);
+            result.StatusCode.ShouldBe(204);
 
             // Assert - Database
             var deletedTour = dbContext.Tour.FirstOrDefault(t => t.Id == tourIdToDelete);
@@ -189,7 +190,7 @@ namespace Explorer.Tours.Tests.Integration
         {
             var environment = scope.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
             var context = scope.ServiceProvider.GetRequiredService<ToursContext>();
-            return new TourController(scope.ServiceProvider.GetRequiredService<ITourService>())
+            return new TourController(scope.ServiceProvider.GetRequiredService<ITourService>(), scope.ServiceProvider.GetRequiredService<IPublicRequestService>())
             {
                 ControllerContext = BuildContext("-1")
             };

@@ -1,7 +1,8 @@
 ﻿using Explorer.Stakeholders.API.Dtos;
-using Explorer.Stakeholders.Core.Domain;
 using Explorer.Stakeholders.Core.Domain.RepositoryInterfaces;
+using Explorer.Stakeholders.Core.Domain.Users;
 using FluentResults;
+using Microsoft.EntityFrameworkCore;
 using System.Data;
 
 using System.Net;
@@ -100,6 +101,19 @@ public class UserDatabaseRepository : IUserRepository
     }
 
 
+    public User Update(User user)
+    {
+        try
+        {
+            _dbContext.Update(user);
+            _dbContext.SaveChanges();
+        }
+        catch (DbUpdateException e)
+        {
+            throw new KeyNotFoundException(e.Message);
+        }
+        return (User)user;
+    }
 }
 
     

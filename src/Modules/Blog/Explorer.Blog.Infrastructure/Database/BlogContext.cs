@@ -1,4 +1,4 @@
-﻿using Explorer.Blog.Core.Domain;
+﻿using Explorer.Blog.Core.Domain.Blog;
 using Explorer.Stakeholders.Core.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
@@ -17,6 +17,8 @@ public class BlogContext : DbContext
 
         ConfigureBlog(modelBuilder);
         ConfigureComments(modelBuilder);
+
+        modelBuilder.Entity<UserBlog>().Property(item => item.Ratings).HasColumnType("jsonb");
     }
     private static void ConfigureBlog(ModelBuilder modelBuilder)
     {

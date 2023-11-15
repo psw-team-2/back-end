@@ -7,10 +7,8 @@ using Explorer.Tours.API.Public.Author;
 namespace Explorer.API.Controllers.Author
 {
     [Route("api/administration/object")]
-
     public class ObjectController : BaseApiController
     {
-
         private readonly IObjectService _objectService;
         private readonly IWebHostEnvironment _environment;
 
@@ -19,9 +17,6 @@ namespace Explorer.API.Controllers.Author
             _objectService = objectService;
             _environment = environment;
         }
-
-
-
 
         [HttpPost]
         public ActionResult<ObjectDto> Create([FromBody] ObjectDto objectDto)
@@ -50,5 +45,18 @@ namespace Explorer.API.Controllers.Author
             }
         }
 
+        [HttpGet("{id:int}")]
+        public ActionResult<ObjectDto> Get(int id)
+        {
+            var result = _objectService.Get(id);
+            return CreateResponse(result);
+        }
+
+        [HttpPut("{id:int}")]
+        public ActionResult<ObjectDto> Update([FromBody] ObjectDto object1)
+        {
+            var result = _objectService.Update(object1);
+            return CreateResponse(result);
+        }
     }
 }

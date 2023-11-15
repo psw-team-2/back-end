@@ -28,7 +28,7 @@ namespace Explorer.Tours.Core.Domain
         public double BicycleTime { get; init; } 
         public double CarTime { get; init; }
         public double TotalLength { get; init; }
-
+        public long AuthorId { get; set; }
         public DateTime PublishTime { get; init; }
 
         public Tour(String name, String description, AccountStatus status,int difficulty, double price, String? tags, double footTime, double bicycleTime, double carTime, double totalLength) : base(name,description, status,difficulty, price, tags)
@@ -50,6 +50,7 @@ namespace Explorer.Tours.Core.Domain
             BicycleTime = bicycleTime;
             CarTime = carTime;
             FootTime = footTime;
+            AuthorId = authorId;
             //Equipments=equipments;
             //Checkpoints = checkpoints;
             //Objects = objects;

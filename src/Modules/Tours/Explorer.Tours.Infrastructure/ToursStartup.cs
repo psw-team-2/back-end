@@ -1,5 +1,7 @@
 using Explorer.BuildingBlocks.Core.UseCases;
 using Explorer.BuildingBlocks.Infrastructure.Database;
+using Explorer.Stakeholders.API.Public;
+using Explorer.Stakeholders.Core.UseCases;
 using Explorer.Tours.API.Public;
 using Explorer.Tours.API.Public.Administration;
 using Explorer.Tours.API.Public.Author;
@@ -34,9 +36,12 @@ public static class ToursStartup
         services.AddScoped<ITourProblemService, TourProblemService>();
         services.AddScoped<ICheckPointService, CheckPointService>();
         services.AddScoped<ITourService, TourService>();
+        services.AddScoped<IUserAccountAdministrationService, UserAccountAdministrationService>();
         services.AddScoped<ITouristSelectedEquipmentService, TouristSelectedEquipmentService>();
         services.AddScoped<IObjectService, ObjectService>();
         services.AddScoped<ITourReviewService, TourReviewService>();
+        services.AddScoped<IPublicRequestService, PublicRequestService>();
+        services.AddScoped<ITourProblemResponseService, TourProblemResponseService>();
         services.AddScoped<IShoppingCartService, ShoppingCartService>();
         services.AddScoped<IOrderItemService, OrderItemService>();
         services.AddScoped<ITourPurchaseTokenService, TourPurchaseTokenService>();
@@ -63,11 +68,14 @@ public static class ToursStartup
         services.AddScoped(typeof(ICrudRepository<TourExecution>), typeof(CrudDatabaseRepository<TourExecution, ToursContext>));
         services.AddScoped<ICheckpointVisitedRepository, CheckpointVisitedRepository>();
         services.AddScoped<ISecretRepository, SecretRepository>();
+        services.AddScoped(typeof(ICrudRepository<PublicRequest>), typeof(CrudDatabaseRepository<PublicRequest, ToursContext>));
+        services.AddScoped(typeof(ICrudRepository<TourProblemResponse>), typeof(CrudDatabaseRepository<TourProblemResponse, ToursContext>));
         services.AddScoped(typeof(ICrudRepository<ShoppingCart>), typeof(CrudDatabaseRepository<ShoppingCart, ToursContext>));
         services.AddScoped<IShoppingCartRepository, ShoppingCartRepository>();
         services.AddScoped(typeof(ICrudRepository<OrderItem>), typeof(CrudDatabaseRepository<OrderItem, ToursContext>));
         services.AddScoped<IOrderItemRepository, OrderItemRepository>();
         services.AddScoped(typeof(ICrudRepository<TourPurchaseToken>), typeof(CrudDatabaseRepository<TourPurchaseToken, ToursContext>));
+
 
 
         services.AddDbContext<ToursContext>(opt =>
