@@ -4,18 +4,20 @@ using System.Linq;
 using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
+using Explorer.Tours.API.Dtos;
 
 namespace Explorer.Tours.Core.Domain
 {
     public class Tour : TourInfo
     {
+
         public List<int>? Equipments { get; init; }
 
         public List<long>? Checkpoints { get; init; }
 
         //public List <Object> Objects { get; init;
 
-       // public bool IsDeleted { get; set; } = false;
+        // public bool IsDeleted { get; set; } = false;
 
        public long AuthorId { get; set; }
 
@@ -29,7 +31,7 @@ namespace Explorer.Tours.Core.Domain
             Description = description;
             Difficulty = difficulty;
             Status = AccountStatus.DRAFT;
-            Price = 0;
+            Price = price;
             Tags = tags;
             Equipments = new List<int>();
             Checkpoints = new List<long>();

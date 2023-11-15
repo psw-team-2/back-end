@@ -1,7 +1,8 @@
 ﻿using Explorer.Stakeholders.API.Dtos;
-using Explorer.Stakeholders.Core.Domain;
 using Explorer.Stakeholders.Core.Domain.RepositoryInterfaces;
+using Explorer.Stakeholders.Core.Domain.Users;
 using FluentResults;
+using Microsoft.EntityFrameworkCore;
 using System.Data;
 
 using System.Net;
@@ -91,6 +92,27 @@ public class UserDatabaseRepository : IUserRepository
 
         // Handle any exceptions that may occur during database access
         //return Result.Fail($"Error: {ex.Message}");
+    }
+
+    public Result GetUserById(int userId)
+    {
+       _dbContext.Users.FirstOrDefault(u => u.Id == userId);
+        return Result.Ok();
+    }
+
+
+    public User Update(User user)
+    {
+        try
+        {
+            _dbContext.Update(user);
+            _dbContext.SaveChanges();
+        }
+        catch (DbUpdateException e)
+        {
+            throw new KeyNotFoundException(e.Message);
+        }
+        return (User)user;
     }
 }
 

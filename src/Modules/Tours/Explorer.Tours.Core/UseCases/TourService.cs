@@ -13,7 +13,6 @@ using Explorer.BuildingBlocks.Core;
 using Explorer.Stakeholders.API.Public;
 using Explorer.Stakeholders.Core.Domain;
 using FluentResults;
-using FluentResults;
 
 
 namespace Explorer.Tours.Core.UseCases
