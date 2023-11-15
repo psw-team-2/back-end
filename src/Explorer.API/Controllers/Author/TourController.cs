@@ -14,10 +14,12 @@ namespace Explorer.API.Controllers.Author
     public class TourController : BaseApiController
     {
         private readonly ITourService _tourService;
+        private readonly IPublicRequestService _publicRequestService;
 
-        public TourController(ITourService tourService)
+        public TourController(ITourService tourService, IPublicRequestService publicRequestService)
         {
             _tourService = tourService;
+            _publicRequestService = publicRequestService;
         }
 
         [HttpGet("{id:int}")]
@@ -83,7 +85,13 @@ namespace Explorer.API.Controllers.Author
             var result = _tourService.DeleteCheckPoint(tour, checkPointId);
             return CreateResponse(result);
         }
-        
+
+        [HttpPost("publicRequest")]
+        public ActionResult<PublicRequestDto> SendPublicRequest([FromBody] PublicRequestDto request)
+        {
+            var result = _publicRequestService.Create(request);
+            return CreateResponse(result);
+        }
     }
 }
 
