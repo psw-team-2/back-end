@@ -13,7 +13,7 @@ namespace Explorer.Stakeholders.Core.UseCases
     {
         public UserAccountAdministrationService(ICrudRepository<User> repository, IMapper mapper) : base(repository, mapper) { }
 
-        public Result<UserAccountDto> GetUserById(long userId)
+        public Result<UserAccountDto> GetUserAccountById(long userId)
         {
             return Get((int)userId);
         }
