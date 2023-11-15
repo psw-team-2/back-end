@@ -2,6 +2,10 @@
 using Explorer.BuildingBlocks.Core.UseCases;
 using Explorer.Stakeholders.API.Dtos;
 using Explorer.Stakeholders.API.Public;
+
+using Explorer.Stakeholders.Core.Domain;
+using Microsoft.VisualBasic.CompilerServices;
+
 using Explorer.Stakeholders.Core.Domain.RepositoryInterfaces;
 using Explorer.Stakeholders.Core.Domain.Users;
 using FluentResults;
@@ -16,6 +20,7 @@ namespace Explorer.Stakeholders.Core.UseCases
         private readonly IMessageRepository _messageRepository;
         private readonly IMapper _mapper;
         private readonly IProfileService _profileService;
+
 
 
 
@@ -154,6 +159,7 @@ namespace Explorer.Stakeholders.Core.UseCases
             var pagedResult = Result.Ok(new PagedResult<MessageDto>(unreadMessageDtos, unreadMessageDtos.Count));
 
             return pagedResult;
+
         }
     }
 }

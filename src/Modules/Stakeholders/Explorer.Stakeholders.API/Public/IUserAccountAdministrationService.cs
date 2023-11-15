@@ -24,5 +24,6 @@ namespace Explorer.Stakeholders.API.Public
 
         // MESSAGE
         Result<PagedResult<MessageDto>> GetUnreadMessages(int page, int pageSize, long profileId);
+
     }
 }

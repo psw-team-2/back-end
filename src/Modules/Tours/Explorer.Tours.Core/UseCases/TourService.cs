@@ -10,6 +10,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Explorer.BuildingBlocks.Core;
+using Explorer.Stakeholders.API.Public;
+using Explorer.Stakeholders.Core.Domain;
 using FluentResults;
 
 
@@ -17,8 +19,33 @@ namespace Explorer.Tours.Core.UseCases
 {
     public class TourService : CrudService<TourDto, Tour>, ITourService
     {
+        private readonly IUserAccountAdministrationService _userAccountService;
 
-        public TourService(ICrudRepository<Tour> repository, IMapper mapper) : base(repository, mapper) { }
+        public TourService(ICrudRepository<Tour> repository, IMapper mapper, IUserAccountAdministrationService userAccountService) : base(repository, mapper)
+        {
+            _userAccountService = userAccountService;
+
+
+        }
+
+        public Result<List<TourDto>> GetToursListByAuthor(long authorId, int page, int pageSize)
+        {
+
+            var userResult = _userAccountService.GetUserById((int)authorId);
+
+            if (userResult.IsSuccess && userResult.Value != null)
+            {
+                var tours = base.GetPaged(page, pageSize);
+                var authorsTours = tours.Value.Results.Where(tour => tour.AuthorId == authorId).ToList();
+
+                return Result.Ok(authorsTours);
+
+            }
+            else
+            {
+                return Result.Fail(FailureCode.NotFound).WithError("Failed to retrieve author information");
+            }
+        }
 
         public Result<TourDto> AddCheckPoint(TourDto tour, int checkPointId) {
 
