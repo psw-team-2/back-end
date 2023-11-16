@@ -3,21 +3,23 @@ using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public;
 using Explorer.Tours.API.Public.Administration;
 using Explorer.Tours.Core.UseCases;
+using FluentResults;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Explorer.API.Controllers.Author
 {
-    [Authorize(Policy = "authorPolicy")]
     [Route("api/author/tour")]
     public class TourController : BaseApiController
     {
         private readonly ITourService _tourService;
+        private readonly IPublicRequestService _publicRequestService;
 
-        public TourController(ITourService tourService)
+        public TourController(ITourService tourService, IPublicRequestService publicRequestService)
         {
             _tourService = tourService;
+            _publicRequestService = publicRequestService;
         }
 
         [HttpGet("{id:int}")]
@@ -44,6 +46,10 @@ namespace Explorer.API.Controllers.Author
         [HttpPut("{id:int}")]
         public ActionResult<TourDto> Update([FromBody] TourDto tour)
         {
+            if(tour.Status == AccountStatus.PUBLISHED) 
+            {
+                tour.PublishTime = DateTime.UtcNow;
+            }
             var result = _tourService.Update(tour);
             return CreateResponse(result);
         }
@@ -83,7 +89,34 @@ namespace Explorer.API.Controllers.Author
             var result = _tourService.DeleteCheckPoint(tour, checkPointId);
             return CreateResponse(result);
         }
-        
+
+        [HttpGet("average-grade/{tourId:int}")]
+        public ActionResult<AverageGradeDto> GetAverageGrade(int tourId)
+        {
+            var averageGrade = _tourService.GetAverageGradeForTour(tourId);
+            return CreateResponse(averageGrade);
+        }
+
+        [HttpPut("publish/{tourId:int}")]
+        public ActionResult<TourDto> PublishTour([FromBody] TourDto tour)
+        {
+            var result = _tourService.PublishTour(tour);
+            return CreateResponse(result);
+        }
+
+        [HttpPut("archive/{tourId:int}")]
+        public ActionResult<TourDto> ArchiveTour([FromBody] TourDto tour)
+        {
+            var result = _tourService.ArchiveTour(tour);
+            return CreateResponse(result);
+        }
+
+        [HttpPost("publicRequest")]
+        public ActionResult<PublicRequestDto> SendPublicRequest([FromBody] PublicRequestDto request)
+        {
+            var result = _publicRequestService.Create(request);
+            return CreateResponse(result);
+        }
     }
 }
 

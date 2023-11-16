@@ -1,4 +1,6 @@
-﻿namespace Explorer.Tours.API.Dtos;
+﻿using System.Net.Sockets;
+
+namespace Explorer.Tours.API.Dtos;
 
 public class CheckPointDto
 {
@@ -8,4 +10,5 @@ public class CheckPointDto
     public string Name { get; set; }
     public string Description { get; set; }
     public string Image { get; set; }
+    public bool IsPublic { get; set; }
 }

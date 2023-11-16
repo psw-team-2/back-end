@@ -1,4 +1,6 @@
 ﻿using Explorer.BuildingBlocks.Core.Domain;
+using System.Net.Sockets;
+using System.Diagnostics;
 
 namespace Explorer.Tours.Core.Domain;
 
@@ -9,8 +11,9 @@ public class CheckPoint : Entity
     public string Name { get; private set; }
     public string Description { get; private set; }
     public string Image { get; private set; }
+    public bool IsPublic { get; private set; }
 
-    public CheckPoint(double latitude, double longitude, string name, string description, string image)
+    public CheckPoint(double latitude, double longitude, string name, string description, string image, bool isPublic)
     {
         if ((latitude <= -90 && latitude >= 90) || double.IsNaN(latitude)) throw new ArgumentException("Invalid latitude.");
         if ((longitude <= -90 && longitude >= 90) || double.IsNaN(longitude)) throw new ArgumentException("Invalid longitude.");
@@ -22,5 +25,6 @@ public class CheckPoint : Entity
         Name = name;
         Description = description;
         Image = image;
+        IsPublic = isPublic;
     }
 }

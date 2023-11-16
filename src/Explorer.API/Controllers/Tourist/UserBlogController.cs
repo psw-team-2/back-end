@@ -6,6 +6,7 @@ using Explorer.BuildingBlocks.Core.UseCases;
 using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public.Administration;
 using Explorer.Tours.Core.UseCases.Administration;
+using FluentResults;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -79,7 +80,7 @@ namespace Explorer.API.Controllers.Tourist
         [HttpDelete("{id:int}")]
         public ActionResult Delete(int id)
         {
-            var result = _userBlogService.Delete(id);
+            var result = _userBlogService.DeleteAll(id);
             return CreateResponse(result);
         }
         [HttpGet("{id}")]
@@ -92,6 +93,41 @@ namespace Explorer.API.Controllers.Tourist
             }
 
             return CreateResponse(blog);
+        }
+
+        [HttpGet("byUser/{userId}")]
+        public ActionResult<PagedResult<UserBlogDto>> GetByUserId(int userId)
+        {
+            var blogsDtos = _userBlogService.GetByUserId(userId);
+
+            if (blogsDtos == null || !blogsDtos.Any())
+            {
+                return NotFound("No blogs found for the specified user ID.");
+            }
+
+            return Ok(blogsDtos);
+        }
+
+        [HttpPut("AddRating")]
+        public ActionResult AddRating(RatingDto ratingDto)
+        {
+            var result = _userBlogService.AddRating(ratingDto);
+            return CreateResponse(result);
+        }
+
+        [HttpGet("RatingCount")]
+        public ActionResult<RatingCount> GetRatingsCount([FromQuery] int blogId)
+        {
+            var count = _userBlogService.GetRatingsCount(blogId);
+            return CreateResponse(count);
+        }
+
+        [HttpGet("byStatus/{status}")]
+        public ActionResult<PagedResult<UserBlogDto>> GetByStatus(BlogStatus status, [FromQuery] int page = 1, [FromQuery] int pageSize = 12)
+        {
+            var blogsDtos = _userBlogService.GetByStatus(status, page, pageSize);
+            
+            return CreateResponse(blogsDtos);
         }
 
     }

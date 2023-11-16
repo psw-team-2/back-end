@@ -1,11 +1,13 @@
 ﻿using Explorer.BuildingBlocks.Core.UseCases;
 using Explorer.Stakeholders.API.Dtos;
 using Explorer.Stakeholders.API.Public;
-using Explorer.Stakeholders.Core.Domain;
 using Explorer.Stakeholders.Core.Domain.RepositoryInterfaces;
+using Explorer.Stakeholders.Core.Domain.Users;
 using FluentResults;
 using System.ComponentModel;
-using UserRole = Explorer.Stakeholders.Core.Domain.UserRole;
+using Explorer.Tours.API.Public;
+using Explorer.Tours.Core.Domain;
+using UserRole = Explorer.Stakeholders.Core.Domain.Users.UserRole;
 
 namespace Explorer.Stakeholders.Core.UseCases;
 
@@ -16,14 +18,15 @@ public class AuthenticationService : IAuthenticationService
     private readonly ICrudRepository<Person> _personRepository;
     private readonly ICrudRepository<Profile> _profileRepository;
     private readonly ITourPreferenceService _tourPreferenceService;
+    private readonly IShoppingCartService _shoppingCartService;
 
-    public AuthenticationService(IUserRepository userRepository, ICrudRepository<Person> personRepository, ITokenGenerator tokenGenerator, ICrudRepository<Profile> profileRepository, ITourPreferenceService tourPreferenceService)
+    public AuthenticationService(IUserRepository userRepository, ICrudRepository<Person> personRepository, ITokenGenerator tokenGenerator, ICrudRepository<Profile> profileRepository, IShoppingCartService shoppingCartService)
     {
         _tokenGenerator = tokenGenerator;
         _userRepository = userRepository;
         _personRepository = personRepository;
         _profileRepository = profileRepository;
-        _tourPreferenceService = tourPreferenceService;
+        _shoppingCartService = shoppingCartService;
     }
 
     public Result<AuthenticationTokensDto> Login(CredentialsDto credentials)
@@ -49,24 +52,20 @@ public class AuthenticationService : IAuthenticationService
 
         try
         {
+
             var user = _userRepository.Create(new User(account.Username, account.Password, UserRole.Tourist, true, account.Email));
             //var person = _personRepository.Create(new Person(user.Id, account.Name, account.Surname, account.Email));
             var profile = _profileRepository.Create(new Profile(account.Name, account.Surname, account.ProfilePicture, account.Biography, account.Motto, user.Id, true));
 
-            var tourPreference = _tourPreferenceService.Create(
-                    new TourPreferenceDto
+            //kreiranje korpe
+            var shoppingCart = _shoppingCartService.Create(new Tours.API.Dtos.ShoppingCartDto
                     {
                         Id = (int)user.Id,
-                        TouristId = (int)user.Id,
-                        CarRating = 1,
-                        BoatRating = 1,
-                        WalkingRating = 1,
-                        BicycleRating = 1,
-                        Difficulty = 1,
-                        Tags = new List<string>()
-
-
+                        UserId = user.Id,
+                        Items = new List<int>(),
+                        TotalPrice = 0
                     });
+
 
             return _tokenGenerator.GenerateAccessToken(user, profile.Id);
         }
@@ -104,4 +103,15 @@ public class AuthenticationService : IAuthenticationService
     {
         return _userRepository.GetUserById(userId);
     }
+    /*
+    public Result DeleteApplicationReviewByUser(ApplicationReviewDto applicationReviewDto)
+    {
+        ApplicationReview applicationReview = new ApplicationReview(applicationReviewDto.Grade, DateTime.UtcNow, applicationReviewDto.UserId, applicationReviewDto.Comment);
+
+        User user = _userRepository.GetUserById<User>(applicationReviewDto.UserId);
+        user.DeleteApplicationReview(applicationReview.Id);
+
+        _userRepository.Update(user.Id);
+    }*/
+    
 }

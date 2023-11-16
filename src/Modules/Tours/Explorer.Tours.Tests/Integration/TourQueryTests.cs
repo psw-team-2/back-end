@@ -55,7 +55,7 @@ namespace Explorer.Tours.Tests.Integration
         {
             var environment = scope.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
             var context = scope.ServiceProvider.GetRequiredService<ToursContext>();
-            return new TourController(scope.ServiceProvider.GetRequiredService<ITourService>())
+            return new TourController(scope.ServiceProvider.GetRequiredService<ITourService>(), scope.ServiceProvider.GetRequiredService<IPublicRequestService>())
             {
                 ControllerContext = BuildContext("-1")
             };

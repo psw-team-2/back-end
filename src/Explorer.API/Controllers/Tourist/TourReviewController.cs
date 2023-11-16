@@ -4,6 +4,7 @@ using Explorer.Tours.API.Public;
 using Explorer.Tours.API.Public.Administration;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Explorer.API.Controllers.Tourist
 {
@@ -14,10 +15,13 @@ namespace Explorer.API.Controllers.Tourist
         private readonly ITourReviewService _tourReviewService;
 
         private readonly IWebHostEnvironment _environment;
-        public TourReviewController(ITourReviewService tourReviewService, IWebHostEnvironment environment)
+
+        private readonly ITourService _tourService;
+        public TourReviewController(ITourReviewService tourReviewService, IWebHostEnvironment environment, ITourService tourService)
         {
             _tourReviewService = tourReviewService;
             _environment = environment;
+            _tourService = tourService;
         }
 
         [HttpGet]
@@ -27,12 +31,17 @@ namespace Explorer.API.Controllers.Tourist
             return CreateResponse(result);
         }
 
-        [HttpPost]
-        public ActionResult<TourReviewDto> Create([FromBody] TourReviewDto tourReview)
+        [HttpPost("{userId}")]
+        public ActionResult<TourReviewDto> Create([FromBody] TourReviewDto tourReview, int userId)
         {
-            var result = _tourReviewService.Create(tourReview);
+           
+            var result = _tourReviewService.Create(tourReview, userId);
+           
+
             return CreateResponse(result);
         }
+
+
 
 
         [HttpPost("UploadFile")]
@@ -68,6 +77,34 @@ namespace Explorer.API.Controllers.Tourist
             var result = _tourReviewService.Delete(id);
             return CreateResponse(result);
         }
+        /*
+        [HttpGet("average-grade/{tourId:int}")]
+        public ActionResult<double> GetAverageGrade(int tourId)
+        {
+            double averageGrade = _tourReviewService.GetAverageGradeForTour(tourId);
+            return Ok(averageGrade);
+        }*/
+
+        [HttpGet("byTour/{tourId}")]
+        public ActionResult<PagedResult<TourReviewDto>> GetByTourId(int tourId)
+        {
+            var reviewsDto = _tourService.GetByTourId(tourId);
+
+            if (reviewsDto == null || !reviewsDto.Any())
+            {
+                return NotFound("No reviews found for the specified tour ID.");
+            }
+
+            return Ok(reviewsDto);
+        }
+
+
+
+
+
+
+
+
 
     }
 }

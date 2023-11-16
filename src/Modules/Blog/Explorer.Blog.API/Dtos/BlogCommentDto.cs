@@ -10,6 +10,7 @@ namespace Explorer.Blog.API.Dtos
     {
         public int Id { get; set; }
         public long UserId { get; set; }
+        public string Username { get; set; }
         public long BlogId { get; set; }
         public string Text { get; set; }
         public DateTime CreationTime { get; set; }
