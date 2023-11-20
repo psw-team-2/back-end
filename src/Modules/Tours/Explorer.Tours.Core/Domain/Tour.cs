@@ -32,6 +32,7 @@ namespace Explorer.Tours.Core.Domain
         public DateTime PublishTime { get; init; }
 
         public Tour(String name, String description, AccountStatus status,int difficulty, double price, String? tags, double footTime, double bicycleTime, double carTime, double totalLength,long authorId) : base(name,description, status,difficulty, price, tags)
+
         {
             if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("Invalid Name.");
             if (string.IsNullOrWhiteSpace(description)) throw new ArgumentException("Invalid description.");
