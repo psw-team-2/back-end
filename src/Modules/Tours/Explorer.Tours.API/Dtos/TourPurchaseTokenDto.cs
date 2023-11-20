@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Explorer.Payments.API.Dtos
+namespace Explorer.Tours.API.Dtos
 {
     public class TourPurchaseTokenDto
     {

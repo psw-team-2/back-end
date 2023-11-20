@@ -7,6 +7,8 @@ using Explorer.Payments.API.Public;
 using Explorer.Payments.Core.Domain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Explorer.Tours.API.Dtos;
+using Explorer.Tours.API.Public;
 
 namespace Explorer.API.Controllers.Tourist
 {
@@ -15,10 +17,12 @@ namespace Explorer.API.Controllers.Tourist
     public class TourPurchaseTokenController : BaseApiController
     {
         private readonly ITourPurchaseTokenService _tourPurchaseTokenService;
+        private readonly IShoppingCartService _shoppingCartService;
 
-        public TourPurchaseTokenController(ITourPurchaseTokenService tourPurchaseTokenService)
+        public TourPurchaseTokenController(ITourPurchaseTokenService tourPurchaseTokenService, IShoppingCartService shoppingCartService)
         {
             _tourPurchaseTokenService = tourPurchaseTokenService;
+            _shoppingCartService = shoppingCartService;
         }
 
         [HttpGet]
@@ -31,7 +35,7 @@ namespace Explorer.API.Controllers.Tourist
         [HttpPost("createTokens/{userId}")]
         public ActionResult CreateTourPurchaseToken([FromBody] List<OrderItemDto> orderItems, [FromRoute] int userId)
         {
-            var result = _tourPurchaseTokenService.CreateTourPurchaseToken(orderItems, userId);
+            var result = _shoppingCartService.CreateTourPurchaseToken(orderItems, userId);
             return CreateResponse(result);          
         }
 

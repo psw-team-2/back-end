@@ -1,4 +1,6 @@
 ﻿using Explorer.BuildingBlocks.Core.UseCases;
+using Explorer.Payments.Core.Domain;
+using Explorer.Payments.Infrastructure.Database;
 using Explorer.Tours.Core.Domain;
 using Explorer.Tours.Core.Domain.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;

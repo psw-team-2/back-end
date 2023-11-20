@@ -12,6 +12,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Explorer.Tours.API.Dtos;
+using Explorer.Tours.Core.Domain;
 
 namespace Explorer.Payments.Core.UseCases
 {
@@ -19,17 +21,20 @@ namespace Explorer.Payments.Core.UseCases
     {
 
         private readonly IShoppingCartRepository _shoppingCartRepository;
-        private readonly ICrudRepository<Tours.Core.Domain.Tour> _tourRepository;
+        private readonly ICrudRepository<Tour> _tourRepository;
         private readonly ICrudRepository<OrderItem> _crudOrderItemRepository;
         private readonly IOrderItemRepository _orderItemRepository;
+        private readonly ICrudRepository<TourPurchaseToken> _tourPurchaseTokenRepository;
 
 
-        public ShoppingCartService(ICrudRepository<ShoppingCart> repository, IMapper mapper, IShoppingCartRepository shoppingCartRepository, ICrudRepository<Tours.Core.Domain.Tour> tourRepository, ICrudRepository<OrderItem> crudOrderItemRepository, IOrderItemRepository orderItemRepository) : base(repository, mapper)
+        public ShoppingCartService(ICrudRepository<ShoppingCart> repository, IMapper mapper, IShoppingCartRepository shoppingCartRepository, ICrudRepository<Tour> tourRepository, ICrudRepository<OrderItem> crudOrderItemRepository, IOrderItemRepository orderItemRepository, ICrudRepository<TourPurchaseToken> tourPurchaseTokenRepository) : base(repository, mapper)
         {
             _shoppingCartRepository = shoppingCartRepository;
             _tourRepository = tourRepository;
             _crudOrderItemRepository = crudOrderItemRepository;
             _orderItemRepository = orderItemRepository;
+            _tourRepository = tourRepository;
+            _tourPurchaseTokenRepository = tourPurchaseTokenRepository;
         }
 
 
@@ -136,6 +141,22 @@ namespace Explorer.Payments.Core.UseCases
                 return Result.Fail<double>(FailureCode.InvalidArgument).WithError(e.Message);
             }
 
+        }
+
+
+        public Result<String> CreateTourPurchaseToken(List<OrderItemDto> orderItems, int userId)
+        {
+            ShoppingCart shoppingCart = _shoppingCartRepository.GetShoppingCartByUserId(userId);
+            foreach (OrderItemDto item in orderItems)
+            {
+                TourPurchaseToken purchaseToken = new TourPurchaseToken(userId, item.TourId, DateTime.UtcNow);
+                _tourPurchaseTokenRepository.Create(purchaseToken);
+                shoppingCart.RemoveItem(item.Id);
+            }
+            shoppingCart.TotalPrice = 0;
+            _shoppingCartRepository.Update(shoppingCart);
+
+            return Result.Ok();
         }
     }
 }

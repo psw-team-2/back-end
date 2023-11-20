@@ -1,5 +1,7 @@
 using Explorer.BuildingBlocks.Core.UseCases;
 using Explorer.BuildingBlocks.Infrastructure.Database;
+using Explorer.Payments.Core.Domain;
+using Explorer.Payments.Infrastructure.Database;
 using Explorer.Stakeholders.API.Public;
 using Explorer.Stakeholders.Core.UseCases;
 using Explorer.Tours.API.Public;
@@ -45,6 +47,7 @@ public static class ToursStartup
         services.AddScoped<ICheckpointVisitedService, CheckpointVisitedService>();
         services.AddScoped<ITourExecutionService, TourExecutionService>();
         services.AddScoped<ISecretService, SecretService>();
+        services.AddScoped<ITourPurchaseTokenService, TourPurchaseTokenService>();
     }
 
     private static void SetupInfrastructure(IServiceCollection services)
@@ -66,7 +69,8 @@ public static class ToursStartup
         services.AddScoped<ICheckpointVisitedRepository, CheckpointVisitedRepository>();
         services.AddScoped<ISecretRepository, SecretRepository>();
         services.AddScoped(typeof(ICrudRepository<PublicRequest>), typeof(CrudDatabaseRepository<PublicRequest, ToursContext>));
-        services.AddScoped(typeof(ICrudRepository<TourProblemResponse>), typeof(CrudDatabaseRepository<TourProblemResponse, ToursContext>));        
+        services.AddScoped(typeof(ICrudRepository<TourProblemResponse>), typeof(CrudDatabaseRepository<TourProblemResponse, ToursContext>));
+        services.AddScoped(typeof(ICrudRepository<TourPurchaseToken>), typeof(CrudDatabaseRepository<TourPurchaseToken, ToursContext>));
 
 
 

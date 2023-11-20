@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Reflection.Metadata;
 
 using Microsoft.EntityFrameworkCore.Internal;
+using Explorer.Payments.Core.Domain;
 
 namespace Explorer.Tours.Infrastructure.Database;
 
@@ -19,7 +20,9 @@ public class ToursContext : DbContext
     public DbSet<PublicRequest> PublicRequests { get; set; }
     public DbSet<TourProblemResponse> TourProblemResponse { get; set; }
 
-//    public DbSet<Explorer.Stakeholders.Core.Domain.User> StakeholdersUser { get; set; }
+    public DbSet<TourPurchaseToken> TourPurchaseToken { get; set; }
+
+    //    public DbSet<Explorer.Stakeholders.Core.Domain.User> StakeholdersUser { get; set; }
 
     public DbSet<CheckpointVisited> CheckpointVisited { get; set; }
     public DbSet<TourExecution> TourExecutions { get; set; }
