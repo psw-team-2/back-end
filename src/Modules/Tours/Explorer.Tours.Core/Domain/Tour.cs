@@ -40,7 +40,7 @@ namespace Explorer.Tours.Core.Domain
             Name = name;
             Description = description;
             Difficulty = difficulty;
-            Status = AccountStatus.DRAFT;
+            Status = status;
             Price = price;
             Tags = tags;
             Equipments = new List<int>();
