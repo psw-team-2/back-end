@@ -20,11 +20,8 @@ public class ToursProfile : Profile
         CreateMap<PublicRequestDto, PublicRequest>().ReverseMap();   
         CreateMap<TourProblemResponseDto, TourProblemResponse>().ReverseMap();
         CreateMap<ObjectDto, Domain.Object>().ReverseMap();
-        CreateMap<TourReviewDto, TourReview>().ReverseMap();
-        CreateMap<ShoppingCartDto, ShoppingCart>().ReverseMap();
-        CreateMap<OrderItemDto, OrderItem>().ReverseMap();
+        CreateMap<TourReviewDto, TourReview>().ReverseMap();       
         //CreateMap<PriceDto, Price>().ReverseMap();
-        CreateMap<TourPurchaseTokenDto, TourPurchaseToken>().ReverseMap();
         /*CreateMap<OrderItemDto, OrderItem>()
             .IncludeAllDerived()
             .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price));

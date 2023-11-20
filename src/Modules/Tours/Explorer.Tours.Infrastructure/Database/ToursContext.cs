@@ -21,9 +21,6 @@ public class ToursContext : DbContext
 
 //    public DbSet<Explorer.Stakeholders.Core.Domain.User> StakeholdersUser { get; set; }
 
-    public DbSet<ShoppingCart> ShoppingCarts { get; set; }
-    public DbSet<OrderItem> OrderItems { get; set; }
-    public DbSet<TourPurchaseToken> TourPurchaseToken { get; set; }
     public DbSet<CheckpointVisited> CheckpointVisited { get; set; }
     public DbSet<TourExecution> TourExecutions { get; set; }
     public DbSet<Secret> Secrets { get; set; }
