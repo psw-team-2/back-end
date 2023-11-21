@@ -13,4 +13,5 @@ public interface IClubService
     Result<ClubDto> Kick(ClubDto club);
     Result<ClubDto> GetClubById(int id);
     Result<List<long>> GetAllMembers(int clubId);
+    Result<bool> InviteMembersToTour(long clubId, int senderId, int tourId, List<long> invitedMemberIds);
 }

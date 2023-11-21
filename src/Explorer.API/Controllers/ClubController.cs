@@ -91,5 +91,12 @@ namespace Explorer.API.Controllers
             return CreateResponse(result);
         }
 
+        [HttpPost("{clubId:int}/inviteMembersToTour")]
+        public ActionResult<bool> InviteMembersToTour(long clubId, int senderId, int tourId, List<long> invitedMemberIds)
+        {
+            var result = _clubService.InviteMembersToTour(clubId, senderId, tourId, invitedMemberIds);
+            return CreateResponse(result);
+        }
+
     }
 }
