@@ -12,11 +12,14 @@ namespace Explorer.Tours.Core.Domain
         public string Name { get; set; }
         public string Description { get; set; }
         public string Image { get; set; }
+
+        public double Longitude { get; set; }
+        public double Latitude { get; set; }
         public bool IsPublic { get; set; }
 
         public ObjectType.Category Category { get; set; }
 
-        public Object(string name, string description, string image, bool isPublic, ObjectType.Category category)
+        public Object(string name, string description, string image, bool isPublic, ObjectType.Category category, double latitude, double longitude)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -39,6 +42,8 @@ namespace Explorer.Tours.Core.Domain
             Image = image;
             IsPublic = isPublic;
             Category = category;
+            Longitude = longitude;
+            Latitude = latitude;
         }
 
 
