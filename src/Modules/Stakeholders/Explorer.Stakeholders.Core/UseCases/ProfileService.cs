@@ -15,11 +15,12 @@ namespace Explorer.Stakeholders.Core.UseCases
         private readonly IMapper _mapper;
         private readonly IFollowRepository _followRepository;
         private readonly IMessageRepository _messageRepository;
-        public ProfileService(ICrudRepository<Profile> repository, IMapper mapper, IProfileRepository profileRepository, IFollowRepository followRepository) : base(repository, mapper)
+        public ProfileService(ICrudRepository<Profile> repository, IMapper mapper, IProfileRepository profileRepository, IFollowRepository followRepository, IMessageRepository messageRepository) : base(repository, mapper)
         {
             _profileRepository = profileRepository;
             _mapper = mapper;
             _followRepository = followRepository;
+            _messageRepository = messageRepository;
         }
 
         // PROFILE
