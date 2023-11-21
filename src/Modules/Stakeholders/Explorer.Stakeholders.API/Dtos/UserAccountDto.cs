@@ -14,7 +14,6 @@ namespace Explorer.Stakeholders.API.Dtos
         public string Email { get; set; }
         public UserRole Role { get; set; }
         public bool IsActive { get; set; }
-        public TourPreferenceDto TourPreference {get; set;}
     }
 
     public enum UserRole

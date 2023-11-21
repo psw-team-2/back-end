@@ -39,7 +39,7 @@ namespace Explorer.API.Controllers.Administrator.Administration
             if (userIdClaim != null && int.TryParse(userIdClaim.Value, out int id))
             {
 
-                var result = _userService.GetByUserId(id);
+                var result = _profileService.GetByUserId(id);
                 return CreateResponse(result);
             }
             else
@@ -97,21 +97,21 @@ namespace Explorer.API.Controllers.Administrator.Administration
         [HttpPut("AddFollow")]
         public ActionResult AddFollow(FollowDto followDto)
         {
-            var result = _userService.AddFollow(followDto);
+            var result = _profileService.AddFollow(followDto);
             return CreateResponse(result);
         }
 
         [HttpGet("all-followers/{profileId:int}")]
         public ActionResult<PagedResult<ProfileDto>> GetAllFollowers([FromQuery] int page, [FromQuery] int pageSize, long profileId)
         {
-            var result = _userService.GetAllFollowers(page, pageSize, profileId);
+            var result = _profileService.GetAllFollowers(page, pageSize, profileId);
             return CreateResponse(result);
         }
 
         [HttpGet("all-following/{profileId:int}")]
         public ActionResult<PagedResult<ProfileDto>> GetAllFollowing([FromQuery] int page, [FromQuery] int pageSize, long profileId)
         {
-            var result = _userService.GetAllFollowing(page, pageSize, profileId);
+            var result = _profileService.GetAllFollowing(page, pageSize, profileId);
             return CreateResponse(result);
         }
     }
