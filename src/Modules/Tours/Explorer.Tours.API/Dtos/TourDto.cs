@@ -21,9 +21,10 @@ namespace Explorer.Tours.API.Dtos
         public AccountStatus Status { get; set; }
         public int Difficulty { get; set; }
         public double Price { get; set; }
-        public List<string> Tags { get; set; }
-        public List<int>? Equipments { get; set; }
+        public List<string>? Tags { get; set; }
+        public List<int>? Equipment { get; set; }
         public List<long>? CheckPoints { get; set; }
+        public List<long>? Objects { get; set; }
         public double FootTime { get; set; }
         public double BicycleTime { get; set; }
         public double CarTime { get; set; }

@@ -17,10 +17,10 @@ namespace Explorer.Tours.Core.Domain
         public AccountStatus Status { get; init; }
         public int Difficulty { get; init;}
         public double Price { get; init; }
-        public List<string> Tags { get; init; }
+        public List<string>? Tags { get; init; }
         public bool IsDeleted { get; init; } = false;
 
-        public TourInfo(String name, String description, AccountStatus status, int difficulty, double price, List<string> tags)
+        public TourInfo(String name, String description, AccountStatus status, int difficulty, double price)
         {
             if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("Invalid Name.");
             if (string.IsNullOrWhiteSpace(description)) throw new ArgumentException("Invalid description.");
@@ -33,8 +33,7 @@ namespace Explorer.Tours.Core.Domain
             Status = status;
             Difficulty = difficulty;
             Price = price;
-            Tags = tags;
-
+            Tags = new List<string>();
         
         }
     }

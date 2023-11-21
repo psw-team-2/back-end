@@ -84,7 +84,7 @@ namespace Explorer.Tours.Core.UseCases
         {
             if(tour != null)
             {
-                tour.Equipments.Add(equipmentId);
+                tour.Equipment.Add(equipmentId);
                 Update(tour);
             }
             return tour;
@@ -94,7 +94,7 @@ namespace Explorer.Tours.Core.UseCases
         {
             if (tour != null)
             {
-                tour.Equipments.Remove(equipmentId);
+                tour.Equipment.Remove(equipmentId);
                 Update(tour);
             }
             return tour;

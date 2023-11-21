@@ -14,15 +14,14 @@ namespace Explorer.Tours.Core.Domain
     public class Tour : TourInfo
     {
 
-        public List<int>? Equipments { get; init; }
+        public List<long>? Equipment { get; init; }
 
         public List<long>? Checkpoints { get; init; }
 
+        public List<long>? Objects { get; init; }
         public List<TourReview>? TourReviews { get; init;}
 
-        //public List <Object> Objects { get; init;
-
-        // public bool IsDeleted { get; set; } = false;
+        //public bool IsDeleted { get; set; } = false;
 
         public double FootTime { get; init; } 
         public double BicycleTime { get; init; } 
@@ -31,7 +30,7 @@ namespace Explorer.Tours.Core.Domain
         public long AuthorId { get; set; }
         public DateTime PublishTime { get; init; }
 
-        public Tour(String name, String description, AccountStatus status,int difficulty, double price, List<string> tags, double footTime, double bicycleTime, double carTime, double totalLength,long authorId) : base(name,description, status,difficulty, price, tags)
+        public Tour(String name, String description, AccountStatus status,int difficulty, double price, double footTime, double bicycleTime, double carTime, double totalLength,long authorId) : base(name,description, status,difficulty, price)
         {
             if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("Invalid Name.");
             if (string.IsNullOrWhiteSpace(description)) throw new ArgumentException("Invalid description.");
@@ -42,18 +41,16 @@ namespace Explorer.Tours.Core.Domain
             Difficulty = difficulty;
             Status = status;
             Price = price;
-            Tags = tags;
-            Equipments = new List<int>();
+            Equipment = new List<long>();
             Checkpoints = new List<long>();
+            Objects = new List<long>();
+            Tags = new List<string>();
             TourReviews = new List<TourReview>();
             TotalLength = totalLength;
             BicycleTime = bicycleTime;
             CarTime = carTime;
             FootTime = footTime;
             AuthorId = authorId;
-            //Equipments=equipments;
-            //Checkpoints = checkpoints;
-            //Objects = objects;
 
         }
         public double GetAverageGradeForTour()
