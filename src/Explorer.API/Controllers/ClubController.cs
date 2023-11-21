@@ -83,5 +83,13 @@ namespace Explorer.API.Controllers
                 throw;
             }
         }
+
+        [HttpGet("{clubId:int}/allMembers")]
+        public ActionResult<List<long>> getAllMembers(int clubId)
+        {
+            var result = _clubService.GetAllMembers(clubId);
+            return CreateResponse(result);
+        }
+
     }
 }

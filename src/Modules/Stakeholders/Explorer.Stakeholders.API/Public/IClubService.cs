@@ -12,4 +12,5 @@ public interface IClubService
     Result<ClubDto> Get(int id);
     Result<ClubDto> Kick(ClubDto club);
     Result<ClubDto> GetClubById(int id);
+    Result<List<long>> GetAllMembers(int clubId);
 }

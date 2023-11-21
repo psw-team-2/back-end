@@ -25,13 +25,32 @@ namespace Explorer.Stakeholders.Core.UseCases
 
                 if (club == null)
                 {
-                    return Result.Fail<ClubDto>(FailureCode.NotFound).WithError("Request not found");
+                    return Result.Fail<ClubDto>(FailureCode.NotFound).WithError("Club not found");
                 }
 
                 var clubDto = MapToDto(club);
                 return Result.Ok(clubDto);
             }
             catch (ArgumentException e)
+            {
+                return Result.Fail(FailureCode.InvalidArgument).WithError(e.Message);
+            }
+        }
+
+        public Result<List<long>> GetAllMembers(int clubId)
+        {
+            try
+            {
+                var club = CrudRepository.Get(clubId);
+                if(club == null)
+                {
+                    return Result.Fail(FailureCode.NotFound).WithError("Club not found");
+                }
+
+                var members = club.MemberIds;
+                return Result.Ok(members);
+            }
+            catch(ArgumentException e) 
             {
                 return Result.Fail(FailureCode.InvalidArgument).WithError(e.Message);
             }
