@@ -1,12 +1,12 @@
 ﻿using Explorer.BuildingBlocks.Core.Domain;
-using Explorer.Tours.Core.Domain;
+using Explorer.Payments.Core.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Explorer.Tours.Core.Domain
+namespace Explorer.Payments.Core.Domain
 {
     public class ShoppingCart : Entity
     {

@@ -10,7 +10,6 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 namespace Explorer.API.Controllers.Administrator
 {
 
-    [Authorize(Policy = "administratorPolicy")]
     [Route("api/administrator/tour")]
     public class TourAdminController : BaseApiController
     {

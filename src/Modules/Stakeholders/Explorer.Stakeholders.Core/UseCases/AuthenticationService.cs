@@ -8,6 +8,7 @@ using System.ComponentModel;
 using Explorer.Tours.API.Public;
 using Explorer.Tours.Core.Domain;
 using UserRole = Explorer.Stakeholders.Core.Domain.Users.UserRole;
+using Explorer.Payments.API.Public;
 
 namespace Explorer.Stakeholders.Core.UseCases;
 
@@ -58,7 +59,7 @@ public class AuthenticationService : IAuthenticationService
             var profile = _profileRepository.Create(new Profile(account.Name, account.Surname, account.ProfilePicture, account.Biography, account.Motto, user.Id, true));
 
             //kreiranje korpe
-            var shoppingCart = _shoppingCartService.Create(new Tours.API.Dtos.ShoppingCartDto
+            var shoppingCart = _shoppingCartService.Create(new Payments.API.Dtos.ShoppingCartDto
                     {
                         Id = (int)user.Id,
                         UserId = user.Id,

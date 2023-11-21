@@ -2,6 +2,7 @@ using Explorer.API.Startup;
 using Explorer.Blog.Infrastructure;
 using Explorer.Stakeholders.Infrastructure;
 using Explorer.Tours.Infrastructure;
+using Explorer.Encounters.Infrastructure;
 using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,6 +21,7 @@ builder.Services.RegisterModules();
 builder.Services.ConfigureBlogModule();
 builder.Services.ConfigureToursModule();
 builder.Services.ConfigureStakeholdersModule();
+builder.Services.ConfigureEncountersModule();
 
 var app = builder.Build();
 

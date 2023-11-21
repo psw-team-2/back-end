@@ -35,7 +35,7 @@ namespace Explorer.Tours.Tests.Integration
                 Status = AccountStatus.DRAFT,
                 Difficulty = 3,
                 Price = 50.0,
-                Tags = "Adventure, Hiking",
+                Tags = { "Adventure" , "Hiking" },
                 Equipments = new List<int> { 1, 2 },
                 CheckPoints = new List<long> { 123, 456 },
                 AuthorId = -11,
@@ -68,7 +68,7 @@ namespace Explorer.Tours.Tests.Integration
                 Status = AccountStatus.DRAFT,
                 Difficulty = 0,
                 Price = 50.0,
-                Tags = "",
+                Tags = {},
                 Equipments = new List<int> {  },
                 CheckPoints = new List<long> { }
             };
@@ -96,7 +96,7 @@ namespace Explorer.Tours.Tests.Integration
                 Status = AccountStatus.DRAFT,
                 Difficulty = 4,
                 Price = 75.0,
-                Tags = "Updated, Adventure",
+                Tags = { "Adventure", "Hiking" },
                 Equipments = new List<int> { 3, 4 },
                 CheckPoints = new List<long> { 789, 101 },
                 AuthorId = -1
@@ -137,7 +137,7 @@ namespace Explorer.Tours.Tests.Integration
                 Status = AccountStatus.DRAFT,
                 Difficulty = 0,
                 Price = 50.0,
-                Tags = "Update fail TEST",
+                Tags = { "Adventure", "Hiking" },
                 Equipments = new List<int> { },
                 CheckPoints = new List<long> { }
             };
