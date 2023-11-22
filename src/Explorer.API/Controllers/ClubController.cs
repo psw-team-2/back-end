@@ -83,5 +83,20 @@ namespace Explorer.API.Controllers
                 throw;
             }
         }
+
+        [HttpGet("{clubId:int}/allMembers")]
+        public ActionResult<List<long>> getAllMembers(int clubId)
+        {
+            var result = _clubService.GetAllMembers(clubId);
+            return CreateResponse(result);
+        }
+
+        [HttpPost("{clubId:int}/inviteMembersToTour")]
+        public ActionResult<bool> InviteMembersToTour(long clubId, int senderId, int tourId, List<long> invitedMemberIds)
+        {
+            var result = _clubService.InviteMembersToTour(clubId, senderId, tourId, invitedMemberIds);
+            return CreateResponse(result);
+        }
+
     }
 }
