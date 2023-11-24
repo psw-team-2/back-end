@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Explorer.API.Controllers
 {
-    [Authorize(Policy = "touristPolicy")]
+    [Authorize]
     [Route("api/clubs")]
 
     [ApiController]
