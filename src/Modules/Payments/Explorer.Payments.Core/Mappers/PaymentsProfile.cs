@@ -16,7 +16,7 @@ namespace Explorer.Payments.Core.Mappers
             CreateMap<OrderItemDto, OrderItem>().ReverseMap();
             CreateMap<PurchaseReportDto, PurchaseReport>().ReverseMap();
             CreateMap<PaymentNotificationDto, PaymentNotification>().ReverseMap();
-            CreateMap<WalletDto, WalletDto>().ReverseMap();
+            CreateMap<WalletDto, Wallet>().ReverseMap();
         }
     }
 }
