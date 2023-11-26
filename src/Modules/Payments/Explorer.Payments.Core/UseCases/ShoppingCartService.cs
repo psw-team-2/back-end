@@ -25,9 +25,10 @@ namespace Explorer.Payments.Core.UseCases
         private readonly ICrudRepository<OrderItem> _crudOrderItemRepository;
         private readonly IOrderItemRepository _orderItemRepository;
         private readonly ICrudRepository<TourPurchaseToken> _tourPurchaseTokenRepository;
+        private readonly IPurchaseReportService _purchaseReportService;
 
 
-        public ShoppingCartService(ICrudRepository<ShoppingCart> repository, IMapper mapper, IShoppingCartRepository shoppingCartRepository, ICrudRepository<Tour> tourRepository, ICrudRepository<OrderItem> crudOrderItemRepository, IOrderItemRepository orderItemRepository, ICrudRepository<TourPurchaseToken> tourPurchaseTokenRepository) : base(repository, mapper)
+        public ShoppingCartService(ICrudRepository<ShoppingCart> repository, IMapper mapper, IShoppingCartRepository shoppingCartRepository, ICrudRepository<Tour> tourRepository, ICrudRepository<OrderItem> crudOrderItemRepository, IOrderItemRepository orderItemRepository, ICrudRepository<TourPurchaseToken> tourPurchaseTokenRepository, IPurchaseReportService purchaseReportService) : base(repository, mapper)
         {
             _shoppingCartRepository = shoppingCartRepository;
             _tourRepository = tourRepository;
@@ -35,6 +36,7 @@ namespace Explorer.Payments.Core.UseCases
             _orderItemRepository = orderItemRepository;
             _tourRepository = tourRepository;
             _tourPurchaseTokenRepository = tourPurchaseTokenRepository;
+            _purchaseReportService = purchaseReportService;
         }
 
 
@@ -146,6 +148,7 @@ namespace Explorer.Payments.Core.UseCases
 
         public Result<String> CreateTourPurchaseToken(List<OrderItemDto> orderItems, int userId)
         {
+
             ShoppingCart shoppingCart = _shoppingCartRepository.GetShoppingCartByUserId(userId);
             foreach (OrderItemDto item in orderItems)
             {
@@ -155,6 +158,8 @@ namespace Explorer.Payments.Core.UseCases
             }
             shoppingCart.TotalPrice = 0;
             _shoppingCartRepository.Update(shoppingCart);
+
+            _purchaseReportService.Create(orderItems, userId);
 
             return Result.Ok();
         }

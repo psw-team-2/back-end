@@ -11,9 +11,9 @@ namespace Explorer.Payments.Core.Domain
     {
         public long UserId { get; init; }
         public long TourId { get; init; }
-        public int AdventureCoin { get; set; }
+        public double AdventureCoin { get; set; }
 
-        public PurchaseReport(long userId, long tourId, int adventureCoin)
+        public PurchaseReport(long userId, long tourId, double adventureCoin)
         {
             UserId = userId;
             TourId = tourId;

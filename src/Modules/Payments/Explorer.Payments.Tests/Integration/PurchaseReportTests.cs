@@ -3,6 +3,7 @@ using Explorer.API.Controllers.Tourist;
 using Explorer.Blog.API.Dtos;
 using Explorer.Payments.API.Dtos;
 using Explorer.Payments.API.Public;
+using Explorer.Payments.Core.Domain;
 using Explorer.Payments.Infrastructure.Database;
 using Explorer.Tours.API.Public.Administration;
 using Explorer.Tours.Infrastructure.Database;
@@ -29,22 +30,28 @@ namespace Explorer.Payments.Tests.Integration
             using var scope = Factory.Services.CreateScope();
             var controller = CreateController(scope);
             var dbContext = scope.ServiceProvider.GetRequiredService<PaymentsContext>();
-            var newEntity = new PurchaseReportDto
+            var newOrder = new OrderItemDto
             {
-                UserId = 1,
-                TourId = 1,
-                AdventureCoin = 200
+                TourId = 2,
+                TourName = "Test",
+                Price = 50,
+                ShoppingCartId = 1,
+                IsBought = false
             };
 
+            List<OrderItemDto> orders = new List<OrderItemDto>();
+            orders.Add(newOrder);
+
             // Act
-            var result = (ObjectResult)controller.Create(newEntity).Result;
+            var result = (OkResult)controller.Create(orders,1);
 
             // Assert - Response
             result.ShouldNotBeNull();
             result.StatusCode.ShouldBe(200);
             // Assert - Database
-            var storedEntity = dbContext.PurchaseReports.FirstOrDefault(t => t.UserId == newEntity.UserId && t.TourId == newEntity.TourId);
+            var storedEntity = dbContext.PurchaseReports.FirstOrDefault(t => t.TourId == newOrder.TourId && t.UserId == 1);
             storedEntity.ShouldNotBeNull();
+            storedEntity.AdventureCoin.ShouldBe(newOrder.Price);
         }
 
 
