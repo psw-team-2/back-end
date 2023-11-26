@@ -3,6 +3,7 @@ using Explorer.BuildingBlocks.Core.UseCases;
 using Explorer.Payments.API.Dtos;
 using Explorer.Payments.API.Public;
 using Explorer.Payments.Core.Domain;
+using Explorer.Tours.Core.Domain;
 using FluentResults;
 using System;
 using System.Collections.Generic;
@@ -14,18 +15,23 @@ namespace Explorer.Payments.Core.UseCases
 {
     public class WalletService: CrudService<WalletDto, Wallet>, IWalletService
     {
-        public WalletService(ICrudRepository<Wallet> crudRepository, IMapper mapper) : base(crudRepository, mapper)
+        private readonly ICrudRepository<Wallet> _walletRepository;
+        public WalletService(ICrudRepository<Wallet> crudRepository, IMapper mapper, ICrudRepository<Wallet> walletRepository) : base(crudRepository, mapper)
         {
+            _walletRepository = walletRepository;
         }
 
-        public Result<WalletDto> Create(WalletDto walletDto)
-        {
-            throw new NotImplementedException();
-        }
 
         public Result<WalletDto> AddAC(WalletDto walletDto)
         {
-            throw new NotImplementedException();
+            Wallet wallet = _walletRepository.Get(walletDto.Id);
+            if (wallet != null)
+            {
+                wallet.AC += walletDto.AC;
+                _walletRepository.Update(wallet);
+                return MapToDto(wallet);
+            }
+            return Result.Fail(FailureCode.NotFound).WithError("Wallet not found.");
         }
 
 

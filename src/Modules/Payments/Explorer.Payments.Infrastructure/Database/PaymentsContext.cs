@@ -11,6 +11,7 @@ namespace Explorer.Payments.Infrastructure.Database
         public DbSet<PaymentNotification> PaymentNotifications { get; set; }
 
         public DbSet<Wallet> Wallets { get; set; }
+        
         public PaymentsContext(DbContextOptions<PaymentsContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

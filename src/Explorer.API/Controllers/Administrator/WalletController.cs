@@ -35,7 +35,7 @@ namespace Explorer.API.Controllers.Administrator
         }
 
         [HttpPut("{id:int}")]
-        public ActionResult<WalletDto> Update([FromBody] WalletDto wallet)
+        public ActionResult<WalletDto> AddAC([FromBody] WalletDto wallet)
         {
             var result = _walletService.AddAC(wallet);
             return CreateResponse(result);

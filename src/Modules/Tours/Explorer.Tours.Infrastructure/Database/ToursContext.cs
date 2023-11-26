@@ -27,6 +27,7 @@ public class ToursContext : DbContext
     public DbSet<CheckpointVisited> CheckpointVisited { get; set; }
     public DbSet<TourExecution> TourExecutions { get; set; }
     public DbSet<Secret> Secrets { get; set; }
+    public DbSet<Bundle> Bundles { get; set; }
 
 
     public ToursContext(DbContextOptions<ToursContext> options) : base(options) {}
