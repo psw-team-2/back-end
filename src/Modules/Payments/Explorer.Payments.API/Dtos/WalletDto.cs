@@ -8,5 +8,9 @@ namespace Explorer.Payments.API.Dtos
 {
     public class WalletDto
     {
+        public int Id { get; set; }
+        public int UserId { get; set; }
+        public string Username { get; set; }
+        public int AC { get; set; }
     }
 }
