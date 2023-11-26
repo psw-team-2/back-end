@@ -7,6 +7,7 @@ namespace Explorer.Payments.Infrastructure.Database
     {
         public DbSet<ShoppingCart> ShoppingCarts { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<PaymentNotification> PaymentNotifications { get; set; }
         public PaymentsContext(DbContextOptions<PaymentsContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

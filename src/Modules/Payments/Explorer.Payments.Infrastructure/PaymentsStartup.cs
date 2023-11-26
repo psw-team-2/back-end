@@ -31,6 +31,7 @@ namespace Explorer.Payments.Infrastructure
         {
             services.AddScoped<IShoppingCartService, ShoppingCartService>();
             services.AddScoped<IOrderItemService, OrderItemService>();
+            services.AddScoped<IPaymentNotificationService, PaymentNotificationService>();
         }
 
         private static void SetupInfrastructure(IServiceCollection services)
@@ -39,6 +40,7 @@ namespace Explorer.Payments.Infrastructure
             services.AddScoped<IShoppingCartRepository, ShoppingCartRepository>();
             services.AddScoped(typeof(ICrudRepository<OrderItem>), typeof(CrudDatabaseRepository<OrderItem, PaymentsContext>));
             services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+            services.AddScoped(typeof(ICrudRepository<PaymentNotification>), typeof(CrudDatabaseRepository<PaymentNotification, PaymentsContext>));
 
             services.AddDbContext<PaymentsContext>(opt =>
             opt.UseNpgsql(DbConnectionStringBuilder.Build("payments"),
