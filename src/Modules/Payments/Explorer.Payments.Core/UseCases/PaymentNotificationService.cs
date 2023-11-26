@@ -14,13 +14,13 @@ namespace Explorer.Payments.Core.UseCases
 {
     public class PaymentNotificationService : CrudService<PaymentNotificationDto, PaymentNotification>, IPaymentNotificationService
     {
+        private readonly ICrudRepository<PaymentNotification> _paymentNotificationRepository;
         public PaymentNotificationService(ICrudRepository<PaymentNotification> crudRepository, IMapper mapper) : base(crudRepository, mapper)
         {
+            _paymentNotificationRepository = crudRepository;
         }
 
-        public Result<PaymentNotificationDto> Create(PaymentNotificationDto paymentNotificationDto)
-        {
-            throw new NotImplementedException();
-        }
+        
+
     }
 }

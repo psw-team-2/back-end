@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 using Explorer.Payments.Infrastructure.Database;
 using Explorer.Payments.API.Dtos;
 using Shouldly;
+using Explorer.Payments.Core.Domain;
 
 namespace Explorer.Payments.Tests.Integration
 {
@@ -41,15 +42,18 @@ namespace Explorer.Payments.Tests.Integration
 
             // Act
             var result = (ObjectResult)controller.Create(newEntity).Result;
+            var createdNotification = result.Value as PaymentNotificationDto;
 
             // Assert - Response
             result.ShouldNotBeNull();
             result.StatusCode.ShouldBe(200);
 
             // Assert - Database
-            var storedEntity = dbContext.PaymentNotifications.FirstOrDefault(i => i.Id == newEntity.Id);
+            var storedEntity = dbContext.PaymentNotifications.FirstOrDefault(p => p.Id == createdNotification.Id);
             storedEntity.ShouldNotBeNull();
             storedEntity.Status.ShouldBe(Core.Domain.PaymentNotification.NotificationStatus.Unread);
+            storedEntity.UserId.ShouldBe(newEntity.UserId);
+            storedEntity.AdventureCoin.ShouldBe(newEntity.AdventureCoin);
         }
         private static PaymentNotificationController CreateController(IServiceScope scope)
         {
