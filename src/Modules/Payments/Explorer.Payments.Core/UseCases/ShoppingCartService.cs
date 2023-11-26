@@ -26,9 +26,10 @@ namespace Explorer.Payments.Core.UseCases
         private readonly IOrderItemRepository _orderItemRepository;
         private readonly ICrudRepository<TourPurchaseToken> _tourPurchaseTokenRepository;
         private readonly IPurchaseReportService _purchaseReportService;
+        private readonly IWalletRepository _walletRepository;
 
 
-        public ShoppingCartService(ICrudRepository<ShoppingCart> repository, IMapper mapper, IShoppingCartRepository shoppingCartRepository, ICrudRepository<Tour> tourRepository, ICrudRepository<OrderItem> crudOrderItemRepository, IOrderItemRepository orderItemRepository, ICrudRepository<TourPurchaseToken> tourPurchaseTokenRepository, IPurchaseReportService purchaseReportService) : base(repository, mapper)
+        public ShoppingCartService(ICrudRepository<ShoppingCart> repository, IMapper mapper, IShoppingCartRepository shoppingCartRepository, ICrudRepository<Tour> tourRepository, ICrudRepository<OrderItem> crudOrderItemRepository, IOrderItemRepository orderItemRepository, ICrudRepository<TourPurchaseToken> tourPurchaseTokenRepository, IPurchaseReportService purchaseReportService, IWalletRepository walletRepository) : base(repository, mapper)
         {
             _shoppingCartRepository = shoppingCartRepository;
             _tourRepository = tourRepository;
@@ -37,6 +38,7 @@ namespace Explorer.Payments.Core.UseCases
             _tourRepository = tourRepository;
             _tourPurchaseTokenRepository = tourPurchaseTokenRepository;
             _purchaseReportService = purchaseReportService;
+            _walletRepository = walletRepository;
         }
 
 
@@ -148,20 +150,28 @@ namespace Explorer.Payments.Core.UseCases
 
         public Result<String> CreateTourPurchaseToken(List<OrderItemDto> orderItems, int userId)
         {
-
+            Wallet wallet = _walletRepository.GetWalletByUserId(userId);
             ShoppingCart shoppingCart = _shoppingCartRepository.GetShoppingCartByUserId(userId);
-            foreach (OrderItemDto item in orderItems)
+            if (wallet.AC >= shoppingCart.TotalPrice)
             {
-                TourPurchaseToken purchaseToken = new TourPurchaseToken(userId, item.TourId, DateTime.UtcNow);
-                _tourPurchaseTokenRepository.Create(purchaseToken);
-                shoppingCart.RemoveItem(item.Id);
+                foreach (OrderItemDto item in orderItems)
+                {
+                    TourPurchaseToken purchaseToken = new TourPurchaseToken(userId, item.TourId, DateTime.UtcNow);
+                    _tourPurchaseTokenRepository.Create(purchaseToken);
+                    shoppingCart.RemoveItem(item.Id);
+                }
+                shoppingCart.TotalPrice = 0;
+                _shoppingCartRepository.Update(shoppingCart);
+
+                _purchaseReportService.Create(orderItems, userId);
+
+                return Result.Ok();
             }
-            shoppingCart.TotalPrice = 0;
-            _shoppingCartRepository.Update(shoppingCart);
-
-            _purchaseReportService.Create(orderItems, userId);
-
-            return Result.Ok();
+            else
+            {
+                return Result.Fail(FailureCode.InvalidArgument).WithError("You don't have enough money to make a purchase.");
+            }
+                
         }
     }
 }
