@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Explorer.Payments.API.Dtos
 {
-    internal class WalletDto
+    public class WalletDto
     {
     }
 }

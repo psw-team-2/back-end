@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Explorer.Payments.API.Public
 {
-    internal interface IWalletService
+    public interface IWalletService
     {
     }
 }
