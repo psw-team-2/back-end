@@ -11,6 +11,6 @@ namespace Explorer.Payments.API.Dtos
         public int Id { get; set; }
         public int UserId { get; set; }
         public string Username { get; set; }
-        public int AC { get; set; }
+        public double AC { get; set; }
     }
 }
