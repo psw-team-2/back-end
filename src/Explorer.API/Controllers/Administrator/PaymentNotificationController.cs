@@ -1,8 +1,10 @@
-﻿using Explorer.Encounters.API.Dtos;
+﻿using Explorer.BuildingBlocks.Core.UseCases;
+using Explorer.Encounters.API.Dtos;
 using Explorer.Encounters.API.Public;
 using Explorer.Encounters.Core.UseCases;
 using Explorer.Payments.API.Dtos;
 using Explorer.Payments.API.Public;
+using Explorer.Stakeholders.API.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Explorer.API.Controllers.Administrator
@@ -21,6 +23,14 @@ namespace Explorer.API.Controllers.Administrator
         public ActionResult<PaymentNotificationDto> Create([FromBody] PaymentNotificationDto paymentNotificationDto)
         {
             var result = _paymentNotificationService.Create(paymentNotificationDto);
+            return CreateResponse(result);
+        }
+
+
+        [HttpGet("unread-notifications/{profileId:int}")]
+        public ActionResult<PagedResult<PaymentNotificationDto>> GetUnreadPaymentNotifications([FromQuery] int page, [FromQuery] int pageSize, long profileId)
+        {
+            var result = _paymentNotificationService.GetUnreadPaymentNotifications(page, pageSize, profileId);
             return CreateResponse(result);
         }
     }
