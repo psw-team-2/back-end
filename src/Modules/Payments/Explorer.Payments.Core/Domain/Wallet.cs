@@ -12,7 +12,7 @@ namespace Explorer.Payments.Core.Domain
         public long UserId { get; init; }
 
         public string Username { get; init; }
-        public int AC { get; init; }
+        public int AC { get; set; }
         public Wallet(long userId, string username, int aC)
         {
             UserId = userId;

@@ -1,5 +1,5 @@
-﻿DELETE FROM tours."ShoppingCarts";
-DELETE FROM tours."OrderItems";
-DELETE FROM tours."PurchaseReports";
-DELETE FROM tours."PaymentNotifications";
-DELETE FROM tours."Wallets";
+﻿DELETE FROM payments."ShoppingCarts";
+DELETE FROM payments."OrderItems";
+DELETE FROM payments."PurchaseReports";
+DELETE FROM payments."PaymentNotifications";
+DELETE FROM payments."Wallets";
