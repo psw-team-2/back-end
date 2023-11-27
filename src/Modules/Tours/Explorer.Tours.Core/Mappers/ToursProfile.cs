@@ -51,5 +51,6 @@ public class ToursProfile : Profile
         CreateMap<CheckpointVisitedDto, CheckpointVisited>().ReverseMap();
         CreateMap<TourExecutionDto, TourExecution>().ReverseMap();
         CreateMap<SecretDto, Secret>().ReverseMap();
+        CreateMap<BundleDto, Bundle>().ReverseMap();
     }
 }

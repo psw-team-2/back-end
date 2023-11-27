@@ -1,4 +1,5 @@
-﻿using Explorer.Payments.API.Dtos;
+﻿using Explorer.BuildingBlocks.Core.UseCases;
+using Explorer.Payments.API.Dtos;
 using FluentResults;
 using System;
 using System.Collections.Generic;
@@ -11,5 +12,6 @@ namespace Explorer.Payments.API.Public
     public interface IPaymentNotificationService
     {
         Result<PaymentNotificationDto> Create(PaymentNotificationDto paymentNotificationDto);
+        Result<PagedResult<PaymentNotificationDto>> GetUnreadPaymentNotifications(int page, int pageSize, long profileId);
     }
 }

@@ -6,6 +6,7 @@ using Explorer.API.Controllers;
 using Explorer.Stakeholders.API.Dtos;
 using Explorer.Stakeholders.API.Public;
 using Explorer.Stakeholders.Infrastructure.Database;
+using Explorer.Payments.Infrastructure.Database;
 
 namespace Explorer.Stakeholders.Tests.Integration.Authentication;
 
@@ -20,6 +21,7 @@ public class RegistrationTests : BaseStakeholdersIntegrationTest
         // Arrange
         using var scope = Factory.Services.CreateScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<StakeholdersContext>();
+        var paymentsContext = scope.ServiceProvider.GetRequiredService<PaymentsContext>();
         var controller = CreateController(scope);
         var account = new AccountRegistrationDto
         {
@@ -53,6 +55,9 @@ public class RegistrationTests : BaseStakeholdersIntegrationTest
         storedPerson.ShouldNotBeNull();
         storedPerson.UserId.ShouldBe(storedAccount.Id);
         storedPerson.FirstName.ShouldBe(account.Name);
+        var wallet = paymentsContext.Wallets.FirstOrDefault(i => i.Username == account.Username);
+        storedPerson.ShouldNotBeNull();
+        storedPerson.UserId.ShouldBe(storedAccount.Id);
     }
 
     private static AuthenticationController CreateController(IServiceScope scope)

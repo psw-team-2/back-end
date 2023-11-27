@@ -14,12 +14,13 @@ namespace Explorer.Payments.Core.Domain
         public int AdventureCoin { get; init; } 
         public NotificationStatus Status { get; init; }
 
-        public PaymentNotification(long administratorId, long userId, int adventureCoin, NotificationStatus status)
+        public PaymentNotification(long id, long administratorId, long userId, int adventureCoin, NotificationStatus status)
         {
-            administratorId = AdministratorId;
-            userId = UserId;
-            adventureCoin = AdventureCoin;
-            status = Status;
+            Id = id;
+            AdministratorId = administratorId;
+            UserId = userId;
+            AdventureCoin = adventureCoin;
+            Status = status;
         }
 
         public enum NotificationStatus
