@@ -1,6 +1,7 @@
 ﻿using Explorer.BuildingBlocks.Core.UseCases;
 using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public.Administration;
+using Explorer.Tours.Core.UseCases;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -49,6 +50,13 @@ namespace Explorer.API.Controllers.Administrator.Administration
         public ActionResult<PagedResult<EquipmentDto>> GetAllTouristSelectedEquipment(int id)
         {
             var result = _equipmentService.GetAllForSelection(id);
+            return CreateResponse(result);
+        }
+
+        [HttpGet("{id:int}")]
+        public ActionResult<CheckPointDto> Get(long id)
+        {
+            var result = _equipmentService.Get(id);
             return CreateResponse(result);
         }
     }

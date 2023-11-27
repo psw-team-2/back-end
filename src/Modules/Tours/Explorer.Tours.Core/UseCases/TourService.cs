@@ -64,19 +64,23 @@ namespace Explorer.Tours.Core.UseCases
             { 
                 tour.CheckPoints.Add(checkPointId);
                 Update(tour);
+                return Result.Ok(tour);
             }
             return tour;
         }
 
         public Result<TourDto> DeleteCheckPoint(TourDto tour, int checkPointId)
         {
-
             if (tour != null)
             {
-                tour.CheckPoints.Remove(checkPointId);
+                tour.Equipment.Add(checkPointId);
                 Update(tour);
+                return Result.Ok(tour);
             }
-            return tour;
+            else
+            {
+                return Result.Fail(FailureCode.NotFound).WithError(new KeyNotFoundException().Message);
+            }
         }
 
 
@@ -86,8 +90,12 @@ namespace Explorer.Tours.Core.UseCases
             {
                 tour.Equipment.Add(equipmentId);
                 Update(tour);
+                return Result.Ok(tour);
             }
-            return tour;
+            else
+            {
+                return Result.Fail(FailureCode.NotFound).WithError(new KeyNotFoundException().Message);
+            }
         }
 
         public Result<TourDto> RemoveEquipmentFromTour(TourDto tour, int equipmentId)

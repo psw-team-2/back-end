@@ -32,4 +32,12 @@ public class EquipmentService : CrudService<EquipmentDto, Equipment>, IEquipment
 
         return dtosForSelection;
     }
+
+    public Result<EquipmentDto> Get(long id)
+    {
+        Equipment equipment = _equipmentRepository.Get(id);
+        EquipmentDto dto = new EquipmentDto() { Id = (int)equipment.Id, Name = equipment.Name, Description = equipment.Description};
+        return dto;
+    }
+
 }

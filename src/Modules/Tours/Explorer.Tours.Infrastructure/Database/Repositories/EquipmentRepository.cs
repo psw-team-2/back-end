@@ -20,5 +20,10 @@ namespace Explorer.Tours.Infrastructure.Database.Repositories
         {
             return _dbContext.Equipment.ToList();
         }
+
+        public Equipment Get(long id)
+        {
+            return _dbContext.Equipment.FirstOrDefault(e => e.Id == id);
+        }
     }
 }

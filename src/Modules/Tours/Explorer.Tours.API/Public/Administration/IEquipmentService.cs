@@ -11,4 +11,6 @@ public interface IEquipmentService
     Result<EquipmentDto> Update(EquipmentDto equipment);
     Result Delete(int id);
     Result<IEnumerable<EquipmentForSelectionDto>> GetAllForSelection(int userId);
+
+    public Result<EquipmentDto> Get(long id);
 }

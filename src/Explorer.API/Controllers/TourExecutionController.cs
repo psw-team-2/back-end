@@ -20,8 +20,8 @@ namespace Explorer.API.Controllers
                 _tourExecutionService = tourExecutionService;
                 _secretService = secretService;
             }
-            
-            [HttpPost("start")]
+
+        [HttpPost("start")]
             public ActionResult<TourExecutionDto> StartTour([FromBody] TourExecutionDto tourDto)
             {
                 try

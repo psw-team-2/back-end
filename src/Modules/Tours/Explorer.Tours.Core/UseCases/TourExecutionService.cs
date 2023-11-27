@@ -26,14 +26,26 @@ namespace Explorer.Tours.Core.UseCases
         }
         public Result StartTour(TourExecutionDto dto)
         {
-            TourExecution tourExecution = new TourExecution() {TouristId = dto.TouristId, TourId = dto.TourId, StartTime = dto.StartTime, 
-                                                               EndTime = dto.EndTime, Completed = dto.Completed, Abandoned = dto.Abandoned,
-                                                               CurrentLatitude = dto.CurrentLatitude, CurrentLongitude = dto.CurrentLongitude, LastActivity = dto.LastActivity, VisitedCheckpoints = dto.VisitedCheckpoints};
-            tourExecution = _tourExecutionRepository.Create(tourExecution);
-            CheckpointVisited cp = new CheckpointVisited(tourExecution.TouristId, tourExecution.VisitedCheckpoints[0], DateTime.UtcNow);
-            _checkpointVisitedRepository.Add(cp);
+            if (dto != null)
+            {
+                TourExecution tourExecution = new TourExecution()
+                {
+                    TouristId = dto.TouristId, TourId = dto.TourId, StartTime = dto.StartTime,
+                    EndTime = dto.EndTime, Completed = dto.Completed, Abandoned = dto.Abandoned,
+                    CurrentLatitude = dto.CurrentLatitude, CurrentLongitude = dto.CurrentLongitude,
+                    LastActivity = dto.LastActivity, VisitedCheckpoints = dto.VisitedCheckpoints
+                };
+                tourExecution = _tourExecutionRepository.Create(tourExecution);
+                CheckpointVisited cp = new CheckpointVisited(tourExecution.TouristId,
+                    tourExecution.VisitedCheckpoints[0], DateTime.UtcNow);
+                _checkpointVisitedRepository.Add(cp);
 
-            return Result.Ok();
+                return Result.Ok();
+            }
+            else
+            {
+                return Result.Fail(FailureCode.InvalidArgument);
+            }
         }
 
         /*public Result<TourExecutionDto> CompleteTour(int tourExecutionId)
