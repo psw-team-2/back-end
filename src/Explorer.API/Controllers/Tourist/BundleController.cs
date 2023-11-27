@@ -49,5 +49,10 @@ namespace Explorer.API.Controllers.Tourist
             return CreateResponse(result);
         }
 
+        [HttpPost("{id:int}")]
+        public ActionResult<BundleDto> PublishBundle([FromBody] BundleDto bundleDto)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

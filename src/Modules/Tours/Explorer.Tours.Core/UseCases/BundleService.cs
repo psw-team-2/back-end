@@ -32,5 +32,10 @@ namespace Explorer.Tours.Core.UseCases
             throw new NotImplementedException();
         }
 
+        public Result<BundleDto> PublishBundle(BundleDto bundleDto) 
+        {
+            throw new NotImplementedException();
+        } 
+
     }
 }
