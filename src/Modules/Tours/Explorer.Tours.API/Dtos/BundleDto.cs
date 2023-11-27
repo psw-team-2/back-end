@@ -10,13 +10,13 @@ namespace Explorer.Tours.API.Dtos
     public class BundleDto
     {
         public int Id { get; set; }
-        public int UserId { get; init; }
-        public string Name { get; init; }
-        public double Price { get; init; }
+        public int UserId { get; set; }
+        public string Name { get; set; }
+        public double Price { get; set; }
 
-        public BundleStatus Status { get; init; }
+        public BundleStatus Status { get; set; }
 
-        public List<int> Tours { get; init; }
+        public List<int> Tours { get; set; }
 
         public enum BundleStatus
         {

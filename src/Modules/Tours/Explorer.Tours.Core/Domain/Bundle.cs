@@ -11,7 +11,7 @@ namespace Explorer.Tours.Core.Domain
     {
         public long UserId { get; init; }
         public string Name { get; init; }
-        public double Price { get; init; }
+        public double Price { get; set; }
 
         public List<long> Tours { get; init; }
 

@@ -28,11 +28,12 @@ namespace Explorer.Tours.Tests.Integration
             var dbContext = scope.ServiceProvider.GetRequiredService<ToursContext>();
             var newEntity = new BundleDto
             {
-
-                UserId = 1,
+                Id = 1,
+                UserId = -11,
                 Name = "Novi",
-                Price = 1,
-                Status = BundleDto.BundleStatus.Draft
+                Price = 0,
+                Status = BundleDto.BundleStatus.Draft,
+                Tours = new List<int>()
 
 
 
