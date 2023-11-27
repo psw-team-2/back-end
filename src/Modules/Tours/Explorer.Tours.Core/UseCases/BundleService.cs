@@ -22,7 +22,7 @@ namespace Explorer.Tours.Core.UseCases
         {
             bundleDto.Price= 0;
             bundleDto.Status = BundleDto.BundleStatus.Draft;
-            bundleDto.Tours = new List<int>();
+            bundleDto.Tours = new List<TourDto>();
 
             return base.Create(bundleDto);
         }

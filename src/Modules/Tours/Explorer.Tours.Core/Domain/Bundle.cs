@@ -13,16 +13,16 @@ namespace Explorer.Tours.Core.Domain
         public string Name { get; init; }
         public double Price { get; set; }
 
-        public List<long> Tours { get; init; }
+        public List<Tour> Tours { get; init; }
 
         public BundleStatus Status { get; init; }
 
-        public Bundle(long userId, string name, double price, List<long> tours, BundleStatus status)
+        public Bundle(long userId, string name, double price, BundleStatus status)
         {
             UserId = userId;
             Name = name;
             Price = price;
-            Tours = tours;
+            Tours = new List<Tour>();
             Status = status;
         }
 

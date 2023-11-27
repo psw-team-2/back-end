@@ -8,9 +8,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 
-namespace Explorer.API.Controllers.Tourist
+namespace Explorer.API.Controllers.Author
 {
-    [Route("api/tourist/bundle")]
+    [Route("api/author/bundle")]
     public class BundleController : BaseApiController
     {
         private readonly IBundleService _bundleService;

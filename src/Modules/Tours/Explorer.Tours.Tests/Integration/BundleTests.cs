@@ -1,7 +1,9 @@
-﻿using Explorer.API.Controllers.Tourist;
+﻿using Explorer.API.Controllers.Author;
+using Explorer.BuildingBlocks.Core.UseCases;
 using Explorer.Payments.Infrastructure.Database;
 using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public;
+using Explorer.Tours.Core.Domain;
 using Explorer.Tours.Infrastructure.Database;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,7 +35,7 @@ namespace Explorer.Tours.Tests.Integration
                 Name = "Novi",
                 Price = 0,
                 Status = BundleDto.BundleStatus.Draft,
-                Tours = new List<int>()
+                Tours = new List<TourDto>()
 
 
 
@@ -49,6 +51,69 @@ namespace Explorer.Tours.Tests.Integration
             // Assert - Database
             var storedEntity = dbContext.Bundles.FirstOrDefault(i => i.Id == newEntity.Id);
             storedEntity.ShouldNotBeNull();
+
+        }
+
+        [Fact]
+        public void PublishBundle()
+        {
+            using var scope = Factory.Services.CreateScope();
+            var controller = CreateController(scope);
+            var dbContext = scope.ServiceProvider.GetRequiredService<ToursContext>();
+
+            List<TourDto> tours = new List<TourDto>();
+            var tour1 = new TourDto
+            {
+                Id = -1,
+                Name = "Tour",
+                Description = "Tour description",
+                Status = API.Dtos.AccountStatus.PUBLISHED,
+                Difficulty = 3,
+                Price = 50.0,
+                Tags = new List<string> { "Surfing" }, // Initialize Tags as a new List<string>
+                Equipment = new List<int> { 1, 3 },
+                CheckPoints = new List<long> { 123, 456 },
+                AuthorId = -11,
+            };
+
+            var tour2 = new TourDto
+            {
+                Id = -1,
+                Name = "New Tour",
+                Description = "Description of the new tour",
+                Status = API.Dtos.AccountStatus.PUBLISHED,
+                Difficulty = 3,
+                Price = 50.0,
+                Tags = new List<string> { "Adventure", "Hiking" }, // Initialize Tags as a new List<string>
+                Equipment = new List<int> { 1, 2 },
+                CheckPoints = new List<long> { 123, 456 },
+                AuthorId = -11,
+            };
+
+            tours.Add(tour1);
+            tours.Add(tour2);
+
+            var bundle = new BundleDto
+            {
+                Id = -1,
+                UserId = 1,
+                Name = "BundleName",
+                Price = 100,
+                Tours = tours,
+                Status = BundleDto.BundleStatus.Published
+            };
+
+            var result = ((ObjectResult)controller.PublishBundle(bundle).Result)?.Value as BundleDto;
+
+            result.ShouldNotBeNull();
+            result.Id.ShouldNotBe(0);
+            result.Name.ShouldBe(bundle.Name);
+
+            // Assert - Database
+            var storedTour = dbContext.Bundles.FirstOrDefault(t => t.Name == bundle.Name);
+            storedTour.ShouldNotBeNull();
+            storedTour.Id.ShouldBe(result.Id);
+
 
         }
         private static BundleController CreateController(IServiceScope scope)
