@@ -22,8 +22,7 @@ namespace Explorer.API.Controllers.Administrator
         [HttpPost]
         public ActionResult<PaymentNotificationDto> Create([FromBody] PaymentNotificationDto paymentNotificationDto)
         {
-            var result = _paymentNotificationService.Create(paymentNotificationDto);
-            return CreateResponse(result);
+            throw new NotImplementedException();
         }
 
 

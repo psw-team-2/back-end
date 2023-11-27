@@ -34,7 +34,6 @@ namespace Explorer.Payments.Tests.Integration
             var dbContext = scope.ServiceProvider.GetRequiredService<PaymentsContext>();
             var newEntity = new PaymentNotificationDto
             {
-                AdministratorId = 1,
                 UserId = 1,
                 AdventureCoin = 200,
                 Status = 0

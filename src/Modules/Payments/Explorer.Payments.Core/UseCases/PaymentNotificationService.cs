@@ -27,6 +27,18 @@ namespace Explorer.Payments.Core.UseCases
             _mapper = mapper;
         }
 
+        public Result<PaymentNotificationDto> Create(WalletDto walletDto)
+        {
+            var notificationDto = new PaymentNotificationDto();
+            notificationDto.UserId = walletDto.UserId;
+            notificationDto.AdventureCoin = walletDto.AC;
+            notificationDto.Status = NotificationStatus.Unread;
+            _paymentNotificationRepository.Create(MapToDomain(notificationDto));
+
+            return notificationDto;
+
+        }
+
         public Result<PagedResult<PaymentNotificationDto>> GetUnreadPaymentNotifications(int page, int pageSize, long profileId)
         {
             var unreadNotifications = _paymentNotification.GetAll()

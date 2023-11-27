@@ -16,9 +16,11 @@ namespace Explorer.Payments.Core.UseCases
     public class WalletService: CrudService<WalletDto, Wallet>, IWalletService
     {
         private readonly ICrudRepository<Wallet> _walletRepository;
-        public WalletService(ICrudRepository<Wallet> crudRepository, IMapper mapper, ICrudRepository<Wallet> walletRepository) : base(crudRepository, mapper)
+        private readonly IPaymentNotificationService _paymentNotificationsService;
+        public WalletService(ICrudRepository<Wallet> crudRepository, IMapper mapper, ICrudRepository<Wallet> walletRepository, IPaymentNotificationService paymentNotificationsService) : base(crudRepository, mapper)
         {
             _walletRepository = walletRepository;
+            _paymentNotificationsService = paymentNotificationsService;
         }
 
 
@@ -29,6 +31,7 @@ namespace Explorer.Payments.Core.UseCases
             {
                 wallet.AC += walletDto.AC;
                 _walletRepository.Update(wallet);
+                _paymentNotificationsService.Create(walletDto);
                 return MapToDto(wallet);
             }
             return Result.Fail(FailureCode.NotFound).WithError("Wallet not found.");

@@ -9,9 +9,8 @@ namespace Explorer.Payments.API.Dtos
     public class PaymentNotificationDto
     {
         public long Id { get; set; }
-        public long AdministratorId { get; set; }
         public long UserId { get; set; }
-        public int AdventureCoin { get; set; }
+        public double AdventureCoin { get; set; }
 
         public NotificationStatus Status { get; set; }
 
