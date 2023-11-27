@@ -41,5 +41,12 @@ namespace Explorer.API.Controllers.Administrator
             return CreateResponse(result);
         }
 
+        [HttpGet("byUser/{userId}")]
+        public ActionResult<WalletDto> GetByUserId(int userId)
+        {
+            var result = _walletService.GetWalletByUserId(userId);
+            return CreateResponse(result);
+        }
+
     }
 }
