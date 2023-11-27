@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Explorer.BuildingBlocks.Core.UseCases;
+using Explorer.Payments.API.Dtos;
 using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public;
 using Explorer.Tours.Core.Domain;
@@ -20,9 +21,9 @@ namespace Explorer.Tours.Core.UseCases
 
         public Result<BundleDto> Create(BundleDto bundleDto)
         {
-            bundleDto.Price= 0;
+            bundleDto.Price = 0;
             bundleDto.Status = BundleDto.BundleStatus.Draft;
-            bundleDto.Tours = new List<int>();
+            bundleDto.Tours = new List<TourDto>();
 
             return base.Create(bundleDto);
         }
@@ -32,10 +33,14 @@ namespace Explorer.Tours.Core.UseCases
             throw new NotImplementedException();
         }
 
-        public Result<BundleDto> PublishBundle(BundleDto bundleDto) 
+        public Result<BundleDto> PublishBundle(BundleDto bundleDto)
         {
             throw new NotImplementedException();
-        } 
+        }
 
+        public Result<BundleDto> AddTour(BundleDto bundleDto, int tourId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
