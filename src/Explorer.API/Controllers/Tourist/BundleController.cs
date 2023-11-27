@@ -45,7 +45,7 @@ namespace Explorer.API.Controllers.Tourist
         [HttpPut("{id:int}")]
         public ActionResult<BundleDto> Update([FromBody] BundleDto bundle)
         {
-            var result = _bundleService.AddTour(bundle);
+            var result = _bundleService.Update(bundle);
             return CreateResponse(result);
         }
 

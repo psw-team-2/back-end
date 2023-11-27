@@ -20,10 +20,14 @@ namespace Explorer.Tours.Core.UseCases
 
         public Result<BundleDto> Create(BundleDto bundleDto)
         {
-            throw new NotImplementedException();
+            bundleDto.Price= 0;
+            bundleDto.Status = BundleDto.BundleStatus.Draft;
+            bundleDto.Tours = new List<int>();
+
+            return base.Create(bundleDto);
         }
 
-        public Result<BundleDto> AddTour(BundleDto bundleDto)
+        public Result<BundleDto> Update(BundleDto bundleDto)
         {
             throw new NotImplementedException();
         }
