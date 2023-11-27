@@ -114,7 +114,7 @@ namespace Explorer.Blog.Tests.Integration
                         Id = -2,
                         UserId = -3,
                         Username = "Commenter1",
-                        Text = "Comment One",
+                        Text = "Comment Three",
                         CreationTime = DateTime.UtcNow,
                         LastModification = DateTime.UtcNow
                     },
@@ -123,7 +123,7 @@ namespace Explorer.Blog.Tests.Integration
                         Id = -3,
                         UserId = -4,
                         Username = "Commenter2",
-                        Text = "Comment Two",
+                        Text = "Comment Four",
                         CreationTime = DateTime.UtcNow,
                         LastModification = DateTime.UtcNow
                     }
