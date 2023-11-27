@@ -21,9 +21,9 @@ namespace Explorer.API.Controllers.Tourist
 
 
         [HttpPost]
-        public ActionResult<PurchaseReportDto> Create([FromBody] PurchaseReportDto purchaseReport)
+        public ActionResult Create([FromBody] List<OrderItemDto> orderItems, [FromRoute] int userId)
         {
-            var result = _purchaseReportService.Create(purchaseReport);
+            var result = _purchaseReportService.Create(orderItems, userId);
             return CreateResponse(result);
         }
     }
