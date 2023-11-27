@@ -11,7 +11,7 @@ namespace Explorer.Payments.API.Public
 {
     public interface IPaymentNotificationService
     {
-        Result<PaymentNotificationDto> Create(PaymentNotificationDto paymentNotificationDto);
+        Result<PaymentNotificationDto> Create(WalletDto walletDto);
         Result<PagedResult<PaymentNotificationDto>> GetUnreadPaymentNotifications(int page, int pageSize, long profileId);
     }
 }

@@ -9,15 +9,13 @@ namespace Explorer.Payments.Core.Domain
 {
     public class PaymentNotification : Entity
     {
-        public long AdministratorId { get; init; }
         public long UserId { get; init; }
-        public int AdventureCoin { get; init; } 
+        public double AdventureCoin { get; init; } 
         public NotificationStatus Status { get; init; }
 
-        public PaymentNotification(long id, long administratorId, long userId, int adventureCoin, NotificationStatus status)
+        public PaymentNotification(long id,  long userId, double adventureCoin, NotificationStatus status)
         {
             Id = id;
-            AdministratorId = administratorId;
             UserId = userId;
             AdventureCoin = adventureCoin;
             Status = status;
