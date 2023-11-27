@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Explorer.Tours.API.Dtos
 {
 
-    public class TourCompositionDto
+    public class ComposedTourDto
     {
         public int Id { get; set; }
         public string Name { get; set; }

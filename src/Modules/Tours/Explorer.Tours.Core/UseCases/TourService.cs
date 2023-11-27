@@ -1,39 +1,34 @@
 ﻿using AutoMapper;
 using Explorer.BuildingBlocks.Core.UseCases;
+using Explorer.Payments.API.Public;
+using Explorer.Stakeholders.API.Public;
 using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public;
-using Explorer.Tours.API.Public.Administration;
 using Explorer.Tours.Core.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Explorer.BuildingBlocks.Core;
-using Explorer.Stakeholders.API.Public;
-using Explorer.Stakeholders.Core.Domain;
-using FluentResults;
-using FluentResults;
 using Explorer.Tours.Core.Domain.RepositoryInterfaces;
+using FluentResults;
 
 namespace Explorer.Tours.Core.UseCases
 {
     public class TourService : CrudService<TourDto, Tour>, ITourService
     {
         public readonly ITourRepository _tourRepository;
-        
+
         /*public TourService(ICrudRepository<Tour> repository, IMapper mapper, ITourRepository tourRepository) : base(repository, mapper) 
         {
             _tourRepository = tourRepository;
         }*/
-        
-        private readonly IUserAccountAdministrationService _userAccountService;
 
-        public TourService(ICrudRepository<Tour> repository, IMapper mapper, IUserAccountAdministrationService userAccountService,ITourRepository tourRepository) : base(repository, mapper)
+        private readonly IUserAccountAdministrationService _userAccountService;
+        public readonly IOrderItemService _orderItemService;
+        public readonly IShoppingCartService _shoppingCartService;
+
+        public TourService(ICrudRepository<Tour> repository, IMapper mapper, IUserAccountAdministrationService userAccountService, IOrderItemService orderItemService, IShoppingCartService shoppingCartService, ITourRepository tourRepository) : base(repository, mapper)
         {
             _userAccountService = userAccountService;
             _tourRepository = tourRepository;
-
+            _orderItemService = orderItemService;
+            _shoppingCartService = shoppingCartService;
 
         }
 
@@ -58,10 +53,11 @@ namespace Explorer.Tours.Core.UseCases
             }
         }
 
-        public Result<TourDto> AddCheckPoint(TourDto tour, int checkPointId) {
+        public Result<TourDto> AddCheckPoint(TourDto tour, int checkPointId)
+        {
 
-            if (tour != null) 
-            { 
+            if (tour != null)
+            {
                 tour.CheckPoints.Add(checkPointId);
                 Update(tour);
             }
@@ -82,7 +78,7 @@ namespace Explorer.Tours.Core.UseCases
 
         public Result<TourDto> AddEquipmentToTour(TourDto tour, int equipmentId)
         {
-            if(tour != null)
+            if (tour != null)
             {
                 tour.Equipment.Add(equipmentId);
                 Update(tour);
@@ -188,18 +184,36 @@ namespace Explorer.Tours.Core.UseCases
         public Result<TourDto> PublishTour(TourDto tour)
         {
 
-                tour.Status = API.Dtos.AccountStatus.PUBLISHED;
-                tour.PublishTime = DateTime.Now;
+            tour.Status = API.Dtos.AccountStatus.PUBLISHED;
+            tour.PublishTime = DateTime.Now;
 
             return tour;
         }
         public Result<TourDto> ArchiveTour(TourDto tour)
         {
             tour.Status = API.Dtos.AccountStatus.ARCHIVED;
-        
+
             return tour;
         }
+        public Result<List<TourDto>> RetrivesAllUserTours(int userId, int page, int pageSize)
+        {
+            var userResult = _userAccountService.Get((int)userId);
+            if (userResult.IsSuccess && userResult.Value != null)
+            {
+                var shoppingCart = _shoppingCartService.GetShoppingCartByUserId(userId);
+                var shoppingCartItems = _orderItemService.GetBoughtShoppingItemsFromCart(shoppingCart.Value.Id);
+                //var tourIds = shoppingCartItems.Value.Select(item => item.TourId).ToList();
+                var tours = base.GetPaged(page, pageSize);
+                var userTours = tours.Value.Results.Where(tour => shoppingCartItems.Value.Any(item => item.TourId == tour.Id)).ToList();
 
+                return Result.Ok(userTours);
+
+            }
+            else
+            {
+                return Result.Fail(FailureCode.NotFound).WithError("Failed to retrieve author information");
+            }
+        }
 
     }
 }

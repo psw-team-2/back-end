@@ -72,8 +72,8 @@ public static class ToursStartup
         services.AddScoped(typeof(ICrudRepository<PublicRequest>), typeof(CrudDatabaseRepository<PublicRequest, ToursContext>));
         services.AddScoped(typeof(ICrudRepository<TourProblemResponse>), typeof(CrudDatabaseRepository<TourProblemResponse, ToursContext>));
         services.AddScoped(typeof(ICrudRepository<TourPurchaseToken>), typeof(CrudDatabaseRepository<TourPurchaseToken, ToursContext>));
-
-
+        services.AddScoped(typeof(ICrudRepository<ComposedTour>), typeof(CrudDatabaseRepository<ComposedTour, ToursContext>));
+        services.AddScoped<IComposedTourRepository, ComposedTourRepository>();
 
         services.AddDbContext<ToursContext>(opt =>
             opt.UseNpgsql(DbConnectionStringBuilder.Build("tours"),

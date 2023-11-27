@@ -28,7 +28,7 @@ namespace Explorer.Tours.Tests.Integration
             var controller = CreateController(scope);
             var dbContext = scope.ServiceProvider.GetRequiredService<ToursContext>();
 
-            var newTourComposition = new TourCompositionDto
+            var newTourComposition = new ComposedTourDto
             {
                 Id = -1,
                 Name = "New Tour",
@@ -49,7 +49,7 @@ namespace Explorer.Tours.Tests.Integration
             };
 
             // Act
-            var result = ((ObjectResult)controller.CreateTourComposition(newTourComposition).Result).Value as TourCompositionDto;
+            var result = ((ObjectResult)controller.CreateTourComposition(newTourComposition).Result).Value as ComposedTourDto;
 
 
             // Assert - Response
@@ -69,7 +69,7 @@ namespace Explorer.Tours.Tests.Integration
             var userId = -11;
 
             // Act
-            var result = ((ObjectResult)controller.RetrivesAllUserTours(userId).Result).Value as TourCompositionDto;
+            var result = ((ObjectResult)controller.RetrivesAllUserTours(userId, 0, 0).Result).Value as ComposedTourDto;
 
 
             // Assert - Response
@@ -78,9 +78,9 @@ namespace Explorer.Tours.Tests.Integration
 
         }
 
-        private static TourCompositionController CreateController(IServiceScope scope)
+        private static ComposedTourController CreateController(IServiceScope scope)
         {
-            return new TourCompositionController(scope.ServiceProvider.GetRequiredService<IComposedTourService>());
+            return new ComposedTourController(scope.ServiceProvider.GetRequiredService<ITourService>(),scope.ServiceProvider.GetRequiredService<IComposedTourService>());
         }
 
     }

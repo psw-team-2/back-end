@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Explorer.BuildingBlocks.Core.UseCases;
+using Explorer.Tours.API.Dtos;
+using FluentResults;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +11,6 @@ namespace Explorer.Tours.API.Public
 {
     public interface IComposedTourService
     {
+        
     }
 }
