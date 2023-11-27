@@ -12,12 +12,14 @@ namespace Explorer.Payments.Core.Domain
         public long UserId { get; init; }
         public long TourId { get; init; }
         public double AdventureCoin { get; set; }
+        public DateTime PurchaseDate { get; set; }
 
-        public PurchaseReport(long userId, long tourId, double adventureCoin)
+        public PurchaseReport(long userId, long tourId, double adventureCoin, DateTime purchaseDate)
         {
             UserId = userId;
             TourId = tourId;
             AdventureCoin = adventureCoin;
+            PurchaseDate = purchaseDate;
         }
 
     }

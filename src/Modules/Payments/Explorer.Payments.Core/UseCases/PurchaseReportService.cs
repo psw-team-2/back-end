@@ -25,12 +25,11 @@ namespace Explorer.Payments.Core.UseCases
         {
             foreach (OrderItemDto item in orderItems)
             {
-                PurchaseReport purchaseReport = new PurchaseReport(userId, item.TourId, item.Price);
+                PurchaseReport purchaseReport = new PurchaseReport(userId, item.TourId, item.Price, DateTime.UtcNow);
                 base.Create(MapToDto(purchaseReport));
             }
 
             return Result.Ok();
-            //throw new NotImplementedException();
         }
     }
 }

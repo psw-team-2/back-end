@@ -160,10 +160,12 @@ namespace Explorer.Payments.Core.UseCases
                     _tourPurchaseTokenRepository.Create(purchaseToken);
                     shoppingCart.RemoveItem(item.Id);
                 }
+                
+                wallet.AC -= shoppingCart.TotalPrice;
+                _purchaseReportService.Create(orderItems, userId);
+
                 shoppingCart.TotalPrice = 0;
                 _shoppingCartRepository.Update(shoppingCart);
-
-                _purchaseReportService.Create(orderItems, userId);
 
                 return Result.Ok();
             }
