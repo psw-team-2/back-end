@@ -73,6 +73,8 @@ public static class ToursStartup
         services.AddScoped(typeof(ICrudRepository<TourProblemResponse>), typeof(CrudDatabaseRepository<TourProblemResponse, ToursContext>));
         services.AddScoped(typeof(ICrudRepository<TourPurchaseToken>), typeof(CrudDatabaseRepository<TourPurchaseToken, ToursContext>));
         services.AddScoped(typeof(ICrudRepository<Bundle>), typeof(CrudDatabaseRepository<Bundle, ToursContext>));
+        services.AddScoped<IBundleRepository, BundleRepository>();
+
 
 
 
