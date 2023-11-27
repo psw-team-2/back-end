@@ -30,6 +30,6 @@ namespace Explorer.Tours.API.Public
         public Result<TourDto> PublishTour(TourDto tour);
         public Result<TourDto> ArchiveTour(TourDto tour);
 
-        Result<List<TourDto>> RetrivesAllUserTours(int userId, int page, int pageSize);
+        Result<PagedResult<TourDto>> RetrivesAllUserTours(int userId, int page, int pageSize);
     }
 }

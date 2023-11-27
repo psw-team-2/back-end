@@ -7,6 +7,7 @@ using Explorer.Tours.API.Public;
 using Explorer.Tours.Core.Domain;
 using Explorer.Tours.Core.Domain.RepositoryInterfaces;
 using FluentResults;
+using System.Collections.Generic;
 
 namespace Explorer.Tours.Core.UseCases
 {
@@ -195,7 +196,8 @@ namespace Explorer.Tours.Core.UseCases
 
             return tour;
         }
-        public Result<List<TourDto>> RetrivesAllUserTours(int userId, int page, int pageSize)
+
+        public Result<PagedResult<TourDto>> RetrivesAllUserTours(int userId, int page, int pageSize)
         {
             var userResult = _userAccountService.Get((int)userId);
             if (userResult.IsSuccess && userResult.Value != null)
@@ -206,7 +208,9 @@ namespace Explorer.Tours.Core.UseCases
                 var tours = base.GetPaged(page, pageSize);
                 var userTours = tours.Value.Results.Where(tour => shoppingCartItems.Value.Any(item => item.TourId == tour.Id)).ToList();
 
-                return Result.Ok(userTours);
+                var result = new PagedResult<TourDto>(userTours, userTours.Count);
+
+                return Result.Ok(result);
 
             }
             else
