@@ -58,6 +58,26 @@ namespace Explorer.Tours.Tests.Integration
 
         }
 
+        [Fact]
+        public void RetrivesAllUserTours()
+        {
+            // Arrange
+            using var scope = Factory.Services.CreateScope();
+            var controller = CreateController(scope);
+            var dbContext = scope.ServiceProvider.GetRequiredService<ToursContext>();
+
+            var userId = -11;
+
+            // Act
+            var result = ((ObjectResult)controller.RetrivesAllUserTours(userId).Result).Value as TourCompositionDto;
+
+
+            // Assert - Response
+            result.ShouldNotBeNull();
+            //result.Id.ShouldNotBe(0);
+
+        }
+
         private static TourCompositionController CreateController(IServiceScope scope)
         {
             return new TourCompositionController(scope.ServiceProvider.GetRequiredService<IComposedTourService>());
