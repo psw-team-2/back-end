@@ -53,16 +53,20 @@ namespace Explorer.Tours.Tests.Integration
 
         }
 
-        
+        [Fact]
         public void PublishBundle()
         {
             using var scope = Factory.Services.CreateScope();
             var controller = CreateController(scope);
             var dbContext = scope.ServiceProvider.GetRequiredService<ToursContext>();
-
-            List<TourDto> tours = new List<TourDto>();
-            var tour1 = new TourDto
+            /*
+            var bundle = new BundleDto
             {
+                Id = 1,
+                UserId = -11,
+                Name = "Novi",
+                Price = 100,
+                Tours = new List<TourDto> { new TourDto {
                 Id = 1,
                 Name = "ime",
                 Description = "naziv",
@@ -78,12 +82,8 @@ namespace Explorer.Tours.Tests.Integration
                 BicycleTime = 1, // Add missing field
                 CarTime = 1, // Add missing field
                 TotalLength = 1, // Add missing field
-                PublishTime = new DateTime(2023, 1, 1, 13, 0, 0, DateTimeKind.Utc),
-
-            };
-
-            var tour2 = new TourDto
-            {
+                PublishTime = new DateTime(2023, 1, 1, 13, 0, 0, DateTimeKind.Utc),},
+                new TourDto {
                 Id = 2,
                 Name = "ime",
                 Description = "naziv",
@@ -99,32 +99,24 @@ namespace Explorer.Tours.Tests.Integration
                 BicycleTime = 1, // Add missing field
                 CarTime = 1, // Add missing field
                 TotalLength = 1, // Add missing field
-                PublishTime = new DateTime(2023, 1, 1, 13, 0, 0, DateTimeKind.Utc),
+                PublishTime = new DateTime(2023, 1, 1, 13, 0, 0, DateTimeKind.Utc),}
 
-            };
 
-            tours.Add(tour1);
-            tours.Add(tour2);
-
-            var bundle = new BundleDto
-            {
-                Id = 1,
-                UserId = -11,
-                Name = "Novi",
-                Price = 100,
-                Tours = tours,
+                },
                 Status = BundleDto.BundleStatus.Draft
-            };
+            };*/
 
-            var result = (ObjectResult)controller.PublishBundle(bundle.Id).Result;
+            var result = (ObjectResult)controller.PublishBundle(1).Result;
+            var bundle = (ObjectResult)controller.Get(1).Result;
+            var bundleDto = bundle.Value as BundleDto;
 
             result.ShouldNotBeNull();
             result.StatusCode.ShouldBe(200);
 
             // Assert - Database
-            var storedEntity = dbContext.Bundles.FirstOrDefault(t => t.Name == bundle.Name);
+            var storedEntity = dbContext.Bundles.FirstOrDefault(t => t.Name == bundleDto.Name);
             storedEntity.ShouldNotBeNull();
-            storedEntity.Status.ShouldBe(Core.Domain.Bundle.BundleStatus.Published);
+            storedEntity.Status.ShouldBe(Bundle.BundleStatus.Published);
 
 
         }

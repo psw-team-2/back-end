@@ -30,5 +30,14 @@ namespace Explorer.Tours.Infrastructure.Database.Repositories
             _dbContext.Entry(oldBundle).CurrentValues.SetValues(bundle);
             _dbContext.SaveChanges();
         }
+
+        public Bundle GetBundleByTourId(int bundleId)
+        {
+            var bundle = _dbContext.Bundles
+                .Include(b => b.Tours) // Include the Tours related to the Bundle
+                .FirstOrDefault(b => b.Id == bundleId);
+
+            return bundle;
+        }
     }
 }

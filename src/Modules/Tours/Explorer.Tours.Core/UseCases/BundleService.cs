@@ -37,7 +37,7 @@ namespace Explorer.Tours.Core.UseCases
 
         public Result<BundleDto> PublishBundle(int bundleId)
         {
-            var existingBundle = _bundleRepository.GetById(bundleId);
+            var existingBundle = _bundleRepository.GetBundleByTourId(bundleId);
 
             if (existingBundle != null)
             {
@@ -45,7 +45,7 @@ namespace Explorer.Tours.Core.UseCases
                 int publishedTourCount = 0;
                 foreach (var tour in existingBundle.Tours)
                 {
-                    if (tour.Status.Equals(1))
+                    if (tour.Status == Domain.AccountStatus.PUBLISHED)
                     {
                         publishedTourCount++;
                     }
@@ -53,11 +53,11 @@ namespace Explorer.Tours.Core.UseCases
 
                 if (publishedTourCount >= 2)
                 {
-                    existingBundle.Status.Equals(1);
+                    existingBundle.Status = Bundle.BundleStatus.Published;
                 }
                 else
                 {
-                    existingBundle.Status.Equals(0);
+                    existingBundle.Status = Bundle.BundleStatus.Draft;
                 }
 
 

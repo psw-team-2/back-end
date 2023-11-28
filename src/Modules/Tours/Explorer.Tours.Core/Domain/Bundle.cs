@@ -14,7 +14,7 @@ namespace Explorer.Tours.Core.Domain
         public double Price { get; set; }
         public List<Tour> Tours { get; init; }
 
-        public BundleStatus Status { get; init; }
+        public BundleStatus Status { get; set; }
 
         public Bundle(long userId, string name, double price, BundleStatus status)
         {

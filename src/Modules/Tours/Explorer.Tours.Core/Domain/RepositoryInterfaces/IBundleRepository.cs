@@ -10,6 +10,7 @@ namespace Explorer.Tours.Core.Domain.RepositoryInterfaces
     {
         Bundle GetById(int bundleId);
         void Update(Bundle bundle);
+        Bundle GetBundleByTourId(int tourId);
     }
 
 }
