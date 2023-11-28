@@ -31,7 +31,7 @@ namespace Explorer.Tours.Tests.Integration
             var dbContext = scope.ServiceProvider.GetRequiredService<ToursContext>();
             var newEntity = new BundleDto
             {
-                Id = -1,
+                Id = -2,
                 UserId = -11,
                 Name = "Novi",
                 Price = 0,
@@ -117,7 +117,7 @@ namespace Explorer.Tours.Tests.Integration
         }
         
         [Fact]
-        public void AddTour()
+        public void AddTour() { 
             //Arrange
             using var scope = Factory.Services.CreateScope();
             var controller = CreateController(scope);
@@ -128,7 +128,7 @@ namespace Explorer.Tours.Tests.Integration
                 Id = 1,
                 Name = "ime",
                 Description = "naziv",
-                Status = AccountStatus.PUBLISHED, // Assumption: 1 corresponds to Published status in your code
+                Status = API.Dtos.AccountStatus.PUBLISHED, // Assumption: 1 corresponds to Published status in your code
                 Difficulty = 1, // Assumption: 1 corresponds to the Difficulty value in your code
                 Price = 100.0,
                 Tags = new List<string> { "Prva vrednost", "Druga vrednost" }, // Adjust as needed
