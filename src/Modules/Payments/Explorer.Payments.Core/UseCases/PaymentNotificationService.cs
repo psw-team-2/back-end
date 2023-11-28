@@ -36,7 +36,6 @@ namespace Explorer.Payments.Core.UseCases
             _paymentNotificationRepository.Create(MapToDomain(notificationDto));
 
             return notificationDto;
-
         }
 
         public Result<PagedResult<PaymentNotificationDto>> GetUnreadPaymentNotifications(int page, int pageSize, long profileId)

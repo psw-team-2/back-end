@@ -49,10 +49,11 @@ namespace Explorer.API.Controllers.Author
             return CreateResponse(result);
         }
 
-        [HttpPost("{id:int}")]
-        public ActionResult<BundleDto> PublishBundle([FromBody] BundleDto bundleDto)
+        [HttpPut("publish/{bundleId}")]
+        public ActionResult<BundleDto> PublishBundle(int bundleId)
         {
-            throw new NotImplementedException();
+            var result = _bundleService.PublishBundle(bundleId);
+            return CreateResponse(result);
         }
     }
 }
