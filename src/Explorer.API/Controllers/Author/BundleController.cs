@@ -2,6 +2,7 @@
 using Explorer.BuildingBlocks.Core.UseCases;
 using Explorer.Payments.API.Dtos;
 using Explorer.Payments.API.Public;
+using Explorer.Payments.Core.UseCases;
 using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public;
 using Microsoft.AspNetCore.Authorization;
@@ -53,6 +54,13 @@ namespace Explorer.API.Controllers.Author
         public ActionResult<BundleDto> PublishBundle(int bundleId)
         {
             var result = _bundleService.PublishBundle(bundleId);
+            return CreateResponse(result);
+        }
+
+        [HttpPost("addTour/{bundleId:int}/{tourId:int}")]
+        public ActionResult<ShoppingCartDto> AddItem([FromBody] BundleDto bundle, int tourId)
+        {
+            var result = _bundleService.AddTour(bundle, tourId);
             return CreateResponse(result);
         }
     }

@@ -75,7 +75,6 @@ public static class ToursStartup
         services.AddScoped(typeof(ICrudRepository<Bundle>), typeof(CrudDatabaseRepository<Bundle, ToursContext>));
         services.AddScoped<IBundleRepository, BundleRepository>();
 
-
         services.AddDbContext<ToursContext>(opt =>
             opt.UseNpgsql(DbConnectionStringBuilder.Build("tours"),
                 x => x.MigrationsHistoryTable("__EFMigrationsHistory", "tours")));

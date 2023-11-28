@@ -12,7 +12,6 @@ namespace Explorer.Tours.Core.Domain
         public long UserId { get; init; }
         public string Name { get; init; }
         public double Price { get; set; }
-
         public List<Tour> Tours { get; init; }
 
         public BundleStatus Status { get; init; }
@@ -25,6 +24,23 @@ namespace Explorer.Tours.Core.Domain
             Tours = new List<Tour>();
             Status = status;
         }
+
+        public void AddTour(Tour tour)
+        {
+            if (Tours != null)
+            {
+                Tours.Add(tour);
+            }
+        }
+
+        public void RemoveItem(Tour tour)
+        {
+            if (Tours != null)
+            {
+                Tours.Remove(tour);
+            }
+        }
+
 
         public enum BundleStatus
         {

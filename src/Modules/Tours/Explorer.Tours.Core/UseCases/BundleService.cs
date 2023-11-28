@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Explorer.BuildingBlocks.Core.UseCases;
+using Explorer.Payments.API.Dtos;
 using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public;
 using Explorer.Tours.Core.Domain;
@@ -15,15 +16,17 @@ namespace Explorer.Tours.Core.UseCases
 {
     public class BundleService : CrudService<BundleDto, Bundle>, IBundleService
     {
-        private IBundleRepository _bundleRepository;
-        public BundleService(ICrudRepository<Bundle> crudRepository, IMapper mapper, IBundleRepository bundleRepository) : base(crudRepository, mapper)
+        private readonly ICrudRepository<Tour> _tourRepository;
+        private readonly IBundleRepository _bundleRepository;
+        public BundleService(ICrudRepository<Bundle> crudRepository, IMapper mapper, ICrudRepository<Tour> tourRepository, IBundleRepository bundleRepository) : base(crudRepository, mapper)
         {
+            _tourRepository = tourRepository;
             _bundleRepository = bundleRepository;
         }
 
         public Result<BundleDto> Create(BundleDto bundleDto)
         {
-            bundleDto.Price= 0;
+            bundleDto.Price = 0;
             bundleDto.Status = BundleDto.BundleStatus.Draft;
             bundleDto.Tours = new List<TourDto>();
 
@@ -66,5 +69,30 @@ namespace Explorer.Tours.Core.UseCases
  
         }
 
+        public Result<BundleDto> AddTour(BundleDto bundleDto, int tourId)
+        {
+            try
+            {
+                Tour tour = _tourRepository.Get(tourId);
+                if (bundleDto != null)
+                { 
+                    Bundle bundle = _bundleRepository.GetById(bundleDto.Id);
+                    bundle.AddTour(tour);
+
+                    //bundle.CalculateTotalPrice(bundle.Price, tour.Price, true);
+                    _bundleRepository.Update(bundle);
+                    return Result.Ok(bundleDto);
+                }
+                else
+                {
+                    return Result.Fail(FailureCode.NotFound).WithError("Tour not found.");
+                }
+
+            }
+            catch (KeyNotFoundException e)
+            {
+                return Result.Fail(FailureCode.NotFound).WithError(e.Message);
+            }
+        }
     }
 }
