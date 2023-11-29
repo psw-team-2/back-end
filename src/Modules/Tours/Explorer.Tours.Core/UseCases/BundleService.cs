@@ -23,12 +23,11 @@ namespace Explorer.Tours.Core.UseCases
             _tourRepository = tourRepository;
             _bundleRepository = bundleRepository;
         }
-        public IBundleRepository _bundleRepository;
 
         public override Result<BundleDto> Create(BundleDto bundleDto)
         {
             bundleDto.Price = 0;
-            bundleDto.Status = BundleDto.BundleStatus.Draft;
+            bundleDto.Status = BundleStatus.Draft;
             bundleDto.Tours = new List<TourDto>();
 
             return base.Create(bundleDto);
