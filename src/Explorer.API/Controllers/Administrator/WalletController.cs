@@ -1,9 +1,11 @@
 ﻿using Explorer.BuildingBlocks.Core.UseCases;
 using Explorer.Payments.API.Dtos;
 using Explorer.Payments.API.Public;
+using Explorer.Stakeholders.Core.Domain.Users;
 using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public;
 using Explorer.Tours.Core.UseCases;
+using FluentResults;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -41,12 +43,24 @@ namespace Explorer.API.Controllers.Administrator
             return CreateResponse(result);
         }
 
-        [HttpGet("byUser/{userId}")]
-        public ActionResult<WalletDto> GetByUserId(int userId)
+        [HttpGet("byUser")]
+        public ActionResult<WalletDto> GetByUserId()
         {
-            var result = _walletService.GetWalletByUserId(userId);
-            return CreateResponse(result);
+            var userIdClaim = HttpContext.User.Claims.First(x => x.Type == "id");
+            if (userIdClaim != null && int.TryParse(userIdClaim.Value, out int id))
+            {
+
+                var result = _walletService.GetWalletByUserId(id);
+                return CreateResponse(result);
+            }
+            else
+            {
+                return BadRequest("User ID not found or invalid.");
+            }
+            
         }
+        
+            
 
     }
 }
