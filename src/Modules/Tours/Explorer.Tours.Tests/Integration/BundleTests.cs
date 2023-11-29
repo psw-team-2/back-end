@@ -32,10 +32,8 @@ namespace Explorer.Tours.Tests.Integration
                 UserId = -11,
                 Name = "Novi",
                 Price = 0,
-                Status = BundleDto.BundleStatus.Draft,
+                Status = BundleStatus.Draft,
                 Tours = new List<int>()
-
-
 
             };
 

@@ -200,6 +200,28 @@ namespace Explorer.Tours.Core.UseCases
             return tour;
         }
 
+        public List<TourBundleDto> GetToursByAuthorId(int authorId)
+        {
+            List<Tour> tours = _tourRepository.GetToursByAuthorId(authorId);
+            // List<TourDto> dto = MapToDto(tours);
 
+            var toursDto = tours.Select(tour => new TourBundleDto
+            {
+                Id = (int)tour.Id,
+                FootTime = tour.FootTime,
+                BicycleTime = tour.BicycleTime,
+                CarTime = tour.CarTime,
+                TotalLength = tour.TotalLength,
+                AuthorId = tour.AuthorId,
+                PublishTime = tour.PublishTime,
+                Name = tour.Name,
+                Description = tour.Description,
+                Status = (API.Dtos.AccountStatus)tour.Status,
+                Difficulty = tour.Difficulty,
+                Price = tour.Price
+            }).ToList();
+
+            return toursDto;
+         }
+        }
     }
-}

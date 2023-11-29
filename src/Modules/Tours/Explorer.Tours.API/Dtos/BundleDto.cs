@@ -18,13 +18,15 @@ namespace Explorer.Tours.API.Dtos
 
         public List<int> Tours { get; set; }
 
-        public enum BundleStatus
-        {
-            Draft,
-            Published,
-            Archived
-        }
+        
     }
 
-    
+    public enum BundleStatus
+    {
+        Draft,
+        Published,
+        Archived
+    }
+
+
 }

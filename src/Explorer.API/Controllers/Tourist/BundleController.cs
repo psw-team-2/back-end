@@ -49,5 +49,18 @@ namespace Explorer.API.Controllers.Tourist
             return CreateResponse(result);
         }
 
+        [HttpGet("byAuthor/{userId}")]
+        public ActionResult<PagedResult<BundleDto>> GetBundlesByAuthorId(int userId)
+        {
+            var reviewsDto = _bundleService.GetBundlesByAuthorId(userId);
+
+            if (reviewsDto == null || !reviewsDto.Any())
+            {
+                return NotFound("No bundles found for author");
+            }
+
+            return Ok(reviewsDto);
+        }
+
     }
 }

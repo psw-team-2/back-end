@@ -29,6 +29,8 @@ namespace Explorer.Tours.API.Public
         public Result<TourDto> PublishTour(TourDto tour);
         public Result<TourDto> ArchiveTour(TourDto tour);
 
+        List<TourBundleDto> GetToursByAuthorId(int authorId);
+
 
     }
 }

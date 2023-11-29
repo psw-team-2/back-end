@@ -26,11 +26,13 @@ namespace Explorer.Tours.Core.Domain
             Status = status;
         }
 
-        public enum BundleStatus
-        {
-            Draft,
-            Published,
-            Archived
-        }
+        
+    }
+
+    public enum BundleStatus
+    {
+        Draft,
+        Published,
+        Archived
     }
 }
