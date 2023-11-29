@@ -12,27 +12,41 @@ namespace Explorer.Tours.Core.Domain
         public long UserId { get; init; }
         public string Name { get; init; }
         public double Price { get; set; }
+        public List<Tour> Tours { get; init; }
 
-        public List<long> Tours { get; init; }
+        public BundleStatus Status { get; set; }
 
-        public BundleStatus Status { get; init; }
-
-        public Bundle(long userId, string name, double price, List<long> tours, BundleStatus status)
+        public Bundle(long userId, string name, double price, BundleStatus status)
         {
             UserId = userId;
             Name = name;
             Price = price;
-            Tours = tours;
+            Tours = new List<Tour>();
             Status = status;
         }
 
-        
-    }
+        public void AddTour(Tour tour)
+        {
+            if (Tours != null)
+            {
+                Tours.Add(tour);
+            }
+        }
 
-    public enum BundleStatus
-    {
-        Draft,
-        Published,
-        Archived
+        public void RemoveItem(Tour tour)
+        {
+            if (Tours != null)
+            {
+                Tours.Remove(tour);
+            }
+        }
+
+
+        public enum BundleStatus
+        {
+            Draft,
+            Published,
+            Archived
+        }
     }
 }

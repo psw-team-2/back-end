@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Explorer.BuildingBlocks.Core.UseCases;
+using Explorer.Payments.API.Dtos;
 using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public;
 using Explorer.Tours.Core.Domain;
@@ -15,24 +16,58 @@ namespace Explorer.Tours.Core.UseCases
 {
     public class BundleService : CrudService<BundleDto, Bundle>, IBundleService
     {
-        public BundleService(IBundleRepository bundleRepository, ICrudRepository<Bundle> crudRepository, IMapper mapper) : base(crudRepository, mapper)
+        private readonly ICrudRepository<Tour> _tourRepository;
+        private readonly IBundleRepository _bundleRepository;
+        public BundleService(ICrudRepository<Bundle> crudRepository, IMapper mapper, ICrudRepository<Tour> tourRepository, IBundleRepository bundleRepository) : base(crudRepository, mapper)
         {
+            _tourRepository = tourRepository;
             _bundleRepository = bundleRepository;
         }
         public IBundleRepository _bundleRepository;
 
         public override Result<BundleDto> Create(BundleDto bundleDto)
         {
-            bundleDto.Price= 0;
-            bundleDto.Status = API.Dtos.BundleStatus.Draft;
-            bundleDto.Tours = new List<int>();
+            bundleDto.Price = 0;
+            bundleDto.Status = BundleDto.BundleStatus.Draft;
+            bundleDto.Tours = new List<TourDto>();
 
             return base.Create(bundleDto);
         }
 
-        public Result<BundleDto> Update(BundleDto bundleDto)
+     
+
+        public Result<BundleDto> PublishBundle(int bundleId)
         {
-            throw new NotImplementedException();
+            var existingBundle = _bundleRepository.GetBundleByTourId(bundleId);
+
+            if (existingBundle != null)
+            {
+
+                int publishedTourCount = 0;
+                foreach (var tour in existingBundle.Tours)
+                {
+                    if (tour.Status == Domain.AccountStatus.PUBLISHED)
+                    {
+                        publishedTourCount++;
+                    }
+                }
+
+                if (publishedTourCount >= 2)
+                {
+                    existingBundle.Status = Bundle.BundleStatus.Published;
+                }
+                else
+                {
+                    existingBundle.Status = Bundle.BundleStatus.Draft;
+                }
+
+
+                _bundleRepository.Update(existingBundle);
+
+                return MapToDto(existingBundle);
+            }
+            return null;
+ 
         }
 
         public List<BundleDto> GetBundlesByAuthorId(int authorId)
@@ -52,5 +87,30 @@ namespace Explorer.Tours.Core.UseCases
             return reviewsDto;
         }
 
+        public Result<BundleDto> AddTour(BundleDto bundleDto, int tourId)
+        {
+            try
+            {
+                Tour tour = _tourRepository.Get(tourId);
+                if (bundleDto != null)
+                { 
+                    Bundle bundle = _bundleRepository.GetById(bundleDto.Id);
+                    bundle.AddTour(tour);
+
+                    //bundle.CalculateTotalPrice(bundle.Price, tour.Price, true);
+                    _bundleRepository.Update(bundle);
+                    return Result.Ok(bundleDto);
+                }
+                else
+                {
+                    return Result.Fail(FailureCode.NotFound).WithError("Tour not found.");
+                }
+
+            }
+            catch (KeyNotFoundException e)
+            {
+                return Result.Fail(FailureCode.NotFound).WithError(e.Message);
+            }
+        }
     }
 }

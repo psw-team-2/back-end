@@ -2,15 +2,16 @@
 using Explorer.BuildingBlocks.Core.UseCases;
 using Explorer.Payments.API.Dtos;
 using Explorer.Payments.API.Public;
+using Explorer.Payments.Core.UseCases;
 using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 
-namespace Explorer.API.Controllers.Tourist
+namespace Explorer.API.Controllers.Author
 {
-    [Route("api/tourist/bundle")]
+    [Route("api/author/bundle")]
     public class BundleController : BaseApiController
     {
         private readonly IBundleService _bundleService;
@@ -62,5 +63,18 @@ namespace Explorer.API.Controllers.Tourist
             return Ok(reviewsDto);
         }
 
+        [HttpPut("publish/{bundleId}")]
+        public ActionResult<BundleDto> PublishBundle(int bundleId)
+        {
+            var result = _bundleService.PublishBundle(bundleId);
+            return CreateResponse(result);
+        }
+
+        [HttpPost("addTour/{bundleId:int}/{tourId:int}")]
+        public ActionResult<ShoppingCartDto> AddItem([FromBody] BundleDto bundle, int tourId)
+        {
+            var result = _bundleService.AddTour(bundle, tourId);
+            return CreateResponse(result);
+        }
     }
 }

@@ -24,8 +24,7 @@ namespace Explorer.Payments.Tests.Integration
 
         [Fact]
         public void Creates()
-        {
-            
+        {           
             // Arrange - Controller and dbContext
             using var scope = Factory.Services.CreateScope();
             var controller = CreateController(scope);

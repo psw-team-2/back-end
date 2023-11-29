@@ -19,12 +19,6 @@ namespace Explorer.API.Controllers.Administrator
             _paymentNotificationService = paymentNotificationService;
         }
 
-        [HttpPost]
-        public ActionResult<PaymentNotificationDto> Create([FromBody] PaymentNotificationDto paymentNotificationDto)
-        {
-            throw new NotImplementedException();
-        }
-
 
         [HttpGet("unread-notifications/{profileId:int}")]
         public ActionResult<PagedResult<PaymentNotificationDto>> GetUnreadPaymentNotifications([FromQuery] int page, [FromQuery] int pageSize, long profileId)

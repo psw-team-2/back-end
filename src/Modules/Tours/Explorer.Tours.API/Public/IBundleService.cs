@@ -16,5 +16,7 @@ namespace Explorer.Tours.API.Public
         Result<BundleDto> Create(BundleDto bundleDto);
         Result<BundleDto> Update(BundleDto bundleDto);
         List<BundleDto> GetBundlesByAuthorId(int authorId);
+        Result<BundleDto> PublishBundle(int bundleId);
+        Result<BundleDto> AddTour(BundleDto bundleDto, int tourId);
     }
 }
