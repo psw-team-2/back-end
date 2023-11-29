@@ -130,5 +130,13 @@ namespace Explorer.API.Controllers.Tourist
             return CreateResponse(blogsDtos);
         }
 
+        [HttpPost("/tour-report")]
+        public ActionResult<UserBlogTourDto> CreateWithTourReport([FromBody] UserBlogTourDto blog)
+        {
+            throw new NotImplementedException();
+        }
+
+
+
     }
 }
