@@ -3,6 +3,7 @@ using Explorer.BuildingBlocks.Core.UseCases;
 using Explorer.Payments.API.Dtos;
 using Explorer.Payments.API.Public;
 using Explorer.Payments.Core.Domain;
+using Explorer.Payments.Core.Domain.RepositoryInterfaces;
 using Explorer.Tours.Core.Domain;
 using FluentResults;
 using System;
@@ -17,10 +18,12 @@ namespace Explorer.Payments.Core.UseCases
     {
         private readonly ICrudRepository<Wallet> _walletRepository;
         private readonly IPaymentNotificationService _paymentNotificationsService;
-        public WalletService(ICrudRepository<Wallet> crudRepository, IMapper mapper, ICrudRepository<Wallet> walletRepository, IPaymentNotificationService paymentNotificationsService) : base(crudRepository, mapper)
+        private readonly IWalletRepository __walletRepository;
+        public WalletService(ICrudRepository<Wallet> crudRepository, IMapper mapper, ICrudRepository<Wallet> walletRepository, IPaymentNotificationService paymentNotificationsService, IWalletRepository wallet) : base(crudRepository, mapper)
         {
             _walletRepository = walletRepository;
             _paymentNotificationsService = paymentNotificationsService;
+            __walletRepository = wallet;
         }
 
 
@@ -35,6 +38,12 @@ namespace Explorer.Payments.Core.UseCases
                 return MapToDto(wallet);
             }
             return Result.Fail(FailureCode.NotFound).WithError("Wallet not found.");
+        }
+
+        public Result<WalletDto> GetWalletByUserId(int userId)
+        {
+            Wallet wallet = __walletRepository.GetWalletByUserId(userId);
+            return MapToDto(wallet);
         }
 
 
