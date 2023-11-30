@@ -1,12 +1,8 @@
-﻿using Explorer.API.Controllers.Administrator.Administration;
+﻿using Explorer.API.Controllers.Administrator;
 using Explorer.API.Controllers.Tourist;
-using Explorer.Blog.API.Dtos;
 using Explorer.Payments.API.Dtos;
 using Explorer.Payments.API.Public;
-using Explorer.Payments.Core.Domain;
 using Explorer.Payments.Infrastructure.Database;
-using Explorer.Tours.API.Public.Administration;
-using Explorer.Tours.Infrastructure.Database;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
@@ -18,46 +14,56 @@ using System.Threading.Tasks;
 
 namespace Explorer.Payments.Tests.Integration
 {
-    public class PurchaseReportTests : BasePaymentsIntegrationTest
+    [Collection("Sequential")]
+    public class ShoppingCartTests : BasePaymentsIntegrationTest
     {
-        public PurchaseReportTests(PaymentsTestFactory factory) : base(factory) { }
+        public ShoppingCartTests(PaymentsTestFactory factory) : base(factory)
+        {
+        }
 
         [Fact]
-        public void Creates()
-        {           
+        public void AddNewBundleItem()
+        {
             // Arrange - Controller and dbContext
             using var scope = Factory.Services.CreateScope();
             var controller = CreateController(scope);
             var dbContext = scope.ServiceProvider.GetRequiredService<PaymentsContext>();
+            var newCart = new ShoppingCartDto
+            {
+                Id = -1,
+                UserId = -1,
+                Items = new List<int>(),
+                TotalPrice = 0
+
+            };
             var newOrder = new OrderItemDto
             {
-                ItemId = 2,
+                ItemId = -1,
                 ItemName = "Test",
                 Price = 50,
                 ShoppingCartId = 1,
                 IsBought = false,
-                IsBundle = false
+                IsBundle = true
             };
 
-            List<OrderItemDto> orders = new List<OrderItemDto>();
-            orders.Add(newOrder);
 
             // Act
-            var result = (OkResult)controller.Create(orders,1);
+            var result = ((ObjectResult)controller.AddBundleItem(newCart,newOrder.ItemId).Result);
 
             // Assert - Response
             result.ShouldNotBeNull();
             result.StatusCode.ShouldBe(200);
             // Assert - Database
-            var storedEntity = dbContext.PurchaseReports.FirstOrDefault(t => t.TourId == newOrder.ItemId && t.UserId == 1);
+            var storedEntity = dbContext.OrderItems.FirstOrDefault(i => i.ItemId == newOrder.ItemId);
             storedEntity.ShouldNotBeNull();
-            storedEntity.AdventureCoin.ShouldBe(newOrder.Price);
+            storedEntity.IsBundle.ShouldBe(newOrder.IsBundle);
         }
 
 
-        private static PurchaseReportController CreateController(IServiceScope scope)
+
+        private static ShoppingCartController CreateController(IServiceScope scope)
         {
-            return new PurchaseReportController(scope.ServiceProvider.GetRequiredService<IPurchaseReportService>())
+            return new ShoppingCartController(scope.ServiceProvider.GetRequiredService<IShoppingCartService>())
             {
                 ControllerContext = BuildContext("-1")
             };

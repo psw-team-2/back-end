@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using Explorer.Tours.API.Dtos;
 using Explorer.Tours.Core.Domain;
+using Explorer.Tours.Core.Domain.RepositoryInterfaces;
 
 namespace Explorer.Payments.Core.UseCases
 {
@@ -27,9 +28,11 @@ namespace Explorer.Payments.Core.UseCases
         private readonly ICrudRepository<TourPurchaseToken> _tourPurchaseTokenRepository;
         private readonly IPurchaseReportService _purchaseReportService;
         private readonly IWalletRepository _walletRepository;
+        private readonly IBundleRepository _bundleRepository;
+        private readonly ICrudRepository<Bundle> _crudBundleRepository;
 
 
-        public ShoppingCartService(ICrudRepository<ShoppingCart> repository, IMapper mapper, IShoppingCartRepository shoppingCartRepository, ICrudRepository<Tour> tourRepository, ICrudRepository<OrderItem> crudOrderItemRepository, IOrderItemRepository orderItemRepository, ICrudRepository<TourPurchaseToken> tourPurchaseTokenRepository, IPurchaseReportService purchaseReportService, IWalletRepository walletRepository) : base(repository, mapper)
+        public ShoppingCartService(ICrudRepository<ShoppingCart> repository, IMapper mapper, IShoppingCartRepository shoppingCartRepository, ICrudRepository<Tour> tourRepository, ICrudRepository<OrderItem> crudOrderItemRepository, IOrderItemRepository orderItemRepository, ICrudRepository<TourPurchaseToken> tourPurchaseTokenRepository, IPurchaseReportService purchaseReportService, IWalletRepository walletRepository, ICrudRepository<Bundle> crudBundleRepository, IBundleRepository bundleRepository) : base(repository, mapper)
         {
             _shoppingCartRepository = shoppingCartRepository;
             _tourRepository = tourRepository;
@@ -39,6 +42,8 @@ namespace Explorer.Payments.Core.UseCases
             _tourPurchaseTokenRepository = tourPurchaseTokenRepository;
             _purchaseReportService = purchaseReportService;
             _walletRepository = walletRepository;
+            _crudBundleRepository = crudBundleRepository;
+            _bundleRepository = bundleRepository;
         }
 
 
@@ -49,7 +54,7 @@ namespace Explorer.Payments.Core.UseCases
                 Tours.Core.Domain.Tour tour = _tourRepository.Get(tourId);
                 if (shoppingCartDto != null)
                 {
-                    OrderItem orderItem = new OrderItem(tourId, tour.Name, tour.Price, shoppingCartDto.Id, false);
+                    OrderItem orderItem = new OrderItem(tourId, tour.Name, tour.Price, shoppingCartDto.Id, false, false);
                     _crudOrderItemRepository.Create(orderItem);
 
                     ShoppingCart shoppingCart = _shoppingCartRepository.GetById(shoppingCartDto.Id);
@@ -156,7 +161,7 @@ namespace Explorer.Payments.Core.UseCases
             {
                 foreach (OrderItemDto item in orderItems)
                 {
-                    TourPurchaseToken purchaseToken = new TourPurchaseToken(userId, item.TourId, DateTime.UtcNow);
+                    TourPurchaseToken purchaseToken = new TourPurchaseToken(userId, item.ItemId, DateTime.UtcNow);
                     _tourPurchaseTokenRepository.Create(purchaseToken);
                     shoppingCart.RemoveItem(item.Id);
                 }
@@ -174,6 +179,36 @@ namespace Explorer.Payments.Core.UseCases
                 return Result.Fail(FailureCode.InvalidArgument).WithError("You don't have enough money to make a purchase.");
             }
                 
+        }
+
+        public Result<ShoppingCartDto> AddBundleItem(ShoppingCartDto shoppingCartDto, int bundleId)
+        {
+            try
+            {
+                Bundle bundle = _bundleRepository.GetById(bundleId);
+                if (shoppingCartDto != null)
+                {
+                    OrderItem orderItem = new OrderItem(bundleId, bundle.Name, bundle.Price, shoppingCartDto.Id, false, false);
+                    _crudOrderItemRepository.Create(orderItem);
+
+                    ShoppingCart shoppingCart = _shoppingCartRepository.GetById(shoppingCartDto.Id);
+
+                    shoppingCart.AddItem((int)orderItem.Id);
+
+                    shoppingCart.CalculateTotalPrice(shoppingCart.TotalPrice, orderItem.Price, true);
+                    _shoppingCartRepository.Update(shoppingCart);
+                    return Result.Ok(shoppingCartDto);
+                }
+                else
+                {
+                    return Result.Fail(FailureCode.NotFound).WithError("Bundle not found.");
+                }
+
+            }
+            catch (KeyNotFoundException e)
+            {
+                return Result.Fail(FailureCode.NotFound).WithError(e.Message);
+            }
         }
     }
 }
