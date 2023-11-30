@@ -36,7 +36,7 @@ namespace Explorer.Tours.Tests.Integration
                 Name = "Novi",
                 Price = 0,
                 Status = BundleStatus.Draft,
-                Tours = new List<TourDto>()
+                Tours = new List<int>()
 
             };
 
@@ -155,11 +155,11 @@ namespace Explorer.Tours.Tests.Integration
                 Name = "Novi",
                 Price = 0,
                 Status = BundleStatus.Draft,
-                Tours = new List<TourDto>()
+                Tours = new List<int>()
             };
 
             // Act
-            var result = (ObjectResult)controller.AddItem(bundle,tourDto.Id).Result;
+            var result = (ObjectResult)controller.AddTourToBundle(bundle,tourDto.Id).Result;
 
             // Assert - Response
             result.ShouldNotBeNull();

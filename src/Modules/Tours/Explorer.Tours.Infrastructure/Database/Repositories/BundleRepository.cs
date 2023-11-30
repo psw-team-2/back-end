@@ -34,7 +34,7 @@ namespace Explorer.Tours.Infrastructure.Database.Repositories
             _dbContext.Entry(oldBundle).CurrentValues.SetValues(bundle);
             _dbContext.SaveChanges();
         }
-
+        /*
         public Bundle GetBundleByTourId(int bundleId)
         {
             var bundle = _dbContext.Bundles
@@ -42,6 +42,6 @@ namespace Explorer.Tours.Infrastructure.Database.Repositories
                 .FirstOrDefault(b => b.Id == bundleId);
 
             return bundle;
-        }
+        }*/
     }
 }
