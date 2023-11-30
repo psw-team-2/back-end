@@ -35,8 +35,8 @@ namespace Explorer.Tours.Tests.Integration
                 UserId = -11,
                 Name = "Novi",
                 Price = 0,
-                Status = BundleDto.BundleStatus.Draft,
-                Tours = new List<TourDto>()
+                Status = BundleStatus.Draft,
+                Tours = new List<int>()
 
             };
 
@@ -154,12 +154,12 @@ namespace Explorer.Tours.Tests.Integration
                 UserId = -11,
                 Name = "Novi",
                 Price = 0,
-                Status = BundleDto.BundleStatus.Draft,
-                Tours = new List<TourDto>()
+                Status = BundleStatus.Draft,
+                Tours = new List<int>()
             };
 
             // Act
-            var result = (ObjectResult)controller.AddItem(bundle,tourDto.Id).Result;
+            var result = (ObjectResult)controller.AddTourToBundle(bundle,tourDto.Id).Result;
 
             // Assert - Response
             result.ShouldNotBeNull();

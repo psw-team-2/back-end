@@ -70,8 +70,8 @@ namespace Explorer.API.Controllers.Author
             return CreateResponse(result);
         }
 
-        [HttpPost("addTour/{bundleId:int}/{tourId:int}")]
-        public ActionResult<ShoppingCartDto> AddItem([FromBody] BundleDto bundle, int tourId)
+        [HttpPost("addTour/{tourId:int}")]
+        public ActionResult<BundleDto> AddTourToBundle([FromBody] BundleDto bundle, int tourId)
         {
             var result = _bundleService.AddTour(bundle, tourId);
             return CreateResponse(result);

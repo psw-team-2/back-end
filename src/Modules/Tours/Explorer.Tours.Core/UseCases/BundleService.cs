@@ -23,13 +23,12 @@ namespace Explorer.Tours.Core.UseCases
             _tourRepository = tourRepository;
             _bundleRepository = bundleRepository;
         }
-        public IBundleRepository _bundleRepository;
 
         public override Result<BundleDto> Create(BundleDto bundleDto)
         {
             bundleDto.Price = 0;
-            bundleDto.Status = BundleDto.BundleStatus.Draft;
-            bundleDto.Tours = new List<TourDto>();
+            bundleDto.Status = BundleStatus.Draft;
+            bundleDto.Tours = new List<int>();
 
             return base.Create(bundleDto);
         }
@@ -38,14 +37,15 @@ namespace Explorer.Tours.Core.UseCases
 
         public Result<BundleDto> PublishBundle(int bundleId)
         {
-            var existingBundle = _bundleRepository.GetBundleByTourId(bundleId);
+            var existingBundle = _bundleRepository.GetById(bundleId);
 
             if (existingBundle != null)
             {
 
                 int publishedTourCount = 0;
-                foreach (var tour in existingBundle.Tours)
+                foreach (int tourId in existingBundle.Tours)
                 {
+                   var tour = _tourRepository.Get(tourId);
                     if (tour.Status == Domain.AccountStatus.PUBLISHED)
                     {
                         publishedTourCount++;
@@ -95,9 +95,10 @@ namespace Explorer.Tours.Core.UseCases
                 if (bundleDto != null)
                 { 
                     Bundle bundle = _bundleRepository.GetById(bundleDto.Id);
-                    bundle.AddTour(tour);
+                    bundle.AddTour((int)tour.Id);
 
                     //bundle.CalculateTotalPrice(bundle.Price, tour.Price, true);
+                    bundle.Price += tour.Price;
                     _bundleRepository.Update(bundle);
                     return Result.Ok(bundleDto);
                 }

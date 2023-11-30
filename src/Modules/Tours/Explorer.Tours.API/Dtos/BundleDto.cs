@@ -16,7 +16,7 @@ namespace Explorer.Tours.API.Dtos
 
         public BundleStatus Status { get; set; }
 
-        public List<TourDto> Tours { get; set; }
+        public List<int> Tours { get; set; }
 
         
     }
