@@ -35,7 +35,7 @@ namespace Explorer.Tours.Core.UseCases
 
      
 
-        public Result<BundleDto> PublishBundle(int bundleId)
+        public Result<BundleDto> PublishBundle(int bundleId, double price)
         {
             var existingBundle = _bundleRepository.GetById(bundleId);
 
@@ -61,7 +61,7 @@ namespace Explorer.Tours.Core.UseCases
                     existingBundle.Status = Bundle.BundleStatus.Draft;
                 }
 
-
+                existingBundle.Price = price;
                 _bundleRepository.Update(existingBundle);
 
                 return MapToDto(existingBundle);

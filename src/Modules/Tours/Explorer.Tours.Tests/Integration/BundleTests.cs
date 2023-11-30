@@ -106,7 +106,7 @@ namespace Explorer.Tours.Tests.Integration
                 Status = BundleDto.BundleStatus.Draft
             };*/
 
-            var result = (ObjectResult)controller.PublishBundle(1).Result;
+            var result = (ObjectResult)controller.PublishBundle(1, 100).Result;
             var bundle = (ObjectResult)controller.Get(1).Result;
             var bundleDto = bundle.Value as BundleDto;
 

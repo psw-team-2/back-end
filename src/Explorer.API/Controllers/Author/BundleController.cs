@@ -63,10 +63,10 @@ namespace Explorer.API.Controllers.Author
             return Ok(reviewsDto);
         }
 
-        [HttpPut("publish/{bundleId}")]
-        public ActionResult<BundleDto> PublishBundle(int bundleId)
+        [HttpPut("publish/{bundleId}/{price}")]
+        public ActionResult<BundleDto> PublishBundle(int bundleId, double price)
         {
-            var result = _bundleService.PublishBundle(bundleId);
+            var result = _bundleService.PublishBundle(bundleId, price);
             return CreateResponse(result);
         }
 
