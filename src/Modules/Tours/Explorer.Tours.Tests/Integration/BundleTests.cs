@@ -136,7 +136,7 @@ namespace Explorer.Tours.Tests.Integration
                 Status = API.Dtos.AccountStatus.PUBLISHED, // Assumption: 1 corresponds to Published status in your code
                 Difficulty = 1, // Assumption: 1 corresponds to the Difficulty value in your code
                 Price = 100.0,
-                Tags = new List<string> { "Prva vrednost", "Druga vrednost" }, // Adjust as needed
+                Tags = new List<string> { }, // Adjust as needed
                 Equipment = new List<int>(),
                 CheckPoints = new List<long>(),
                 AuthorId = -11,
@@ -150,8 +150,8 @@ namespace Explorer.Tours.Tests.Integration
             tours.Add(tourDto);
             var bundle = new BundleDto
             {
-                Id = -1,
-                UserId = -11,
+                Id = 1,
+                UserId = 1,
                 Name = "Novi",
                 Price = 0,
                 Status = BundleStatus.Draft,
@@ -183,25 +183,25 @@ namespace Explorer.Tours.Tests.Integration
                 Id = 1,
                 Name = "ime",
                 Description = "naziv",
-                Status = API.Dtos.AccountStatus.PUBLISHED, // Assumption: 1 corresponds to Published status in your code
-                Difficulty = 1, // Assumption: 1 corresponds to the Difficulty value in your code
+                Status = API.Dtos.AccountStatus.PUBLISHED, 
+                Difficulty = 1, 
                 Price = 100.0,
-                Tags = new List<string> { "Prva vrednost", "Druga vrednost" }, // Adjust as needed
+                Tags = new List<string> { }, 
                 Equipment = new List<int>(),
                 CheckPoints = new List<long>(),
-                AuthorId = -11,
+                AuthorId = 1,
                 Objects = new List<long>(),
                 FootTime = 1, 
                 BicycleTime = 1, 
                 CarTime = 1, 
                 TotalLength = 1, 
-                PublishTime = new DateTime(2023, 1, 1, 13, 0, 0, DateTimeKind.Utc), // Add missing field               
+                PublishTime = new DateTime(2023, 1, 1, 13, 0, 0, DateTimeKind.Utc),               
             };
             tours.Remove(tourDto);
             var bundle = new BundleDto
             {
-                Id = -1,
-                UserId = -11,
+                Id = 1,
+                UserId = 1,
                 Name = "Novi",
                 Price = 0,
                 Status = BundleStatus.Draft,
@@ -217,7 +217,6 @@ namespace Explorer.Tours.Tests.Integration
 
             // Assert - Database
             var storedEntity = dbContext.Bundles.FirstOrDefault(i => i.Id == bundle.Id);
-            storedEntity.ShouldBeNull();
 
             // Check if the tour has been removed from the bundle's Tours list
             storedEntity.Tours.ShouldNotContain(tourDto.Id);

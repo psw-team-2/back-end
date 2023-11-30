@@ -97,7 +97,6 @@ namespace Explorer.Tours.Core.UseCases
                     Bundle bundle = _bundleRepository.GetById(bundleDto.Id);
                     bundle.AddTour((int)tour.Id);
 
-                    //bundle.CalculateTotalPrice(bundle.Price, tour.Price, true);
                     bundle.Price += tour.Price;
                     _bundleRepository.Update(bundle);
                     return Result.Ok(bundleDto);
@@ -116,7 +115,21 @@ namespace Explorer.Tours.Core.UseCases
 
         public Result<BundleDto> RemoveTour(int bundleId, int tourId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                Bundle bundle = _bundleRepository.GetById(bundleId);
+                Tour tour = _tourRepository.Get(tourId);
+
+                bundle.RemoveTour(tourId);
+                bundle.Price -= tour.Price;
+
+                _bundleRepository.Update(bundle);
+                return Result.Ok();
+            }
+            catch (ArgumentException e)
+            {
+                return Result.Fail<BundleDto>(FailureCode.InvalidArgument).WithError(e.Message);
+            }
         }
     }
 }
