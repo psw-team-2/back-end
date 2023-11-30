@@ -29,8 +29,8 @@ namespace Explorer.API.Controllers.Author
         }
 
         [HttpGet]
-        [Authorize(Roles = "author")]
-        public ActionResult<PagedResult<TourDto>> GetAll([FromQuery] int page, [FromQuery] int pageSize)
+        
+        public ActionResult<PagedResult<BundleDto>> GetAll([FromQuery] int page, [FromQuery] int pageSize)
         {
             var result = _bundleService.GetPaged(page, pageSize);
             return CreateResponse(result);
