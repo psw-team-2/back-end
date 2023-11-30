@@ -59,55 +59,10 @@ namespace Explorer.Tours.Tests.Integration
             using var scope = Factory.Services.CreateScope();
             var controller = CreateController(scope);
             var dbContext = scope.ServiceProvider.GetRequiredService<ToursContext>();
-            /*
-            var bundle = new BundleDto
-            {
-                Id = 1,
-                UserId = -11,
-                Name = "Novi",
-                Price = 100,
-                Tours = new List<TourDto> { new TourDto {
-                Id = 1,
-                Name = "ime",
-                Description = "naziv",
-                Status = API.Dtos.AccountStatus.PUBLISHED, // Assumption: 1 corresponds to Published status in your code
-                Difficulty = 1, // Assumption: 1 corresponds to the Difficulty value in your code
-                Price = 100.0,
-                Tags = new List<string> { "Prva vrednost", "Druga vrednost" }, // Adjust as needed
-                Equipment = new List<int>(),
-                CheckPoints = new List<long>(),
-                AuthorId = -11,
-                Objects = new List<long>(), // Add missing field
-                FootTime = 1, // Add missing field
-                BicycleTime = 1, // Add missing field
-                CarTime = 1, // Add missing field
-                TotalLength = 1, // Add missing field
-                PublishTime = new DateTime(2023, 1, 1, 13, 0, 0, DateTimeKind.Utc),},
-                new TourDto {
-                Id = 2,
-                Name = "ime",
-                Description = "naziv",
-                Status = API.Dtos.AccountStatus.PUBLISHED, // Assumption: 1 corresponds to Published status in your code
-                Difficulty = 1, // Assumption: 1 corresponds to the Difficulty value in your code
-                Price = 100.0,
-                Tags = new List<string> { "Prva vrednost", "Druga vrednost" }, // Adjust as needed
-                Equipment = new List<int>(),
-                CheckPoints = new List<long>(),
-                AuthorId = -11,
-                Objects = new List<long>(), // Add missing field
-                FootTime = 1, // Add missing field
-                BicycleTime = 1, // Add missing field
-                CarTime = 1, // Add missing field
-                TotalLength = 1, // Add missing field
-                PublishTime = new DateTime(2023, 1, 1, 13, 0, 0, DateTimeKind.Utc),}
+           
 
-
-                },
-                Status = BundleDto.BundleStatus.Draft
-            };*/
-
-            var result = (ObjectResult)controller.PublishBundle(1, 100).Result;
-            var bundle = (ObjectResult)controller.Get(1).Result;
+            var result = (ObjectResult)controller.PublishBundle(-2, 100).Result;
+            var bundle = (ObjectResult)controller.Get(-2).Result;
             var bundleDto = bundle.Value as BundleDto;
 
             result.ShouldNotBeNull();
@@ -168,6 +123,27 @@ namespace Explorer.Tours.Tests.Integration
             // Assert - Database
             var storedEntity = dbContext.Bundles.FirstOrDefault(i => i.Id == bundle.Id);
             storedEntity.ShouldNotBeNull();
+        }
+
+
+        [Fact]
+        public void Deletes()
+        {
+            // Arrange
+            using var scope = Factory.Services.CreateScope();
+            var controller = CreateController(scope);
+            var dbContext = scope.ServiceProvider.GetRequiredService<ToursContext>();
+
+            // Act
+            var result = (OkResult)controller.Delete(1);
+
+            // Assert - Response
+            result.ShouldNotBeNull();
+            result.StatusCode.ShouldBe(200);
+
+            // Assert - Database
+            var storedCourse = dbContext.Bundles.FirstOrDefault(i => i.Id == 1);
+            storedCourse.ShouldBeNull();
         }
 
 

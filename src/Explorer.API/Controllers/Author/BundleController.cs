@@ -63,7 +63,7 @@ namespace Explorer.API.Controllers.Author
             return Ok(reviewsDto);
         }
 
-        [HttpPut("publish/{bundleId}/{price}")]
+        [HttpPut("publish/{bundleId}/{price}")] 
         public ActionResult<BundleDto> PublishBundle(int bundleId, double price)
         {
             var result = _bundleService.PublishBundle(bundleId, price);
@@ -74,6 +74,13 @@ namespace Explorer.API.Controllers.Author
         public ActionResult<BundleDto> AddTourToBundle([FromBody] BundleDto bundle, int tourId)
         {
             var result = _bundleService.AddTour(bundle, tourId);
+            return CreateResponse(result);
+        }
+
+        [HttpDelete("{id:int}")]
+        public ActionResult Delete(int id)
+        {
+            var result = _bundleService.Delete(id);
             return CreateResponse(result);
         }
     }
