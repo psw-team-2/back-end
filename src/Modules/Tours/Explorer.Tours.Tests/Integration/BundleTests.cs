@@ -170,6 +170,59 @@ namespace Explorer.Tours.Tests.Integration
             storedEntity.ShouldNotBeNull();
         }
 
+        [Fact]
+        public void RemoveTour()
+        {
+            //Arrange
+            using var scope = Factory.Services.CreateScope();
+            var controller = CreateController(scope);
+            var dbContext = scope.ServiceProvider.GetRequiredService<ToursContext>();
+            List<TourDto> tours = new List<TourDto>();
+            var tourDto = new TourDto
+            {
+                Id = 1,
+                Name = "ime",
+                Description = "naziv",
+                Status = API.Dtos.AccountStatus.PUBLISHED, // Assumption: 1 corresponds to Published status in your code
+                Difficulty = 1, // Assumption: 1 corresponds to the Difficulty value in your code
+                Price = 100.0,
+                Tags = new List<string> { "Prva vrednost", "Druga vrednost" }, // Adjust as needed
+                Equipment = new List<int>(),
+                CheckPoints = new List<long>(),
+                AuthorId = -11,
+                Objects = new List<long>(),
+                FootTime = 1, 
+                BicycleTime = 1, 
+                CarTime = 1, 
+                TotalLength = 1, 
+                PublishTime = new DateTime(2023, 1, 1, 13, 0, 0, DateTimeKind.Utc), // Add missing field               
+            };
+            tours.Remove(tourDto);
+            var bundle = new BundleDto
+            {
+                Id = -1,
+                UserId = -11,
+                Name = "Novi",
+                Price = 0,
+                Status = BundleStatus.Draft,
+                Tours = new List<int>()
+            };
+
+            // Act
+            var result = (ObjectResult)controller.RemoveTourFromBundle(bundle.Id, tourDto.Id).Result;
+
+            // Assert - Response
+            result.ShouldNotBeNull();
+            result.StatusCode.ShouldBe(200);
+
+            // Assert - Database
+            var storedEntity = dbContext.Bundles.FirstOrDefault(i => i.Id == bundle.Id);
+            storedEntity.ShouldBeNull();
+
+            // Check if the tour has been removed from the bundle's Tours list
+            storedEntity.Tours.ShouldNotContain(tourDto.Id);
+        }
+
 
         private static BundleController CreateController(IServiceScope scope)
         {

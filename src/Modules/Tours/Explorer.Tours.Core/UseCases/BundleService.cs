@@ -33,7 +33,7 @@ namespace Explorer.Tours.Core.UseCases
             return base.Create(bundleDto);
         }
 
-     
+
 
         public Result<BundleDto> PublishBundle(int bundleId)
         {
@@ -45,7 +45,7 @@ namespace Explorer.Tours.Core.UseCases
                 int publishedTourCount = 0;
                 foreach (int tourId in existingBundle.Tours)
                 {
-                   var tour = _tourRepository.Get(tourId);
+                    var tour = _tourRepository.Get(tourId);
                     if (tour.Status == Domain.AccountStatus.PUBLISHED)
                     {
                         publishedTourCount++;
@@ -67,7 +67,7 @@ namespace Explorer.Tours.Core.UseCases
                 return MapToDto(existingBundle);
             }
             return null;
- 
+
         }
 
         public List<BundleDto> GetBundlesByAuthorId(int authorId)
@@ -93,7 +93,7 @@ namespace Explorer.Tours.Core.UseCases
             {
                 Tour tour = _tourRepository.Get(tourId);
                 if (bundleDto != null)
-                { 
+                {
                     Bundle bundle = _bundleRepository.GetById(bundleDto.Id);
                     bundle.AddTour((int)tour.Id);
 
@@ -112,6 +112,11 @@ namespace Explorer.Tours.Core.UseCases
             {
                 return Result.Fail(FailureCode.NotFound).WithError(e.Message);
             }
+        }
+
+        public Result<BundleDto> RemoveTour(int bundleId, int tourId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -5,6 +5,7 @@ using Explorer.Payments.API.Public;
 using Explorer.Payments.Core.UseCases;
 using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public;
+using FluentResults;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
@@ -74,6 +75,13 @@ namespace Explorer.API.Controllers.Author
         public ActionResult<BundleDto> AddTourToBundle([FromBody] BundleDto bundle, int tourId)
         {
             var result = _bundleService.AddTour(bundle, tourId);
+            return CreateResponse(result);
+        }
+
+        [HttpPut("removeTour/{bundleId:int}/{tourId:int}")]
+        public ActionResult<BundleDto> RemoveTourFromBundle(int bundleId, int tourId)
+        {
+            var result = _bundleService.RemoveTour(bundleId, tourId);
             return CreateResponse(result);
         }
     }
