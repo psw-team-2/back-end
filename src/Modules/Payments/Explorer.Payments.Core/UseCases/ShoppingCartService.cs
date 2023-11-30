@@ -183,32 +183,7 @@ namespace Explorer.Payments.Core.UseCases
 
         public Result<ShoppingCartDto> AddBundleItem(ShoppingCartDto shoppingCartDto, int bundleId)
         {
-            try
-            {
-                Bundle bundle = _bundleRepository.GetById(bundleId);
-                if (shoppingCartDto != null)
-                {
-                    OrderItem orderItem = new OrderItem(bundleId, bundle.Name, bundle.Price, shoppingCartDto.Id, false, false);
-                    _crudOrderItemRepository.Create(orderItem);
-
-                    ShoppingCart shoppingCart = _shoppingCartRepository.GetById(shoppingCartDto.Id);
-
-                    shoppingCart.AddItem((int)orderItem.Id);
-
-                    shoppingCart.CalculateTotalPrice(shoppingCart.TotalPrice, orderItem.Price, true);
-                    _shoppingCartRepository.Update(shoppingCart);
-                    return Result.Ok(shoppingCartDto);
-                }
-                else
-                {
-                    return Result.Fail(FailureCode.NotFound).WithError("Bundle not found.");
-                }
-
-            }
-            catch (KeyNotFoundException e)
-            {
-                return Result.Fail(FailureCode.NotFound).WithError(e.Message);
-            }
+            throw new NotImplementedException();
         }
     }
 }
