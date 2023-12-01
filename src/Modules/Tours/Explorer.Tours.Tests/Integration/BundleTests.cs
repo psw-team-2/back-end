@@ -135,14 +135,14 @@ namespace Explorer.Tours.Tests.Integration
             var dbContext = scope.ServiceProvider.GetRequiredService<ToursContext>();
 
             // Act
-            var result = (OkResult)controller.Delete(1);
+            var result = (OkResult)controller.Delete(-2);
 
             // Assert - Response
             result.ShouldNotBeNull();
             result.StatusCode.ShouldBe(200);
 
             // Assert - Database
-            var storedCourse = dbContext.Bundles.FirstOrDefault(i => i.Id == 1);
+            var storedCourse = dbContext.Bundles.FirstOrDefault(i => i.Id == -2);
             storedCourse.ShouldBeNull();
         }
 

@@ -63,10 +63,17 @@ namespace Explorer.API.Controllers.Author
             return Ok(reviewsDto);
         }
 
-        [HttpPut("publish/{bundleId}/{price}")] 
-        public ActionResult<BundleDto> PublishBundle(int bundleId, double price)
+        [HttpPut("publish/{bundleId}")] 
+        public ActionResult<BundleDto> PublishBundle(int bundleId)
         {
-            var result = _bundleService.PublishBundle(bundleId, price);
+            var result = _bundleService.PublishBundle(bundleId);
+            return CreateResponse(result);
+        }
+
+        [HttpPut("finish-creating/{bundleId}/{price}")]
+        public ActionResult<BundleDto> FinishCreatingBundle(int bundleId, double price)
+        {
+            var result = _bundleService.FinishCreatingBundle(bundleId, price);
             return CreateResponse(result);
         }
 
@@ -81,6 +88,13 @@ namespace Explorer.API.Controllers.Author
         public ActionResult Delete(int id)
         {
             var result = _bundleService.Delete(id);
+            return CreateResponse(result);
+        }
+
+        [HttpPut("archive/{bundleId}")]
+        public ActionResult<BundleDto> ArchiveBundlw(int bundleId)
+        {
+            var result = _bundleService.ArchiveBundle(bundleId);
             return CreateResponse(result);
         }
     }

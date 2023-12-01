@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Explorer.Tours.API.Dtos;
 
 namespace Explorer.Tours.Infrastructure.Database.Repositories
 {
@@ -43,5 +44,15 @@ namespace Explorer.Tours.Infrastructure.Database.Repositories
 
             return bundle;
         }*/
+
+        public void Delete(long id)
+        {
+            var entity = _dbContext.Bundles.Find(id);
+            if (entity != null)
+            {
+                _dbContext.Bundles.Remove(entity);
+                _dbContext.SaveChanges();
+            }
+        }
     }
 }

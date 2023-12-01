@@ -13,6 +13,7 @@ namespace Explorer.Tours.Core.Domain.RepositoryInterfaces
         void Update(Bundle bundle);
         //Bundle GetBundleByTourId(int tourId);
         List<Bundle> GetBundlesByAuthorId(int userId);
+        void Delete(long id);
     }
 
 }

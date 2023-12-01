@@ -32,10 +32,46 @@ namespace Explorer.Tours.Core.UseCases
 
             return base.Create(bundleDto);
         }
+        public override Result Delete(int bundleId)
+        {
+           
+            var existingBundle = _bundleRepository.GetById(bundleId);
+            if (existingBundle != null)
+            {
+                if (existingBundle.Status == Bundle.BundleStatus.Published)
+                {
+                    return Result.Fail("Bundle status is published, it cannot be deleted");
+                }
+                _bundleRepository.Delete(bundleId);
+                return Result.Ok();
+            }
+            return Result.Fail("Existing bundle is null");
 
-     
 
-        public Result<BundleDto> PublishBundle(int bundleId, double price)
+        }
+        public Result<BundleDto> ArchiveBundle(int bundleId)
+        {
+            var existingBundle = _bundleRepository.GetById(bundleId);
+            if (existingBundle != null)
+            {
+                existingBundle.Status = Bundle.BundleStatus.Archived;
+                _bundleRepository.Update(existingBundle);
+            }
+            return MapToDto(existingBundle);
+        }
+
+        public Result<BundleDto> FinishCreatingBundle(int bundleId, double price)
+        {
+            var existingBundle = _bundleRepository.GetById(bundleId);
+
+            if (existingBundle != null)
+            {
+                existingBundle.Price = price;
+                _bundleRepository.Update(existingBundle);
+            }
+            return MapToDto(existingBundle);
+        }
+        public Result<BundleDto> PublishBundle(int bundleId)
         {
             var existingBundle = _bundleRepository.GetById(bundleId);
 
@@ -61,7 +97,6 @@ namespace Explorer.Tours.Core.UseCases
                     existingBundle.Status = Bundle.BundleStatus.Draft;
                 }
 
-                existingBundle.Price = price;
                 _bundleRepository.Update(existingBundle);
 
                 return MapToDto(existingBundle);
