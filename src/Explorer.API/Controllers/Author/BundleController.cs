@@ -93,9 +93,12 @@ namespace Explorer.API.Controllers.Author
         }
 
         [HttpPut("archive/{bundleId}")]
-        public ActionResult<BundleDto> ArchiveBundlw(int bundleId)
+        public ActionResult<BundleDto> ArchiveBundle(int bundleId)
         {
             var result = _bundleService.ArchiveBundle(bundleId);
+            return CreateResponse(result);
+        }
+
         [HttpPut("removeTour/{bundleId:int}/{tourId:int}")]
         public ActionResult<BundleDto> RemoveTourFromBundle(int bundleId, int tourId)
         {
