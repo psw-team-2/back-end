@@ -158,10 +158,17 @@ namespace Explorer.Payments.Core.UseCases
             if (wallet.AC >= shoppingCart.TotalPrice)
             {
                 foreach (OrderItemDto item in orderItems)
-                {
-                    TourPurchaseToken purchaseToken = new TourPurchaseToken(userId, item.ItemId, DateTime.UtcNow);
-                    _tourPurchaseTokenRepository.Create(purchaseToken);
-                    shoppingCart.RemoveItem(item.Id);
+                {   
+                    if(item.IsBundle == true)
+                    {
+                        
+                    }else
+                    {
+                        TourPurchaseToken purchaseToken = new TourPurchaseToken(userId, item.ItemId, DateTime.UtcNow);
+                        _tourPurchaseTokenRepository.Create(purchaseToken);
+                        shoppingCart.RemoveItem(item.Id);
+                    }
+                    
                 }
                 
                 wallet.AC -= shoppingCart.TotalPrice;
