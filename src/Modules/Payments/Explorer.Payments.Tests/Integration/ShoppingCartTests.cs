@@ -3,6 +3,8 @@ using Explorer.API.Controllers.Tourist;
 using Explorer.Payments.API.Dtos;
 using Explorer.Payments.API.Public;
 using Explorer.Payments.Infrastructure.Database;
+using Explorer.Tours.API.Dtos;
+using Explorer.Tours.Core.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
@@ -30,24 +32,55 @@ namespace Explorer.Payments.Tests.Integration
             var newCart = new ShoppingCartDto
             {
                 Id = -1,
-                UserId = -1,
+                UserId = -21,
                 Items = new List<int>(),
                 TotalPrice = 0
 
             };
-            var newOrder = new OrderItemDto
+            var bundle = new BundleDto
             {
-                ItemId = -1,
-                ItemName = "Test",
-                Price = 50,
-                ShoppingCartId = 1,
-                IsBought = false,
-                IsBundle = true
+                Id = 1,
+                Price = 100,
             };
 
 
             // Act
-            var result = ((ObjectResult)controller.AddBundleItem(newCart, newOrder.ItemId).Result);
+            //korsti pravu bazu za bundle
+            var result = ((ObjectResult)controller.AddBundleItem(newCart, bundle.Id).Result);
+
+            // Assert - Response
+            result.ShouldNotBeNull();
+            result.StatusCode.ShouldBe(200);
+            // Assert - Database
+            var storedEntity = dbContext.ShoppingCarts.FirstOrDefault(t => t.Id == newCart.Id);
+            storedEntity.ShouldNotBeNull();
+        }
+
+        [Fact]
+        public void AddNewBundleItem_Fails()
+        {
+            using var scope = Factory.Services.CreateScope();
+            var controller = CreateController(scope);
+            var dbContext = scope.ServiceProvider.GetRequiredService<PaymentsContext>();
+            var newCart = new ShoppingCartDto
+            {
+                Id = -1,
+                UserId = -21,
+                Items = new List<int>(),
+                TotalPrice = 0
+
+            };
+            var bundle = new BundleDto
+            {
+                Id = -2,
+            };
+
+
+            // Act
+            var result = ((ObjectResult)controller.AddBundleItem(newCart, bundle.Id).Result);
+
+            // Assert - Response
+            result.StatusCode.ShouldBe(404);
         }
 
 
