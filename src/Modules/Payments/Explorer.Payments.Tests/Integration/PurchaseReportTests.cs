@@ -54,6 +54,23 @@ namespace Explorer.Payments.Tests.Integration
             storedEntity.AdventureCoin.ShouldBe(newOrder.Price);
         }
 
+        [Fact]
+        public void GetByPurchaseReportsTourist()
+        {
+            // Arrange - Controller and dbContext
+            using var scope = Factory.Services.CreateScope();
+            var controller = CreateController(scope);
+            var dbContext = scope.ServiceProvider.GetRequiredService<PaymentsContext>();
+
+            // Act
+            var result = controller.GetPurchaseReportsByTouristId(1);
+
+            // Assert - Response
+            result.ShouldNotBeNull();
+
+            // Assert - Database
+        }
+
 
         private static PurchaseReportController CreateController(IServiceScope scope)
         {

@@ -5,7 +5,9 @@ using Explorer.Payments.API.Public;
 using Explorer.Payments.Core.Domain;
 using Explorer.Payments.Core.Domain.RepositoryInterfaces;
 using Explorer.Stakeholders.Core.Domain.Users;
+using Explorer.Tours.API.Dtos;
 using Explorer.Tours.Core.Domain;
+using Explorer.Tours.Core.Domain.RepositoryInterfaces;
 using FluentResults;
 using System;
 using System.Collections.Generic;
@@ -31,5 +33,11 @@ namespace Explorer.Payments.Core.UseCases
 
             return Result.Ok();
         }
+
+        public List<PurchaseReportDto> GetPurchaseReportsByTouristId(int toruistId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
+
