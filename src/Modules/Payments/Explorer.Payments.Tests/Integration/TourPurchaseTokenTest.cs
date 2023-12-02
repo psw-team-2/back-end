@@ -68,7 +68,9 @@ namespace Explorer.Payments.Tests.Integration
 
 
             // Assert
-            
+            result.ShouldNotBeNull();
+            result.Results.Count.ShouldBe(4);
+            result.TotalCount.ShouldBe(4);
         }
 
         private static TourPurchaseTokenController CreateController(IServiceScope scope)

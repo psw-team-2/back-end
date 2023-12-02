@@ -161,8 +161,16 @@ namespace Explorer.Payments.Core.UseCases
                 {   
                     if(item.IsBundle == true)
                     {
-                        
-                    }else
+                        Bundle bundle = _bundleRepository.GetById(item.ItemId);
+                        foreach (int i in bundle.Tours)
+                        {
+                            Tour tour = _tourRepository.Get(i);
+                            TourPurchaseToken purchaseToken = new TourPurchaseToken(userId, (int)tour.Id, DateTime.UtcNow);
+                            _tourPurchaseTokenRepository.Create(purchaseToken);
+                            shoppingCart.RemoveItem(item.Id);
+                        }
+                    }
+                    else
                     {
                         TourPurchaseToken purchaseToken = new TourPurchaseToken(userId, item.ItemId, DateTime.UtcNow);
                         _tourPurchaseTokenRepository.Create(purchaseToken);
