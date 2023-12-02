@@ -167,8 +167,9 @@ namespace Explorer.Payments.Core.UseCases
                             Tour tour = _tourRepository.Get(i);
                             TourPurchaseToken purchaseToken = new TourPurchaseToken(userId, (int)tour.Id, DateTime.UtcNow);
                             _tourPurchaseTokenRepository.Create(purchaseToken);
-                            shoppingCart.RemoveItem(item.Id);
+                            
                         }
+                        shoppingCart.RemoveItem(item.Id);
                     }
                     else
                     {
