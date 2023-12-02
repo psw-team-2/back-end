@@ -47,7 +47,6 @@ namespace Explorer.Tours.Core.UseCases
             }
             return Result.Fail("Existing bundle is null");
 
-
         }
         public Result<BundleDto> ArchiveBundle(int bundleId)
         {
@@ -81,7 +80,7 @@ namespace Explorer.Tours.Core.UseCases
                 int publishedTourCount = 0;
                 foreach (int tourId in existingBundle.Tours)
                 {
-                   var tour = _tourRepository.Get(tourId);
+                    var tour = _tourRepository.Get(tourId);
                     if (tour.Status == Domain.AccountStatus.PUBLISHED)
                     {
                         publishedTourCount++;
@@ -102,7 +101,7 @@ namespace Explorer.Tours.Core.UseCases
                 return MapToDto(existingBundle);
             }
             return null;
- 
+
         }
 
         public List<BundleDto> GetBundlesByAuthorId(int authorId)
@@ -128,11 +127,10 @@ namespace Explorer.Tours.Core.UseCases
             {
                 Tour tour = _tourRepository.Get(tourId);
                 if (bundleDto != null)
-                { 
+                {
                     Bundle bundle = _bundleRepository.GetById(bundleDto.Id);
                     bundle.AddTour((int)tour.Id);
 
-                    //bundle.CalculateTotalPrice(bundle.Price, tour.Price, true);
                     bundle.Price += tour.Price;
                     _bundleRepository.Update(bundle);
                     return Result.Ok(bundleDto);
@@ -146,6 +144,25 @@ namespace Explorer.Tours.Core.UseCases
             catch (KeyNotFoundException e)
             {
                 return Result.Fail(FailureCode.NotFound).WithError(e.Message);
+            }
+        }
+
+        public Result<BundleDto> RemoveTour(int bundleId, int tourId)
+        {
+            try
+            {
+                Bundle bundle = _bundleRepository.GetById(bundleId);
+                Tour tour = _tourRepository.Get(tourId);
+
+                bundle.RemoveTour(tourId);
+                bundle.Price -= tour.Price;
+
+                _bundleRepository.Update(bundle);
+                return Result.Ok();
+            }
+            catch (ArgumentException e)
+            {
+                return Result.Fail<BundleDto>(FailureCode.InvalidArgument).WithError(e.Message);
             }
         }
     }

@@ -33,7 +33,7 @@ namespace Explorer.Tours.Core.Domain
             }
         }
 
-        public void RemoveItem(int tourId)
+        public void RemoveTour(int tourId)  //RemoveTour treba da se zove a ne RemoveItem
         {
             if (Tours != null)
             {

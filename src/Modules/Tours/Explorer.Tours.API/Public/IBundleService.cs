@@ -21,5 +21,6 @@ namespace Explorer.Tours.API.Public
         Result<BundleDto> ArchiveBundle(int bundleId);
         Result Delete(int bundleId);
         Result<BundleDto> FinishCreatingBundle(int bundleId, double price);
+        Result<BundleDto> RemoveTour(int bundleId, int tourId);
     }
 }
