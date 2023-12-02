@@ -61,7 +61,7 @@ namespace Explorer.Tours.Tests.Integration
             var dbContext = scope.ServiceProvider.GetRequiredService<ToursContext>();
            
 
-            var result = (ObjectResult)controller.PublishBundle(-2, 100).Result;
+            var result = (ObjectResult)controller.PublishBundle(-2).Result;
             var bundle = (ObjectResult)controller.Get(-2).Result;
             var bundleDto = bundle.Value as BundleDto;
 
