@@ -1,3 +1,3 @@
 ﻿INSERT INTO tours."Bundles"(
-    "Id", "UserId", "Name", "Price", "Tours", "Status")
-    VALUES (1, -1, 'bundle1', '100', '{}', 0);
+	"Id", "UserId", "Name", "Price", "Tours", "Status")
+	VALUES (-1, -21, 'bundle1', '100', '{}', 0);

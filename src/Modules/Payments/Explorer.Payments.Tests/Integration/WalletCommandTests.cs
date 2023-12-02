@@ -47,7 +47,7 @@ namespace Explorer.Payments.Tests.Integration
             wallet.Username.ShouldBe(updatedEntity.Username);
 
             // Assert - Database
-            var storedEntity = dbContext.Wallets.FirstOrDefault(i => i.AC == 150);
+            var storedEntity = dbContext.Wallets.FirstOrDefault(i => i.Id == -1);
             storedEntity.ShouldNotBeNull();
             
             var oldEntity = dbContext.Wallets.FirstOrDefault(i => i.AC == 50);

@@ -29,10 +29,9 @@ namespace Explorer.Payments.Core.UseCases
         private readonly IPurchaseReportService _purchaseReportService;
         private readonly IWalletRepository _walletRepository;
         private readonly IBundleRepository _bundleRepository;
-        private readonly ICrudRepository<Bundle> _crudBundleRepository;
 
 
-        public ShoppingCartService(ICrudRepository<ShoppingCart> repository, IMapper mapper, IShoppingCartRepository shoppingCartRepository, ICrudRepository<Tour> tourRepository, ICrudRepository<OrderItem> crudOrderItemRepository, IOrderItemRepository orderItemRepository, ICrudRepository<TourPurchaseToken> tourPurchaseTokenRepository, IPurchaseReportService purchaseReportService, IWalletRepository walletRepository, ICrudRepository<Bundle> crudBundleRepository, IBundleRepository bundleRepository) : base(repository, mapper)
+        public ShoppingCartService(ICrudRepository<ShoppingCart> repository, IMapper mapper, IShoppingCartRepository shoppingCartRepository, ICrudRepository<Tour> tourRepository, ICrudRepository<OrderItem> crudOrderItemRepository, IOrderItemRepository orderItemRepository, ICrudRepository<TourPurchaseToken> tourPurchaseTokenRepository, IPurchaseReportService purchaseReportService, IWalletRepository walletRepository, IBundleRepository bundleRepository) : base(repository, mapper)
         {
             _shoppingCartRepository = shoppingCartRepository;
             _tourRepository = tourRepository;
@@ -42,7 +41,6 @@ namespace Explorer.Payments.Core.UseCases
             _tourPurchaseTokenRepository = tourPurchaseTokenRepository;
             _purchaseReportService = purchaseReportService;
             _walletRepository = walletRepository;
-            _crudBundleRepository = crudBundleRepository;
             _bundleRepository = bundleRepository;
         }
 
@@ -186,9 +184,9 @@ namespace Explorer.Payments.Core.UseCases
             try
             {
                 Bundle bundle = _bundleRepository.GetById(bundleId);
-                if (shoppingCartDto != null)
+                if (shoppingCartDto != null && bundle != null)
                 {
-                    OrderItem orderItem = new OrderItem(bundleId, bundle.Name, bundle.Price, shoppingCartDto.Id, false, false);
+                    OrderItem orderItem = new OrderItem(bundleId, bundle.Name, bundle.Price, shoppingCartDto.Id, false, true);
                     _crudOrderItemRepository.Create(orderItem);
 
                     ShoppingCart shoppingCart = _shoppingCartRepository.GetById(shoppingCartDto.Id);
