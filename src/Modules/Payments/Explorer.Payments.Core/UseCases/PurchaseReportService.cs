@@ -19,8 +19,10 @@ namespace Explorer.Payments.Core.UseCases
 {
     public class PurchaseReportService : CrudService<PurchaseReportDto, PurchaseReport>, IPurchaseReportService
     {
-        public PurchaseReportService(ICrudRepository<PurchaseReport> crudRepository, IMapper mapper) : base(crudRepository, mapper)
+        public readonly IPurchaseReportRepository _purchaseReportRepository;
+        public PurchaseReportService(ICrudRepository<PurchaseReport> crudRepository, IPurchaseReportRepository purchaseReportRepository, IMapper mapper) : base(crudRepository, mapper)
         {
+            _purchaseReportRepository = purchaseReportRepository;
         }
 
         public Result Create(List<OrderItemDto> orderItems, int userId)
@@ -34,9 +36,21 @@ namespace Explorer.Payments.Core.UseCases
             return Result.Ok();
         }
 
-        public List<PurchaseReportDto> GetPurchaseReportsByTouristId(int toruistId)
+        public List<PurchaseReportDto> GetPurchaseReportsByTouristId(int touristId)
         {
-            throw new NotImplementedException();
+            List<PurchaseReport> reports = _purchaseReportRepository.GetPurchaseReportsByTouristId(touristId);
+
+            var purchaseReportDto = reports.Select(report => new PurchaseReportDto
+            {
+                Id = (int)report.Id,
+                UserId = report.UserId,
+                TourId = report.TourId,
+                AdventureCoin = report.AdventureCoin,
+                PurchaseDate = report.PurchaseDate,
+                
+            }).ToList();
+
+            return purchaseReportDto;
         }
     }
 }

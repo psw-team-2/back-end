@@ -1,10 +1,12 @@
 ﻿using Explorer.API.Controllers.Administrator.Administration;
 using Explorer.API.Controllers.Tourist;
 using Explorer.Blog.API.Dtos;
+using Explorer.BuildingBlocks.Core.UseCases;
 using Explorer.Payments.API.Dtos;
 using Explorer.Payments.API.Public;
 using Explorer.Payments.Core.Domain;
 using Explorer.Payments.Infrastructure.Database;
+using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public.Administration;
 using Explorer.Tours.Infrastructure.Database;
 using Microsoft.AspNetCore.Mvc;
@@ -55,7 +57,7 @@ namespace Explorer.Payments.Tests.Integration
         }
 
         [Fact]
-        public void GetByPurchaseReportsTourist()
+        public void GetPurchaseReportsByTourist()
         {
             // Arrange - Controller and dbContext
             using var scope = Factory.Services.CreateScope();
@@ -63,12 +65,16 @@ namespace Explorer.Payments.Tests.Integration
             var dbContext = scope.ServiceProvider.GetRequiredService<PaymentsContext>();
 
             // Act
-            var result = controller.GetPurchaseReportsByTouristId(1);
+            var result = ((ObjectResult)controller.GetPurchaseReportsByTouristId(1).Result)?.Value as List<PurchaseReportDto>;
 
             // Assert - Response
             result.ShouldNotBeNull();
+            result.Count.ShouldBeGreaterThanOrEqualTo(1);
 
             // Assert - Database
+            var storedEntity = dbContext.PurchaseReports.ToList();
+            storedEntity.ShouldNotBeNull();
+            //storedEntity.
         }
 
 
