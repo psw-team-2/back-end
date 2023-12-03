@@ -11,8 +11,9 @@ namespace Explorer.Encounters.Core.Domain
         public int XP { get; init; }
         public Status Status { get; init; }
         public Type Type { get; init; }
+        public bool Mandatory { get; init; }
 
-        public Encounter(string name, string description, double latitude, double longitude, int xP, Status status, Type type)
+        public Encounter(string name, string description, double latitude, double longitude, int xP, Status status, Type type, bool mandatory)
         {
             Name = name;
             Description = description;
@@ -21,6 +22,7 @@ namespace Explorer.Encounters.Core.Domain
             XP = xP;
             Status = status;
             Type = type;
+            Mandatory = mandatory;
         }
     }
 
