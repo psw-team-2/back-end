@@ -47,6 +47,7 @@ namespace Explorer.Payments.Infrastructure
             services.AddScoped(typeof(ICrudRepository<Wallet>), typeof(CrudDatabaseRepository<Wallet, PaymentsContext>));
             services.AddScoped<IPaymentNotificationRepository, PaymentNotificationRepository>();
             services.AddScoped<IWalletRepository, WalletRepository>();
+            services.AddScoped<IPurchaseReportRepository, PurchaseReportRepository>();
 
             services.AddDbContext<PaymentsContext>(opt =>
             opt.UseNpgsql(DbConnectionStringBuilder.Build("payments"),

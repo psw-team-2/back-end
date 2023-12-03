@@ -10,6 +10,7 @@ namespace Explorer.Payments.API.Public
 {
     public interface IPurchaseReportService
     {
-        public Result Create(List<OrderItemDto> orderItems, int userId);
+        Result Create(List<OrderItemDto> orderItems, int userId);
+        List<PurchaseReportDto> GetPurchaseReportsByTouristId(int touristId);
     }
 }

@@ -1,10 +1,12 @@
 ﻿using Explorer.API.Controllers.Administrator.Administration;
 using Explorer.API.Controllers.Tourist;
 using Explorer.Blog.API.Dtos;
+using Explorer.BuildingBlocks.Core.UseCases;
 using Explorer.Payments.API.Dtos;
 using Explorer.Payments.API.Public;
 using Explorer.Payments.Core.Domain;
 using Explorer.Payments.Infrastructure.Database;
+using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public.Administration;
 using Explorer.Tours.Infrastructure.Database;
 using Microsoft.AspNetCore.Mvc;
@@ -52,6 +54,27 @@ namespace Explorer.Payments.Tests.Integration
             var storedEntity = dbContext.PurchaseReports.FirstOrDefault(t => t.TourId == newOrder.ItemId && t.UserId == 1);
             storedEntity.ShouldNotBeNull();
             storedEntity.AdventureCoin.ShouldBe(newOrder.Price);
+        }
+
+        [Fact]
+        public void GetPurchaseReportsByTourist()
+        {
+            // Arrange - Controller and dbContext
+            using var scope = Factory.Services.CreateScope();
+            var controller = CreateController(scope);
+            var dbContext = scope.ServiceProvider.GetRequiredService<PaymentsContext>();
+
+            // Act
+            var result = ((ObjectResult)controller.GetPurchaseReportsByTouristId(1).Result)?.Value as List<PurchaseReportDto>;
+
+            // Assert - Response
+            result.ShouldNotBeNull();
+            result.Count.ShouldBeGreaterThanOrEqualTo(1);
+
+            // Assert - Database
+            var storedEntity = dbContext.PurchaseReports.ToList();
+            storedEntity.ShouldNotBeNull();
+            //storedEntity.
         }
 
 
