@@ -7,3 +7,6 @@ INSERT INTO tours."Bundles"(
 INSERT INTO tours."Bundles"(
 	"Id", "UserId", "Name", "Price", "Tours", "Status")
 	VALUES (-3, -11, 'bundle3', '300', '{2}', 1);
+INSERT INTO tours."Bundles"(
+	"Id", "UserId", "Name", "Price", "Status")
+	VALUES (2 , 1, 'bb', 1111, 1);

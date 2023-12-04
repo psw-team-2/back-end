@@ -224,6 +224,41 @@ namespace Explorer.Tours.Tests.Integration
         }
 
 
+        [Fact]
+        public void Updates()
+        {
+            // Arrange
+            using var scope = Factory.Services.CreateScope();
+            var controller = CreateController(scope);
+            var dbContext = scope.ServiceProvider.GetRequiredService<ToursContext>();
+            var bundleToUpdate = new BundleDto
+            {
+                Id = 2, // Replace with a valid tour ID from your test data
+                Name = "bun1",
+                Price = 110,
+                Status = BundleStatus.Draft,
+                Tours = new List<int> {},
+                UserId = 1
+            };
+
+            // Act
+            var result = ((ObjectResult)controller.Update(bundleToUpdate).Result)?.Value as BundleDto;
+
+            // Assert - Response
+            result.ShouldNotBeNull();
+            result.Id.ShouldBe(bundleToUpdate.Id);
+            result.Name.ShouldBe(bundleToUpdate.Name);
+            result.Status.ShouldBe(bundleToUpdate.Status);
+            result.Price.ShouldBe(bundleToUpdate.Price);
+            result.Tours.ShouldBe(bundleToUpdate.Tours);
+            //result.UserId.ShouldBe(bundleToUpdate.UserId);
+
+            // Assert - Database
+            var updatedTour = dbContext.Tour.FirstOrDefault(t => t.Id == bundleToUpdate.Id);
+            updatedTour.ShouldNotBeNull();
+            updatedTour.Name.ShouldBe(bundleToUpdate.Name);
+        }
+
         private static BundleController CreateController(IServiceScope scope)
         {
             return new BundleController(scope.ServiceProvider.GetRequiredService<IBundleService>())
