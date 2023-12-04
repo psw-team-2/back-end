@@ -100,7 +100,7 @@ namespace Explorer.Tours.Core.UseCases
 
                 return MapToDto(existingBundle);
             }
-            return null;
+            return Result.Fail("Existing bundle cannot be published"); ;
 
         }
 
