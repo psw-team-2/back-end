@@ -1,3 +1,3 @@
 ﻿INSERT INTO tours."Bundles"(
 	"Id", "UserId", "Name", "Price", "Status")
-	VALUES (-1, -11, 'BundleName', 100, 1);
+	VALUES (2 , 1, 'bb', 1111, 1);
