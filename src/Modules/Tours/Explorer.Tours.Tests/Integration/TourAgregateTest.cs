@@ -36,7 +36,7 @@ namespace Explorer.Tours.Tests.Integration.Learning.Assessment
 
             var checkpoint = new CheckPointDto
             {
-                Id = -1,
+                Id = -1001,
                 Description = "Description",
                 Image = "Image",
                 Latitude = 45,
@@ -139,7 +139,6 @@ namespace Explorer.Tours.Tests.Integration.Learning.Assessment
 
 
 
-        // Additional test data providers for other scenarios...
 
         public static IEnumerable<object[]> TourData()
         {
@@ -155,9 +154,9 @@ namespace Explorer.Tours.Tests.Integration.Learning.Assessment
                     Difficulty = 3,
                     Price = 49.99,
                     Tags = new List<string> { "Tag1", "Tag2" },
-                    Equipment = new List<int> { -100, -101 },
-                    CheckPoints = new List<long> { -100, -101 },
-                    Objects = new List<long> { -100, -101 },
+                    Equipment = new List<int> { -1, -2 },
+                    CheckPoints = new List<long> { -1, -2 },
+                    Objects = new List<long> { -1, -2 },
                     FootTime = 5.5,
                     BicycleTime = 8.2,
                     CarTime = 3.9,
@@ -180,9 +179,9 @@ namespace Explorer.Tours.Tests.Integration.Learning.Assessment
                     Difficulty = 2,
                     Price = 29.99,
                     Tags = new List<string> { "Tag3", "Tag4" },
-                    Equipment = new List<int> { -200, -201 },
-                    CheckPoints = new List<long> { -200, -201 },
-                    Objects = new List<long> { -200, -201 },
+                    Equipment = new List<int> { -21, -22 },
+                    CheckPoints = new List<long> { -21, -22 },
+                    Objects = new List<long> { -21, -22 },
                     FootTime = 4.2,
                     BicycleTime = 6.7,
                     CarTime = 2.1,
@@ -210,7 +209,7 @@ namespace Explorer.Tours.Tests.Integration.Learning.Assessment
                     Abandoned = false,
                     CurrentLatitude = 40.7128,
                     CurrentLongitude = -74.0060,
-                    VisitedCheckpoints = new List<int> { 1, 2, 3 },
+                    VisitedCheckpoints = new List<int> { -1, -2, -3 },
                     LastActivity = DateTime.UtcNow,
                     TouristDistance = 15.6
                 },
@@ -232,7 +231,7 @@ namespace Explorer.Tours.Tests.Integration.Learning.Assessment
                     Abandoned = false,
                     CurrentLatitude = 34.0522,
                     CurrentLongitude = -118.2437,
-                    VisitedCheckpoints = new List<int> { 4, 5 },
+                    VisitedCheckpoints = new List<int> { -1, -2 },
                     LastActivity = DateTime.UtcNow,
                     TouristDistance = 20.3
                 },
