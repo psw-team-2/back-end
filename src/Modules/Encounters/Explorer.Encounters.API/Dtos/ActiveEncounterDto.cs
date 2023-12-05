@@ -8,11 +8,11 @@
         public State State { get; set; }
         public DateTime? End { get; set; }
     }
-}
 
-public enum State
-{
-    Activated,
-    Done,
-    Abandoned
+    public enum State
+    {
+        Activated,
+        Done,
+        Abandoned
+    }
 }
