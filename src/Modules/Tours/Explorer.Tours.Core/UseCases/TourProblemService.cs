@@ -102,7 +102,7 @@ public class TourProblemService : CrudService<TourProblemDto, TourProblem>, ITou
         }
         catch (KeyNotFoundException e)
         {
-            return Result.Fail("FailureCode.NotFound, Nije nadjen").WithError(e.Message);
+            return Result.Fail("FailureCode.NotFound, Tour Not Found").WithError(e.Message);
         }
     }
 

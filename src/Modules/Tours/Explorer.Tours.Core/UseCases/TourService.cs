@@ -133,15 +133,23 @@ namespace Explorer.Tours.Core.UseCases
 
         public Result<AverageGradeDto> GetAverageGradeForTour(int tourId)
         {
-            var tour = _tourRepository.GetOne(tourId);
-            if (tour == null)
+            try
             {
-                return null;
+                var tour = _tourRepository.GetOne(tourId);
+                if (tour == null)
+                {
+                    return null;
+                }
+
+                double avg = tour.GetAverageGradeForTour();
+                AverageGradeDto dto = new AverageGradeDto { AverageGrade = avg };
+                return dto;
+                //return avg;
             }
-            double avg = tour.GetAverageGradeForTour();
-            AverageGradeDto dto = new AverageGradeDto { AverageGrade = avg };
-            return dto;
-            //return avg;
+            catch(KeyNotFoundException e)
+            {
+                return Result.Fail(FailureCode.NotFound).WithError(e.Message);
+            }
         }
         public Result<TourExecutionDto> StartTour(int touristId, int tourId, double startLatitude, double startLongitude)
         {
