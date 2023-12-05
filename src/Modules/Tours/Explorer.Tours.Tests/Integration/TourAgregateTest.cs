@@ -115,7 +115,27 @@ namespace Explorer.Tours.Tests.Integration.Learning.Assessment
             }
         }
 
+        [Theory]
+        [MemberData(nameof(TourData))]
+        public void Adds_object_to_tour(int tourObjectId, TourDto tour, int expectedStatusCode)
+        {
+            using var scope = Factory.Services.CreateScope();
+            var controller = CreateTourController(scope);
+            var dbContext = scope.ServiceProvider.GetRequiredService<ToursContext>();
 
+            dbContext.Database.BeginTransaction();
+
+            var result = (ObjectResult)controller.AddObjectToTour(tour, tourObjectId).Result;
+
+            var resultEntity = result.Value as TourDto;
+
+            result.StatusCode.ShouldBe(200);
+            if (expectedStatusCode == 200)
+            {
+                resultEntity.ShouldNotBe(null);
+                resultEntity.Objects.ShouldContain(tourObjectId);
+            }
+        }
 
 
 

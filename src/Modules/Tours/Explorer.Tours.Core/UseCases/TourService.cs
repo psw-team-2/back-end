@@ -108,6 +108,29 @@ namespace Explorer.Tours.Core.UseCases
             return tour;
         }
 
+        public Result<TourDto> AddObjectToTour(TourDto tour, int tourObjectId)
+        {
+
+            if (tour != null)
+            {
+                tour.Objects.Add(tourObjectId);
+                Update(tour);
+                return Result.Ok(tour);
+            }
+            return tour;
+        }
+
+        public Result<TourDto> RemoveObjectFromTour(TourDto tour, int tourObjectId)
+        {
+            if (tour != null)
+            {
+                tour.Objects.Remove(tourObjectId);
+                Update(tour);
+            }
+            return tour;
+        }
+
+
         public Result<AverageGradeDto> GetAverageGradeForTour(int tourId)
         {
             var tour = _tourRepository.GetOne(tourId);
