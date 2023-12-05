@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 
 namespace Explorer.Payments.Tests.Integration
 {
+    [Collection("Sequential")]
     public class PurchaseReportTests : BasePaymentsIntegrationTest
     {
         public PurchaseReportTests(PaymentsTestFactory factory) : base(factory) { }

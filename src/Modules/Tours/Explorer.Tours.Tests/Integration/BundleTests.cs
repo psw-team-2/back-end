@@ -66,19 +66,19 @@ namespace Explorer.Tours.Tests.Integration
                 Id = 1,
                 Name = "ime",
                 Description = "naziv",
-                Status = API.Dtos.AccountStatus.PUBLISHED, // Assumption: 1 corresponds to Published status in your code
-                Difficulty = 1, // Assumption: 1 corresponds to the Difficulty value in your code
+                Status = API.Dtos.AccountStatus.PUBLISHED, 
+                Difficulty = 1,
                 Price = 100.0,
-                Tags = new List<string> { }, // Adjust as needed
+                Tags = new List<string> { }, 
                 Equipment = new List<int>(),
                 CheckPoints = new List<long>(),
                 AuthorId = -11,
-                Objects = new List<long>(), // Add missing field
-                FootTime = 1, // Add missing field
-                BicycleTime = 1, // Add missing field
-                CarTime = 1, // Add missing field
-                TotalLength = 1, // Add missing field
-                PublishTime = new DateTime(2023, 1, 1, 13, 0, 0, DateTimeKind.Utc), // Add missing field               
+                Objects = new List<long>(), 
+                FootTime = 1,
+                BicycleTime = 1, 
+                CarTime = 1,
+                TotalLength = 1,
+                PublishTime = new DateTime(2023, 1, 1, 13, 0, 0, DateTimeKind.Utc), 
             };
             var tourDto2 = new TourDto
             {
@@ -101,20 +101,21 @@ namespace Explorer.Tours.Tests.Integration
             };
             tours.Add(tourDto1);
             tours.Add(tourDto2);
+
             var bundle = new BundleDto
             {
-                Id = 1,
-                UserId = 1,
-                Name = "Novii",
-                Price = 0,
-                Status = BundleStatus.Draft,
-                Tours = new List<int>()
+                Id = -1,
+                UserId = -11,
+                Name = "bundle1",
+                Price = 100,
+                Status = BundleStatus.Published,
+                Tours = new List<int> { 1}
             };
 
             
             // Act
-            var result1 = (ObjectResult)controller.AddTourToBundle(bundle, tourDto1.Id).Result;
-            var result2 = (ObjectResult)controller.AddTourToBundle(bundle, tourDto2.Id).Result;
+           var result1 = (ObjectResult)controller.AddTourToBundle(bundle, 1).Result;
+            var result2 = (ObjectResult)controller.AddTourToBundle(bundle, 2).Result;
 
             // Assert - Response
             result1.ShouldNotBeNull();
@@ -135,8 +136,8 @@ namespace Explorer.Tours.Tests.Integration
             var controller = CreateController(scope);
             var dbContext = scope.ServiceProvider.GetRequiredService<ToursContext>();
 
-            var result = (ObjectResult)controller.PublishBundle(1).Result;
-            var bundle = (ObjectResult)controller.Get(1).Result;
+            var result = (ObjectResult)controller.PublishBundle(-2).Result;
+            var bundle = (ObjectResult)controller.Get(-2).Result;
             var bundleDto = bundle.Value as BundleDto;
 
             result.ShouldNotBeNull();
@@ -180,16 +181,16 @@ namespace Explorer.Tours.Tests.Integration
             tours.Remove(tourDto);
             var bundle = new BundleDto
             {
-                Id = 1,
-                UserId = 1,
-                Name = "Novi",
-                Price = 0,
-                Status = BundleStatus.Draft,
-                Tours = new List<int>()
+                Id = -4,
+                UserId = -11,
+                Name = "bundle4",
+                Price = 400,
+                Status = BundleStatus.Published,
+                Tours = new List<int> { 1 }
             };
 
             // Act
-            var result = (ObjectResult)controller.RemoveTourFromBundle(bundle.Id, tourDto.Id).Result;
+            var result = (ObjectResult)controller.RemoveTourFromBundle(bundle.Id, 1).Result;
 
             // Assert - Response
             result.ShouldNotBeNull();
@@ -212,14 +213,14 @@ namespace Explorer.Tours.Tests.Integration
             var dbContext = scope.ServiceProvider.GetRequiredService<ToursContext>();
 
             // Act
-            var result = (OkResult)controller.Delete(1);
+            var result = (OkResult)controller.Delete(-3);
 
             // Assert - Response
             result.ShouldNotBeNull();
             result.StatusCode.ShouldBe(200);
 
             // Assert - Database
-            var storedCourse = dbContext.Bundles.FirstOrDefault(i => i.Id == 1);
+            var storedCourse = dbContext.Bundles.FirstOrDefault(i => i.Id == -3);
             storedCourse.ShouldBeNull();
         }
 

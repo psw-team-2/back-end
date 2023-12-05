@@ -41,6 +41,7 @@ namespace Explorer.Payments.Tests.Integration
                IsBought = false,
                IsBundle = true
             };
+
             var orderItem2 = new OrderItemDto
             {
                 Id = -2,
@@ -64,7 +65,7 @@ namespace Explorer.Payments.Tests.Integration
             OrderItems.Add(orderItem3);
             int userId = -21;
 
-            var result = ((ObjectResult)controller.CreateTourPurchaseToken(OrderItems, userId))?.Value as PagedResult<TourPurchaseTokenDto>;
+            var result = ((ObjectResult)controller.CreateTourPurchaseToken(OrderItems, -21))?.Value as PagedResult<TourPurchaseTokenDto>;
 
 
             // Assert

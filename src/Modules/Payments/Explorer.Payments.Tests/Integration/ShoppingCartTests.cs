@@ -31,22 +31,26 @@ namespace Explorer.Payments.Tests.Integration
             var dbContext = scope.ServiceProvider.GetRequiredService<PaymentsContext>();
             var newCart = new ShoppingCartDto
             {
-                Id = -1,
-                UserId = -21,
-                Items = new List<int>(),
+                Id = -2,
+                UserId = -22,
+                Items = new List<int> { 1 },
                 TotalPrice = 0
 
             };
             var bundle = new BundleDto
             {
-                Id = 1,
-                Price = 100,
+                Id = -5,
+                UserId = -11,
+                Name = "bundle5",
+                Price = 500,
+                Tours = new List<int> { 2 },
+                Status = BundleStatus.Published
             };
 
 
             // Act
-            //korsti pravu bazu za bundle
-            var result = ((ObjectResult)controller.AddBundleItem(newCart, bundle.Id).Result);
+            //korsti pravu bazu za bundle 
+            var result = ((ObjectResult)controller.AddBundleItem(newCart, 5).Result);
 
             // Assert - Response
             result.ShouldNotBeNull();

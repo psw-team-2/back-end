@@ -24,7 +24,7 @@ namespace Explorer.Payments.Tests.Integration
     public class PaymentNotificationTests : BasePaymentsIntegrationTest
     {
         public PaymentNotificationTests(PaymentsTestFactory factory) : base(factory) { }
-
+        
         [Fact]
         public void Creates()
         {
