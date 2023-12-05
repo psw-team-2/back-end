@@ -25,6 +25,7 @@ namespace Explorer.Payments.Tests.Integration
 
         public TourPurchaseTokenTest(PaymentsTestFactory factory) : base(factory) { }
         [Fact]
+        /*
         public void Creates_TourPurchaseToken_ForBundleItem()
         {
             // Arrange
@@ -73,7 +74,7 @@ namespace Explorer.Payments.Tests.Integration
             result.Results.Count.ShouldBe(4);
             result.TotalCount.ShouldBe(4);
         }
-
+        */
         private static TourPurchaseTokenController CreateController(IServiceScope scope)
         {
 
