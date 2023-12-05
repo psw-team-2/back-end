@@ -11,9 +11,11 @@ namespace Explorer.API.Controllers.Administrator
     public class EncounterController : BaseApiController
     {
         private readonly IEncounterService _encounterService;
-        public EncounterController(IEncounterService encounterService)
+        private readonly IWebHostEnvironment _environment;
+        public EncounterController(IEncounterService encounterService, IWebHostEnvironment environment)
         {
             _encounterService = encounterService;
+            _environment = environment;
         }
 
         [HttpGet]
@@ -49,6 +51,26 @@ namespace Explorer.API.Controllers.Administrator
         {
             var result = _encounterService.Delete(id);
             return CreateResponse(result);
+        }
+
+        [HttpPost("UploadFile")]
+        public async Task<string> UploadFile()
+        {
+            try
+            {
+                var file = Request.Form.Files[0];
+                string fName = file.FileName;
+                string path = Path.Combine(_environment.ContentRootPath, "Images", fName);
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+                return $"{file.FileName} successfully uploaded to the Server";
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
     }
 }
