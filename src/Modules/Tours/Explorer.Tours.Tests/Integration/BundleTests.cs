@@ -234,12 +234,12 @@ namespace Explorer.Tours.Tests.Integration
             var dbContext = scope.ServiceProvider.GetRequiredService<ToursContext>();
             var bundleToUpdate = new BundleDto
             {
-                Id = 2, // Replace with a valid tour ID from your test data
-                Name = "bun1",
-                Price = 110,
-                Status = BundleStatus.Draft,
-                Tours = new List<int> {},
-                UserId = 1
+                Id = -2, 
+                Name = "bun2",
+                Price = 200,
+                Status = BundleStatus.Published,
+                Tours = new List<int> {1,2},
+                UserId = -11
             };
 
             // Act
@@ -247,7 +247,7 @@ namespace Explorer.Tours.Tests.Integration
 
             // Assert - Response
             result.ShouldNotBeNull();
-            result.Id.ShouldBe(bundleToUpdate.Id);
+            result.Id.ShouldBe(-2);
             result.Name.ShouldBe(bundleToUpdate.Name);
             result.Status.ShouldBe(bundleToUpdate.Status);
             result.Price.ShouldBe(bundleToUpdate.Price);
@@ -255,9 +255,13 @@ namespace Explorer.Tours.Tests.Integration
             //result.UserId.ShouldBe(bundleToUpdate.UserId);
 
             // Assert - Database
-            var updatedTour = dbContext.Tour.FirstOrDefault(t => t.Id == bundleToUpdate.Id);
-            updatedTour.ShouldNotBeNull();
-            updatedTour.Name.ShouldBe(bundleToUpdate.Name);
+            var storedTour = dbContext.Bundles.FirstOrDefault(t => t.Name == "bun2");
+            storedTour.ShouldNotBeNull();
+
+            var oldEntity = dbContext.Bundles.FirstOrDefault(i => i.Name == "bundle2");
+            oldEntity.ShouldBeNull();
+
+     
         }
 
         private static BundleController CreateController(IServiceScope scope)
