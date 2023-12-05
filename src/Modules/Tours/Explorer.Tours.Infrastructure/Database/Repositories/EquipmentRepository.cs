@@ -28,6 +28,8 @@ namespace Explorer.Tours.Infrastructure.Database.Repositories
         public Equipment Get(long id)
         {
             return _dbContext.Equipment.FirstOrDefault(e => e.Id == id);
+        }
+
         public PagedResult<Equipment> GetEquipmentByIdsPaged(List<int> equipmentIds, int page, int pageSize)
         {
             var totalItems = _dbContext.Equipment.Count(e => equipmentIds.Contains((int)e.Id));
