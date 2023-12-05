@@ -11,6 +11,7 @@ namespace Explorer.Tours.API.Public
 {
     public interface IComposedTourService
     {
-        
+        Result<ComposedTourDto> Create(ComposedTourDto composedTourDto);
+
     }
 }

@@ -5,6 +5,7 @@ using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Explorer.API.Controllers.Tourist
 {
@@ -25,7 +26,8 @@ namespace Explorer.API.Controllers.Tourist
         [HttpPost]
         public ActionResult<ComposedTourDto> CreateTourComposition([FromBody]ComposedTourDto newTourComposition)
         {
-            throw new NotImplementedException();
+            var result = _composedTourService.Create(newTourComposition);
+            return CreateResponse(result);
         }
 
         [HttpGet("{id:int}")]
