@@ -22,59 +22,10 @@ namespace Explorer.Payments.Tests.Integration
     [Collection("Sequential")]
     public class TourPurchaseTokenTest : BasePaymentsIntegrationTest
     {
-
+        
         public TourPurchaseTokenTest(PaymentsTestFactory factory) : base(factory) { }
-        [Fact]
-        /*
-        public void Creates_TourPurchaseToken_ForBundleItem()
-        {
-            // Arrange
-            using var scope = Factory.Services.CreateScope();
-            var controller = CreateController(scope);
-            var dbContext = scope.ServiceProvider.GetRequiredService<PaymentsContext>();
-            var OrderItems = new List<OrderItemDto>();
-            var orderItem1 = new OrderItemDto
-            {
-               Id = -1,
-               ItemId = -1,
-               Price =  100,
-               ShoppingCartId = -1,
-               IsBought = false,
-               IsBundle = true
-            };
 
-            var orderItem2 = new OrderItemDto
-            {
-                Id = -2,
-                ItemId = -2,
-                Price = 200,
-                ShoppingCartId = -1,
-                IsBought = false,
-                IsBundle = true
-            };
-            var orderItem3 = new OrderItemDto
-            {
-                Id = -3,
-                ItemId = -3,
-                Price = 300,
-                ShoppingCartId = -1,
-                IsBought = false,
-                IsBundle = true
-            };
-            OrderItems.Add(orderItem1);
-            OrderItems.Add(orderItem2);
-            OrderItems.Add(orderItem3);
-            int userId = -21;
-
-            var result = ((ObjectResult)controller.CreateTourPurchaseToken(OrderItems, -21))?.Value as PagedResult<TourPurchaseTokenDto>;
-
-
-            // Assert
-            result.ShouldNotBeNull();
-            result.Results.Count.ShouldBe(4);
-            result.TotalCount.ShouldBe(4);
-        }
-        */
+        
         private static TourPurchaseTokenController CreateController(IServiceScope scope)
         {
 
@@ -83,5 +34,6 @@ namespace Explorer.Payments.Tests.Integration
                 ControllerContext = BuildContext("-1")
             };
         }
+        
     }
 }
