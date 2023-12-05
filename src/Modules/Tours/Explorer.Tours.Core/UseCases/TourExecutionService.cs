@@ -9,6 +9,7 @@ using FluentResults;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper.Internal.Mappers;
@@ -122,6 +123,27 @@ namespace Explorer.Tours.Core.UseCases
         private double ToRadians(double degrees)
         {
             return degrees * (Math.PI / 180.0);
+        }
+
+        public Result<PagedResult<TourExecutionDto>> GetExecutedToursByTourAndUserId(int tourId, int userId)
+        {
+            try
+            {
+                var tourExecutions = _tourExecutionRepository.GetExecutedToursByTourAndUserId(tourId, userId);
+
+                var tourExecutionDtos = MapToDto(tourExecutions).Value;
+
+                var tourExecutionPagedResult = new PagedResult<TourExecutionDto>(
+                    tourExecutionDtos,
+                    tourExecutionDtos.Count
+                );
+
+                return Result.Ok(tourExecutionPagedResult).WithSuccess("Tour Executions obtained");
+            }
+            catch (Exception ex)
+            {
+                return Result.Fail("400");
+            }
         }
     }
 

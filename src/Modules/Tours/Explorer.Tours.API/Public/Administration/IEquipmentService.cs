@@ -11,4 +11,8 @@ public interface IEquipmentService
     Result<EquipmentDto> Update(EquipmentDto equipment);
     Result Delete(int id);
     Result<IEnumerable<EquipmentForSelectionDto>> GetAllForSelection(int userId);
+    public Result<PagedResult<EquipmentDto>> GetByTourId(int tourId, int page, int pageSize);
+    public Result<PagedResult<EquipmentDto>> GetByIds(List<int> equipmentIds, int page, int pageSize);
+
+
 }

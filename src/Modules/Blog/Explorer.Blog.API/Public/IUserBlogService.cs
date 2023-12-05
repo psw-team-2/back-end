@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Explorer.Tours.API.Dtos;
 
 namespace Explorer.Blog.API.Public
 {
@@ -24,5 +25,7 @@ namespace Explorer.Blog.API.Public
         Result<RatingCount> GetRatingsCount(int id);
         Result<PagedResult<UserBlogDto>> GetByStatus(BlogStatus status, int page, int pageSize);
         Result AddComment(BlogCommentDto blogCommentDto);
+        public Result<PagedResult<EquipmentDto>> GetEquipmentByUserBlog(int blogId, int page, int pageSize);
+        public Result<PagedResult<CheckPointDto>> GetCheckpointstByUserBlog(int blogId, int page, int pageSize);
     }
 }

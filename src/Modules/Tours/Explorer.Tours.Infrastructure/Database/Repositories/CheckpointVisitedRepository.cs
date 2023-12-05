@@ -27,5 +27,17 @@ namespace Explorer.Tours.Infrastructure.Database.Repositories
         {
             return _dbContext.CheckpointVisited.FirstOrDefault(cp => cp.UserId == userId && cp.CheckpointId == checkpointId);
         }
+
+        public List<CheckpointVisited> GetVisitedCheckpointsByUser(int userId)
+        {
+            return _dbContext.CheckpointVisited.Where(cp => cp.UserId == userId).ToList();
+        }
+
+
+        public List<CheckpointVisited> GetCheckpointsVisitedByIds(List<int> checkpointVisitedIds)
+        {
+            return _dbContext.CheckpointVisited.Where(cp => checkpointVisitedIds.Contains((int)cp.Id)).ToList();
+        }
+
     }
 }

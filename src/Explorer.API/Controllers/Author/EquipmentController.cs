@@ -51,5 +51,20 @@ namespace Explorer.API.Controllers.Administrator.Administration
             var result = _equipmentService.GetAllForSelection(id);
             return CreateResponse(result);
         }
+
+        [HttpGet("by-tour/{id:int}")]
+        public ActionResult<PagedResult<EquipmentDto>> GetByTourId(int id, [FromQuery] int page, [FromQuery] int pageSize)
+        {
+            var result = _equipmentService.GetByTourId(id, page, pageSize);
+            return CreateResponse(result);
+        }
+
+        [HttpPut("by-ids")]
+        public ActionResult<PagedResult<EquipmentDto>> GetByIds([FromBody] List<int> equipmentIds, [FromQuery] int page, [FromQuery] int pageSize)
+        {
+            var result = _equipmentService.GetByIds(equipmentIds, page, pageSize);
+            return CreateResponse(result);
+        }
+
     }
 }

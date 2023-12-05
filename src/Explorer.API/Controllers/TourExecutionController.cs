@@ -95,7 +95,8 @@ namespace Explorer.API.Controllers
             [HttpGet("{tourId:int}/{userId:int}")]
             public ActionResult<PagedResult<TourExecutionDto>> GetExecutedToursByTourAndUserId(int tourId, int userId)
             {
-                throw new NotImplementedException();
+                var result = _tourExecutionService.GetExecutedToursByTourAndUserId(tourId, userId);
+                return CreateResponse(result);
             }
     }
 }

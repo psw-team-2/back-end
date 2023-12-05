@@ -33,34 +33,48 @@ namespace Explorer.Blog.Tests.Integration
 
         [Theory]
         [MemberData(nameof(BlogTourData))]
-        public void Create_blog_with_TourReport(UserBlogTourDto userBlogTourDto, int expectedResponse)
+        public void Create_blog_with_TourReport(UserBlogDto userBlogDto, int expectedResponse, int expectedResponse2)
         {
+
             using var scope = Factory.Services.CreateScope();
-            var tourExecutionController = CreateTourExecutionController(scope);
-            var equipmentController = CreateEquipmentController(scope);
-            var visitedCheckpointController = createCheckpointVisitedController(scope);
-            var checkpointController = CreateCheckPointController(scope);
+
+            var dbContext = scope.ServiceProvider.GetRequiredService<BlogContext>();
+
+
             var userBlogController = CreateUserBlogController(scope);
+            
 
-            var tourExecutionResult = (ObjectResult)tourExecutionController.GetExecutedToursByTourAndUserId(-1, -1).Result;
-            var visitedCheckpointResult = (ObjectResult)visitedCheckpointController.GetVisitedCheckpointsByUser(-1).Result;
-            var checkpointResult = (ObjectResult)checkpointController.GetAll(0, 0).Result;
-            var equipmentResult = (ObjectResult)equipmentController.GetAll(0, 0).Result;
-
-            var tourExecutionResultEntity = tourExecutionResult.Value;
-            var visitedCheckpointResultEntity = visitedCheckpointResult.Value;
-            var checkpointResultEntity = checkpointResult.Value;
-            var equipmentResultEntity = equipmentResult.Value;
-
-
-            var userBlogResult = (ObjectResult)userBlogController.CreateWithTourReport(userBlogTourDto).Result;
+            var userBlogResult = (ObjectResult)userBlogController.CreateWithTourReport(userBlogDto).Result;
            
             var blogResultEntity = userBlogResult.Value;
 
+            blogResultEntity.ShouldNotBeNull();
             userBlogResult.StatusCode.ShouldBe(expectedResponse);
-
         }
 
+        [Theory]
+        [MemberData(nameof(BlogTourData))]
+        public void Get_blog_with_TourReport(UserBlogDto userBlogDto, int expectedResponse, int expectedResponse2)
+        {
+            using var scope = Factory.Services.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<BlogContext>();
+            var userBlogController = CreateUserBlogController(scope);
+
+
+
+            var userBlogResult = (ObjectResult)userBlogController.Get(userBlogDto.Id).Result;
+
+            var equipmentResult = (ObjectResult)userBlogController.GetEquipmentByTourReport(userBlogDto.Id).Result;
+//            var checkpointResult = (ObjectResult)userBlogController.GetCheckpointsByTourReport(userBlogDto.Id).Result;
+
+            userBlogResult.ShouldNotBeNull();
+            equipmentResult.ShouldNotBeNull();
+//            checkpointResult.ShouldNotBeNull();
+
+            userBlogResult.StatusCode.ShouldBe(expectedResponse2);
+            equipmentResult.StatusCode.ShouldBe(expectedResponse2);
+//            checkpointResult.StatusCode.ShouldBe(expectedResponse2);
+        }
 
 
 
@@ -69,9 +83,9 @@ namespace Explorer.Blog.Tests.Integration
         {
             yield return new object[]
             {
-                new UserBlogTourDto()
+                new UserBlogDto()
                 {
-                    Id = -1,
+                    Id = -21,
                     UserId = -1,
                     Username = "Test User",
                     Title = "Test Title",
@@ -86,18 +100,19 @@ namespace Explorer.Blog.Tests.Integration
                         StartTime = DateTime.UtcNow,
                         EndTime = DateTime.UtcNow,
                         Length = 1,
-                        Equipment = new List<int>(){-1,-2,-3},
-                        CheckpointsVisited = new List<int>(){-1, -2, -3},
+                        Equipment = new List<int>(){-1,-2},
+                        CheckpointsVisited = new List<int>(){-1, -2},
                     }
                 },
+                200,
                 200
             };
 
             yield return new object[]
             {
-                new UserBlogTourDto()
+                new UserBlogDto()
                 {
-                    Id = -2,
+                    Id = -22,
                     UserId = -2,
                     Username = "Test User 2",
                     Title = "Test Title 2",
@@ -110,39 +125,41 @@ namespace Explorer.Blog.Tests.Integration
                     {
                         TourId = -2,
                         StartTime = DateTime.UtcNow,
-                        EndTime = DateTime.UtcNow,
+                        EndTime = DateTime.UtcNow.AddDays(-1),
                         Length = 2,
-                        Equipment = new List<int>(){-4,-5,-6},
-                        CheckpointsVisited = new List<int>(){-4, -5, -6},
+                        Equipment = new List<int>(){},
+                        CheckpointsVisited = new List<int>(){ },
                     }
                 },
-                200
+                400,
+                404
             };
 
             yield return new object[]
             {
-                new UserBlogTourDto()
+                new UserBlogDto()
                 {
-                    Id = -3,
+                    Id = -23,
                     UserId = -3,
-                    Username = "Test User 3",
-                    Title = "Test Title 3",
-                    Description = "Test Description 3",
+                    Username = "",
+                    Title = "",
+                    Description = "",
                     CreationTime = DateTime.UtcNow,
                     Status = BlogStatus.Draft,
-                    Image = "Test Image 3",
+                    Image = "",
                     Category = BlogCategory.Accommodation,
                     TourReport = new UserBlogTourReportDto()
                     {
                         TourId = -3,
                         StartTime = DateTime.UtcNow,
-                        EndTime = DateTime.UtcNow,
+                        EndTime = DateTime.UtcNow.AddDays(1),
                         Length = 3,
-                        Equipment = new List<int>(){-7,-8,-9},
-                        CheckpointsVisited = new List<int>(){-7, -8, -9},
+                        Equipment = new List<int>(){-1, -2, -3 },
+                        CheckpointsVisited = new List<int>(){},
                     }
                 },
-                200
+                400,
+                404
             };
         }
         
@@ -195,7 +212,7 @@ namespace Explorer.Blog.Tests.Integration
             };
         }
 
-        private static CheckpointVisitedController createCheckpointVisitedController(IServiceScope scope)
+        private static CheckpointVisitedController CreateCheckpointVisitedController(IServiceScope scope)
         {
             var environment = scope.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
             var context = scope.ServiceProvider.GetRequiredService<ToursContext>();
@@ -204,9 +221,9 @@ namespace Explorer.Blog.Tests.Integration
                 ControllerContext = BuildContext("-1")
             };
         }
+        
     }
 
 }
-
 
 

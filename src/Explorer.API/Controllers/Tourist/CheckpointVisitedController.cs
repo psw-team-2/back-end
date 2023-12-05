@@ -50,10 +50,11 @@ namespace Explorer.API.Controllers
             return CreateResponse(result);
         }
 
-        [HttpGet("user/")]
-        public ActionResult<CheckpointVisitedDto> GetVisitedCheckpointsByUser(int id)
+        [HttpGet("user/{userId:int}")]
+        public ActionResult<CheckpointVisitedDto> GetVisitedCheckpointsByUser(int userId)
         {
-            throw new NotImplementedException();
+            var result = _checkpointVisitedService.GetVisitedCheckpointsByUser(userId);
+            return CreateResponse(result);
         }
 
     }
