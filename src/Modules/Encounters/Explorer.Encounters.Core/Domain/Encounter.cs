@@ -12,8 +12,12 @@ namespace Explorer.Encounters.Core.Domain
         public Status Status { get; init; }
         public Type Type { get; init; }
         public bool Mandatory { get; init; }
+        public int PeopleCount { get; init; }
+        public float Range { get; init; }
+        public string Image { get; init; }
 
-        public Encounter(string name, string description, double latitude, double longitude, int xP, Status status, Type type, bool mandatory)
+
+        public Encounter(string name, string description, double latitude, double longitude, int xP, Status status, Type type, bool mandatory, int peopleCount, float range, string image)
         {
             Name = name;
             Description = description;
@@ -23,6 +27,9 @@ namespace Explorer.Encounters.Core.Domain
             Status = status;
             Type = type;
             Mandatory = mandatory;
+            PeopleCount = peopleCount;
+            Range = range;
+            Image = image;
         }
     }
 

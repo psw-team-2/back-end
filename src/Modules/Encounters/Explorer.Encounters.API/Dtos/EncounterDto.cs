@@ -11,6 +11,9 @@
         public Status Status { get; set; }
         public Type Type { get; set; }
         public bool Mandatory { get; set; }
+        public int PeopleCount { get; set; }
+        public float Range { get; set; }
+        public string Image { get; set; }
     }
 
     public enum Status
