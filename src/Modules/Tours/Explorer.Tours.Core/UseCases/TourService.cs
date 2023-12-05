@@ -206,7 +206,7 @@ namespace Explorer.Tours.Core.UseCases
                 var shoppingCartItems = _orderItemService.GetBoughtShoppingItemsFromCart(shoppingCart.Value.Id);
                 //var tourIds = shoppingCartItems.Value.Select(item => item.TourId).ToList();
                 var tours = base.GetPaged(page, pageSize);
-                var userTours = tours.Value.Results.Where(tour => shoppingCartItems.Value.Any(item => item.TourId == tour.Id)).ToList();
+                var userTours = tours.Value.Results.Where(tour => shoppingCartItems.Value.Any(item => item.ItemId == tour.Id)).ToList();
 
                 var result = new PagedResult<TourDto>(userTours, userTours.Count);
 

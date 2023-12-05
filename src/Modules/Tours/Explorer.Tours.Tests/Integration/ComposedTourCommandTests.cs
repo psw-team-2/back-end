@@ -30,7 +30,7 @@ namespace Explorer.Tours.Tests.Integration
 
             var newTourComposition = new ComposedTourDto
             {
-                Id = -1,
+                Id = -17,
                 Name = "New Tour",
                 Description = "Description of the new tour",
                 ToursId = new List<int> { 1, 2 },
@@ -40,7 +40,7 @@ namespace Explorer.Tours.Tests.Integration
                 Equipment = new List<int> { 1, 2 },
                 CheckPoints = new List<long> { 123, 456 },
                 Objects = new List<long> { 1, 2 },
-                PublishTime = DateTime.Now,
+                PublishTime = DateTime.SpecifyKind(DateTime.Parse("2023-10-22 9:22:00"), DateTimeKind.Utc),
                 TotalLength = 0,
                 CarTime=0,
                 BicycleTime=0,
@@ -66,10 +66,10 @@ namespace Explorer.Tours.Tests.Integration
             var controller = CreateController(scope);
             var dbContext = scope.ServiceProvider.GetRequiredService<ToursContext>();
 
-            var userId = -11;
+            var userId = -2;
 
             // Act
-            var result = ((ObjectResult)controller.RetrivesAllUserTours(userId, 0, 0).Result).Value as ComposedTourDto;
+            var result = ((ObjectResult)controller.RetrivesAllUserTours(userId, 0, 0).Result).Value as  PagedResult<TourDto> ;
 
 
             // Assert - Response
