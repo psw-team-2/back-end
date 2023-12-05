@@ -1,4 +1,5 @@
-﻿using Explorer.Tours.API.Dtos;
+﻿using Explorer.BuildingBlocks.Core.UseCases;
+using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public;
 using Explorer.Tours.API.Public.Administration;
 using Explorer.Tours.Core.Domain;
@@ -88,6 +89,13 @@ namespace Explorer.API.Controllers
             public ActionResult<TourExecutionDto> CompleteCheckpoint( int tourExecutionId, [FromBody] List<CheckPointDto> checkpoints)
             {
                 var result = _tourExecutionService.CompleteCheckpoint(tourExecutionId, checkpoints);
+                return CreateResponse(result);
+            }
+
+            [HttpGet("{tourId:int}/{userId:int}")]
+            public ActionResult<PagedResult<TourExecutionDto>> GetExecutedToursByTourAndUserId(int tourId, int userId)
+            {
+                var result = _tourExecutionService.GetExecutedToursByTourAndUserId(tourId, userId);
                 return CreateResponse(result);
             }
     }

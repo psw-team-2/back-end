@@ -1,6 +1,9 @@
-﻿using Explorer.API.Controllers.Author;
+﻿using Explorer.API.Controllers;
+using Explorer.API.Controllers.Administrator.Administration;
+using Explorer.API.Controllers.Author;
 using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public;
+using Explorer.Tours.API.Public.Administration;
 using Explorer.Tours.Core.Domain;
 using Explorer.Tours.Infrastructure.Database;
 using Explorer.Tours.Tests;
@@ -190,6 +193,26 @@ namespace Explorer.Tours.Tests.Integration
         }
 
 
+        [Theory]
+        [MemberData(nameof(CheckpointData))]
+        public void CreateCheckpoints(CheckPointDto checkPointDto, CheckpointVisitedDto checkpointVisitedDto, EquipmentDto equipmentDto)
+        {
+            using var scope = Factory.Services.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<ToursContext>();
+            var checkpointController = CreateCheckPointController(scope);
+            var checkpointVisitedController = CreateCheckpointVisitedController(scope);
+            var equipmentController = CreateEquipmentController(scope);
+
+            checkpointController.Create(checkPointDto);
+            checkpointVisitedController.Create(checkpointVisitedDto);
+            equipmentController.Create(equipmentDto);
+
+
+
+        }
+
+
+
         public static IEnumerable<object[]> CheckpointData()
         {
             yield return new object[]
@@ -246,6 +269,7 @@ namespace Explorer.Tours.Tests.Integration
                 }
             };
 
+            
         }
 
 

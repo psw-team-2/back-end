@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Explorer.BuildingBlocks.Core.UseCases;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,5 +11,8 @@ namespace Explorer.Tours.Core.Domain.RepositoryInterfaces
     {
         IEnumerable<Equipment> GetAll();
         public Equipment Get(long id);
+
+        public PagedResult<Equipment> GetEquipmentByIdsPaged(List<int> equipmentIds, int page, int pageSize);
+        public List<Equipment> GetEquipmentByIdsList(List<int> equipmentIds);
     }
 }

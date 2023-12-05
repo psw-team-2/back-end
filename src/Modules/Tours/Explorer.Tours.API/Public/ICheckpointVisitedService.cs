@@ -10,5 +10,8 @@ namespace Explorer.Tours.API.Public
         Result<CheckpointVisitedDto> Update(CheckpointVisitedDto checkPoint);
         Result<CheckpointVisitedDto> Get(int id);
         Result Delete(int id);
+
+        public Result<PagedResult<CheckpointVisitedDto>> GetVisitedCheckpointsByUser(int userId);
+        public Result<List<CheckpointVisitedDto>> GetCheckpointsVisitedByIds(List<int> checkpointVisitedIds);
     }
 }

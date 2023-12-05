@@ -13,4 +13,8 @@ public interface IEquipmentService
     Result<IEnumerable<EquipmentForSelectionDto>> GetAllForSelection(int userId);
 
     public Result<EquipmentDto> Get(long id);
+    public Result<PagedResult<EquipmentDto>> GetByTourId(int tourId, int page, int pageSize);
+    public Result<PagedResult<EquipmentDto>> GetByIds(List<int> equipmentIds, int page, int pageSize);
+
+
 }

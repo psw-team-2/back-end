@@ -10,5 +10,7 @@ namespace Explorer.Tours.Core.Domain.RepositoryInterfaces
     {
         public CheckpointVisited Add(CheckpointVisited entity);
         public CheckpointVisited GetVisitedCheckpoint(int userId, int checkpointId);
+        public List<CheckpointVisited> GetVisitedCheckpointsByUser(int userId);
+        public List<CheckpointVisited> GetCheckpointsVisitedByIds(List<int> checkpointVisitedIds);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Explorer.BuildingBlocks.Core.UseCases;
 using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public.Administration;
+using Explorer.Tours.Core.UseCases.Administration;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -69,6 +70,20 @@ namespace Explorer.API.Controllers.Author
         public ActionResult Delete(int id)
         {
             var result = _checkPointService.Delete(id);
+            return CreateResponse(result);
+        }
+
+        [HttpGet("by-tour/{id:int}")]
+        public ActionResult<PagedResult<CheckPointDto>> GetByTourId(int id, [FromQuery] int page, [FromQuery] int pageSize)
+        {
+            var result = _checkPointService.GetByTourIdPaged(id, page, pageSize);
+            return CreateResponse(result);
+        }
+
+        [HttpPut("visited")]
+        public ActionResult<PagedResult<EquipmentDto>> GetByCheckpointVisited([FromBody] List<int> checkpointVisitedIds)
+        {
+            var result = _checkPointService.GetCheckPointByCheckpointVisitedIds(checkpointVisitedIds);
             return CreateResponse(result);
         }
     }

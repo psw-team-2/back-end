@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Explorer.BuildingBlocks.Core.UseCases;
 
 namespace Explorer.Tours.API.Public
 {
@@ -16,5 +17,7 @@ namespace Explorer.Tours.API.Public
         //Result<TourExecutionDto> AbandonTour(int tourExecutionId);
         Result<TourExecutionDto> GetTourExecution (int userId);
        public Result<TourExecutionDto> CompleteCheckpoint(int userId, List<CheckPointDto> checkpoints);
+
+       public Result<PagedResult<TourExecutionDto>> GetExecutedToursByTourAndUserId(int tourId, int userId);
     }
 }

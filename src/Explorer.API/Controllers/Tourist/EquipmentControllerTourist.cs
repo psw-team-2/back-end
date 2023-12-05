@@ -1,19 +1,18 @@
 ﻿using Explorer.BuildingBlocks.Core.UseCases;
 using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public.Administration;
-using Explorer.Tours.Core.UseCases;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Explorer.API.Controllers.Administrator.Administration
 {
-    [Authorize(Policy = "administratorPolicy")]
-    [Route("api/administration/equipment")]
-    public class EquipmentController : BaseApiController
+    [Authorize(Policy = "touristPolicy")]
+    [Route("api/tourist/equipment")]
+    public class EquipmentControllerTourist : BaseApiController
     {
         private readonly IEquipmentService _equipmentService;
 
-        public EquipmentController(IEquipmentService equipmentService)
+        public EquipmentControllerTourist(IEquipmentService equipmentService)
         {
             _equipmentService = equipmentService;
         }
@@ -45,20 +44,7 @@ namespace Explorer.API.Controllers.Administrator.Administration
             var result = _equipmentService.Delete(id);
             return CreateResponse(result);
         }
-        
-        [HttpGet("getTouristSelected/{id:int}")]
-        public ActionResult<PagedResult<EquipmentDto>> GetAllTouristSelectedEquipment(int id)
-        {
-            var result = _equipmentService.GetAllForSelection(id);
-            return CreateResponse(result);
-        }
 
-        [HttpGet("{id:int}")]
-        public ActionResult<CheckPointDto> Get(long id)
-        {
-            var result = _equipmentService.Get(id);
-            return CreateResponse(result);
-        }
         [HttpGet("by-tour/{id:int}")]
         public ActionResult<PagedResult<EquipmentDto>> GetByTourId(int id, [FromQuery] int page, [FromQuery] int pageSize)
         {

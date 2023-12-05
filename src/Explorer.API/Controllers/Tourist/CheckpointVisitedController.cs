@@ -49,5 +49,13 @@ namespace Explorer.API.Controllers
             var result = _checkpointVisitedService.Delete(id);
             return CreateResponse(result);
         }
+
+        [HttpGet("user/{userId:int}")]
+        public ActionResult<CheckpointVisitedDto> GetVisitedCheckpointsByUser(int userId)
+        {
+            var result = _checkpointVisitedService.GetVisitedCheckpointsByUser(userId);
+            return CreateResponse(result);
+        }
+
     }
 }
