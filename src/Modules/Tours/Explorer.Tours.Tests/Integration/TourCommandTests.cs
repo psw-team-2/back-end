@@ -10,6 +10,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
 using System;
 using System.Linq;
+using Explorer.API.Controllers;
+using Explorer.API.Controllers.Administrator.Administration;
+using Explorer.Tours.API.Public.Administration;
 using Xunit;
 using AccountStatus = Explorer.Tours.API.Dtos.AccountStatus;
 
@@ -186,6 +189,66 @@ namespace Explorer.Tours.Tests.Integration
             result.StatusCode.ShouldBe(404);
         }
 
+
+        public static IEnumerable<object[]> CheckpointData()
+        {
+            yield return new object[]
+            {
+                new CheckPointDto()
+                {
+                    Id = -1,
+                    Latitude = 40.7128,
+                    Longitude = -74.0060,
+                    Name = "Checkpoint 1",
+                    Description = "Description for Checkpoint 1",
+                    Image = "Image URL 1",
+                    IsPublic = true
+                },
+                new CheckpointVisitedDto()
+                {
+                    Id = -1,
+                    CheckpointId = -1,
+                    Time = DateTime.UtcNow,
+                    userId = -1
+                },
+                new EquipmentDto()
+                {
+                    Id = -1,
+                    Name = "Tour Blog Test Equipment 1",
+                    Description = "Generic Description 1"
+                }
+            };
+
+            yield return new object[]
+            {
+                new CheckPointDto()
+                {
+                    Id = -2,
+                    Latitude = 51.5074,
+                    Longitude = -0.1278,
+                    Name = "Checkpoint 2",
+                    Description = "Description for Checkpoint 2",
+                    Image = "Image URL 2",
+                    IsPublic = true
+                },
+                new CheckpointVisitedDto()
+                {
+                    Id = -2,
+                    CheckpointId = -2,
+                    Time = DateTime.UtcNow,
+                    userId = -1
+                },
+                new EquipmentDto()
+                {
+                    Id = -2,
+                    Name = "Tour Blog Test Equipment 2",
+                    Description = "Generic Description 2"
+                }
+            };
+
+        }
+
+
         private static TourController CreateController(IServiceScope scope)
         {
             var environment = scope.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
@@ -195,5 +258,36 @@ namespace Explorer.Tours.Tests.Integration
                 ControllerContext = BuildContext("-1")
             };
         }
+
+        private static CheckPointController CreateCheckPointController(IServiceScope scope)
+        {
+            var environment = scope.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
+            var context = scope.ServiceProvider.GetRequiredService<ToursContext>();
+            return new CheckPointController(scope.ServiceProvider.GetRequiredService<ICheckPointService>(), scope.ServiceProvider.GetRequiredService<IWebHostEnvironment>())
+            {
+                ControllerContext = BuildContext("-1")
+            };
+        }
+
+
+        private static CheckpointVisitedController CreateCheckpointVisitedController(IServiceScope scope)
+        {
+            var environment = scope.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
+            var context = scope.ServiceProvider.GetRequiredService<ToursContext>();
+            return new CheckpointVisitedController(scope.ServiceProvider.GetRequiredService<ICheckpointVisitedService>(), scope.ServiceProvider.GetRequiredService<IWebHostEnvironment>())
+            {
+                ControllerContext = BuildContext("-1")
+            };
+        }
+
+        private static EquipmentController CreateEquipmentController(IServiceScope scope)
+        {
+            return new EquipmentController(scope.ServiceProvider.GetRequiredService<IEquipmentService>())
+            {
+                ControllerContext = BuildContext("-1")
+            };
+        }
     }
 }
+
+

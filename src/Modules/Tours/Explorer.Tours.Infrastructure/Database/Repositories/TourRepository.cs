@@ -22,7 +22,7 @@ namespace Explorer.Tours.Infrastructure.Database.Repositories
         {
             return _context.Tour
                 .Include(t => t.TourReviews) // Include TourReviews
-                .Include(t => t.Equipments) // Include Equipments
+                .Include(t => t.Equipment) // Include Equipments
                 .Include(t => t.Checkpoints) // Include Checkpoints
                 
                 .FirstOrDefault(t => t.Id == tourId);
