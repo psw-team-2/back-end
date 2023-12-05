@@ -1,9 +1,6 @@
 INSERT INTO tours."Tour"(
-	"Id", "Equipments", "Checkpoints", "Name", "Description", "Status", "Difficulty", "Price", "Tags", "IsDeleted")
-	VALUES (-1, '{}', '{}', 'ime', 'naziv', 1, 1, 100, 'dd', False);
+    "Id", "Equipment", "Checkpoints", "Objects", "FootTime", "BicycleTime", "CarTime", "TotalLength", "AuthorId", "PublishTime", "Name", "Description", "Status", "Difficulty", "Price", "Tags", "IsDeleted")
+    VALUES (1, ARRAY[(-1)], ARRAY[(-1)], ARRAY[(-1)], 1, 1, 1, 1, 1, '2023-01-01 13:00:00-09', 'ime', 'naziv', 1, 1, 100.0, ARRAY[('text', 'nan')], False);
 INSERT INTO tours."Tour"(
-	"Id", "Equipments", "Checkpoints", "Name", "Description", "Status", "Difficulty", "Price", "Tags", "IsDeleted")
-	VALUES (-2, '{}', '{}', 'ime1', 'naziv1', 1, 1, 1002, 'gg', False);
-INSERT INTO tours."Tour"(
-	"Id", "Equipments", "Checkpoints", "Name", "Description", "Status", "Difficulty", "Price", "Tags", "IsDeleted")
-	VALUES (-3, '{}', '{}', 'ime2', 'naziv3', 1, 1, 1005, 'gg', False);
+    "Id", "Equipment", "Checkpoints", "Objects", "FootTime", "BicycleTime", "CarTime", "TotalLength", "AuthorId", "PublishTime", "Name", "Description", "Status", "Difficulty", "Price", "Tags", "IsDeleted")
+    VALUES (2, ARRAY[(-1)], ARRAY[(-1)], ARRAY[(-1)], 1, 1, 1, 1, 1, '2023-01-01 13:00:00-09', 'ime', 'naziv', 1, 1, 100.0, ARRAY[('txt')], False);

@@ -22,6 +22,7 @@ namespace Explorer.Payments.API.Public
         public Result<ShoppingCartDto> RemoveAllItems(int shoppingCartId);
         public Result<double> GetTotalPriceByUserId(int userId);
         Result<String> CreateTourPurchaseToken(List<OrderItemDto> orderItems, int userId);
+        Result<ShoppingCartDto> AddBundleItem(ShoppingCartDto shoppingCart, int bundleId);
 
     }
 }

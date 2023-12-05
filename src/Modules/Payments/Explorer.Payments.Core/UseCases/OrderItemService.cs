@@ -59,12 +59,12 @@ namespace Explorer.Payments.Core.UseCases
                     OrderItemDto dto = new OrderItemDto
                     {
                         Id = (int)item.Id,
-                        TourId = item.TourId,
-                        TourName = item.TourName,
+                        ItemId = item.ItemId,
+                        ItemName = item.ItemName,
                         Price = item.Price,
                         ShoppingCartId = shoppingCartId,
-                        IsBought = item.IsBought
-
+                        IsBought = item.IsBought,
+                        IsBundle = item.IsBundle
                     };
                     dtosForItems.Add(dto);
                 }

@@ -89,7 +89,8 @@ public class ModulesTests : BaseArchitecturalTests
         {
             "Stakeholders",
             "Payments",
-            "Encounters"
+            "Encounters",
+            "Tours"
         }
     };
 }
