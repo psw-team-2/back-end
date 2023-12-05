@@ -45,7 +45,8 @@ namespace Explorer.Blog.Core.UseCases
                 Description = blog.Description,
                 CreationTime = blog.CreationTime,
                 Status = (API.Dtos.BlogStatus)blog.Status,
-                Image = blog.Image
+                Image = blog.Image,
+                Category = (API.Dtos.BlogCategory)blog.Category
                
             }).ToList();
 
@@ -114,7 +115,8 @@ namespace Explorer.Blog.Core.UseCases
                 Description = blog.Description,
                 CreationTime = blog.CreationTime,
                 Status = (API.Dtos.BlogStatus)blog.Status,
-                Image = blog.Image
+                Image = blog.Image,
+                Category = (API.Dtos.BlogCategory)blog.Category,
 
             }).ToList();
 

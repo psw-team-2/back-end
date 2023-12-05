@@ -2,7 +2,7 @@
 
 namespace Explorer.Encounters.Core.Domain
 {
-    public class Challenge : Entity
+    public class Encounter : Entity
     {
         public string Name { get; init; }
         public string Description { get; init; }
@@ -12,7 +12,7 @@ namespace Explorer.Encounters.Core.Domain
         public Status Status { get; init; }
         public Type Type { get; init; }
 
-        public Challenge(string name, string description, double latitude, double longitude, int xP, Status status, Type type)
+        public Encounter(string name, string description, double latitude, double longitude, int xP, Status status, Type type)
         {
             Name = name;
             Description = description;
