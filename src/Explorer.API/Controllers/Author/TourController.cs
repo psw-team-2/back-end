@@ -117,6 +117,21 @@ namespace Explorer.API.Controllers.Author
             var result = _publicRequestService.Create(request);
             return CreateResponse(result);
         }
+
+        [HttpGet("byAuthor/{authorId}")]
+        public ActionResult<TourBundleDto> GetToursByAuthorId(int authorId)
+        {
+            var toursDto = _tourService.GetToursByAuthorId(authorId);
+
+            if (toursDto == null || !toursDto.Any())
+            {
+                return NotFound("No tours found for author");
+            }
+
+            var result = Result.Ok(toursDto); 
+
+            return CreateResponse(result); 
+        }
     }
 }
 

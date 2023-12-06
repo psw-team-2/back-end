@@ -8,6 +8,7 @@ namespace Explorer.Payments.Core.Domain.RepositoryInterfaces
 {
     public interface IOrderItemRepository
     {
+        public IEnumerable<OrderItem> GetBoughtShoppingItemsFromCart(int shoppingCartId);
         public IEnumerable<OrderItem> GetOrderItemsByShoppingCart(int shoppingCartId);
         public void RemoveAllItemsByShoppingCartId(int shoppingCartId);
     }

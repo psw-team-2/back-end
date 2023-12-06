@@ -31,5 +31,9 @@ namespace Explorer.Tours.API.Dtos
         public double TotalLength { get; set; }
         public DateTime PublishTime { get; set; }
         public long AuthorId { get; set; }
+
+       
     }
+
+
 }

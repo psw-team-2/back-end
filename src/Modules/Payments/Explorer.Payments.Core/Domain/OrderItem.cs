@@ -10,19 +10,21 @@ namespace Explorer.Payments.Core.Domain
 {
     public class OrderItem : Entity
     {
-        public int TourId { get; init; }
-        public string TourName { get; init; }
+        public int ItemId { get; init; }
+        public string ItemName { get; init; }
         public double Price { get; init; }
         public long ShoppingCartId { get; init; }
         public bool IsBought { get; init; }
+        public bool IsBundle { get; init; }
 
-        public OrderItem(int tourId, string tourName, double price, long shoppingCartId, bool isBought)
+        public OrderItem(int itemId, string itemName, double price, long shoppingCartId, bool isBought, bool isBundle)
         {
-            TourId = tourId;
-            TourName = tourName;
+            ItemId = itemId;
+            ItemName = itemName;
             Price = price;
             ShoppingCartId = shoppingCartId;
             IsBought = isBought;
+            IsBundle = isBundle;
         }
     }
 }

@@ -22,6 +22,7 @@ public class ToursProfile : Profile
         CreateMap<ObjectDto, Domain.Object>().ReverseMap();
         CreateMap<TourReviewDto, TourReview>().ReverseMap();
         CreateMap<TourPurchaseTokenDto, TourPurchaseToken>().ReverseMap();
+        CreateMap<TourBundleDto, Tour>().ReverseMap();
         //CreateMap<PriceDto, Price>().ReverseMap();
         /*CreateMap<OrderItemDto, OrderItem>()
             .IncludeAllDerived()
@@ -51,5 +52,8 @@ public class ToursProfile : Profile
         CreateMap<CheckpointVisitedDto, CheckpointVisited>().ReverseMap();
         CreateMap<TourExecutionDto, TourExecution>().ReverseMap();
         CreateMap<SecretDto, Secret>().ReverseMap();
+        CreateMap<ComposedTourDto, ComposedTour>().ReverseMap();
+
+        CreateMap<BundleDto, Bundle>().ReverseMap();
     }
 }
