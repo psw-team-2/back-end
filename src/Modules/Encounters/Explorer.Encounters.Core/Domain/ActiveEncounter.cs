@@ -13,13 +13,17 @@ namespace Explorer.Encounters.Core.Domain
         public long TouristId { get; init; }
         public State State { get; init; }
         public DateTime? End {  get; init; }
+        public int XP { get; init; }
+        public int Level { get; init; }
 
-        public ActiveEncounter(long encounterId, long touristId, State state, DateTime? end)
+        public ActiveEncounter(long encounterId, long touristId, State state, DateTime? end, int xp, int level)
         {
             EncounterId = encounterId;
             TouristId = touristId;
             State = state;
             End = end;
+            XP = xp;
+            Level = level;
         }
     }
 }

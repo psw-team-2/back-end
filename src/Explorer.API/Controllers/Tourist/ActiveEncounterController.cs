@@ -51,5 +51,26 @@ namespace Explorer.API.Controllers.Administrator
             var result = _activeEncounterService.Delete(id);
             return CreateResponse(result);
         }
+
+        [HttpGet("{activeEncounterId:long}")]
+        public ActionResult<ActiveEncounterDto> GetActiveEncounterById(long id)
+        {
+            var result = _activeEncounterService.GetActiveEncounterById(id);
+            return CreateResponse(result);
+        }
+
+        [HttpPut("completeEncounter")]
+        public ActionResult<ActiveEncounterDto> CompleteEncounter([FromBody] ActiveEncounterDto activeEncounter)
+        {
+            var result = _activeEncounterService.Update(activeEncounter);
+            return CreateResponse(result);
+        }
+
+        [HttpPut("levelUp")]
+        public ActionResult<ActiveEncounterDto> LevelUp([FromBody] ActiveEncounterDto activeEncounter)
+        {
+            var result = _activeEncounterService.Update(activeEncounter);
+            return CreateResponse(result);
+        }
     }
 }

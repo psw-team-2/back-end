@@ -16,5 +16,7 @@ namespace Explorer.Encounters.API.Public
         Result<ActiveEncounterDto> Create(ActiveEncounterDto activeEncounterDto);
         Result<ActiveEncounterDto> Update(ActiveEncounterDto activeEncounterDto);
         Result Delete(int id);
+        Result<ActiveEncounterDto> GetActiveEncounterById(long id);
+        Result<ActiveEncounterDto> CompleteEncounter(ActiveEncounterDto activeEncounter);
     }
 }

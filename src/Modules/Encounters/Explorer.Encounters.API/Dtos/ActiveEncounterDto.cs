@@ -7,6 +7,8 @@
         public long TouristId { get; set; }
         public State State { get; set; }
         public DateTime? End { get; set; }
+        public int XP { get; set; }
+        public int Level { get; set; }
     }
 
     public enum State
