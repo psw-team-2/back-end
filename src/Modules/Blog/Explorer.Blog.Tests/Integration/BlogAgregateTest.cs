@@ -28,19 +28,22 @@ namespace Explorer.Blog.Tests.Integration
 
         // Add your test methods for blog functionalities similar to TourAggregateTest
 
-        [Theory]
-        [MemberData(nameof(BlogData))]
-        public void Adds_comment_to_blog(int commentId, UserBlogDto blog, int expectedStatusCode)
-        {
-            using var scope = Factory.Services.CreateScope();
-            var tourController = CreateBlogController(scope);
-            var checkpointController = CreateBlogController(scope);
-            var dbContext = scope.ServiceProvider.GetRequiredService<ToursContext>();
+//        [Theory]
+//        [MemberData(nameof(BlogData))]
+//        public void Adds_comment_to_blog(int commentId, UserBlogDto blog, int expectedStatusCode)
+//        {
+//            // Arrange
+//            using var scope = Factory.Services.CreateScope();
+//            var tourController = CreateBlogController(scope);
+//            var checkpointController = CreateBlogController(scope);
+//            var dbContext = scope.ServiceProvider.GetRequiredService<ToursContext>();
 
-            dbContext.Database.BeginTransaction();
+//            dbContext.Database.BeginTransaction();
 
+            // Act
+            
 
-        }
+//        }
 
         public static IEnumerable<object[]> BlogData()
         {

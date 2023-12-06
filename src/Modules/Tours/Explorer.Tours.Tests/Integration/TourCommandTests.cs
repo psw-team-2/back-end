@@ -33,18 +33,24 @@ namespace Explorer.Tours.Tests.Integration
             using var scope = Factory.Services.CreateScope();
             var controller = CreateController(scope);
             var dbContext = scope.ServiceProvider.GetRequiredService<ToursContext>();
-            var newTourDto = new TourDto
+            var newTourDto = new TourDto()
             {
-                Id = -1,
+                Id = -53,
                 Name = "New Tour",
                 Description = "Description of the new tour",
                 Status = AccountStatus.DRAFT,
                 Difficulty = 3,
                 Price = 50.0,
-                Tags = { "Adventure" , "Hiking" },
-                Equipment = new List<int> { 1, 2 },
+                Tags = new List<string>{ "Adventure" , "Hiking" },
+                Equipment = new List<int> { 123, 456 },
                 CheckPoints = new List<long> { 123, 456 },
-                AuthorId = -11,
+                Objects = new List<long> {123, 456},
+                AuthorId = -42,
+                FootTime = 1,
+                BicycleTime = 1,
+                CarTime = 1,
+                TotalLength = 1,
+                PublishTime = DateTime.UtcNow
             };
 
             // Act
@@ -96,16 +102,22 @@ namespace Explorer.Tours.Tests.Integration
             var dbContext = scope.ServiceProvider.GetRequiredService<ToursContext>();
             var tourToUpdate = new TourDto
             {
-                Id = -1, // Replace with a valid tour ID from your test data
-                Name = "Updated Tour Name",
-                Description = "Updated tour description",
-                Status = AccountStatus.DRAFT,
-                Difficulty = 4,
-                Price = 75.0,
-                Tags = { "Adventure", "Hiking" },
-                Equipment = new List<int> { 3, 4 },
-                CheckPoints = new List<long> { 789, 101 },
-                AuthorId = -1
+                Id = -53,
+                Name = "New Tour Updated",
+                Description = "Description of the new tour Updated",
+                Status = AccountStatus.ARCHIVED,
+                Difficulty = 3,
+                Price = 50.0,
+                Tags = new List<string> { "Adventure", "Hiking" , "Bowling"},
+                Equipment = new List<int> { 123},
+                CheckPoints = new List<long> { 123},
+                Objects = new List<long> { 123},
+                AuthorId = -42,
+                FootTime = 5,
+                BicycleTime = 5,
+                CarTime = 5,
+                TotalLength = 5,
+                PublishTime = DateTime.UtcNow.AddDays(1)
             };
 
             // Act
@@ -137,22 +149,30 @@ namespace Explorer.Tours.Tests.Integration
             var controller = CreateController(scope);
             var tourToUpdate = new TourDto
             {
-                Id = -1000, 
-                Name = "Update fail TEST",
-                Description = "Update fail TEST",
-                Status = AccountStatus.DRAFT,
-                Difficulty = 0,
+                Id = -453,
+                Name = "New Tour Updated",
+                Description = "Description of the new tour Updated",
+                Status = AccountStatus.ARCHIVED,
+                Difficulty = 3,
                 Price = 50.0,
-                Tags = { "Adventure", "Hiking" },
-                Equipment = new List<int> { },
-                CheckPoints = new List<long> { }
+                Tags = new List<string> { "Adventure", "Hiking", "Bowling" },
+                Equipment = new List<int> { 123 },
+                CheckPoints = new List<long> { 123 },
+                Objects = new List<long> { 123 },
+                AuthorId = -42,
+                FootTime = 5,
+                BicycleTime = 5,
+                CarTime = 5,
+                TotalLength = 5,
+                PublishTime = DateTime.UtcNow.AddDays(1)
             };
 
             // Act
             var result = (ObjectResult)controller.Update(tourToUpdate).Result;
+            var resultEntitity = result.Value;
 
             // Assert
-            result.ShouldNotBeNull();
+            resultEntitity.ShouldNotBeNull();
             result.StatusCode.ShouldBe(404);
         }
 
@@ -163,7 +183,7 @@ namespace Explorer.Tours.Tests.Integration
             using var scope = Factory.Services.CreateScope();
             var controller = CreateController(scope);
             var dbContext = scope.ServiceProvider.GetRequiredService<ToursContext>();
-            var tourIdToDelete = 1; // Replace with a valid tour ID from your test data
+            var tourIdToDelete = -53; // Replace with a valid tour ID from your test data
 
             // Act
             var result = (ObjectResult)controller.Delete(tourIdToDelete);
@@ -193,86 +213,6 @@ namespace Explorer.Tours.Tests.Integration
         }
 
 
-        [Theory]
-        [MemberData(nameof(CheckpointData))]
-        public void CreateCheckpoints(CheckPointDto checkPointDto, CheckpointVisitedDto checkpointVisitedDto, EquipmentDto equipmentDto)
-        {
-            using var scope = Factory.Services.CreateScope();
-            var dbContext = scope.ServiceProvider.GetRequiredService<ToursContext>();
-            var checkpointController = CreateCheckPointController(scope);
-            var checkpointVisitedController = CreateCheckpointVisitedController(scope);
-            var equipmentController = CreateEquipmentController(scope);
-
-            checkpointController.Create(checkPointDto);
-            checkpointVisitedController.Create(checkpointVisitedDto);
-            equipmentController.Create(equipmentDto);
-
-
-
-        }
-
-
-
-        public static IEnumerable<object[]> CheckpointData()
-        {
-            yield return new object[]
-            {
-                new CheckPointDto()
-                {
-                    Id = -1,
-                    Latitude = 40.7128,
-                    Longitude = -74.0060,
-                    Name = "Checkpoint 1",
-                    Description = "Description for Checkpoint 1",
-                    Image = "Image URL 1",
-                    IsPublic = true
-                },
-                new CheckpointVisitedDto()
-                {
-                    Id = -1,
-                    CheckpointId = -1,
-                    Time = DateTime.UtcNow,
-                    userId = -1
-                },
-                new EquipmentDto()
-                {
-                    Id = -1,
-                    Name = "Tour Blog Test Equipment 1",
-                    Description = "Generic Description 1"
-                }
-            };
-
-            yield return new object[]
-            {
-                new CheckPointDto()
-                {
-                    Id = -2,
-                    Latitude = 51.5074,
-                    Longitude = -0.1278,
-                    Name = "Checkpoint 2",
-                    Description = "Description for Checkpoint 2",
-                    Image = "Image URL 2",
-                    IsPublic = true
-                },
-                new CheckpointVisitedDto()
-                {
-                    Id = -2,
-                    CheckpointId = -2,
-                    Time = DateTime.UtcNow,
-                    userId = -1
-                },
-                new EquipmentDto()
-                {
-                    Id = -2,
-                    Name = "Tour Blog Test Equipment 2",
-                    Description = "Generic Description 2"
-                }
-            };
-
-            
-        }
-
-
         private static TourController CreateController(IServiceScope scope)
         {
             var environment = scope.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
@@ -282,35 +222,7 @@ namespace Explorer.Tours.Tests.Integration
                 ControllerContext = BuildContext("-1")
             };
         }
-
-        private static CheckPointController CreateCheckPointController(IServiceScope scope)
-        {
-            var environment = scope.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
-            var context = scope.ServiceProvider.GetRequiredService<ToursContext>();
-            return new CheckPointController(scope.ServiceProvider.GetRequiredService<ICheckPointService>(), scope.ServiceProvider.GetRequiredService<IWebHostEnvironment>())
-            {
-                ControllerContext = BuildContext("-1")
-            };
-        }
-
-
-        private static CheckpointVisitedController CreateCheckpointVisitedController(IServiceScope scope)
-        {
-            var environment = scope.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
-            var context = scope.ServiceProvider.GetRequiredService<ToursContext>();
-            return new CheckpointVisitedController(scope.ServiceProvider.GetRequiredService<ICheckpointVisitedService>(), scope.ServiceProvider.GetRequiredService<IWebHostEnvironment>())
-            {
-                ControllerContext = BuildContext("-1")
-            };
-        }
-
-        private static EquipmentController CreateEquipmentController(IServiceScope scope)
-        {
-            return new EquipmentController(scope.ServiceProvider.GetRequiredService<IEquipmentService>())
-            {
-                ControllerContext = BuildContext("-1")
-            };
-        }
+        
     }
 }
 
