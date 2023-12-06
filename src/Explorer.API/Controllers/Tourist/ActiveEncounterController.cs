@@ -51,5 +51,13 @@ namespace Explorer.API.Controllers.Administrator
             var result = _activeEncounterService.Delete(id);
             return CreateResponse(result);
         }
+
+        [HttpGet("byencounter/{id:int}")]
+        public ActionResult<PagedResult<ActiveEncounterDto>> GetAllById(int id, [FromQuery] int page, [FromQuery] int pageSize)
+        {
+            var result = _activeEncounterService.GetAllByEncounterId(id, page, pageSize);
+            return CreateResponse(result);
+        }
+
     }
 }
