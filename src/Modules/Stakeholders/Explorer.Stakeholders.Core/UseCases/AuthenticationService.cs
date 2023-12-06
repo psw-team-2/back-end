@@ -20,14 +20,16 @@ public class AuthenticationService : IAuthenticationService
     private readonly ICrudRepository<Profile> _profileRepository;
     private readonly ITourPreferenceService _tourPreferenceService;
     private readonly IShoppingCartService _shoppingCartService;
+    private readonly IWalletService _walletService;
 
-    public AuthenticationService(IUserRepository userRepository, ICrudRepository<Person> personRepository, ITokenGenerator tokenGenerator, ICrudRepository<Profile> profileRepository, IShoppingCartService shoppingCartService)
+    public AuthenticationService(IUserRepository userRepository, ICrudRepository<Person> personRepository, ITokenGenerator tokenGenerator, ICrudRepository<Profile> profileRepository, IShoppingCartService shoppingCartService, IWalletService walletService)
     {
         _tokenGenerator = tokenGenerator;
         _userRepository = userRepository;
         _personRepository = personRepository;
         _profileRepository = profileRepository;
         _shoppingCartService = shoppingCartService;
+        _walletService = walletService;
     }
 
     public Result<AuthenticationTokensDto> Login(CredentialsDto credentials)
@@ -66,6 +68,14 @@ public class AuthenticationService : IAuthenticationService
                         Items = new List<int>(),
                         TotalPrice = 0
                     });
+
+            //kreiranje novcanika
+            var wallet = _walletService.Create(new Payments.API.Dtos.WalletDto
+            {   Id = 0,
+                UserId = (int)user.Id,
+                Username = user.Username,
+                AC = 0
+            });
 
 
             return _tokenGenerator.GenerateAccessToken(user, profile.Id);

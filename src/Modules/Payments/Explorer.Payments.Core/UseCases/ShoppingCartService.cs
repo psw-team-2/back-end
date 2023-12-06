@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using Explorer.Tours.API.Dtos;
 using Explorer.Tours.Core.Domain;
+using Explorer.Tours.Core.Domain.RepositoryInterfaces;
 
 namespace Explorer.Payments.Core.UseCases
 {
@@ -25,9 +26,12 @@ namespace Explorer.Payments.Core.UseCases
         private readonly ICrudRepository<OrderItem> _crudOrderItemRepository;
         private readonly IOrderItemRepository _orderItemRepository;
         private readonly ICrudRepository<TourPurchaseToken> _tourPurchaseTokenRepository;
+        private readonly IPurchaseReportService _purchaseReportService;
+        private readonly IWalletRepository _walletRepository;
+        private readonly IBundleRepository _bundleRepository;
 
 
-        public ShoppingCartService(ICrudRepository<ShoppingCart> repository, IMapper mapper, IShoppingCartRepository shoppingCartRepository, ICrudRepository<Tour> tourRepository, ICrudRepository<OrderItem> crudOrderItemRepository, IOrderItemRepository orderItemRepository, ICrudRepository<TourPurchaseToken> tourPurchaseTokenRepository) : base(repository, mapper)
+        public ShoppingCartService(ICrudRepository<ShoppingCart> repository, IMapper mapper, IShoppingCartRepository shoppingCartRepository, ICrudRepository<Tour> tourRepository, ICrudRepository<OrderItem> crudOrderItemRepository, IOrderItemRepository orderItemRepository, ICrudRepository<TourPurchaseToken> tourPurchaseTokenRepository, IPurchaseReportService purchaseReportService, IWalletRepository walletRepository, IBundleRepository bundleRepository) : base(repository, mapper)
         {
             _shoppingCartRepository = shoppingCartRepository;
             _tourRepository = tourRepository;
@@ -35,6 +39,9 @@ namespace Explorer.Payments.Core.UseCases
             _orderItemRepository = orderItemRepository;
             _tourRepository = tourRepository;
             _tourPurchaseTokenRepository = tourPurchaseTokenRepository;
+            _purchaseReportService = purchaseReportService;
+            _walletRepository = walletRepository;
+            _bundleRepository = bundleRepository;
         }
 
 
@@ -45,7 +52,7 @@ namespace Explorer.Payments.Core.UseCases
                 Tours.Core.Domain.Tour tour = _tourRepository.Get(tourId);
                 if (shoppingCartDto != null)
                 {
-                    OrderItem orderItem = new OrderItem(tourId, tour.Name, tour.Price, shoppingCartDto.Id, false);
+                    OrderItem orderItem = new OrderItem(tourId, tour.Name, tour.Price, shoppingCartDto.Id, false, false);
                     _crudOrderItemRepository.Create(orderItem);
 
                     ShoppingCart shoppingCart = _shoppingCartRepository.GetById(shoppingCartDto.Id);
@@ -146,17 +153,77 @@ namespace Explorer.Payments.Core.UseCases
 
         public Result<String> CreateTourPurchaseToken(List<OrderItemDto> orderItems, int userId)
         {
+            Wallet wallet = _walletRepository.GetWalletByUserId(userId);
             ShoppingCart shoppingCart = _shoppingCartRepository.GetShoppingCartByUserId(userId);
-            foreach (OrderItemDto item in orderItems)
+            if (wallet.AC >= shoppingCart.TotalPrice)
             {
-                TourPurchaseToken purchaseToken = new TourPurchaseToken(userId, item.TourId, DateTime.UtcNow);
-                _tourPurchaseTokenRepository.Create(purchaseToken);
-                shoppingCart.RemoveItem(item.Id);
-            }
-            shoppingCart.TotalPrice = 0;
-            _shoppingCartRepository.Update(shoppingCart);
+                foreach (OrderItemDto item in orderItems)
+                {   
+                    if(item.IsBundle == true)
+                    {
+                        Bundle bundle = _bundleRepository.GetById(item.ItemId);
+                        foreach (int i in bundle.Tours)
+                        {
+                            Tour tour = _tourRepository.Get(i);
+                            TourPurchaseToken purchaseToken = new TourPurchaseToken(userId, (int)tour.Id, DateTime.UtcNow);
+                            _tourPurchaseTokenRepository.Create(purchaseToken);
+                            
+                        }
+                        shoppingCart.RemoveItem(item.Id);
+                    }
+                    else
+                    {
+                        TourPurchaseToken purchaseToken = new TourPurchaseToken(userId, item.ItemId, DateTime.UtcNow);
+                        _tourPurchaseTokenRepository.Create(purchaseToken);
+                        shoppingCart.RemoveItem(item.Id);
+                    }
+                    
+                }
+                
+                wallet.AC -= shoppingCart.TotalPrice;
+                _purchaseReportService.Create(orderItems, userId);
 
-            return Result.Ok();
+                shoppingCart.TotalPrice = 0;
+                _shoppingCartRepository.Update(shoppingCart);
+
+                return Result.Ok();
+            }
+            else
+            {
+                return Result.Fail(FailureCode.InvalidArgument).WithError("You don't have enough money to make a purchase.");
+            }
+                
         }
+
+        public Result<ShoppingCartDto> AddBundleItem(ShoppingCartDto shoppingCartDto, int bundleId)
+        {
+            try
+            {
+                Bundle bundle = _bundleRepository.GetById(bundleId);
+                if (shoppingCartDto != null && bundle != null)
+                {
+                    OrderItem orderItem = new OrderItem(bundleId, bundle.Name, bundle.Price, shoppingCartDto.Id, false, true);
+                    _crudOrderItemRepository.Create(orderItem);
+
+                    ShoppingCart shoppingCart = _shoppingCartRepository.GetById(shoppingCartDto.Id);
+
+                    shoppingCart.AddItem((int)orderItem.Id);
+
+                    shoppingCart.CalculateTotalPrice(shoppingCart.TotalPrice, orderItem.Price, true);
+                    _shoppingCartRepository.Update(shoppingCart);
+                    return Result.Ok(shoppingCartDto);
+                }
+                else
+                {
+                    return Result.Fail(FailureCode.NotFound).WithError("Bundle not found.");
+                }
+
+            }
+            catch (KeyNotFoundException e)
+            {
+                return Result.Fail(FailureCode.NotFound).WithError(e.Message);
+            }
+        }
+        
     }
 }

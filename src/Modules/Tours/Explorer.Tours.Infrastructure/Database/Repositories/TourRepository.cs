@@ -49,5 +49,10 @@ namespace Explorer.Tours.Infrastructure.Database.Repositories
                 .ToList();
         }
 
+        public List<Tour> GetToursByAuthorId(int authorId)
+        {
+            return _context.Tour.Where(t => t.AuthorId == authorId).ToList();
+        }
+
     }
 }

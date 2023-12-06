@@ -1,4 +1,5 @@
 ﻿using Explorer.BuildingBlocks.Core.UseCases;
+using Explorer.Payments.API.Dtos;
 using Explorer.Tours.API.Dtos;
 using FluentResults;
 using System;
@@ -31,6 +32,9 @@ namespace Explorer.Tours.API.Public
 
         public Result<TourDto> PublishTour(TourDto tour);
         public Result<TourDto> ArchiveTour(TourDto tour);
+
+        Result<PagedResult<TourDto>> RetrivesAllUserTours(int userId, int page, int pageSize);
+        List<TourBundleDto> GetToursByAuthorId(int authorId);
 
 
     }

@@ -22,8 +22,5 @@ namespace Explorer.Tours.Core.UseCases
             _tourPurchaseTokenRepository = repository;
         }
 
-
-
-
     }
 }

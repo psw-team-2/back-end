@@ -6,3 +6,4 @@ DELETE FROM tours."TouristSelectedEquipment";
 DELETE FROM tours."CheckPoint";
 DELETE FROM tours."CheckpointVisited";
 DELETE FROM tours."Object";
+DELETE FROM tours."Bundles";
