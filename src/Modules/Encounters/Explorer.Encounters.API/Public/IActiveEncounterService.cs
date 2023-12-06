@@ -16,5 +16,6 @@ namespace Explorer.Encounters.API.Public
         Result<ActiveEncounterDto> Create(ActiveEncounterDto activeEncounterDto);
         Result<ActiveEncounterDto> Update(ActiveEncounterDto activeEncounterDto);
         Result Delete(int id);
+        public Result<PagedResult<ActiveEncounterDto>> GetAllByEncounterId(int id, int page, int pageSize);
     }
 }

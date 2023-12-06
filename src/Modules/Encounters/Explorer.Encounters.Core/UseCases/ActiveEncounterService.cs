@@ -17,5 +17,30 @@ namespace Explorer.Encounters.Core.UseCases
             activeEncounterRepository = activeEncounterRepository;
         }
 
+        public Result<PagedResult<ActiveEncounterDto>> GetAllByEncounterId(int id, int page, int pageSize)
+        {
+            try
+            {
+                var pagedResult = GetPaged(page, pageSize);
+                if (pagedResult != null)
+                {
+
+                    var filteredActiveEncounters = pagedResult.Value.Results.Where(ae => ae.EncounterId == id).ToList();
+
+                    var filteredActiveEncountersPagedResult = new PagedResult<ActiveEncounterDto>(
+                        filteredActiveEncounters,
+                        filteredActiveEncounters.Count
+                    );
+
+                    return Result.Ok(filteredActiveEncountersPagedResult);
+                }
+                return Result.Fail("Tour Problem pagedResult is null");
+            }
+            catch (KeyNotFoundException e)
+            {
+                return Result.Fail(FailureCode.NotFound).WithError(e.Message);
+            }
+        }
+
     }
 }
