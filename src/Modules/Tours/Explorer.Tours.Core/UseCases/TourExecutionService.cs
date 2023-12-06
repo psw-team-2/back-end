@@ -25,7 +25,7 @@ namespace Explorer.Tours.Core.UseCases
             _tourExecutionRepository = tourExecutionRepository;
             _checkpointVisitedRepository = checkpointVisitedRepository;
         }
-        public Result StartTour(TourExecutionDto dto)
+        public Result<TourExecutionDto> StartTour(TourExecutionDto dto)
         {
             if (dto != null)
             {
@@ -41,7 +41,14 @@ namespace Explorer.Tours.Core.UseCases
                     tourExecution.VisitedCheckpoints[0], DateTime.UtcNow);
                 _checkpointVisitedRepository.Add(cp);
 
-                return Result.Ok();
+                var tourProblemDto = MapToDto(tourExecution);
+                if(tourProblemDto != null) {
+                    return Result.Ok(tourProblemDto);
+                }
+                else
+                {
+                    return Result.Fail(FailureCode.NotFound);
+                }
             }
             else
             {
