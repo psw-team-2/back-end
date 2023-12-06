@@ -41,7 +41,7 @@ namespace Explorer.Tours.Tests.Integration
             // Arrange
             using var scope = Factory.Services.CreateScope();
             var controller = CreateController(scope);
-            int tourIdToRetrieve = -1; // Replace with a valid tour ID from your test data
+            int tourIdToRetrieve = -41; // Replace with a valid tour ID from your test data
 
             // Act
             var result = ((ObjectResult)controller.Get(tourIdToRetrieve).Result)?.Value as TourDto;

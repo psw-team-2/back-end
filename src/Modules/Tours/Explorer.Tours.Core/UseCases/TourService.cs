@@ -61,19 +61,23 @@ namespace Explorer.Tours.Core.UseCases
             {
                 tour.CheckPoints.Add(checkPointId);
                 Update(tour);
+                return Result.Ok(tour);
             }
             return tour;
         }
 
         public Result<TourDto> DeleteCheckPoint(TourDto tour, int checkPointId)
         {
-
             if (tour != null)
             {
-                tour.CheckPoints.Remove(checkPointId);
+                tour.Equipment.Add(checkPointId);
                 Update(tour);
+                return Result.Ok(tour);
             }
-            return tour;
+            else
+            {
+                return Result.Fail(FailureCode.NotFound).WithError(new KeyNotFoundException().Message);
+            }
         }
 
 
@@ -83,8 +87,12 @@ namespace Explorer.Tours.Core.UseCases
             {
                 tour.Equipment.Add(equipmentId);
                 Update(tour);
+                return Result.Ok(tour);
             }
-            return tour;
+            else
+            {
+                return Result.Fail(FailureCode.NotFound).WithError(new KeyNotFoundException().Message);
+            }
         }
 
         public Result<TourDto> RemoveEquipmentFromTour(TourDto tour, int equipmentId)
@@ -97,17 +105,48 @@ namespace Explorer.Tours.Core.UseCases
             return tour;
         }
 
+        public Result<TourDto> AddObjectToTour(TourDto tour, int tourObjectId)
+        {
+
+            if (tour != null)
+            {
+                tour.Objects.Add(tourObjectId);
+                Update(tour);
+                return Result.Ok(tour);
+            }
+            return tour;
+        }
+
+        public Result<TourDto> RemoveObjectFromTour(TourDto tour, int tourObjectId)
+        {
+            if (tour != null)
+            {
+                tour.Objects.Remove(tourObjectId);
+                Update(tour);
+            }
+            return tour;
+        }
+
+
         public Result<AverageGradeDto> GetAverageGradeForTour(int tourId)
         {
-            var tour = _tourRepository.GetOne(tourId);
-            if (tour == null)
+            try
             {
-                return null;
+                var tour = _tourRepository.GetOne(tourId);
+                if (tour == null)
+                {
+                    return null;
+                }
+
+                double avg = tour.GetAverageGradeForTour();
+                AverageGradeDto dto = new AverageGradeDto { AverageGrade = avg };
+                return dto;
+                //return avg;
             }
-            double avg = tour.GetAverageGradeForTour();
-            AverageGradeDto dto = new AverageGradeDto { AverageGrade = avg };
-            return dto;
-            //return avg;
+            catch(KeyNotFoundException e)
+            {
+                return Result.Fail(FailureCode.NotFound).WithError(e.Message);
+            }
         }
         public Result<TourExecutionDto> StartTour(int touristId, int tourId, double startLatitude, double startLongitude)
         {
