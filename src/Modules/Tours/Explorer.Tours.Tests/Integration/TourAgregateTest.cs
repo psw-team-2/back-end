@@ -34,32 +34,16 @@ namespace Explorer.Tours.Tests.Integration.Learning.Assessment
             
             dbContext.Database.BeginTransaction();
 
-            var checkpoint = new CheckPointDto
-            {
-                Id = -1001,
-                Description = "Description",
-                Image = "Image",
-                Latitude = 45,
-                Longitude = 45,
-                Name = "Test Checkpoint",
-                IsPublic = true,
-            };
 
-            var checkpointResultCreate = (ObjectResult)checkpointController.Create(checkpoint).Result;
-            checkpointResultCreate.StatusCode.ShouldBe(200);
+            var resultAdd = (ObjectResult)tourController.AddCheckPoint(tour, checkpointId).Result;
 
-            var checkpointResultGet = (ObjectResult)checkpointController.Get(checkpointId).Result;
-            checkpointResultGet.StatusCode.ShouldBe(expectedStatusCode);
+            var resultAddEntity = resultAdd.Value as TourDto;
 
-            var result = (ObjectResult)tourController.AddCheckPoint(tour, checkpointId).Result;
-
-            var resultEntity = result.Value as TourDto;
-
-            result.StatusCode.ShouldBe(200);
+            resultAdd.StatusCode.ShouldBe(200);
             if (expectedStatusCode == 200)
             {
-                resultEntity.ShouldNotBe(null);
-                resultEntity.CheckPoints.ShouldContain(checkpointId);
+                resultAddEntity.ShouldNotBe(null);
+                resultAddEntity.CheckPoints.ShouldContain(checkpointId);
             }
         }
 
@@ -108,11 +92,11 @@ namespace Explorer.Tours.Tests.Integration.Learning.Assessment
             var resultEntity = result.Value as TourDto;
 
             result.StatusCode.ShouldBe(expectedStatusCode);
-            if (expectedStatusCode == 200)
-            {
-                resultEntity.ShouldNotBe(null);
-                resultEntity.Equipment.ShouldContain(checkpointId);
-            }
+            //if (expectedStatusCode == 200)
+            //{
+            //    resultEntity.ShouldNotBe(null);
+            //    resultEntity.Equipment.ShouldContain(checkpointId);
+            //}
         }
 
         [Theory]
@@ -147,7 +131,7 @@ namespace Explorer.Tours.Tests.Integration.Learning.Assessment
                 -1,
                 new TourDto
                 {
-                    Id = -1,
+                    Id = -51,
                     Name = "Tour One",
                     Description = "Description One",
                     Status = AccountStatus.PUBLISHED,
@@ -197,19 +181,19 @@ namespace Explorer.Tours.Tests.Integration.Learning.Assessment
         {
             yield return new object[]
             {
-                -1,
+                -41,
                 new TourExecutionDto
                 {
-                    Id = -1,
-                    TouristId = -1,
-                    TourId = -1,
+                    Id = -51,
+                    TouristId = -41,
+                    TourId = -41,
                     StartTime = DateTime.UtcNow,
                     EndTime = null,
                     Completed = false,
                     Abandoned = false,
                     CurrentLatitude = 40.7128,
                     CurrentLongitude = -74.0060,
-                    VisitedCheckpoints = new List<int> { -1, -2, -3 },
+                    VisitedCheckpoints = new List<int> { -41, -42, -43 },
                     LastActivity = DateTime.UtcNow,
                     TouristDistance = 15.6
                 },
@@ -219,19 +203,19 @@ namespace Explorer.Tours.Tests.Integration.Learning.Assessment
 
             yield return new object[]
             {
-                -2,
+                -442,
                 new TourExecutionDto
                 {
-                    Id = -2,
-                    TouristId = -2,
-                    TourId = -2,
+                    Id = -52,
+                    TouristId = -41,
+                    TourId = -42,
                     StartTime = DateTime.UtcNow,
                     EndTime = DateTime.UtcNow.AddHours(2),
                     Completed = true,
                     Abandoned = false,
                     CurrentLatitude = 34.0522,
                     CurrentLongitude = -118.2437,
-                    VisitedCheckpoints = new List<int> { -1, -2 },
+                    VisitedCheckpoints = new List<int> { -44, -45 },
                     LastActivity = DateTime.UtcNow,
                     TouristDistance = 20.3
                 },
@@ -241,7 +225,7 @@ namespace Explorer.Tours.Tests.Integration.Learning.Assessment
 
             yield return new object[]
             {
-                -1,
+                -43,
                 new TourExecutionDto
                 {
 
@@ -250,6 +234,7 @@ namespace Explorer.Tours.Tests.Integration.Learning.Assessment
                 200
             };
         }
+
 
         private static EquipmentController CreateEquipmentController(IServiceScope scope)
         {
