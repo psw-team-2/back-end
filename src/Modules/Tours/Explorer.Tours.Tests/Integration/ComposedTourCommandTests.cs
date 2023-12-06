@@ -1,14 +1,8 @@
-﻿using Explorer.API.Controllers;
-using Explorer.API.Controllers.Tourist;
+﻿using Explorer.API.Controllers.Tourist;
 using Explorer.BuildingBlocks.Core.UseCases;
-using Explorer.Stakeholders.API.Dtos;
-using Explorer.Stakeholders.API.Public;
-using Explorer.Stakeholders.Infrastructure.Database;
 using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public;
 using Explorer.Tours.Infrastructure.Database;
-using FluentResults;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
@@ -36,15 +30,15 @@ namespace Explorer.Tours.Tests.Integration
                 ToursId = new List<int> { 1, 2 },
                 Status = AccountStatus.DRAFT,
                 Difficulty = 3,
-                Tags = new List<string>{ "Adventure", "Hiking" },
+                Tags = new List<string> { "Adventure", "Hiking" },
                 Equipment = new List<int> { 1, 2 },
                 CheckPoints = new List<long> { 123, 456 },
                 Objects = new List<long> { 1, 2 },
                 PublishTime = DateTime.SpecifyKind(DateTime.Parse("2023-10-22 9:22:00"), DateTimeKind.Utc),
                 TotalLength = 0,
-                CarTime=0,
-                BicycleTime=0,
-                FootTime=0,
+                CarTime = 0,
+                BicycleTime = 0,
+                FootTime = 0,
                 AuthorId = -11,
             };
 
@@ -54,7 +48,6 @@ namespace Explorer.Tours.Tests.Integration
 
             // Assert - Response
             result.ShouldNotBeNull();
-            //result.Id.ShouldNotBe(0);
 
         }
 
@@ -69,18 +62,17 @@ namespace Explorer.Tours.Tests.Integration
             var userId = -2;
 
             // Act
-            var result = ((ObjectResult)controller.RetrivesAllUserTours(userId, 0, 0).Result).Value as  PagedResult<TourDto> ;
+            var result = ((ObjectResult)controller.RetrivesAllUserTours(userId, 0, 0).Result).Value as PagedResult<TourDto>;
 
 
             // Assert - Response
             result.ShouldNotBeNull();
-            //result.Id.ShouldNotBe(0);
 
         }
 
         private static ComposedTourController CreateController(IServiceScope scope)
         {
-            return new ComposedTourController(scope.ServiceProvider.GetRequiredService<ITourService>(),scope.ServiceProvider.GetRequiredService<IComposedTourService>());
+            return new ComposedTourController(scope.ServiceProvider.GetRequiredService<ITourService>(), scope.ServiceProvider.GetRequiredService<IComposedTourService>());
         }
 
     }
