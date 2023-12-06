@@ -12,6 +12,6 @@ namespace Explorer.Tours.API.Public
     public interface IComposedTourService
     {
         Result<ComposedTourDto> Create(ComposedTourDto composedTourDto);
-
+        Result<PagedResult<ComposedTourDto>> GetPaged(int pageNumber, int pageSize);
     }
 }

@@ -19,6 +19,6 @@ namespace Explorer.Tours.Core.UseCases
     {
         IComposedTourRepository _composedTourRepository;
         public ComposedTourService(ICrudRepository<ComposedTour> repository, IMapper mapper) : base(repository, mapper){}
-        
+
     }
 }

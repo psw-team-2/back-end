@@ -36,5 +36,12 @@ namespace Explorer.API.Controllers.Tourist
             var result = _tourService.RetrivesAllUserTours(id,page,pageSize);
             return CreateResponse(result);
         }
+
+        [HttpGet]
+        public ActionResult<PagedResult<ComposedTourDto>> GetAll([FromQuery] int page, [FromQuery] int pageSize)
+        {
+            var result = _composedTourService.GetPaged(page, pageSize);
+            return CreateResponse(result);
+        }
     }
 }
