@@ -29,7 +29,7 @@ public class StakeholdersContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<User>()
+        modelBuilder.Entity<Profile>()
             .Property(item => item.TourPreference).HasColumnType("jsonb");
 
         modelBuilder.Entity<Profile>()

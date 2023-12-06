@@ -5,7 +5,7 @@ namespace Explorer.Encounters.Infrastructure.Database
 {
     public class EncountersContext : DbContext
     {
-        public DbSet<Challenge> Challenges { get; set; }
+        public DbSet<Encounter> Challenges { get; set; }
         public EncountersContext(DbContextOptions<EncountersContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -14,7 +14,7 @@ namespace Explorer.Tours.API.Dtos
         public AccountStatus Status { get; set; }
         public int Difficulty { get; set; }
         public double Price { get; set; }
-        public List<string> Tags { get; set; }
+        public List<string>? Tags { get; set; }
 
     }
 }

@@ -36,7 +36,7 @@ namespace Explorer.Tours.Tests.Integration
                 Difficulty = 3,
                 Price = 50.0,
                 Tags = { "Adventure" , "Hiking" },
-                Equipments = new List<int> { 1, 2 },
+                Equipment = new List<int> { 1, 2 },
                 CheckPoints = new List<long> { 123, 456 },
                 AuthorId = -11,
             };
@@ -69,7 +69,7 @@ namespace Explorer.Tours.Tests.Integration
                 Difficulty = 0,
                 Price = 50.0,
                 Tags = {},
-                Equipments = new List<int> {  },
+                Equipment = new List<int> {  },
                 CheckPoints = new List<long> { }
             };
 
@@ -97,7 +97,7 @@ namespace Explorer.Tours.Tests.Integration
                 Difficulty = 4,
                 Price = 75.0,
                 Tags = { "Adventure", "Hiking" },
-                Equipments = new List<int> { 3, 4 },
+                Equipment = new List<int> { 3, 4 },
                 CheckPoints = new List<long> { 789, 101 },
                 AuthorId = -1
             };
@@ -114,7 +114,7 @@ namespace Explorer.Tours.Tests.Integration
             result.Difficulty.ShouldBe(tourToUpdate.Difficulty);
             result.Price.ShouldBe(tourToUpdate.Price);
             result.Tags.ShouldBe(tourToUpdate.Tags);
-            result.Equipments.ShouldBe(tourToUpdate.Equipments);
+            result.Equipment.ShouldBe(tourToUpdate.Equipment); 
             result.CheckPoints.ShouldBe(tourToUpdate.CheckPoints);
 
             // Assert - Database
@@ -138,7 +138,7 @@ namespace Explorer.Tours.Tests.Integration
                 Difficulty = 0,
                 Price = 50.0,
                 Tags = { "Adventure", "Hiking" },
-                Equipments = new List<int> { },
+                Equipment = new List<int> { },
                 CheckPoints = new List<long> { }
             };
 

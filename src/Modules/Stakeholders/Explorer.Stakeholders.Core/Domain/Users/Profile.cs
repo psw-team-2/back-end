@@ -14,8 +14,10 @@ public class Profile : Entity
     public long UserId { get; init; }
     public bool IsActive { get; init; }
     public List<Follow> Follows { get; init; }
+    public TourPreference TourPreference { get; set; }
+    public bool QuestionnaireDone { get; init; }
 
-    public Profile(string firstName, string lastName, string profilePicture, string biography, string motto, long userId, bool isActive)
+    public Profile(string firstName, string lastName, string profilePicture, string biography, string motto, long userId, bool isActive, bool questionnaireDone)
     {
         FirstName = firstName;
         LastName = lastName;
@@ -25,6 +27,8 @@ public class Profile : Entity
         UserId = userId;
         IsActive = isActive;
         Follows = new List<Follow>();
+        TourPreference = new TourPreference(1, 1, 1, 1, 1, new List<string>());
+        QuestionnaireDone = questionnaireDone;
         Validate();
     }
 
@@ -41,5 +45,10 @@ public class Profile : Entity
     public void AddFollow(Follow follow)
     {
         Follows.Add(follow);
+    }
+
+    public void AddTourPreference(TourPreference tourPreference)
+    {
+        TourPreference = tourPreference;
     }
 }
