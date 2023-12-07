@@ -1,4 +1,5 @@
-﻿using Explorer.Tours.API.Dtos;
+﻿using Explorer.BuildingBlocks.Core.UseCases;
+using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public;
 using Explorer.Tours.API.Public.Administration;
 using Explorer.Tours.API.Public.Author;
@@ -21,8 +22,8 @@ namespace Explorer.API.Controllers
                 _tourExecutionService = tourExecutionService;
                 _secretService = secretService;
             }
-            
-            [HttpPost("start")]
+
+        [HttpPost("start")]
             public ActionResult<TourExecutionDto> StartTour([FromBody] TourExecutionDto tourDto)
             {
                 try
@@ -89,6 +90,13 @@ namespace Explorer.API.Controllers
             public ActionResult<TourExecutionDto> CompleteCheckpoint( int tourExecutionId, [FromBody] List<CheckPointDto> checkpoints)
             {
                 var result = _tourExecutionService.CompleteCheckpoint(tourExecutionId, checkpoints);
+                return CreateResponse(result);
+            }
+
+            [HttpGet("{tourId:int}/{userId:int}")]
+            public ActionResult<PagedResult<TourExecutionDto>> GetExecutedToursByTourAndUserId(int tourId, int userId)
+            {
+                var result = _tourExecutionService.GetExecutedToursByTourAndUserId(tourId, userId);
                 return CreateResponse(result);
             }
     }

@@ -82,7 +82,7 @@ namespace Explorer.Stakeholders.Tests.Integration.UserAccountAdministration
             var dbContext = scope.ServiceProvider.GetRequiredService<StakeholdersContext>();
 
             // Act
-            var result = (OkResult)controller.Delete(-23);
+            var result = (ObjectResult)controller.Delete(-23);
 
             // Assert - Response
             result.ShouldNotBeNull();

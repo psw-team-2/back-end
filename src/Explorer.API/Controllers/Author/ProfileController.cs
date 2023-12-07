@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Explorer.API.Controllers.Administrator.Administration
 {
-    [Authorize(Policy = "touristPolicy")]
+    [Authorize]
     [Route("api/administration/profile")]
     public class ProfileController : BaseApiController
     {
@@ -110,11 +110,11 @@ namespace Explorer.API.Controllers.Administrator.Administration
             return CreateResponse(result);
         }
 
-        [HttpGet("all-following/{profileId:int}")]
-        public ActionResult<PagedResult<ProfileDto>> GetAllFollowing([FromQuery] int page, [FromQuery] int pageSize, long profileId)
+        [HttpGet("already-follows/{profileId:int}/{followerId:int}")]
+        public bool AlreadyFollows(long profileId, long followerId)
         {
-            var result = _profileService.GetAllFollowing(page, pageSize, profileId);
-            return CreateResponse(result);
+            var result = _profileService.AlreadyFollows(profileId, followerId);
+            return result;
         }
     }
 }

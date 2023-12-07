@@ -50,7 +50,7 @@ namespace Explorer.Payments.Tests.Integration
 
             // Act
             //korsti pravu bazu za bundle 
-            var result = ((ObjectResult)controller.AddBundleItem(newCart, 5).Result);
+            var result = ((ObjectResult)controller.AddBundleItem(newCart, 1).Result);
 
             // Assert - Response
             result.ShouldNotBeNull();

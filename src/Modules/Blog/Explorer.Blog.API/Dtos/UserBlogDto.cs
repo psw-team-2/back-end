@@ -12,7 +12,8 @@ namespace Explorer.Blog.API.Dtos
         public BlogStatus Status { get; set; }
         public string Image { get; set; }
         public BlogCategory Category { get; set; }
-        
+
+        public UserBlogTourReportDto? TourReport { get; set; }
     }
 
     public enum BlogStatus

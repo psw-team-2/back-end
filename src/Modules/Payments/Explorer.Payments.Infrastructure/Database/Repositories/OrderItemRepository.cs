@@ -17,6 +17,11 @@ namespace Explorer.Payments.Infrastructure.Database.Repositories
             _dbContext = dbContext;
         }
 
+        public IEnumerable<OrderItem> GetBoughtShoppingItemsFromCart(int shoppingCartId)
+        {
+            return _dbContext.OrderItems.Where(o => o.ShoppingCartId == shoppingCartId && o.IsBought==true).ToList();
+        }
+
         public IEnumerable<OrderItem> GetOrderItemsByShoppingCart(int shoppingCartId)
         {
             return _dbContext.OrderItems.Where(o => o.ShoppingCartId == shoppingCartId).ToList();

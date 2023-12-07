@@ -20,6 +20,7 @@ namespace Explorer.Blog.Core.Domain.Blog
         public List<Rating> Ratings { get; init; }
 
         public List<BlogComment> BlogComments { get; init; }
+        public UserBlogTourReport? TourReport { get; set; }
 
         public UserBlog(long userId, string username, string title, string description, DateTime creationTime, BlogStatus status, string image, BlogCategory category)
         {
@@ -101,6 +102,11 @@ namespace Explorer.Blog.Core.Domain.Blog
         public void AddComment(BlogComment blogComment)
         {
             BlogComments.Add(blogComment);
+        }
+
+        public void AddTourReport(UserBlogTourReport tourReport)
+        {
+            TourReport = tourReport;
         }
     }
 

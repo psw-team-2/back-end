@@ -8,6 +8,7 @@ public class EncountersProfile : Profile
 {
     public EncountersProfile()
     {
-        CreateMap<ChallengeDto, Challenge>().ReverseMap();
+        CreateMap<EncounterDto, Encounter>().ReverseMap();
+        CreateMap<ActiveEncounterDto,  ActiveEncounter>().ReverseMap();
     }
 }
