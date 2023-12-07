@@ -28,8 +28,7 @@ public class ToursContext : DbContext
     public DbSet<TourExecution> TourExecutions { get; set; }
     public DbSet<Secret> Secrets { get; set; }
     public DbSet<Bundle> Bundles { get; set; }
-
-
+    public DbSet<TourSale> TourSales { get; set; }
     public ToursContext(DbContextOptions<ToursContext> options) : base(options) {}
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
