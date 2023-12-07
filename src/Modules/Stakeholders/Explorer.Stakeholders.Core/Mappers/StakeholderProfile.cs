@@ -14,6 +14,7 @@ public class StakeholderProfile : ProfileA
     {
         CreateMap<ClubDto, Club>().ReverseMap();
         CreateMap<ClubRequestDto, ClubRequest>().ReverseMap();
+        CreateMap<ClubMessageDto, ClubMessage>().ReverseMap();
         CreateMap<TourPreferenceDto, TourPreference>().ReverseMap();
         CreateMap<ProfileDto, ProfileD>().ReverseMap();
         CreateMap<UserAccountDto, User>().ReverseMap();
