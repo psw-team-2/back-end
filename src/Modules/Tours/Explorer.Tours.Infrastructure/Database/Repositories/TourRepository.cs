@@ -18,6 +18,14 @@ namespace Explorer.Tours.Infrastructure.Database.Repositories
             _context = context;
         }
 
+        public Tour Get(long id)
+        {
+            return _context.Tour
+        .Include(t => t.TourReviews)  // Ensure that TourReviews are included
+        .FirstOrDefault(t => t.Id == id);
+
+        }
+
         public Tour GetOne(int tourId)
         {
             return _context.Tour
@@ -44,6 +52,11 @@ namespace Explorer.Tours.Infrastructure.Database.Repositories
             return _context.TourReview
                 .Where(tr => tr.TourId == tourId)
                 .ToList();
+        }
+
+        public List<Tour> GetToursByAuthorId(int authorId)
+        {
+            return _context.Tour.Where(t => t.AuthorId == authorId).ToList();
         }
 
     }

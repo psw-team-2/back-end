@@ -49,5 +49,12 @@ namespace Explorer.Tours.Infrastructure.Database.Repositories
             return _dbContext.TourExecutions
                 .FirstOrDefault(te => te.TourId == tourId && te.TouristId == touristId);
         }
+
+        public List<TourExecution> GetExecutedToursByTourAndUserId(int tourId, int userId)
+        {
+            return _dbContext.TourExecutions
+               .Where(te => te.TourId == tourId && te.TouristId == userId)
+               .ToList();
+        }
     }
 }

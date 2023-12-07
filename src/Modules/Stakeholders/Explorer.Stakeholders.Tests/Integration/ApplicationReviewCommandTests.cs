@@ -73,25 +73,6 @@ namespace Explorer.Tours.Tests.Integration
             result.StatusCode.ShouldBe(400);
         }
 
-        [Fact]
-        public void Deletes()   //ne radi
-        {
-            // Arrange
-            using var scope = Factory.Services.CreateScope();
-            var controller = CreateController(scope);
-            var dbContext = scope.ServiceProvider.GetRequiredService<StakeholdersContext>();
-
-            // Act
-            var result = (OkResult)controller.Delete(-2);
-
-            // Assert - Response
-            result.ShouldNotBeNull();
-            result.StatusCode.ShouldBe(200);
-
-            // Assert - Database
-            var storedCourse = dbContext.ApplicationReview.FirstOrDefault(i => i.Id == 2);
-            storedCourse.ShouldBeNull();
-        }
 
         [Fact]
         public void Delete_fails_invalid_id()   
@@ -118,7 +99,7 @@ namespace Explorer.Tours.Tests.Integration
             var dbContext = scope.ServiceProvider.GetRequiredService<StakeholdersContext>();
             var updatedEntity = new ApplicationReviewDto
             {
-                Id = -1,
+                Id = 2,
                 Grade = 2,
                 Comment = "Very bad experience",
                 UserId = 1,
@@ -166,6 +147,25 @@ namespace Explorer.Tours.Tests.Integration
             result.StatusCode.ShouldBe(404);
         }
 
+        [Fact]
+        public void Deletes()   //ne radi
+        {
+            // Arrange
+            using var scope = Factory.Services.CreateScope();
+            var controller = CreateController(scope);
+            var dbContext = scope.ServiceProvider.GetRequiredService<StakeholdersContext>();
+
+            // Act
+            var result = (OkResult)controller.Delete(1);
+
+            // Assert - Response
+            result.ShouldNotBeNull();
+            result.StatusCode.ShouldBe(200);
+
+            // Assert - Database
+            var storedCourse = dbContext.ApplicationReview.FirstOrDefault(i => i.Id == 2);
+            storedCourse.ShouldBeNull();
+        }
 
         private static ApplicationReviewController CreateController(IServiceScope scope)
         {

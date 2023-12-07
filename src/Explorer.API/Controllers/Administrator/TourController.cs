@@ -10,7 +10,6 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 namespace Explorer.API.Controllers.Administrator
 {
 
-    [Authorize(Policy = "administratorPolicy")]
     [Route("api/administrator/tour")]
     public class TourAdminController : BaseApiController
     {
@@ -85,6 +84,7 @@ namespace Explorer.API.Controllers.Administrator
             var result = _tourService.DeleteCheckPoint(tour, checkPointId);
             return CreateResponse(result);
         }
+
 
     }
 }

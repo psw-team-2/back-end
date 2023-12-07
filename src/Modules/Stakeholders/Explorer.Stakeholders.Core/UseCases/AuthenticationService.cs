@@ -8,6 +8,7 @@ using System.ComponentModel;
 using Explorer.Tours.API.Public;
 using Explorer.Tours.Core.Domain;
 using UserRole = Explorer.Stakeholders.Core.Domain.Users.UserRole;
+using Explorer.Payments.API.Public;
 
 namespace Explorer.Stakeholders.Core.UseCases;
 
@@ -19,14 +20,16 @@ public class AuthenticationService : IAuthenticationService
     private readonly ICrudRepository<Profile> _profileRepository;
     private readonly ITourPreferenceService _tourPreferenceService;
     private readonly IShoppingCartService _shoppingCartService;
+    private readonly IWalletService _walletService;
 
-    public AuthenticationService(IUserRepository userRepository, ICrudRepository<Person> personRepository, ITokenGenerator tokenGenerator, ICrudRepository<Profile> profileRepository, IShoppingCartService shoppingCartService)
+    public AuthenticationService(IUserRepository userRepository, ICrudRepository<Person> personRepository, ITokenGenerator tokenGenerator, ICrudRepository<Profile> profileRepository, IShoppingCartService shoppingCartService, IWalletService walletService)
     {
         _tokenGenerator = tokenGenerator;
         _userRepository = userRepository;
         _personRepository = personRepository;
         _profileRepository = profileRepository;
         _shoppingCartService = shoppingCartService;
+        _walletService = walletService;
     }
 
     public Result<AuthenticationTokensDto> Login(CredentialsDto credentials)
@@ -55,16 +58,24 @@ public class AuthenticationService : IAuthenticationService
 
             var user = _userRepository.Create(new User(account.Username, account.Password, UserRole.Tourist, true, account.Email));
             //var person = _personRepository.Create(new Person(user.Id, account.Name, account.Surname, account.Email));
-            var profile = _profileRepository.Create(new Profile(account.Name, account.Surname, account.ProfilePicture, account.Biography, account.Motto, user.Id, true));
+            var profile = _profileRepository.Create(new Profile(account.Name, account.Surname, account.ProfilePicture, account.Biography, account.Motto, user.Id, true, false));
 
             //kreiranje korpe
-            var shoppingCart = _shoppingCartService.Create(new Tours.API.Dtos.ShoppingCartDto
+            var shoppingCart = _shoppingCartService.Create(new Payments.API.Dtos.ShoppingCartDto
                     {
                         Id = (int)user.Id,
                         UserId = user.Id,
                         Items = new List<int>(),
                         TotalPrice = 0
                     });
+
+            //kreiranje novcanika
+            var wallet = _walletService.Create(new Payments.API.Dtos.WalletDto
+            {   Id = 0,
+                UserId = (int)user.Id,
+                Username = user.Username,
+                AC = 0
+            });
 
 
             return _tokenGenerator.GenerateAccessToken(user, profile.Id);

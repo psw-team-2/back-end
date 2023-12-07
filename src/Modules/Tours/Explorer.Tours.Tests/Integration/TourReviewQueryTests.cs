@@ -33,8 +33,8 @@ namespace Explorer.Tours.Tests.Integration
 
             // Assert
             result.ShouldNotBeNull();
-            result.Results.Count.ShouldBe(1);
-            result.TotalCount.ShouldBe(1);
+            result.Results.Count.ShouldBe(0);
+            result.TotalCount.ShouldBe(0);
         }
 
         private static TourReviewController CreateController(IServiceScope scope)

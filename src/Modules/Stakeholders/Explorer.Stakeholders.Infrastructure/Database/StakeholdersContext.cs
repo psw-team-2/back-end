@@ -13,6 +13,7 @@ public class StakeholdersContext : DbContext
 
     public DbSet<Club> Clubs { get; set; }
     public DbSet<ClubRequest> ClubRequests { get; set; }
+    public DbSet<ClubMessage> ClubMessages { get; set; }
 
     //public DbSet<TourPreference> TourPreferences { get; set; }
     public DbSet<Profile> Profiles { get; set; }
@@ -28,7 +29,7 @@ public class StakeholdersContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<User>()
+        modelBuilder.Entity<Profile>()
             .Property(item => item.TourPreference).HasColumnType("jsonb");
 
         modelBuilder.Entity<Profile>()

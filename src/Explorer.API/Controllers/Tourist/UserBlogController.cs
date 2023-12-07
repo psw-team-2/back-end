@@ -130,5 +130,26 @@ namespace Explorer.API.Controllers.Tourist
             return CreateResponse(blogsDtos);
         }
 
+        [HttpPost("/tour-report")]
+        public ActionResult<UserBlogTourDto> CreateWithTourReport([FromBody] UserBlogDto blog)
+        {
+            var result = _userBlogService.Create(blog);
+            return CreateResponse(result);
+        }
+
+        [HttpGet("/tour-report/equipment/{id:int}")]
+        public ActionResult<PagedResult<EquipmentDto>> GetEquipmentByTourReport(int id)
+        {
+            var result = _userBlogService.GetEquipmentByUserBlog(id, 0, 0);
+            return CreateResponse(result);
+        }
+
+        [HttpGet("/tour-report/checkpoints/{id:int}")]
+        public ActionResult<PagedResult<CheckPointDto>> GetCheckpointsByTourReport(int id)
+        {
+            var result = _userBlogService.GetCheckpointstByUserBlog(id, 0, 0);
+            return CreateResponse(result);
+        }
+
     }
 }

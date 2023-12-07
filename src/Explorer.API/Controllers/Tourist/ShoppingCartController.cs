@@ -2,10 +2,10 @@
 using Explorer.Stakeholders.API.Dtos;
 using Explorer.Stakeholders.API.Public;
 using Explorer.Stakeholders.Core.UseCases;
-using Explorer.Tours.API.Dtos;
-using Explorer.Tours.API.Public;
-using Explorer.Tours.Core.Domain;
-using Explorer.Tours.Core.UseCases;
+using Explorer.Payments.API.Dtos;
+using Explorer.Payments.API.Public;
+using Explorer.Payments.Core.Domain;
+using Explorer.Payments.Core.UseCases;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -76,6 +76,13 @@ namespace Explorer.API.Controllers.Tourist
         public ActionResult<ShoppingCartDto> AddItem([FromBody] ShoppingCartDto shoppingCart, int tourId)
         {
             var result = _shoppingCartService.AddItem(shoppingCart, tourId);
+            return CreateResponse(result);
+        }
+
+        [HttpPost("bundleItem/{shoppingCartId:int}/{bundleId:int}")]
+        public ActionResult<ShoppingCartDto> AddBundleItem([FromBody] ShoppingCartDto shoppingCart, int bundleId)
+        {
+            var result = _shoppingCartService.AddBundleItem(shoppingCart, bundleId);
             return CreateResponse(result);
         }
 

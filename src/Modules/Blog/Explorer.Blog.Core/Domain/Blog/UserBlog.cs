@@ -16,11 +16,13 @@ namespace Explorer.Blog.Core.Domain.Blog
         public DateTime CreationTime { get; init; }
         public BlogStatus Status { get; set; }
         public string Image { get; init; }
+        public BlogCategory Category { get; init; }
         public List<Rating> Ratings { get; init; }
 
         public List<BlogComment> BlogComments { get; init; }
+        public UserBlogTourReport? TourReport { get; set; }
 
-        public UserBlog(long userId, string username, string title, string description, DateTime creationTime, BlogStatus status, string image)
+        public UserBlog(long userId, string username, string title, string description, DateTime creationTime, BlogStatus status, string image, BlogCategory category)
         {
             if (string.IsNullOrWhiteSpace(title)) throw new ArgumentException("Invalid title.");
             if (string.IsNullOrWhiteSpace(description)) throw new ArgumentException("Invalid description.");
@@ -31,6 +33,7 @@ namespace Explorer.Blog.Core.Domain.Blog
             CreationTime = creationTime;
             Status = status;
             Image = image;
+            Category = category;
             Ratings = new List<Rating>();
             BlogComments = new List<BlogComment>();
         }
@@ -100,6 +103,11 @@ namespace Explorer.Blog.Core.Domain.Blog
         {
             BlogComments.Add(blogComment);
         }
+
+        public void AddTourReport(UserBlogTourReport tourReport)
+        {
+            TourReport = tourReport;
+        }
     }
 
     public enum BlogStatus
@@ -109,6 +117,17 @@ namespace Explorer.Blog.Core.Domain.Blog
         Closed,
         Active,
         Famous
+    }
+
+    public enum BlogCategory
+    {
+        Destinations,
+        Travelogues,
+        Activities,
+        Gastronomy,
+        Tips,
+        Culture,
+        Accommodation
     }
 
 

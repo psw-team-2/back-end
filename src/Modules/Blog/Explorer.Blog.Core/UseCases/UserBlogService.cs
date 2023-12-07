@@ -8,10 +8,17 @@ using FluentResults;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Reflection.Metadata;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
+using Explorer.Tours.API.Dtos;
+using Explorer.Tours.API.Public.Administration;
+using BlogStatusDto = Explorer.Blog.API.Dtos.BlogStatus;
+using BlogStatus = Explorer.Blog.Core.Domain.Blog.BlogStatus;
+using BlogCategoryDto = Explorer.Blog.API.Dtos.BlogCategory;
+using BlogCategory = Explorer.Blog.Core.Domain.Blog.BlogCategory;
 
 namespace Explorer.Blog.Core.UseCases
 {
@@ -19,15 +26,35 @@ namespace Explorer.Blog.Core.UseCases
     {
         private readonly IUserBlogRepository _blogRepository;
         private readonly IBlogCommentService _blogCommentService;
-        public UserBlogService(IUserBlogRepository blogRepository,  IBlogCommentService blogCommentService, ICrudRepository<UserBlog> repository, IMapper mapper) : base(repository, mapper) 
+        private readonly IEquipmentService _equipmentService;
+        private readonly ICheckPointService _checkpointService;
+
+        public UserBlogService(IUserBlogRepository blogRepository,  IBlogCommentService blogCommentService, ICrudRepository<UserBlog> repository, 
+            IEquipmentService equipmentService, ICheckPointService checkPointService ,IMapper mapper) : base(repository, mapper) 
         {
             _blogRepository = blogRepository;
             _blogCommentService = blogCommentService;
+            _equipmentService = equipmentService;
+            _checkpointService = checkPointService;
         }
 
         public override Result<UserBlogDto> Create(UserBlogDto blogDto)
         {
             blogDto.CreationTime = DateTime.UtcNow;
+
+            if (blogDto.TourReport != null)
+            {
+                if (blogDto.TourReport.EndTime < blogDto.TourReport.StartTime)
+                {
+                    return Result.Fail(FailureCode.InvalidArgument);
+                }
+
+                if (!blogDto.TourReport.CheckpointsVisited.Any() || blogDto.TourReport.CheckpointsVisited == null)
+                {
+                    return Result.Fail(FailureCode.InvalidArgument);
+                }
+
+            }
 
             return base.Create(blogDto);
         }
@@ -45,7 +72,8 @@ namespace Explorer.Blog.Core.UseCases
                 Description = blog.Description,
                 CreationTime = blog.CreationTime,
                 Status = (API.Dtos.BlogStatus)blog.Status,
-                Image = blog.Image
+                Image = blog.Image,
+                Category = (API.Dtos.BlogCategory)blog.Category
                
             }).ToList();
 
@@ -114,7 +142,8 @@ namespace Explorer.Blog.Core.UseCases
                 Description = blog.Description,
                 CreationTime = blog.CreationTime,
                 Status = (API.Dtos.BlogStatus)blog.Status,
-                Image = blog.Image
+                Image = blog.Image,
+                Category = (API.Dtos.BlogCategory)blog.Category,
 
             }).ToList();
 
@@ -129,6 +158,65 @@ namespace Explorer.Blog.Core.UseCases
             _blogRepository.Update(blog);
 
             return Result.Ok();
+        }
+
+        public Result<UserBlogTourReportDto> CreateWithTourReport(UserBlogTourDto dto)
+        {
+            return null;
+        }
+
+        public Result<PagedResult<EquipmentDto>> GetEquipmentByUserBlog(int blogId, int page, int pageSize)
+        {
+            try
+            {
+                var blog = _blogRepository.GetById(blogId);
+                var blogDto = MapToDto(blog);
+                if (blogDto != null)
+                {
+                    if (blogDto.TourReport != null && blogDto.TourReport.Equipment != null)
+                    {
+                        var equipment = _equipmentService.GetByIds(blogDto.TourReport.Equipment, page, pageSize);
+                        return equipment;
+                    }
+                    else
+                    {
+                        return Result.Fail(FailureCode.InvalidArgument);
+                    }
+                }
+                else
+                {
+                    return Result.Fail(FailureCode.NotFound);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Result.Fail(ex.Message);
+            }
+        }
+
+        public Result<PagedResult<CheckPointDto>> GetCheckpointstByUserBlog(int blogId, int page, int pageSize)
+        {
+            try
+            {
+                var blog = _blogRepository.GetById(blogId);
+                var blogDto = MapToDto(blog);
+                if(blogDto != null){
+                    if (blogDto.TourReport != null)
+                    {
+                        var checkpoints = _checkpointService.GetCheckPointByCheckpointVisitedIds(blogDto.TourReport.CheckpointsVisited);
+                        return checkpoints;
+                    }
+                    return Result.Fail(FailureCode.InvalidArgument);
+                }
+                else
+                {
+                    return Result.Fail(FailureCode.NotFound);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Result.Fail(ex.Message);
+            }
         }
 
     }
