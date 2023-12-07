@@ -90,6 +90,22 @@ namespace Explorer.API.Controllers.Author
             return CreateResponse(result);
         }
 
+        [HttpPost("addObject/{tourId:int}/{tourObject:int}")]
+        public ActionResult<TourDto> AddObjectToTour([FromBody] TourDto tour, int tourObjectId)
+        {
+
+            var result = _tourService.AddObjectToTour(tour, tourObjectId);
+            return CreateResponse(result);
+        }
+
+        [HttpPost("removeObject/{tourId:int}/{tourObject:int}")]
+        public ActionResult<TourDto> RemoveObjectFromTour([FromBody] TourDto tour, int tourObjectId)
+        {
+
+            var result = _tourService.RemoveObjectFromTour(tour, tourObjectId);
+            return CreateResponse(result);
+        }
+
         [HttpGet("average-grade/{tourId:int}")]
         public ActionResult<AverageGradeDto> GetAverageGrade(int tourId)
         {
@@ -116,6 +132,21 @@ namespace Explorer.API.Controllers.Author
         {
             var result = _publicRequestService.Create(request);
             return CreateResponse(result);
+        }
+
+        [HttpGet("byAuthor/{authorId}")]
+        public ActionResult<TourBundleDto> GetToursByAuthorId(int authorId)
+        {
+            var toursDto = _tourService.GetToursByAuthorId(authorId);
+
+            if (toursDto == null || !toursDto.Any())
+            {
+                return NotFound("No tours found for author");
+            }
+
+            var result = Result.Ok(toursDto); 
+
+            return CreateResponse(result); 
         }
     }
 }

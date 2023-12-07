@@ -79,6 +79,13 @@ namespace Explorer.API.Controllers.Tourist
             return CreateResponse(result);
         }
 
+        [HttpPost("bundleItem/{shoppingCartId:int}/{bundleId:int}")]
+        public ActionResult<ShoppingCartDto> AddBundleItem([FromBody] ShoppingCartDto shoppingCart, int bundleId)
+        {
+            var result = _shoppingCartService.AddBundleItem(shoppingCart, bundleId);
+            return CreateResponse(result);
+        }
+
         [HttpPut("removeItem/{shoppingCartId:int}/{itemId:int}")]
         public ActionResult<ShoppingCartDto> RemoveItem(int shoppingCartId, int itemId)
         {

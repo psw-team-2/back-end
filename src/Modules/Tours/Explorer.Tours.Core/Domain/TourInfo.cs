@@ -14,7 +14,7 @@ namespace Explorer.Tours.Core.Domain
     {
         public String Name { get; init; }
         public String Description { get; init; }
-        public AccountStatus Status { get; init; }
+        public AccountStatus Status { get; set; }
         public int Difficulty { get; init;}
         public double Price { get; init; }
         public List<string>? Tags { get; init; }

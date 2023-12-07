@@ -23,7 +23,14 @@ namespace Explorer.Tours.Core.UseCases
             try
             {
                 var result = CrudRepository.Create(MapToDomain(problemResponse));
-                return MapToDto(result);
+                var resultDto = MapToDto(result);
+                if(resultDto != null){
+                    return Result.Ok(resultDto);
+                }
+                else
+                {
+                    return Result.Fail(FailureCode.NotFound);
+                }
             }
             catch (ArgumentException e)
             {

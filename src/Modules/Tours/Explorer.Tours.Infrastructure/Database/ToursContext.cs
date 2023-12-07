@@ -19,7 +19,7 @@ public class ToursContext : DbContext
     public DbSet<TourProblem> TourProblems { get; set; }
     public DbSet<PublicRequest> PublicRequests { get; set; }
     public DbSet<TourProblemResponse> TourProblemResponse { get; set; }
-
+    public DbSet<ComposedTour> ComposedTour { get; set; }
     public DbSet<TourPurchaseToken> TourPurchaseToken { get; set; }
 
     //    public DbSet<Explorer.Stakeholders.Core.Domain.User> StakeholdersUser { get; set; }
@@ -27,6 +27,7 @@ public class ToursContext : DbContext
     public DbSet<CheckpointVisited> CheckpointVisited { get; set; }
     public DbSet<TourExecution> TourExecutions { get; set; }
     public DbSet<Secret> Secrets { get; set; }
+    public DbSet<Bundle> Bundles { get; set; }
 
 
     public ToursContext(DbContextOptions<ToursContext> options) : base(options) {}

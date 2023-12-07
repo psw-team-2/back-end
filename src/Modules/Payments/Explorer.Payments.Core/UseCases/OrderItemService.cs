@@ -22,6 +22,32 @@ namespace Explorer.Payments.Core.UseCases
             _orderItemRepository = orderItemRepository;
         }
 
+        public Result<IEnumerable<OrderItemDto>> GetBoughtShoppingItemsFromCart(int shoppingCartId)
+        {
+            IEnumerable<OrderItem> orderItems = _orderItemRepository.GetOrderItemsByShoppingCart(shoppingCartId);
+            List<OrderItemDto> dtosForItems = new List<OrderItemDto>();
+            foreach (var item in orderItems)
+            {
+                if (item.IsBought == true)
+                {
+                    OrderItemDto dto = new OrderItemDto
+                    {
+                        Id = (int)item.Id,
+                        ItemId = item.ItemId,
+                        ItemName = item.ItemName,
+                        Price = item.Price,
+                        ShoppingCartId = shoppingCartId,
+                        IsBought = item.IsBought,
+                        IsBundle = item.IsBundle
+                    };
+                    dtosForItems.Add(dto);
+                }
+
+            }
+
+            return dtosForItems;
+        }
+
         public Result<IEnumerable<OrderItemDto>> GetOrderItemsByShoppingCart(int shoppingCartId)
         {
             IEnumerable<OrderItem> orderItems = _orderItemRepository.GetOrderItemsByShoppingCart(shoppingCartId);
@@ -33,12 +59,12 @@ namespace Explorer.Payments.Core.UseCases
                     OrderItemDto dto = new OrderItemDto
                     {
                         Id = (int)item.Id,
-                        TourId = item.TourId,
-                        TourName = item.TourName,
+                        ItemId = item.ItemId,
+                        ItemName = item.ItemName,
                         Price = item.Price,
                         ShoppingCartId = shoppingCartId,
-                        IsBought = item.IsBought
-
+                        IsBought = item.IsBought,
+                        IsBundle = item.IsBundle
                     };
                     dtosForItems.Add(dto);
                 }

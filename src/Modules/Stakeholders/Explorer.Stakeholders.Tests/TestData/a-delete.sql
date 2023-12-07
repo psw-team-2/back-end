@@ -6,3 +6,4 @@ DELETE FROM stakeholders."ClubRequests";
 
 DELETE FROM stakeholders."ApplicationReview";
 
+DELETE FROM stakeholders."Profiles";
