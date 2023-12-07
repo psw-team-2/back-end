@@ -49,6 +49,7 @@ public static class ToursStartup
         services.AddScoped<ISecretService, SecretService>();
         services.AddScoped<ITourPurchaseTokenService, TourPurchaseTokenService>();
         services.AddScoped<IBundleService, BundleService>();
+        services.AddScoped<ITourSaleService, TourSaleService>();
     }
 
     private static void SetupInfrastructure(IServiceCollection services)
@@ -74,6 +75,7 @@ public static class ToursStartup
         services.AddScoped(typeof(ICrudRepository<TourPurchaseToken>), typeof(CrudDatabaseRepository<TourPurchaseToken, ToursContext>));
         services.AddScoped(typeof(ICrudRepository<Bundle>), typeof(CrudDatabaseRepository<Bundle, ToursContext>));
         services.AddScoped<IBundleRepository, BundleRepository>();
+        services.AddScoped(typeof(ICrudRepository<TourSale>), typeof(CrudDatabaseRepository<TourSale, ToursContext>));
 
         services.AddDbContext<ToursContext>(opt =>
             opt.UseNpgsql(DbConnectionStringBuilder.Build("tours"),

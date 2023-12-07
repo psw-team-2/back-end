@@ -1,6 +1,7 @@
 ﻿using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public;
 using Explorer.Tours.API.Public.Administration;
+using Explorer.Tours.API.Public.Author;
 using Explorer.Tours.Core.Domain;
 using Explorer.Tours.Core.UseCases;
 using FluentResults;
@@ -31,7 +32,7 @@ namespace Explorer.API.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return BadRequest($"Greška pri pokretanju ture: {ex.Message}");
+                    return BadRequest($"Bad request: {ex.Message}");
                 }
             }
             [HttpGet("get/{userId:int}")]
@@ -48,35 +49,35 @@ namespace Explorer.API.Controllers
                 return CreateResponse(result);
             }
 
-            /*[HttpPost("complete/{tourExecutionId:int}")]
-            public ActionResult CompleteTour(int tourExecutionId)
+        /*[HttpPost("complete/{tourExecutionId:int}")]
+        public ActionResult CompleteTour(int tourExecutionId)
+        {
+            try
             {
-                try
-                {
-                    _tourExecutionService.CompleteTour(tourExecutionId);
-                    return Ok("Tura je uspešno završena.");
-                }
-                catch (Exception ex)
-                {
-                    return BadRequest($"Greška pri završetku ture: {ex.Message}");
-                }
+                _tourExecutionService.CompleteTour(tourExecutionId);
+                return Ok("Tura je uspešno završena.");
             }
-
-            [HttpPost("abandon/{tourExecutionId:int}")]
-            public ActionResult AbandonTour(int tourExecutionId)
+            catch (Exception ex)
             {
-                try
-                {
-                    _tourExecutionService.AbandonTour(tourExecutionId);
-                    return Ok("Tura je napuštena.");
-                }
-                catch (Exception ex)
-                {
-                    return BadRequest($"Greška pri napuštanju ture: {ex.Message}");
-                }
-            }*/
+                return BadRequest($"Greška pri završetku ture: {ex.Message}");
+            }
+        }
 
-            [HttpPut("{id:int}")]
+        [HttpPost("abandon/{tourExecutionId:int}")]
+        public ActionResult AbandonTour(int tourExecutionId)
+        {
+            try
+            {
+                _tourExecutionService.AbandonTour(tourExecutionId);
+                return Ok("Tura je napuštena.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Greška pri napuštanju ture: {ex.Message}");
+            }
+        }*/
+
+        [HttpPut("{id:int}")]
             public ActionResult<TourExecutionDto> Update([FromBody] TourExecutionDto tourExecution)
             {
                 tourExecution.LastActivity = DateTime.UtcNow;
