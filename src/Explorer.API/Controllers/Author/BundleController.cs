@@ -16,10 +16,11 @@ namespace Explorer.API.Controllers.Author
     public class BundleController : BaseApiController
     {
         private readonly IBundleService _bundleService;
-
-        public BundleController(IBundleService bundleService)
+        private readonly IWebHostEnvironment _environment;
+        public BundleController(IBundleService bundleService, IWebHostEnvironment environment)
         {
             _bundleService = bundleService;
+            _environment = environment;
         }
 
         [HttpGet("{id:int}")]
@@ -54,14 +55,14 @@ namespace Explorer.API.Controllers.Author
         [HttpGet("byAuthor/{userId}")]
         public ActionResult<PagedResult<BundleDto>> GetBundlesByAuthorId(int userId)
         {
-            var reviewsDto = _bundleService.GetBundlesByAuthorId(userId);
+            var bundlesDto = _bundleService.GetBundlesByAuthorId(userId);
 
-            if (reviewsDto == null || !reviewsDto.Any())
+            if (bundlesDto == null || !bundlesDto.Any())
             {
                 return NotFound("No bundles found for author");
             }
 
-            return Ok(reviewsDto);
+            return Ok(bundlesDto);
         }
 
         [HttpPut("publish/{bundleId}")] 
@@ -104,6 +105,27 @@ namespace Explorer.API.Controllers.Author
         {
             var result = _bundleService.RemoveTour(bundleId, tourId);
             return CreateResponse(result);
+        }
+
+
+        [HttpPost("uploadBundleImage")]
+        public async Task<string> UploadFile()
+        {
+            try
+            {
+                var file = Request.Form.Files[0];
+                string fName = file.FileName;
+                string path = Path.Combine(_environment.ContentRootPath, "Images", file.FileName);
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+                return $"{file.FileName} successfully uploaded to the Server";
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
     }
 }

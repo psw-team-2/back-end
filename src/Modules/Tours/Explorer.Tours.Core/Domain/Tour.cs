@@ -30,7 +30,9 @@ namespace Explorer.Tours.Core.Domain
         public long AuthorId { get; set; }
         public DateTime PublishTime { get; init; }
 
-        public Tour(String name, String description, AccountStatus status,int difficulty, double price, double footTime, double bicycleTime, double carTime, double totalLength,long authorId) : base(name,description, status,difficulty, price)
+        public string Image { get; init; }
+
+        public Tour(String name, String description, AccountStatus status,int difficulty, double price, double footTime, double bicycleTime, double carTime, double totalLength, long authorId, string image) : base(name, description, status, difficulty, price)
         {
             if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("Invalid Name.");
             if (string.IsNullOrWhiteSpace(description)) throw new ArgumentException("Invalid description.");
@@ -51,7 +53,7 @@ namespace Explorer.Tours.Core.Domain
             CarTime = carTime;
             FootTime = footTime;
             AuthorId = authorId;
-
+            Image = image;
         }
         public double GetAverageGradeForTour()
         {

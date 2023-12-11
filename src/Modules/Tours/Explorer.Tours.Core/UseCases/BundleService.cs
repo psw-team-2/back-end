@@ -106,19 +106,20 @@ namespace Explorer.Tours.Core.UseCases
 
         public List<BundleDto> GetBundlesByAuthorId(int authorId)
         {
-            var reviews = _bundleRepository.GetBundlesByAuthorId(authorId);
+            var bundles = _bundleRepository.GetBundlesByAuthorId(authorId);
 
             // Perform the necessary mapping to DTOs here.
-            var reviewsDto = reviews.Select(review => new BundleDto
+            var bundlesDto = bundles.Select(bundle => new BundleDto
             {
-                Name = review.Name,
-                Price = review.Price,
-                UserId = (int)review.UserId,
-                Id = (int)review.Id,
-                Status = (API.Dtos.BundleStatus)review.Status
+                Name = bundle.Name,
+                Price = bundle.Price,
+                UserId = (int)bundle.UserId,
+                Id = (int)bundle.Id,
+                Status = (API.Dtos.BundleStatus)bundle.Status,
+                Image = bundle.Image
             }).ToList();
 
-            return reviewsDto;
+            return bundlesDto;
         }
 
         public Result<BundleDto> AddTour(BundleDto bundleDto, int tourId)

@@ -18,6 +18,7 @@ namespace Explorer.Tours.API.Dtos
 
         public List<int> Tours { get; set; }
 
+        public string Image { get; set; }
         
     }
 

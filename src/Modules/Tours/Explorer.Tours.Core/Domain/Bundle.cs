@@ -15,14 +15,16 @@ namespace Explorer.Tours.Core.Domain
         public List<int> Tours { get; init; }
 
         public BundleStatus Status { get; set; }
+        public string Image { get; init; }
 
-        public Bundle(long userId, string name, double price, BundleStatus status, List<int> tours)
+        public Bundle(long userId, string name, double price, BundleStatus status, List<int> tours, string image)
         {
             UserId = userId;
             Name = name;
             Price = price;
             Tours = tours;
             Status = status;
+            Image = image;
         }
 
         public void AddTour(int tourId)
