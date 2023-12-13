@@ -27,7 +27,10 @@ public class UserDatabaseRepository : IUserRepository
     {
         return _dbContext.Users.FirstOrDefault(user => user.Username == username && user.IsActive);
     }
-
+    public User GetUserByToken(string token)
+    {
+        return _dbContext.Users.FirstOrDefault(user => user.Token == token);
+    }
     public long GetHighestUserId()
     {
         long highestUserId = _dbContext.Users

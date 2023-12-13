@@ -8,6 +8,8 @@ public interface IUserRepository
 {
     bool Exists(string username);
     User? GetActiveByName(string username);
+
+    User GetUserByToken(string token);
     User Create(User user);
     long GetPersonId(long userId);
     User Get(int id);

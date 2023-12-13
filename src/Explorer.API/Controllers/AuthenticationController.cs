@@ -10,17 +10,19 @@ namespace Explorer.API.Controllers;
 public class AuthenticationController : BaseApiController
 {
     private readonly IAuthenticationService _authenticationService;
-
     public AuthenticationController(IAuthenticationService authenticationService)
     {
         _authenticationService = authenticationService;
+ 
     }
 
     [HttpPost]
     public ActionResult<AuthenticationTokensDto> RegisterTourist([FromBody] AccountRegistrationDto account)
     {
         account.Password = ToSHA256(account.Password);
-        var result = _authenticationService.RegisterTourist(account);
+        string token = Guid.NewGuid().ToString();
+        var result = _authenticationService.RegisterTourist(account, token);
+        EmailService.SendVerificationEmail(account.Email, account.Username, token);
         return CreateResponse(result);
     }
 

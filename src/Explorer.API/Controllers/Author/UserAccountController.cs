@@ -32,6 +32,12 @@ namespace Explorer.API.Controllers.Administrator.Administration
             var result = _userAccountAdministrationService.Get(id);
             return CreateResponse(result);
         }
+        [HttpGet("token/{token}")]
+        public ActionResult<UserAccountDto> GetByToken(string token)
+        {
+            var result = _userAccountAdministrationService.GetByToken(token);
+            return CreateResponse(result);
+        }
 
         [HttpPut("{id:int}")]
         public ActionResult<UserAccountDto> Update([FromBody] UserAccountDto user)
