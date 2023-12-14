@@ -9,6 +9,8 @@ using Explorer.Tours.API.Public;
 using Explorer.Tours.Core.Domain;
 using UserRole = Explorer.Stakeholders.Core.Domain.Users.UserRole;
 using Explorer.Payments.API.Public;
+using Explorer.Stakeholders.Core.Domain;
+using System.Xml.XPath;
 
 namespace Explorer.Stakeholders.Core.UseCases;
 
@@ -112,6 +114,38 @@ public class AuthenticationService : IAuthenticationService
     {
         return _userRepository.GetUserById(userId);
     }
+
+    public Result<UserAccountDto> GetUserByEmail(string email)
+    {
+        try
+        {
+            User result = _userRepository.GetByEmail(email);
+
+            if (result != null)
+            {
+                UserAccountDto dto = new UserAccountDto
+                {
+                    Id = (int)result.Id,
+                    Username = result.Username,
+                    Password = result.Password,
+                    Email = result.Email,
+                    Role = (API.Dtos.UserRole)(int)result.Role,
+                    IsActive = result.IsActive
+                };
+
+                return Result.Ok(dto);
+            }
+            else
+            {
+                return Result.Fail<UserAccountDto>("User not found");
+            }
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
+    }
+
     /*
     public Result DeleteApplicationReviewByUser(ApplicationReviewDto applicationReviewDto)
     {

@@ -62,6 +62,13 @@ public class AuthenticationController : BaseApiController
         return Ok(result.Value); // Return the user information as a successful response.
     }
 
+    [HttpGet("getByEmail/{email}")]
+    public ActionResult<UserAccountDto> GetUserByEmail(string email)
+    {
+        var result = _authenticationService.GetUserByEmail(email);
+        return CreateResponse(result);
+    }
+
     private static string ToSHA256(string s)
     {
         using var sha256 = SHA256.Create();

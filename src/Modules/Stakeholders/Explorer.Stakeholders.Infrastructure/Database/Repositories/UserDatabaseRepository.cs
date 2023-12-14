@@ -117,6 +117,11 @@ public class UserDatabaseRepository : IUserRepository
         }
         return (User)user;
     }
+
+    public User? GetByEmail(string email)
+    {
+        return _dbContext.Users.FirstOrDefault(i => i.Email == email);
+    }
 }
 
     

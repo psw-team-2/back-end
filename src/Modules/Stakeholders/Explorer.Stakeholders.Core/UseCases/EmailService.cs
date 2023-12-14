@@ -1,4 +1,5 @@
-﻿using FluentResults;
+﻿using Explorer.Stakeholders.Core.Domain.Users;
+using FluentResults;
 using MailKit.Net.Smtp;
 using MimeKit;
 
@@ -26,6 +27,25 @@ public static class EmailService
             return Result.Fail(ex.Message);
         }
     }
+
+    public static Result SendRecoveryEmail(string toAddress, string token)
+    {
+        try
+        {
+            var subject = "Recover Your Password - Your App";
+            var body = $"Please click the following link to recover your password: " +
+                       $"http://localhost:4200/recover/{token}";
+
+            SendEmail(toAddress, subject, body);
+
+            return Result.Ok();
+        }
+        catch (Exception ex)
+        {
+            return Result.Fail(ex.Message);
+        }
+    }
+
     private static void SendEmail(string toAddress, string subject, string body)
     {
         var message = new MimeMessage();
