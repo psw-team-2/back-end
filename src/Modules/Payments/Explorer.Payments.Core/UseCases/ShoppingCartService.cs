@@ -52,7 +52,7 @@ namespace Explorer.Payments.Core.UseCases
                 Tours.Core.Domain.Tour tour = _tourRepository.Get(tourId);
                 if (shoppingCartDto != null)
                 {
-                    OrderItem orderItem = new OrderItem(tourId, tour.Name, tour.Price, shoppingCartDto.Id, false, false);
+                    OrderItem orderItem = new OrderItem(tourId, tour.Name, tour.Price, shoppingCartDto.Id, false, false, tour.Image);
                     _crudOrderItemRepository.Create(orderItem);
 
                     ShoppingCart shoppingCart = _shoppingCartRepository.GetById(shoppingCartDto.Id);
@@ -202,7 +202,7 @@ namespace Explorer.Payments.Core.UseCases
                 Bundle bundle = _bundleRepository.GetById(bundleId);
                 if (shoppingCartDto != null && bundle != null)
                 {
-                    OrderItem orderItem = new OrderItem(bundleId, bundle.Name, bundle.Price, shoppingCartDto.Id, false, true);
+                    OrderItem orderItem = new OrderItem(bundleId, bundle.Name, bundle.Price, shoppingCartDto.Id, false, true, bundle.Image);
                     _crudOrderItemRepository.Create(orderItem);
 
                     ShoppingCart shoppingCart = _shoppingCartRepository.GetById(shoppingCartDto.Id);

@@ -5,6 +5,7 @@ using Explorer.Payments.API.Public;
 using Explorer.Payments.Core.UseCases;
 using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public;
+using Explorer.Tours.Core.UseCases;
 using FluentResults;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -127,5 +128,6 @@ namespace Explorer.API.Controllers.Author
                 throw;
             }
         }
+
     }
 }

@@ -34,7 +34,7 @@ namespace Explorer.Tours.Core.UseCases
         }
         public override Result Delete(int bundleId)
         {
-           
+
             var existingBundle = _bundleRepository.GetById(bundleId);
             if (existingBundle != null)
             {
@@ -166,5 +166,6 @@ namespace Explorer.Tours.Core.UseCases
                 return Result.Fail<BundleDto>(FailureCode.InvalidArgument).WithError(e.Message);
             }
         }
+
     }
 }

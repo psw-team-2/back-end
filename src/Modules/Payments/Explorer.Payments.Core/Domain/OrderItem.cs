@@ -16,8 +16,9 @@ namespace Explorer.Payments.Core.Domain
         public long ShoppingCartId { get; init; }
         public bool IsBought { get; init; }
         public bool IsBundle { get; init; }
+        public string Image { get; init; }
 
-        public OrderItem(int itemId, string itemName, double price, long shoppingCartId, bool isBought, bool isBundle)
+        public OrderItem(int itemId, string itemName, double price, long shoppingCartId, bool isBought, bool isBundle, string image)
         {
             ItemId = itemId;
             ItemName = itemName;
@@ -25,6 +26,7 @@ namespace Explorer.Payments.Core.Domain
             ShoppingCartId = shoppingCartId;
             IsBought = isBought;
             IsBundle = isBundle;
+            Image = image;
         }
     }
 }
