@@ -15,4 +15,6 @@ public class ProfileDto
     public List<FollowDto> Follows { get; set; }
     public TourPreferenceDto TourPreference { get; set; }
     public bool QuestionnaireDone { get; set; }
+    public int NumberOfCompletedTours { get; set; }
+    public bool RequestSent {  get; set; }
 }
