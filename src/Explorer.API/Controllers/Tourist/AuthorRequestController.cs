@@ -27,7 +27,7 @@ namespace Explorer.API.Controllers.Tourist
             return CreateResponse(result);
         }
 
-        [HttpGet("all-author-request")]
+        [HttpGet("all-author-requests")]
         public ActionResult<PagedResult<AuthorRequestDto>> GetAll([FromQuery] int page, [FromQuery] int pageSize)
         {
             var result = _authorRequestService.GetPaged(page, pageSize);
