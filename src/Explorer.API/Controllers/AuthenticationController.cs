@@ -29,8 +29,8 @@ public class AuthenticationController : BaseApiController
     [HttpPost("login")]
     public ActionResult<AuthenticationTokensDto> Login([FromBody] CredentialsDto credentials)
     {
-        credentials.Password = ToSHA256(credentials.Password);
-        var result = _authenticationService.Login(credentials);
+        CredentialsDto dto = new CredentialsDto { Password = ToSHA256(credentials.Password), Username = credentials.Username };
+        var result = _authenticationService.Login(dto);
         return CreateResponse(result);
     }
 

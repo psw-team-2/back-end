@@ -42,7 +42,10 @@ namespace Explorer.API.Controllers.Administrator.Administration
         [HttpPut("{id:int}")]
         public ActionResult<UserAccountDto> Update([FromBody] UserAccountDto user)
         {
-            user.Password = ToSHA256(user.Password);
+            if (user.Password.Length != 64)
+            {
+                user.Password = ToSHA256(user.Password);
+            }
             var result = _userAccountAdministrationService.Update(user);
             return CreateResponse(result);
         }
