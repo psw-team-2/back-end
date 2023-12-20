@@ -4,6 +4,7 @@ using Explorer.Stakeholders.API.Public;
 using Explorer.Stakeholders.Core.UseCases;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Explorer.Stakeholders.Core.Domain.Users;
 
 namespace Explorer.API.Controllers.Tourist
 {
@@ -41,11 +42,24 @@ namespace Explorer.API.Controllers.Tourist
             return CreateResponse(result);
         }
 
-        [HttpPut("{id:int}/{profileId:int}")]
-        public ActionResult<AuthorRequestDto> Update(int id, int profileId, [FromBody] AuthorRequestDto authorRequest)
+        [HttpPut("{id:int}/{profileId:int}/{status:int}")]
+        public ActionResult<AuthorRequestDto> Update(int id, int profileId, int status, [FromBody] AuthorRequestDto authorRequest)
         {
             authorRequest.Id = id;
             authorRequest.ProfileId = profileId;
+            if(status == 0)
+            {
+                authorRequest.RequestStatus = Stakeholders.API.Dtos.RequestStatus.UnderReview;
+            }
+            else if(status == 1)
+            {
+                authorRequest.RequestStatus = Stakeholders.API.Dtos.RequestStatus.Accepted;
+            }
+            else
+            {
+                authorRequest.RequestStatus = Stakeholders.API.Dtos.RequestStatus.Declined;
+            }
+
 
             var result = _authorRequestService.Update(authorRequest);
             return CreateResponse(result);

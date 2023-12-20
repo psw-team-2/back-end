@@ -20,3 +20,4 @@ namespace Explorer.Stakeholders.API.Dtos
         Declined
     }
 }
+
