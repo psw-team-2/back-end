@@ -45,6 +45,7 @@ public static class StakeholdersStartup
         services.AddScoped<IMessageRepository, MessageDatabaseRepository>();
 
         services.AddScoped<IAuthorRequestService, AuthorRequestService>();
+        services.AddScoped<IAuthorRequestRepository, AuthorRequestDatabaseRepository>();
     }
 
     private static void SetupInfrastructure(IServiceCollection services)
@@ -70,6 +71,7 @@ public static class StakeholdersStartup
         services.AddScoped<IProfileRepository, ProfileDatabaseRepository>();
 
         services.AddScoped(typeof(ICrudRepository<AuthorRequest>), typeof(CrudDatabaseRepository<AuthorRequest, StakeholdersContext>));
+        services.AddScoped<IAuthorRequestRepository, AuthorRequestDatabaseRepository>();
 
 
         services.AddDbContext<StakeholdersContext>(opt =>

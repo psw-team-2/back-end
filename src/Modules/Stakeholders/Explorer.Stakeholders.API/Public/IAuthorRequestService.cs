@@ -13,6 +13,7 @@ namespace Explorer.Stakeholders.API.Public
     {
         Result<AuthorRequestDto> Get(int id);
         Result<PagedResult<AuthorRequestDto>> GetPaged(int page, int pageSize);
+        Result<PagedResult<AuthorRequestDto>> GetAllUnderReview(int page, int pageSize);
         Result<AuthorRequestDto> Create(AuthorRequestDto authorRequest);
         Result<AuthorRequestDto> Update(AuthorRequestDto authorRequest);
     }

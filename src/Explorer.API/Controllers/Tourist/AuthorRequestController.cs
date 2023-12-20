@@ -34,6 +34,13 @@ namespace Explorer.API.Controllers.Tourist
             return CreateResponse(result);
         }
 
+        [HttpGet("all-under-review")]
+        public ActionResult<PagedResult<AuthorRequestDto>> GetAllUnderReview([FromQuery] int page, [FromQuery] int pageSize)
+        {
+            var result = _authorRequestService.GetAllUnderReview(page, pageSize);
+            return CreateResponse(result);
+        }
+
         [HttpPut("{id:int}/{profileId:int}")]
         public ActionResult<AuthorRequestDto> Update(int id, int profileId, [FromBody] AuthorRequestDto authorRequest)
         {
