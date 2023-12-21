@@ -1,5 +1,6 @@
 ﻿using Explorer.Stakeholders.API.Dtos;
 using Explorer.Stakeholders.API.Public;
+using Explorer.Stakeholders.Core.Domain.Users;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Explorer.API.Controllers;
@@ -46,6 +47,20 @@ public class AuthenticationController : BaseApiController
     public ActionResult<UserAccountDto> GetUserById(long userId)
     {
         var result = _authenticationService.GetUserById(userId);
+
+        if (result.IsFailed)
+        {
+            // Handle the failure, e.g., return a 404 (Not Found) response or appropriate error response.
+            return NotFound();
+        }
+
+        return Ok(result.Value); // Return the user information as a successful response.
+    }
+
+    [HttpGet("whole/{userId}")]
+    public ActionResult<UserAccountDto> GetWholeUserById(long userId)
+    {
+        var result = _authenticationService.GetWholeUserById(userId);
 
         if (result.IsFailed)
         {

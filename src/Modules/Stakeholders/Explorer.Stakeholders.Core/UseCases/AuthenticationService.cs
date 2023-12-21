@@ -114,6 +114,12 @@ public class AuthenticationService : IAuthenticationService
     {
         return _userRepository.GetUserById(userId);
     }
+
+    public Result<object> GetWholeUserById(long userId)
+    {
+        return _userRepository.GetWholeUserById(userId);
+    }
+
     /*
     public Result DeleteApplicationReviewByUser(ApplicationReviewDto applicationReviewDto)
     {
@@ -124,5 +130,5 @@ public class AuthenticationService : IAuthenticationService
 
         _userRepository.Update(user.Id);
     }*/
-    
+
 }
