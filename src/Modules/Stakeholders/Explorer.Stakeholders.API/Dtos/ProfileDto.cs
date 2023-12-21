@@ -16,4 +16,5 @@ public class ProfileDto
     public TourPreferenceDto TourPreference { get; set; }
     public int XP { get; init; }
     public bool IsFirstPurchased { get; init; }
+    public bool QuestionnaireDone { get; set; }
 }

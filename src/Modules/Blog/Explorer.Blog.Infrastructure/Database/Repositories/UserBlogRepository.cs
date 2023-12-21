@@ -16,9 +16,12 @@ namespace Explorer.Blog.Infrastructure.Database.Repositories
     public class UserBlogRepository: IUserBlogRepository
     {
         private readonly BlogContext _dbContext;
+        private readonly DbSet<UserBlog> _dbSet;
+
         public UserBlogRepository(BlogContext dbContext)
         {
             _dbContext = dbContext;
+            _dbSet = _dbContext.Set<UserBlog>();
         }
 
         public List<UserBlog> GetByUserId(int userId)
@@ -71,5 +74,7 @@ namespace Explorer.Blog.Infrastructure.Database.Repositories
 
             return new PagedResult<UserBlog>(results, totalItems);
         }
+
+
     }
 }

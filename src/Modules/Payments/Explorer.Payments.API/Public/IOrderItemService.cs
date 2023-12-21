@@ -11,6 +11,7 @@ namespace Explorer.Payments.API.Public
     public interface IOrderItemService
     {
         public Result<IEnumerable<OrderItemDto>> GetOrderItemsByShoppingCart(int shoppingCartId);
+        public Result<IEnumerable<OrderItemDto>> GetBoughtShoppingItemsFromCart(int shoppingCartId);
         Result<OrderItemDto> Update(OrderItemDto orderItem);
     }
 }

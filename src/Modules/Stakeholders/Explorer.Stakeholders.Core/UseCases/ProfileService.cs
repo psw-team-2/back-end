@@ -88,43 +88,18 @@ namespace Explorer.Stakeholders.Core.UseCases
             return Result.Ok(pagedResult);
         }
 
-        public Result<PagedResult<ProfileDto>> GetAllFollowing(int page, int pageSize, long profileId)
+        public bool AlreadyFollows(long profileId, long followerId)
         {
-            List<Profile> profiles = _profileRepository.GetAll();
-            List<ProfileDto> following = new List<ProfileDto>();
+            Profile profile = _profileRepository.Get((int)profileId);
 
-            foreach (var profile in profiles)
+            foreach (Follow follow in profile.Follows)
             {
-                following = profile.Follows
-                .Where(follow => follow.FollowerId == profileId)
-                .Select(follow =>
+                if ((follow.ProfileId == profileId) && (follow.FollowerId == followerId))
                 {
-                    var profileResult = Get((int)follow.ProfileId);
-
-                    if (profileResult.IsSuccess)
-                    {
-                        var profile = profileResult.Value;
-
-                        return new ProfileDto
-                        {
-                            Id = profile.Id,
-                            FirstName = profile.FirstName,
-                            LastName = profile.LastName,
-                            ProfilePicture = profile.ProfilePicture,
-                            Biography = profile.Biography,
-                            Motto = profile.Motto,
-                            UserId = profile.UserId,
-                            IsActive = profile.IsActive
-                        };
-                    }
-
-                    return new ProfileDto();
-                })
-                .ToList();
+                    return true;
+                }
             }
-
-            var pagedResult = new PagedResult<ProfileDto>(following, following.Count());
-            return Result.Ok(pagedResult);
+            return false;
         }
 
         public Result<PagedResult<MessageDto>> GetUnreadMessages(int page, int pageSize, long profileId)

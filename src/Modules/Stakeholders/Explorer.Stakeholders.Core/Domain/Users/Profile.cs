@@ -17,8 +17,9 @@ public class Profile : Entity
     public TourPreference TourPreference { get; set; }
     public int XP { get; init; }
     public bool IsFirstPurchased { get; init; }
+    public bool QuestionnaireDone { get; init; }
 
-    public Profile(string firstName, string lastName, string profilePicture, string biography, string motto, long userId, bool isActive, int xP, bool isFirstPurchased)
+    public Profile(string firstName, string lastName, string profilePicture, string biography, string motto, long userId, bool isActive, int xP, bool isFirstPurchased, bool questionnaireDone)
     {
         FirstName = firstName;
         LastName = lastName;
@@ -29,6 +30,7 @@ public class Profile : Entity
         IsActive = isActive;
         Follows = new List<Follow>();
         TourPreference = new TourPreference(1, 1, 1, 1, 1, new List<string>());
+        QuestionnaireDone = questionnaireDone;
         Validate();
         XP = xP;
         IsFirstPurchased = isFirstPurchased;
