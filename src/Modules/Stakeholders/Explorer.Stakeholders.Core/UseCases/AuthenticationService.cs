@@ -58,7 +58,7 @@ public class AuthenticationService : IAuthenticationService
 
             var user = _userRepository.Create(new User(account.Username, account.Password, UserRole.Tourist, true, account.Email));
             //var person = _personRepository.Create(new Person(user.Id, account.Name, account.Surname, account.Email));
-            var profile = _profileRepository.Create(new Profile(account.Name, account.Surname, account.ProfilePicture, account.Biography, account.Motto, user.Id, true));
+            var profile = _profileRepository.Create(new Profile(account.Name, account.Surname, account.ProfilePicture, account.Biography, account.Motto, user.Id, true, 0, false));
 
             //kreiranje korpe
             var shoppingCart = _shoppingCartService.Create(new Payments.API.Dtos.ShoppingCartDto

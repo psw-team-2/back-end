@@ -14,4 +14,6 @@ public class ProfileDto
     public bool IsActive { get; set; }
     public List<FollowDto> Follows { get; set; }
     public TourPreferenceDto TourPreference { get; set; }
+    public int XP { get; init; }
+    public bool IsFirstPurchased { get; init; }
 }
