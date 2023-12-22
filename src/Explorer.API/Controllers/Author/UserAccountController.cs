@@ -7,6 +7,7 @@ using Explorer.Stakeholders.Core.UseCases;
 
 namespace Explorer.API.Controllers.Administrator.Administration
 {
+    [Authorize]
     [Route("api/administration/userAccounts")]
     public class UserAccountController : BaseApiController
     {
@@ -31,7 +32,7 @@ namespace Explorer.API.Controllers.Administrator.Administration
             return CreateResponse(result);
         }
 
-        [HttpPut("{id:int}")]
+        [HttpPut]
         public ActionResult<UserAccountDto> Update([FromBody] UserAccountDto user)
         {
             var result = _userAccountAdministrationService.Update(user);

@@ -9,10 +9,12 @@ namespace Explorer.API.Controllers;
 public class AuthenticationController : BaseApiController
 {
     private readonly IAuthenticationService _authenticationService;
+    private readonly IUserAccountAdministrationService _userAccountAdministrationService;
 
-    public AuthenticationController(IAuthenticationService authenticationService)
+    public AuthenticationController(IAuthenticationService authenticationService, IUserAccountAdministrationService userAccountAdministrationService)
     {
         _authenticationService = authenticationService;
+        _userAccountAdministrationService = userAccountAdministrationService;
     }
 
     [HttpPost]
@@ -70,4 +72,26 @@ public class AuthenticationController : BaseApiController
 
         return Ok(result.Value); // Return the user information as a successful response.
     }
+
+    [HttpPut("updateUser/{id:int}/{role:int}")]
+    public ActionResult<UserAccountDto> UpdateUser(int id, int role, [FromBody] UserAccountDto userAccountDto)
+    {
+        userAccountDto.Id = id;
+        if (role == 0)
+        {
+            userAccountDto.Role = Stakeholders.API.Dtos.UserRole.Administrator;
+        }
+        else if (role == 1)
+        {
+            userAccountDto.Role = Stakeholders.API.Dtos.UserRole.Author;
+        }
+        else
+        {
+            userAccountDto.Role = Stakeholders.API.Dtos.UserRole.Tourist;
+        }
+
+        var result = _userAccountAdministrationService.Update(userAccountDto);
+        return CreateResponse(result);
+    }
+
 }
