@@ -24,5 +24,15 @@ namespace Explorer.Stakeholders.Infrastructure.Database.Repositories
             _dbContext.SaveChanges();
             return entity;
         }
+
+        public IEnumerable<Question> GetAllUnanswered()
+        {
+            return _dbContext.Question.Where(q => !q.isAnswered).ToList();
+        }
+
+        public IEnumerable<Question> GetAllAnswered()
+        {
+            return _dbContext.Question.Where(q => q.isAnswered).ToList();
+        }
     }
 }

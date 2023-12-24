@@ -9,5 +9,7 @@ namespace Explorer.Stakeholders.Core.Domain.RepositoryInterfaces
     public interface IQuestionRepository
     {
         Question Create(Question entity);
+        IEnumerable<Question> GetAllUnanswered();
+        IEnumerable<Question> GetAllAnswered();
     }
 }

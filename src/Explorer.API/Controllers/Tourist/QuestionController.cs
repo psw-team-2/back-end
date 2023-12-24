@@ -1,4 +1,5 @@
-﻿using Explorer.Stakeholders.API.Dtos;
+﻿using Explorer.BuildingBlocks.Core.UseCases;
+using Explorer.Stakeholders.API.Dtos;
 using Explorer.Stakeholders.API.Public;
 using Explorer.Tours.API.Dtos;
 using Microsoft.AspNetCore.Http;
@@ -16,6 +17,12 @@ namespace Explorer.API.Controllers.Tourist
             _questionService = questionService;
         }
 
+        [HttpGet]
+        public ActionResult<PagedResult<QuestionDto>> GetAll([FromQuery] int page, [FromQuery] int pageSize)
+        {
+            var result = _questionService.GetPaged(page, pageSize);
+            return CreateResponse(result);
+        }
 
         [HttpPost]
         public ActionResult<QuestionDto> Create([FromBody] QuestionDto questionDto)
@@ -24,6 +31,19 @@ namespace Explorer.API.Controllers.Tourist
             var result = _questionService.Create(questionDto);
 
 
+            return CreateResponse(result);
+        }
+        [HttpGet("unanswered")]
+        public ActionResult<PagedResult<QuestionDto>> GetAllUnanswered()
+        {
+            var result = _questionService.GetAllUnanswered();
+            return CreateResponse(result);
+        }
+
+        [HttpGet("answered")]
+        public ActionResult<PagedResult<QuestionDto>> GetAllAanswered()
+        {
+            var result = _questionService.GetAllAnswered();
             return CreateResponse(result);
         }
     }
