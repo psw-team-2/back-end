@@ -8,5 +8,6 @@ namespace Explorer.Stakeholders.Core.Domain.RepositoryInterfaces
 {
     public interface IQuestionRepository
     {
+        Question Create(Question entity);
     }
 }

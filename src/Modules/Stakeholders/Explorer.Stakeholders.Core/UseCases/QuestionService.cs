@@ -4,6 +4,8 @@ using Explorer.Stakeholders.API.Dtos;
 using Explorer.Stakeholders.API.Public;
 using Explorer.Stakeholders.Core.Domain;
 using Explorer.Stakeholders.Core.Domain.RepositoryInterfaces;
+using Explorer.Tours.API.Dtos;
+using FluentResults;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +16,12 @@ namespace Explorer.Stakeholders.Core.UseCases
 {
     public class QuestionService : CrudService<QuestionDto, Question>, IQuestionService
     {
-        public QuestionService(ICrudRepository<Question> repository, IMapper mapper) : base(repository, mapper) { }
-
+        private readonly IQuestionRepository _questionRepository;
+        public QuestionService(ICrudRepository<Question> repository, IMapper mapper) : base(repository, mapper) {  }
+        public override Result<QuestionDto> Create(QuestionDto questionDto)
+        {
+            questionDto.isAnswered = false;
+            return base.Create(questionDto);
+        }
     }
 }

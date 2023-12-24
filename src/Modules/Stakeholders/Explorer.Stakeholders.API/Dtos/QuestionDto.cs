@@ -10,8 +10,9 @@ namespace Explorer.Stakeholders.API.Dtos
     {
         public long Id { get; set; }
         public long TouristId { get; set; }
-        public long AdminId { get; set; }
         public string Text { get; set; }
+
+        public bool isAnswered { get; set; }
 
     }
 }

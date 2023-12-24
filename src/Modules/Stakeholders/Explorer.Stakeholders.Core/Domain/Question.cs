@@ -10,14 +10,14 @@ namespace Explorer.Stakeholders.Core.Domain
     public class Question : Entity
     {
         public long TouristId { get; init; }
-        public long AdminId { get; init; }
         public string Text { get; init; }
 
-        public Question(long touristId, long adminId, string text)
+        public bool isAnswered { get; init; }
+        public Question(long touristId, string text, bool isAnswered)
         {
             TouristId = touristId;
-            AdminId = adminId;
             Text = text;
+            this.isAnswered = isAnswered;
         }
     }
 }
