@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Explorer.BuildingBlocks.Core.UseCases;
+using Explorer.Payments.API.Dtos;
 using Explorer.Stakeholders.API.Dtos;
 using Explorer.Stakeholders.API.Public;
 using Explorer.Stakeholders.Core.Domain;
@@ -25,6 +26,20 @@ namespace Explorer.Stakeholders.Core.UseCases
         {
             var result = base.Create(answerDto);
             return result;
+        }
+
+        public Result<AnswerDto> GetAnswerByQuestionId(int questionId)
+        {
+            try
+            {
+                var answer = _answerRepository.GetAnswerByQuestionId(questionId);
+                AnswerDto answerDto = MapToDto(answer);
+                return Result.Ok(answerDto);
+            }
+            catch (Exception e)
+            {
+                return Result.Fail<AnswerDto>(FailureCode.InvalidArgument).WithError(e.Message);
+            }
         }
     }
 }

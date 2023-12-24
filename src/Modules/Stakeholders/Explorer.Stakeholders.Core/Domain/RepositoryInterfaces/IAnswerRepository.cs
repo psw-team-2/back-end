@@ -8,5 +8,6 @@ namespace Explorer.Stakeholders.Core.Domain.RepositoryInterfaces
 {
     public interface IAnswerRepository
     {
+        Answer GetAnswerByQuestionId(int questionId);
     }
 }
