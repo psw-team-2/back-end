@@ -11,18 +11,18 @@ namespace Explorer.Stakeholders.Core.Domain
     {
         public long TouristId { get; init; }
         public long AdminId { get; init; }
-
         public string Text { get; init; }
         public AnswerCategory Category { get; init; }
         public bool Visability { get; init; }
-
-        public Answer(long touristId, long adminId, string text, AnswerCategory category, bool visability)
+        public long QuestionId { get; init; }
+        public Answer(long touristId, long adminId, string text, AnswerCategory category, bool visability, long questionId)
         {
             TouristId = touristId;
             AdminId = adminId;
             Text = text;
             Category = category;
             Visability = visability;
+            QuestionId = questionId;
         }
 
     }

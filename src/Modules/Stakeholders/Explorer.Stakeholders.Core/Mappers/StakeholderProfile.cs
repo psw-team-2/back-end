@@ -22,5 +22,6 @@ public class StakeholderProfile : ProfileA
         CreateMap<FollowDto, Follow>().ReverseMap();
         CreateMap<MessageDto, Message>().ReverseMap();
         CreateMap<QuestionDto, Question>().ReverseMap();
+        CreateMap<AnswerDto, Answer>().ReverseMap();
     }
 }
