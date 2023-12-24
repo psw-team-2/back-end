@@ -69,6 +69,8 @@ public static class StakeholdersStartup
 
         services.AddScoped<IUserRepository, UserDatabaseRepository>();
         services.AddScoped<IProfileRepository, ProfileDatabaseRepository>();
+        services.AddScoped<IAnswerRepository, AnswerRepository>();
+        services.AddScoped<IQuestionRepository, QuestionRepository>();
 
 
         services.AddDbContext<StakeholdersContext>(opt =>
