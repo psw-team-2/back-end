@@ -9,5 +9,11 @@ namespace Explorer.Stakeholders.Infrastructure.Database.Repositories
 {
     public class QuestionRepository : IQuestionRepository
     {
+        private readonly StakeholdersContext _dbContext;
+
+        public QuestionRepository(StakeholdersContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
     }
 }
