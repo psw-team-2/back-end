@@ -56,5 +56,6 @@ public class ToursProfile : Profile
 
         CreateMap<BundleDto, Bundle>().ReverseMap();
         CreateMap<TourSaleDto, TourSale>().ReverseMap();
+        CreateMap<AuthorReviewDto, AuthorReview>().ReverseMap();
     }
 }
