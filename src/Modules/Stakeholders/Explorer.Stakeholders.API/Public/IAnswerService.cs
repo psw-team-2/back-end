@@ -11,5 +11,6 @@ namespace Explorer.Stakeholders.API.Public
     public interface IAnswerService
     {
         Result<AnswerDto> Create(AnswerDto answerDto);
+        public Result<AnswerDto> GetAnswerByQuestionId(int questionId);
     }
 }

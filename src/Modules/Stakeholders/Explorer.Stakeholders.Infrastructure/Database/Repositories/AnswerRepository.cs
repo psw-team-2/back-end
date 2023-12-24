@@ -1,4 +1,5 @@
-﻿using Explorer.Stakeholders.Core.Domain.RepositoryInterfaces;
+﻿using Explorer.Stakeholders.Core.Domain;
+using Explorer.Stakeholders.Core.Domain.RepositoryInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,11 @@ namespace Explorer.Stakeholders.Infrastructure.Database.Repositories
         public AnswerRepository(StakeholdersContext dbContext)
         {
             _dbContext = dbContext;
+        }
+
+        public Answer GetAnswerByQuestionId(int questionId)
+        {
+            return _dbContext.Answers.FirstOrDefault(a => a.QuestionId == questionId);
         }
     }
 }
