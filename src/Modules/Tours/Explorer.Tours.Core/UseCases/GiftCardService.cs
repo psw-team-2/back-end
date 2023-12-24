@@ -19,11 +19,33 @@ namespace Explorer.Tours.Core.UseCases
 
         public override Result<GiftcardDto> Create(GiftcardDto giftcardDto)
         {
-            base.Create(giftcardDto);
+            var sendACResult = _walletService.SendAC(giftcardDto.AC, giftcardDto.Receiver, giftcardDto.SenderId);
 
-            _walletService.SendAC(giftcardDto.AC, giftcardDto.Receiver, giftcardDto.SenderId);
+            if (sendACResult.IsSuccess)
+            {
+                var createResult = base.Create(giftcardDto);
 
-            return giftcardDto;
+                if (createResult.IsSuccess)
+                {
+                    var createdGiftcardDto = createResult.Value;
+                    return Result.Ok(createdGiftcardDto);
+                }
+                else
+                {
+                    // Rollback AC transaction if gift card creation fails
+                    // Implement appropriate rollback logic here
+                    // ...
+                    return Result.Fail<GiftcardDto>("Failed to create gift card");
+                }
+            }
+            else
+            {
+                // Handle insufficient AC or other failures from SendAC
+                return Result.Fail<GiftcardDto>("Failed to send AC or insufficient balance");
+            }
         }
+
+
+
     }
 }
