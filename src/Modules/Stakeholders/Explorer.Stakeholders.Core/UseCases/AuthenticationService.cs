@@ -21,8 +21,9 @@ public class AuthenticationService : IAuthenticationService
     private readonly ITourPreferenceService _tourPreferenceService;
     private readonly IShoppingCartService _shoppingCartService;
     private readonly IWalletService _walletService;
+    private readonly IWishlistService _wishlistService;
 
-    public AuthenticationService(IUserRepository userRepository, ICrudRepository<Person> personRepository, ITokenGenerator tokenGenerator, ICrudRepository<Profile> profileRepository, IShoppingCartService shoppingCartService, IWalletService walletService)
+    public AuthenticationService(IUserRepository userRepository, ICrudRepository<Person> personRepository, ITokenGenerator tokenGenerator, ICrudRepository<Profile> profileRepository, IShoppingCartService shoppingCartService, IWalletService walletService, IWishlistService wishlistService)
     {
         _tokenGenerator = tokenGenerator;
         _userRepository = userRepository;
@@ -30,6 +31,7 @@ public class AuthenticationService : IAuthenticationService
         _profileRepository = profileRepository;
         _shoppingCartService = shoppingCartService;
         _walletService = walletService;
+        _wishlistService = wishlistService;
     }
 
     public Result<AuthenticationTokensDto> Login(CredentialsDto credentials)
@@ -75,6 +77,15 @@ public class AuthenticationService : IAuthenticationService
                 UserId = (int)user.Id,
                 Username = user.Username,
                 AC = 0
+            });
+
+            //kreiranje wishlista
+            var wishlist = _wishlistService.Create(new Tours.API.Dtos.WishlistDto
+            {
+                Id = (int)user.Id,
+                UserId = user.Id,
+                Items = new List<int>(),
+                
             });
 
 
