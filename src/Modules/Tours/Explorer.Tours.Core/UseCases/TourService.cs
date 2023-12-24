@@ -23,13 +23,17 @@ namespace Explorer.Tours.Core.UseCases
         private readonly IUserAccountAdministrationService _userAccountService;
         public readonly IOrderItemService _orderItemService;
         public readonly IShoppingCartService _shoppingCartService;
+        public readonly ITourExecutionService _tourExecutionService;
 
-        public TourService(ICrudRepository<Tour> repository, IMapper mapper, IUserAccountAdministrationService userAccountService, IOrderItemService orderItemService, IShoppingCartService shoppingCartService, ITourRepository tourRepository) : base(repository, mapper)
+        public TourService(ICrudRepository<Tour> repository, IMapper mapper, IUserAccountAdministrationService userAccountService, 
+            IOrderItemService orderItemService, IShoppingCartService shoppingCartService, ITourExecutionService tourExecutionService
+            ,ITourRepository tourRepository) : base(repository, mapper)
         {
             _userAccountService = userAccountService;
             _tourRepository = tourRepository;
             _orderItemService = orderItemService;
             _shoppingCartService = shoppingCartService;
+            _tourExecutionService = tourExecutionService;
 
         }
 
@@ -292,6 +296,46 @@ namespace Explorer.Tours.Core.UseCases
                 foundTours.Add(tour);
             }
             return MapToDto(foundTours);
+        }
+
+        public Result<PagedResult<TourDto>> GetActiveTours(List<long> tourIds)
+        {
+            try
+            {
+                if(tourIds.Count > 0)
+                {
+                    var tourExecutions = _tourExecutionService.GetActiveExecutedToursByTour(tourIds);
+                    List<long> activeTourIds = new List<long>();
+
+//                    throw new Exception($"Tour Executions: {string.Join(",", tourExecutions)}");
+
+                    foreach (var execution in tourExecutions)
+                    {
+                        activeTourIds.Add(execution.TourId);
+                    }
+ //                   throw new Exception($"Active Tour Ids: {string.Join(",", activeTourIds)}");
+                    if (tourExecutions.Count > 0)
+                    {
+                        var tours = _tourRepository.GetByIds(activeTourIds);
+ //                       throw new Exception($"Tours: {string.Join(",", tours)}");
+                        if (tours.Count > 0) { 
+                            var tourDtos = MapToDto(tours).Value;
+
+                            var toursPagedResult = new PagedResult<TourDto>(
+                                tourDtos,
+                                tourDtos.Count
+                            );
+
+                            return Result.Ok(toursPagedResult).WithSuccess("Tour obtained"); ;
+                        }
+                    }
+                }
+                return Result.Fail(FailureCode.InvalidArgument);
+            }
+            catch (Exception ex)
+            {
+                return Result.Fail(FailureCode.InvalidArgument);
+            }
         }
 
 

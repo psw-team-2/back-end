@@ -2,6 +2,7 @@
 using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public;
 using Explorer.Tours.API.Public.Administration;
+using Explorer.Tours.Core.Domain;
 using Explorer.Tours.Core.UseCases;
 using FluentResults;
 using Microsoft.AspNetCore.Authorization;
@@ -48,7 +49,7 @@ namespace Explorer.API.Controllers.Author
         [HttpPut("{id:int}")]
         public ActionResult<TourDto> Update([FromBody] TourDto tour)
         {
-            if(tour.Status == AccountStatus.PUBLISHED) 
+            if(tour.Status == Tours.API.Dtos.AccountStatus.PUBLISHED) 
             {
                 tour.PublishTime = DateTime.UtcNow;
             }
@@ -151,6 +152,15 @@ namespace Explorer.API.Controllers.Author
             return CreateResponse(result); 
         }
 
+        [HttpGet("active-tours")]
+        public ActionResult<PagedResult<TourDto>> GetActiveTours([FromQuery] List<int> tourIds)
+        {
+            // Convert List<int> to List<long>
+            List<long> convertedTourIds = tourIds.Select(id => (long)id).ToList();
+
+            var result = _tourService.GetActiveTours(convertedTourIds);
+            return CreateResponse(result);
+        }
 
         [HttpPost("uploadTourImage")]
         public async Task<string> UploadFile()

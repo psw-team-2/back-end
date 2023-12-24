@@ -56,5 +56,14 @@ namespace Explorer.Tours.Infrastructure.Database.Repositories
                .Where(te => te.TourId == tourId && te.TouristId == userId)
                .ToList();
         }
+
+        public List<TourExecution> GetActiveExecutedToursByTourIds(List<long> tourIds)
+        {
+            return _dbContext.TourExecutions
+                .Where(te => tourIds.Contains(te.TourId) && !te.Completed && !te.Abandoned)
+                .ToList();
+        }
+
+
     }
 }
