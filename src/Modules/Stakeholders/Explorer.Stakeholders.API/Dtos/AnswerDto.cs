@@ -14,6 +14,7 @@ namespace Explorer.Stakeholders.API.Dtos
         public string Text { get; set; }
         public AnswerCategory Category { get; set; }
         public bool Visability { get; set; }
+        public long QuestionId { get; set; }
     }
 
     public enum AnswerCategory
