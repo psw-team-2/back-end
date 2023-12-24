@@ -23,7 +23,7 @@ public class StakeholdersContext : DbContext
     //public DbSet<Follow> Follows { get; set; }
 
     public DbSet<Message> Messages { get; set; }
-    public DbSet<Answer>   Answers { get; set; }
+    public DbSet<Answer> Answers { get; set; }
     public DbSet<Question> Question { get; set; }
     public DbSet<NotificationQ_A> NotificationQ_As { get; set; }
     public StakeholdersContext(DbContextOptions<StakeholdersContext> options) : base(options) { }
