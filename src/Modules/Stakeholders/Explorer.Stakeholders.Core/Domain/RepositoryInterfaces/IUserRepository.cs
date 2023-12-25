@@ -8,6 +8,8 @@ public interface IUserRepository
 {
     bool Exists(string username);
     User? GetActiveByName(string username);
+
+    User GetUserByToken(string token);
     User Create(User user);
     long GetPersonId(long userId);
     User Get(int id);
@@ -15,4 +17,5 @@ public interface IUserRepository
     Result<object> GetUserById(long userId);
     public Result GetUserById(int userId);
     User Update(User user);
+    User? GetByEmail(string email);
 }

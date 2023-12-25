@@ -11,13 +11,16 @@ public class User : Entity
     public bool IsActive { get; set; }
     public string Email { get; init; }
 
-    public User(string username, string password, UserRole role, bool isActive, string email)
+    public string Token { get; init; }
+
+    public User(string username, string password, UserRole role, bool isActive, string email, string token)
     {
         Username = username;
         Password = password;
         Role = role;
         IsActive = isActive;
         Email = email;
+        Token = token;
         
         Validate();
     }
