@@ -26,6 +26,7 @@ namespace Explorer.Tours.API.Public
         Result<TourDto> RemoveObjectFromTour(TourDto tour, int tourObjectId);
 
         Result<AverageGradeDto> GetAverageGradeForTour(int tourId);
+        public Result<AverageGradeDto> GetAverageWeeklyGradeForTour(int tourId);
         List<TourReviewDto> GetByTourId(int tourId);
         public Result<TourDto> PublishTour(TourDto tour);
         public Result<TourDto> ArchiveTour(TourDto tour);

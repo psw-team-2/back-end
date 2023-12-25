@@ -116,6 +116,13 @@ namespace Explorer.API.Controllers.Author
             return CreateResponse(averageGrade);
         }
 
+        [HttpGet("average-weekly-grade/{tourId:int}")]
+        public ActionResult<AverageGradeDto> GetAverageWeeklyGrade(int tourId)
+        {
+            var averageGrade = _tourService.GetAverageWeeklyGradeForTour(tourId);
+            return CreateResponse(averageGrade);
+        }
+
         [HttpPut("publish/{tourId:int}")]
         public ActionResult<TourDto> PublishTour([FromBody] TourDto tour)
         {
@@ -152,8 +159,8 @@ namespace Explorer.API.Controllers.Author
             return CreateResponse(result); 
         }
 
-        [HttpGet("active-tours")]
-        public ActionResult<PagedResult<TourDto>> GetActiveTours([FromQuery] List<int> tourIds)
+        [HttpPut("active-tours")]
+        public ActionResult<PagedResult<TourDto>> GetActiveTours([FromBody] List<int> tourIds)
         {
             // Convert List<int> to List<long>
             List<long> convertedTourIds = tourIds.Select(id => (long)id).ToList();
