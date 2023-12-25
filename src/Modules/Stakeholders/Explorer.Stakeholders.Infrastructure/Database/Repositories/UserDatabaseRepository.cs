@@ -114,6 +114,16 @@ public class UserDatabaseRepository : IUserRepository
         }
         return (User)user;
     }
+
+    public List<string> GetAdminEmails()
+    {
+        var adminEmails = _dbContext.Users
+            .Where(user => user.Role == Core.Domain.Users.UserRole.Administrator && user.IsActive)
+            .Select(user => user.Email)
+            .ToList();
+
+        return adminEmails;
+    }
 }
 
     

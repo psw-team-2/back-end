@@ -41,5 +41,21 @@ namespace Explorer.Stakeholders.Core.UseCases
                 return Result.Fail<AnswerDto>(FailureCode.InvalidArgument).WithError(e.Message);
             }
         }
+
+        public Result<IEnumerable<AnswerDto>> GetAnswersByCategory(API.Dtos.AnswerCategory category)
+        {
+            try
+            {
+                var answers = _answerRepository.GetAnswersByCategoryWithQuestionText((Domain.AnswerCategory)category);
+                return Result.Ok(answers);
+            }
+            catch (Exception e)
+            {
+                return Result.Fail<IEnumerable<AnswerDto>>(FailureCode.InvalidArgument).WithError(e.Message);
+            }
+        }
+
+
+
     }
 }

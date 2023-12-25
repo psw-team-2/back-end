@@ -34,5 +34,10 @@ namespace Explorer.Stakeholders.Infrastructure.Database.Repositories
         {
             return _dbContext.Question.Where(q => q.isAnswered).ToList();
         }
+
+        public Question GetQuestionById(int questionId)
+        {
+            return _dbContext.Question.FirstOrDefault(q => q.Id == questionId);
+        }
     }
 }

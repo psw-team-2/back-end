@@ -46,6 +46,7 @@ public static class StakeholdersStartup
 
         services.AddScoped<IAnswerService, AnswerService>();
         services.AddScoped<IQuestionService, QuestionService>();
+        services.AddScoped<IEmailService, EmailService>();
     }
 
     private static void SetupInfrastructure(IServiceCollection services)
