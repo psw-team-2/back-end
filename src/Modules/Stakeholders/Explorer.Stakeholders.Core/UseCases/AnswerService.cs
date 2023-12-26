@@ -18,20 +18,23 @@ namespace Explorer.Stakeholders.Core.UseCases
     {
         private readonly IAnswerRepository _answerRepository;
         private readonly ICrudRepository<Question> _questionRepository;
-        public AnswerService(ICrudRepository<Answer> repository, IAnswerRepository answerRepository, ICrudRepository<Question> questionRepository, IMapper mapper) : base(repository, mapper) 
+        private IEmailService _emailService;
+        public AnswerService(ICrudRepository<Answer> repository, IAnswerRepository answerRepository, ICrudRepository<Question> questionRepository, IEmailService emailService, IMapper mapper) : base(repository, mapper) 
         { 
             _answerRepository = answerRepository;
             _questionRepository = questionRepository;
+            _emailService = emailService;
         }
 
         public Result<AnswerDto> Create(AnswerDto answerDto)
         {
             var question = _questionRepository.Get(answerDto.QuestionId);
             var result = base.Create(answerDto);
-            if (result.IsSuccess) // Prilagodite ovo vašoj implementaciji
+            if (result.IsSuccess) 
             {
                 question.isAnswered = true;
-                _questionRepository.Update(question); 
+                _questionRepository.Update(question);
+                _emailService.SendEmailToUser(answerDto);
             }
             return result;
         }

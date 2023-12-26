@@ -15,6 +15,6 @@ public interface IUserRepository
     Result<object> GetUserById(long userId);
     public Result GetUserById(int userId);
     User Update(User user);
-
     List<string> GetAdminEmails();
+    public string GetUserEmail(long userId);
 }

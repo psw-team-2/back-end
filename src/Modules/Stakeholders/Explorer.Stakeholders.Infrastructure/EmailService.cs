@@ -26,10 +26,21 @@ namespace Explorer.Stakeholders.Infrastructure
             foreach (var adminEmail in adminEmails)
             {
                 string subject = "New Question";
-                string body = $"You revieved a new question:\n\n{questionDto.Text}" ;
+                string body = $"Hello,\n\nYou received a new question: {questionDto.Text}\n"  + "Give a response here: http://localhost:4200/questions-overview\n\n\nExplorer Team\nTelephone: +381 9752435";
 
                 SendEmail(adminEmail, subject, body);
             }
+        }
+
+        public void SendEmailToUser(AnswerDto answer)
+        {
+            string userEmail = _userRepository.GetUserEmail(answer.TouristId);
+        
+            string subject = "New Answer";
+            string body = $"Hello,\n\nYou received an answer: {answer.Text}\n" + "Look for it here: http://localhost:4200/faq\n\n\nExplorer Team\nTelephone: +381 9752435";
+
+            SendEmail(userEmail, subject, body);
+
         }
 
         public void SendEmail(string toEmail, string subject, string body)

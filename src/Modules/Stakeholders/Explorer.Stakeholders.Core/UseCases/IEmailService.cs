@@ -10,7 +10,7 @@ namespace Explorer.Stakeholders.Core.UseCases
     public interface IEmailService
     {
         void SendEmailToAdmins(QuestionDto questionDto);
-
         void SendEmail(string toEmail, string subject, string body);
+        void SendEmailToUser(AnswerDto answer);
     }
 }

@@ -124,6 +124,21 @@ public class UserDatabaseRepository : IUserRepository
 
         return adminEmails;
     }
+
+    public string GetUserEmail(long userId)
+    {
+        var user = _dbContext.Users.Find(userId);
+
+        if (user != null)
+        {
+            return user.Email;
+        }
+        else
+        {
+            return "User not found";
+        }
+    }
+
 }
 
-    
+
