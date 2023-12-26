@@ -73,6 +73,26 @@ namespace Explorer.Tours.Core.Domain
 
             return averageGrade;
         }
+        public double GetWeeklyAverageGradeForTour()
+        {
+            // Calculate the date a week ago from today
+            DateTime oneWeekAgo = DateTime.Today.AddDays(-7);
+
+            // Filter TourReviews for the last week
+            var reviewsLastWeek = TourReviews.Where(review => review.ReviewDate >= oneWeekAgo);
+
+            if (!reviewsLastWeek.Any())
+            {
+                return 0;
+            }
+
+            int totalGrade = reviewsLastWeek.Sum(review => review.Grade);
+
+            double averageGrade = (double)totalGrade / reviewsLastWeek.Count();
+
+            return averageGrade;
+        }
+
 
         public void AddTourReview(TourReview review)
         {
