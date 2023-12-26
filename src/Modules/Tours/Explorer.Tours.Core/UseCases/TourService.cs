@@ -275,7 +275,8 @@ namespace Explorer.Tours.Core.UseCases
                 Description = tour.Description,
                 Status = (API.Dtos.AccountStatus)tour.Status,
                 Difficulty = tour.Difficulty,
-                Price = tour.Price
+                Price = tour.Price,
+                Image = tour.Image
             }).ToList();
 
             return toursDto;
@@ -292,5 +293,7 @@ namespace Explorer.Tours.Core.UseCases
             }
             return MapToDto(foundTours);
         }
+
+
     }
 }

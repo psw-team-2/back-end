@@ -8,6 +8,7 @@ namespace Explorer.Stakeholders.API.Public
     {
         // USER
         Result<UserAccountDto> Get(int id);
+        Result<UserAccountDto> GetByToken(string token);
         Result<PagedResult<UserAccountDto>> GetPaged(int page, int pageSize);
         Result<UserAccountDto> Update(UserAccountDto equipment);
         Result Delete(int id);

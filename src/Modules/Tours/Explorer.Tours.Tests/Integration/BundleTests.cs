@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Explorer.Tours.Tests.Integration
 {
@@ -36,7 +37,8 @@ namespace Explorer.Tours.Tests.Integration
                 Name = "Novii",
                 Price = 0,
                 Status = BundleStatus.Draft,
-                Tours = new List<int>()
+                Tours = new List<int>(),
+                Image = "slika"
 
             };
 
@@ -109,7 +111,8 @@ namespace Explorer.Tours.Tests.Integration
                 Name = "bundle1",
                 Price = 100,
                 Status = BundleStatus.Published,
-                Tours = new List<int> { 1}
+                Tours = new List<int> { 1},
+                Image = "slika"
             };
 
             
@@ -186,7 +189,8 @@ namespace Explorer.Tours.Tests.Integration
                 Name = "bundle4",
                 Price = 400,
                 Status = BundleStatus.Published,
-                Tours = new List<int> { 1 }
+                Tours = new List<int> { 1 },
+                Image = "slika"
             };
 
             // Act
@@ -239,7 +243,8 @@ namespace Explorer.Tours.Tests.Integration
                 Price = 200,
                 Status = BundleStatus.Published,
                 Tours = new List<int> {1,2},
-                UserId = -11
+                UserId = -11,
+                Image = "slika"
             };
 
             // Act
@@ -266,7 +271,9 @@ namespace Explorer.Tours.Tests.Integration
 
         private static BundleController CreateController(IServiceScope scope)
         {
-            return new BundleController(scope.ServiceProvider.GetRequiredService<IBundleService>())
+
+            var environment = scope.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
+            return new BundleController(scope.ServiceProvider.GetRequiredService<IBundleService>(), environment)
             {
                 ControllerContext = BuildContext("-1")
             };

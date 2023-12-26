@@ -27,7 +27,10 @@ public class UserDatabaseRepository : IUserRepository
     {
         return _dbContext.Users.FirstOrDefault(user => user.Username == username && user.IsActive);
     }
-
+    public User GetUserByToken(string token)
+    {
+        return _dbContext.Users.FirstOrDefault(user => user.Token == token);
+    }
     public long GetHighestUserId()
     {
         long highestUserId = _dbContext.Users
@@ -114,6 +117,44 @@ public class UserDatabaseRepository : IUserRepository
         }
         return (User)user;
     }
+
+    public string GetTouristEmail(int id)
+    {
+        var user = _dbContext.Users.FirstOrDefault(u => u.Id == id);
+        var touristEmail = user.Email;
+
+        return touristEmail;
+    }
+    
+    public User? GetByEmail(string email)
+    {
+        return _dbContext.Users.FirstOrDefault(i => i.Email == email);
+    }
+    
+    public List<string> GetAdminEmails()
+    {
+        var adminEmails = _dbContext.Users
+            .Where(user => user.Role == Core.Domain.Users.UserRole.Administrator && user.IsActive)
+            .Select(user => user.Email)
+            .ToList();
+
+        return adminEmails;
+    }
+
+    public string GetUserEmail(long userId)
+    {
+        var user = _dbContext.Users.Find(userId);
+
+        if (user != null)
+        {
+            return user.Email;
+        }
+        else
+        {
+            return "User not found";
+        }
+    }
+
 }
 
-    
+

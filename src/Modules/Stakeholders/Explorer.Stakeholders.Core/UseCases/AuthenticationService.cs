@@ -9,6 +9,8 @@ using Explorer.Tours.API.Public;
 using Explorer.Tours.Core.Domain;
 using UserRole = Explorer.Stakeholders.Core.Domain.Users.UserRole;
 using Explorer.Payments.API.Public;
+using Explorer.Stakeholders.Core.Domain;
+using System.Xml.XPath;
 
 namespace Explorer.Stakeholders.Core.UseCases;
 
@@ -50,15 +52,14 @@ public class AuthenticationService : IAuthenticationService
         }
         return _tokenGenerator.GenerateAccessToken(user, personId);
     }
-
-    public Result<AuthenticationTokensDto> RegisterTourist(AccountRegistrationDto account)
+    public Result<AuthenticationTokensDto> RegisterTourist(AccountRegistrationDto account, string token)
     {
         if(_userRepository.Exists(account.Username)) return Result.Fail(FailureCode.NonUniqueUsername);
 
         try
         {
 
-            var user = _userRepository.Create(new User(account.Username, account.Password, UserRole.Tourist, true, account.Email));
+            var user = _userRepository.Create(new User(account.Username, account.Password, UserRole.Tourist, false, account.Email, token));
             //var person = _personRepository.Create(new Person(user.Id, account.Name, account.Surname, account.Email));
             var profile = _profileRepository.Create(new Profile(account.Name, account.Surname, account.ProfilePicture, account.Biography, account.Motto, user.Id, true, false));
 
@@ -97,7 +98,6 @@ public class AuthenticationService : IAuthenticationService
             // There is a subtle issue here. Can you find it?
         }
     }
-
     public Result<CredentialsDto> GetUsername(int id)
     {
         CredentialsDto dto = new CredentialsDto()
@@ -125,6 +125,38 @@ public class AuthenticationService : IAuthenticationService
     {
         return _userRepository.GetUserById(userId);
     }
+
+    public Result<UserAccountDto> GetUserByEmail(string email)
+    {
+        try
+        {
+            User result = _userRepository.GetByEmail(email);
+
+            if (result != null)
+            {
+                UserAccountDto dto = new UserAccountDto
+                {
+                    Id = (int)result.Id,
+                    Username = result.Username,
+                    Password = result.Password,
+                    Email = result.Email,
+                    Role = (API.Dtos.UserRole)(int)result.Role,
+                    IsActive = result.IsActive
+                };
+
+                return Result.Ok(dto);
+            }
+            else
+            {
+                return Result.Fail<UserAccountDto>("User not found");
+            }
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
+    }
+
     /*
     public Result DeleteApplicationReviewByUser(ApplicationReviewDto applicationReviewDto)
     {

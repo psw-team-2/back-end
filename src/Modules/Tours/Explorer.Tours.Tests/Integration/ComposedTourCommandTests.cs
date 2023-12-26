@@ -59,7 +59,7 @@ namespace Explorer.Tours.Tests.Integration
             var controller = CreateController(scope);
             var dbContext = scope.ServiceProvider.GetRequiredService<ToursContext>();
 
-            var userId = -2;
+            var userId = 2;
 
             // Act
             var result = ((ObjectResult)controller.RetrivesAllUserTours(userId, 0, 0).Result).Value as PagedResult<TourDto>;

@@ -31,6 +31,8 @@ public class ToursContext : DbContext
     public DbSet<TourSale> TourSales { get; set; }
     public DbSet<Wishlist> Wishlists { get; set; }
     public DbSet<FavouriteItem> FavouriteItems { get; set; }
+    public DbSet<Giftcard> Giftcards { get; set; }
+    
     public ToursContext(DbContextOptions<ToursContext> options) : base(options) {}
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -32,6 +32,8 @@ namespace Explorer.Tours.API.Dtos
         public DateTime PublishTime { get; set; }
         public long AuthorId { get; set; }
 
+        public string Image { get; set; }
+
        
     }
 
