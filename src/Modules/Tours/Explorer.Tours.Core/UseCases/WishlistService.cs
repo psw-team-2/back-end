@@ -54,7 +54,7 @@ namespace Explorer.Tours.Core.UseCases
                 }
                 else
                 {
-                    return Result.Fail(FailureCode.NotFound).WithError("Tour not found.");
+                    return Result.Fail(FailureCode.NotFound).WithError("Wishlist not found.");
                 }
 
             }
@@ -72,8 +72,8 @@ namespace Explorer.Tours.Core.UseCases
             try
             {
                 var wishlist = _wishlistRepository.GetWishlistByUserId(userId);
-                WishlistDto wishlistDto = MapToDto(wishlist);
-                return Result.Ok(wishlistDto);
+                
+                return MapToDto(wishlist);
             }
             catch (Exception e)
             {

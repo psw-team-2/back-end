@@ -82,7 +82,7 @@ public class AuthenticationService : IAuthenticationService
             //kreiranje wishlista
             var wishlist = _wishlistService.Create(new Tours.API.Dtos.WishlistDto
             {
-                Id = (int)user.Id,
+                Id = 0,
                 UserId = user.Id,
                 Items = new List<int>(),
                 

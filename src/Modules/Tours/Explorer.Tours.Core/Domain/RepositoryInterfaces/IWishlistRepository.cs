@@ -8,8 +8,8 @@ namespace Explorer.Tours.Core.Domain.RepositoryInterfaces
 {
     public interface IWishlistRepository
     {
-        public Wishlist GetById(int wishlistId);
-        public void Update(Wishlist wishlist);
-        public Wishlist GetWishlistByUserId(int userId);
+         Wishlist GetById(int wishlistId);
+         void Update(Wishlist wishlist);
+         Wishlist GetWishlistByUserId(int userId);
     }
 }
