@@ -52,6 +52,7 @@ public static class ToursStartup
         services.AddScoped<IBundleService, BundleService>();
         services.AddScoped<ITourSaleService, TourSaleService>();
         services.AddScoped<IGiftCardService, GiftCardService>();
+        
     }
 
     private static void SetupInfrastructure(IServiceCollection services)

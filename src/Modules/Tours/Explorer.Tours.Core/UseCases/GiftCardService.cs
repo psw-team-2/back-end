@@ -2,6 +2,7 @@
 using Explorer.BuildingBlocks.Core.UseCases;
 using Explorer.Payments.API.Dtos;
 using Explorer.Payments.API.Public;
+using Explorer.Stakeholders.Core.UseCases;
 using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public;
 using Explorer.Tours.Core.Domain;
@@ -12,9 +13,11 @@ namespace Explorer.Tours.Core.UseCases
     public class GiftCardService : CrudService<GiftcardDto, Giftcard>, IGiftCardService
     {
         private readonly IWalletService _walletService;
-        public GiftCardService(ICrudRepository<Giftcard> crudRepository, IMapper mapper, IWalletService walletService) : base(crudRepository, mapper)
+        private readonly IEmailService _emailService;
+        public GiftCardService(ICrudRepository<Giftcard> crudRepository, IMapper mapper, IWalletService walletService, IEmailService emailService) : base(crudRepository, mapper)
         {
             _walletService = walletService;
+            _emailService = emailService;
         }
 
         public override Result<GiftcardDto> Create(GiftcardDto giftcardDto)
@@ -28,6 +31,7 @@ namespace Explorer.Tours.Core.UseCases
                 if (createResult.IsSuccess)
                 {
                     var createdGiftcardDto = createResult.Value;
+                    _emailService.SendEmailToTourist(createdGiftcardDto);
                     return Result.Ok(createdGiftcardDto);
                 }
                 else

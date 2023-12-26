@@ -114,6 +114,14 @@ public class UserDatabaseRepository : IUserRepository
         }
         return (User)user;
     }
+
+    public string GetTouristEmail(int id)
+    {
+        var user = _dbContext.Users.FirstOrDefault(u => u.Id == id);
+        var touristEmail = user.Email;
+
+        return touristEmail;
+    }
 }
 
     

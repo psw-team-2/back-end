@@ -33,6 +33,7 @@ public static class StakeholdersStartup
         services.AddScoped<IClubService, ClubService>();
         services.AddScoped<IClubRequestService, ClubRequestService>();
         services.AddScoped<IClubMessageService, ClubMessageService>();
+        
 
         services.AddScoped<IUserAccountAdministrationService, UserAccountAdministrationService>();
         //services.AddScoped<ITourPreferenceService, TourPreferenceService>();
@@ -43,6 +44,8 @@ public static class StakeholdersStartup
         services.AddScoped<IFollowRepository, FollowDatabaseRepository>();
         services.AddScoped<IMessageService, MessageService>();
         services.AddScoped<IMessageRepository, MessageDatabaseRepository>();
+
+        services.AddScoped<IEmailService, EmailService>();
     }
 
     private static void SetupInfrastructure(IServiceCollection services)
