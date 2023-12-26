@@ -64,7 +64,8 @@ namespace Explorer.Payments.Core.UseCases
                         Price = item.Price,
                         ShoppingCartId = shoppingCartId,
                         IsBought = item.IsBought,
-                        IsBundle = item.IsBundle
+                        IsBundle = item.IsBundle,
+                        Image = item.Image,
                     };
                     dtosForItems.Add(dto);
                 }

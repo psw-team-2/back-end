@@ -27,7 +27,10 @@ public class UserDatabaseRepository : IUserRepository
     {
         return _dbContext.Users.FirstOrDefault(user => user.Username == username && user.IsActive);
     }
-
+    public User GetUserByToken(string token)
+    {
+        return _dbContext.Users.FirstOrDefault(user => user.Token == token);
+    }
     public long GetHighestUserId()
     {
         long highestUserId = _dbContext.Users
@@ -113,6 +116,11 @@ public class UserDatabaseRepository : IUserRepository
             throw new KeyNotFoundException(e.Message);
         }
         return (User)user;
+    }
+
+    public User? GetByEmail(string email)
+    {
+        return _dbContext.Users.FirstOrDefault(i => i.Email == email);
     }
 }
 
