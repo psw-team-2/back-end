@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Explorer.Tours.Core.UseCases.Author
+namespace Explorer.Tours.Core.UseCases
 {
     public class AuthorReviewService : CrudService<AuthorReviewDto, AuthorReview>, IAuthorReviewService
     {
@@ -56,6 +56,22 @@ namespace Explorer.Tours.Core.UseCases.Author
             return false;
         }
 
+        public Result<PagedResult<AuthorReviewDto>> GetAuthorReviews(int authorId)
+        {
+            try
+            {
+                var authorReviews = _authorReviewRepository.GetAuthorReviews(authorId);
 
+                var authorReviewsDto = MapToDto(authorReviews).Value;
+
+                var pagedResult = new PagedResult<AuthorReviewDto>(authorReviewsDto, authorReviewsDto.Count);
+
+                return Result.Ok(pagedResult);
+            }
+            catch (Exception ex)
+            {
+                return Result.Fail(FailureCode.NotFound).WithError("Author reviews not found");
+            }
+        }
     }
 }

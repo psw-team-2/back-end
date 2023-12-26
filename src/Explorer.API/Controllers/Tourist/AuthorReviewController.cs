@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Explorer.API.Controllers.Tourist
 {
     [Route("api/tourist/authorReview")]
-    [Authorize(Policy = "touristPolicy")]
+   // [Authorize(Policy = "touristPolicy")]
     [ApiController]
     public class AuthorReviewController: BaseApiController
     {
@@ -27,6 +27,7 @@ namespace Explorer.API.Controllers.Tourist
         }
 
         [HttpPost("{touristId}")]
+        [Authorize(Policy = "touristPolicy")]
         public ActionResult<AuthorReviewDto> Create([FromBody] AuthorReviewDto authorReview, int touristId)
         {
 
@@ -34,6 +35,11 @@ namespace Explorer.API.Controllers.Tourist
             return CreateResponse(result);
         }
 
-
+        [HttpGet("{authorId:int}")]
+        public ActionResult<PagedResult<AuthorReviewDto>> GetAuthorReviews(int authorId)
+        {
+            var result = _authorReviewService.GetAuthorReviews(authorId);
+            return CreateResponse(result);
+        }
     }
 }

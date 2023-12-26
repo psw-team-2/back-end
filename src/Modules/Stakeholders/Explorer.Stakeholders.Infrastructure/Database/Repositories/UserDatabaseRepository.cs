@@ -114,6 +114,13 @@ public class UserDatabaseRepository : IUserRepository
         }
         return (User)user;
     }
+
+    public List<User> GetAuthors()
+    {
+        return _dbContext.Users
+            .Where(u => u.Role == Core.Domain.Users.UserRole.Author)
+            .ToList();
+    }
 }
 
     

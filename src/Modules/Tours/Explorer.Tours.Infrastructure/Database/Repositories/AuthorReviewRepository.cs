@@ -46,5 +46,11 @@ namespace Explorer.Tours.Infrastructure.Database.Repositories
             return entity;
         }
 
+        public List<AuthorReview> GetAuthorReviews(int authorId)
+        {
+            return _context.AuthorReview
+                .Where(ar => ar.AuthorId == authorId)
+                .ToList();
+        }
     }
 }

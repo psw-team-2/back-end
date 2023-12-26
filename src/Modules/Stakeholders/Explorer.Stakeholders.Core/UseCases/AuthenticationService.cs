@@ -124,5 +124,29 @@ public class AuthenticationService : IAuthenticationService
 
         _userRepository.Update(user.Id);
     }*/
-    
+
+    public Result<PagedResult<UserAccountDto>> GetAuthors()
+    {
+        try
+        {
+            var authors = _userRepository.GetAuthors();
+
+            var authorsDto = authors.Select(user => new UserAccountDto
+            {
+                Username = user.Username,
+                Password = user.Password,
+                Email = user.Email,
+                Role = (API.Dtos.UserRole)user.Role,
+                IsActive = user.IsActive
+            }).ToList();
+
+            var pagedResult = new PagedResult<UserAccountDto>(authorsDto, authorsDto.Count);
+
+            return Result.Ok(pagedResult);
+        }
+        catch (Exception ex)
+        {
+            return Result.Fail(FailureCode.NotFound).WithError("Authors not found");
+        }
+    }
 }
