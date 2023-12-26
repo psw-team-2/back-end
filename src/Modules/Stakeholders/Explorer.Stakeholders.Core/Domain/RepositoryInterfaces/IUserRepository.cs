@@ -17,6 +17,7 @@ public interface IUserRepository
     Result<object> GetUserById(long userId);
     public Result GetUserById(int userId);
     User Update(User user);
+    string GetTouristEmail(int id);
     User? GetByEmail(string email);
     List<string> GetAdminEmails();
     public string GetUserEmail(long userId);

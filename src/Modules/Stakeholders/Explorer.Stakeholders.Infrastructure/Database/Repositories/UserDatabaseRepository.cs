@@ -118,10 +118,19 @@ public class UserDatabaseRepository : IUserRepository
         return (User)user;
     }
 
+    public string GetTouristEmail(int id)
+    {
+        var user = _dbContext.Users.FirstOrDefault(u => u.Id == id);
+        var touristEmail = user.Email;
+
+        return touristEmail;
+    }
+    
     public User? GetByEmail(string email)
     {
         return _dbContext.Users.FirstOrDefault(i => i.Email == email);
     }
+    
     public List<string> GetAdminEmails()
     {
         var adminEmails = _dbContext.Users
