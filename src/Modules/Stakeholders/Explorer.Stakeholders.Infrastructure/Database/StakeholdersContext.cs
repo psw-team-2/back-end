@@ -21,10 +21,9 @@ public class StakeholdersContext : DbContext
     //public DbSet<Follow> Follows { get; set; }
 
     public DbSet<Message> Messages { get; set; }
-
     public DbSet<Token> Tokens { get; set; }
-
-
+    public DbSet<Answer> Answers { get; set; }
+    public DbSet<Question> Question { get; set; }
     public StakeholdersContext(DbContextOptions<StakeholdersContext> options) : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

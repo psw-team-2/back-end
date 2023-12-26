@@ -18,4 +18,6 @@ public interface IUserRepository
     public Result GetUserById(int userId);
     User Update(User user);
     User? GetByEmail(string email);
+    List<string> GetAdminEmails();
+    public string GetUserEmail(long userId);
 }

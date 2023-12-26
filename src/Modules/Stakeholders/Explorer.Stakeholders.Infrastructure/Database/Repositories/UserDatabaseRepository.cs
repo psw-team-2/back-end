@@ -122,6 +122,30 @@ public class UserDatabaseRepository : IUserRepository
     {
         return _dbContext.Users.FirstOrDefault(i => i.Email == email);
     }
+    public List<string> GetAdminEmails()
+    {
+        var adminEmails = _dbContext.Users
+            .Where(user => user.Role == Core.Domain.Users.UserRole.Administrator && user.IsActive)
+            .Select(user => user.Email)
+            .ToList();
+
+        return adminEmails;
+    }
+
+    public string GetUserEmail(long userId)
+    {
+        var user = _dbContext.Users.Find(userId);
+
+        if (user != null)
+        {
+            return user.Email;
+        }
+        else
+        {
+            return "User not found";
+        }
+    }
+
 }
 
-    
+
