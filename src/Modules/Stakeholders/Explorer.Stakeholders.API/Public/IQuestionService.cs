@@ -15,5 +15,7 @@ namespace Explorer.Stakeholders.API.Public
         Result<PagedResult<QuestionDto>> GetPaged(int page, int pageSize);
         Result<IEnumerable<QuestionDto>> GetAllUnanswered();
         Result<IEnumerable<QuestionDto>> GetAllAnswered();
+
+        Result<string> GetQuestionTextByQuestionId(int questionId);
     }
 }

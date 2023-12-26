@@ -12,5 +12,6 @@ namespace Explorer.Stakeholders.API.Public
     {
         Result<AnswerDto> Create(AnswerDto answerDto);
         public Result<AnswerDto> GetAnswerByQuestionId(int questionId);
+        Result<IEnumerable<AnswerDto>> GetAnswersByCategory(AnswerCategory category);
     }
 }

@@ -2,6 +2,7 @@
 using Explorer.Stakeholders.API.Dtos;
 using Explorer.Stakeholders.API.Public;
 using Explorer.Tours.API.Dtos;
+using FluentResults;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -46,5 +47,13 @@ namespace Explorer.API.Controllers.Tourist
             var result = _questionService.GetAllAnswered();
             return CreateResponse(result);
         }
+
+        [HttpGet("questionId/{questionId}")]
+        public ActionResult<Result<string>> GetQuestionTextById(int questionId)
+        {
+            var result = _questionService.GetQuestionTextByQuestionId(questionId);
+            return CreateResponse(result);
+        }
+
     }
 }

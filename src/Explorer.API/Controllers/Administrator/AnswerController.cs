@@ -36,5 +36,12 @@ namespace Explorer.API.Controllers.Administrator
 
             return CreateResponse(result);
         }
+
+        [HttpGet("category/{category}")]
+        public ActionResult<IEnumerable<AnswerDto>> GetAnswersByCategory(AnswerCategory category)
+        {
+            var answers = _answerService.GetAnswersByCategory(category);
+            return CreateResponse(answers);
+        }
     }
 }

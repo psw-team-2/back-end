@@ -11,5 +11,6 @@ namespace Explorer.Stakeholders.Core.Domain.RepositoryInterfaces
         Question Create(Question entity);
         IEnumerable<Question> GetAllUnanswered();
         IEnumerable<Question> GetAllAnswered();
+        Question GetQuestionById(int questionId);
     }
 }
