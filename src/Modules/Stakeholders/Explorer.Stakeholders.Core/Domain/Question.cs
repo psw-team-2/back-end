@@ -12,7 +12,7 @@ namespace Explorer.Stakeholders.Core.Domain
         public long TouristId { get; init; }
         public string Text { get; init; }
 
-        public bool isAnswered { get; init; }
+        public bool isAnswered { get; set; }
         public Question(long touristId, string text, bool isAnswered)
         {
             TouristId = touristId;

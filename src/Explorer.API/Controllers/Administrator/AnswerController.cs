@@ -17,7 +17,7 @@ namespace Explorer.API.Controllers.Administrator
             _answerService = answerService;
         }
 
-        [HttpPost]
+        [HttpPost("createAnswer")]
         public ActionResult<AnswerDto> Create([FromBody] AnswerDto answer)
         {
             var result = _answerService.Create(answer);

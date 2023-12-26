@@ -17,14 +17,22 @@ namespace Explorer.Stakeholders.Core.UseCases
     public class AnswerService : CrudService<AnswerDto, Answer>, IAnswerService
     {
         private readonly IAnswerRepository _answerRepository;
-        public AnswerService(ICrudRepository<Answer> repository, IAnswerRepository answerRepository, IMapper mapper) : base(repository, mapper) 
+        private readonly ICrudRepository<Question> _questionRepository;
+        public AnswerService(ICrudRepository<Answer> repository, IAnswerRepository answerRepository, ICrudRepository<Question> questionRepository, IMapper mapper) : base(repository, mapper) 
         { 
             _answerRepository = answerRepository;
+            _questionRepository = questionRepository;
         }
 
         public Result<AnswerDto> Create(AnswerDto answerDto)
         {
+            var question = _questionRepository.Get(answerDto.QuestionId);
             var result = base.Create(answerDto);
+            if (result.IsSuccess) // Prilagodite ovo vašoj implementaciji
+            {
+                question.isAnswered = true;
+                _questionRepository.Update(question); 
+            }
             return result;
         }
 
