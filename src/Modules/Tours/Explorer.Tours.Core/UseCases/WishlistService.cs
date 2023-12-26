@@ -39,18 +39,28 @@ namespace Explorer.Tours.Core.UseCases
             try
             {
                 Tours.Core.Domain.Tour tour = _tourRepository.Get(tourId);
+
                 if (wishlistDto != null)
                 {
-                    FavouriteItem favouriteItem = new FavouriteItem(tourId, tour.Name, tour.Price, wishlistDto.Id);
-                    _crudFavouriteItemRepository.Create(favouriteItem);
 
-                    Wishlist wishlist = _wishlistRepository.GetById(wishlistDto.Id);
+                    if (!DoesFavouriteItemExistForTour(wishlistDto.Id,tourId)) {
+                        FavouriteItem favouriteItem = new FavouriteItem(tourId, tour.Name, tour.Price, wishlistDto.Id);
+                        _crudFavouriteItemRepository.Create(favouriteItem);
 
-                    wishlist.AddItem((int)favouriteItem.Id);
+                        Wishlist wishlist = _wishlistRepository.GetById(wishlistDto.Id);
 
-                    
-                    _wishlistRepository.Update(wishlist);
-                    return Result.Ok(wishlistDto);
+                        wishlist.AddItem((int)favouriteItem.Id);
+
+
+                        _wishlistRepository.Update(wishlist);
+                        return Result.Ok(wishlistDto);
+
+                    }
+                    else
+                    {
+                        return Result.Fail(FailureCode.NotFound).WithError("Favourite Item already exist.");
+                    }
+                   
                 }
                 else
                 {
@@ -125,7 +135,20 @@ namespace Explorer.Tours.Core.UseCases
             return favouriteItem;
         }
 
-        
-        
+
+
+        public bool DoesFavouriteItemExistForTour(int wishlistId, int tourId)
+        {
+            var wishlist = _wishlistRepository.GetById(wishlistId);
+            if (wishlist != null)
+            {
+                var favouriteItems = _favouriteItemRepository.GetFavouriteItemsByWishlist(wishlistId).ToList();
+                return favouriteItems.Any(item =>  item.ItemId == tourId);
+            }
+            return false;
+        }
+
+
+
     }
 }

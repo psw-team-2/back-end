@@ -21,6 +21,8 @@ namespace Explorer.Tours.API.Public
         public Result<WishlistDto> RemoveItem(int wishlistId, int itemId);
         public Result<WishlistDto> GetWishlistByUserId(int userId);
         public Result<WishlistDto> RemoveAllItems(int wishlistId);
-       
+        bool DoesFavouriteItemExistForTour(int wishlistId, int tourId);
+
+
     }
 }
