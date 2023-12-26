@@ -1,5 +1,7 @@
-﻿using Castle.Core.Smtp;
+using Castle.Core.Smtp;
 using Explorer.Stakeholders.Core.Domain.RepositoryInterfaces;
+using Explorer.Stakeholders.API.Dtos;
+using Explorer.Stakeholders.Core.UseCases;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,12 +15,15 @@ using Explorer.Stakeholders.Core.Domain.Users;
 using Explorer.Tours.API.Public;
 using Explorer.Tours.Core.Domain;
 using FluentResults;
+using Explorer.Stakeholders.Core.Domain.RepositoryInterfaces;
+
 
 namespace Explorer.Stakeholders.Infrastructure
 {
     public class EmailService : IEmailService
     {
         private readonly IUserRepository _userRepository;
+
         private readonly ITourService _tourService;
         public EmailService(IUserRepository userRepository, ITourService tourService)
         {
@@ -49,7 +54,31 @@ namespace Explorer.Stakeholders.Infrastructure
 
 
             SendEmail(touristEmail, subject, body);
-            
+        }
+
+        public void SendEmailToAdmins(QuestionDto questionDto)
+        {
+            List<string> adminEmails = _userRepository.GetAdminEmails();
+
+            foreach (var adminEmail in adminEmails)
+            {
+                string subject = "New Question";
+                string body = $"Hello,\n\nYou received a new question: {questionDto.Text}\n"  + "Give a response here: http://localhost:4200/questions-overview\n\n\nExplorer Team\nTelephone: +381 9752435";
+
+                SendEmail(adminEmail, subject, body);
+            }
+        }
+
+        public void SendEmailToUser(AnswerDto answer)
+        {
+            string userEmail = _userRepository.GetUserEmail(answer.TouristId);
+        
+            string subject = "New Answer";
+            string body = $"Hello,\n\nYou received an answer: {answer.Text}\n" + "Look for it here: http://localhost:4200/faq\n\n\nExplorer Team\nTelephone: +381 9752435";
+
+            SendEmail(userEmail, subject, body);
+
+
         }
 
         public void SendEmail(string toEmail, string subject, string body)

@@ -44,7 +44,9 @@ public static class StakeholdersStartup
         services.AddScoped<IFollowRepository, FollowDatabaseRepository>();
         services.AddScoped<IMessageService, MessageService>();
         services.AddScoped<IMessageRepository, MessageDatabaseRepository>();
-
+        services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<IAnswerService, AnswerService>();
+        services.AddScoped<IQuestionService, QuestionService>();
         services.AddScoped<IEmailService, EmailService>();
     }
 
@@ -70,6 +72,13 @@ public static class StakeholdersStartup
         services.AddScoped<IUserRepository, UserDatabaseRepository>();
         services.AddScoped<IProfileRepository, ProfileDatabaseRepository>();
 
+        services.AddScoped(typeof(ICrudRepository<Token>), typeof(CrudDatabaseRepository<Token, StakeholdersContext>));
+        services.AddScoped<ITokenRepository, TokenDatabaseRepository>();
+
+        services.AddScoped<IAnswerRepository, AnswerRepository>();
+        services.AddScoped<IQuestionRepository, QuestionRepository>();
+        services.AddScoped(typeof(ICrudRepository<Answer>), typeof(CrudDatabaseRepository<Answer, StakeholdersContext>));
+        services.AddScoped(typeof(ICrudRepository<Question>), typeof(CrudDatabaseRepository<Question, StakeholdersContext>));
 
         services.AddDbContext<StakeholdersContext>(opt =>
             opt.UseNpgsql(DbConnectionStringBuilder.Build("stakeholders"),
