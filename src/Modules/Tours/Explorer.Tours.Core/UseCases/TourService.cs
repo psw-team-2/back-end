@@ -24,6 +24,7 @@ namespace Explorer.Tours.Core.UseCases
         public readonly IOrderItemService _orderItemService;
         public readonly IShoppingCartService _shoppingCartService;
 
+
         public TourService(ICrudRepository<Tour> repository, IMapper mapper, IUserAccountAdministrationService userAccountService, IOrderItemService orderItemService, IShoppingCartService shoppingCartService, ITourRepository tourRepository) : base(repository, mapper)
         {
             _userAccountService = userAccountService;
@@ -196,6 +197,8 @@ namespace Explorer.Tours.Core.UseCases
                     EndTime = DateTime.UtcNow,
                 };
 
+                
+
                 return Result.Ok(tourExecutionDto);
             }
             catch (Exception ex)
@@ -227,11 +230,15 @@ namespace Explorer.Tours.Core.UseCases
             tour.Status = API.Dtos.AccountStatus.PUBLISHED;
             tour.PublishTime = DateTime.Now;
 
+            Update(tour);
+
             return tour;
         }
         public Result<TourDto> ArchiveTour(TourDto tour)
         {
             tour.Status = API.Dtos.AccountStatus.ARCHIVED;
+
+            Update(tour);
 
             return tour;
         }

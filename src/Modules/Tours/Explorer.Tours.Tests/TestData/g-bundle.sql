@@ -13,3 +13,6 @@ INSERT INTO tours."Bundles"(
 INSERT INTO tours."Bundles"(
 	"Id", "UserId", "Name", "Price", "Tours", "Status")
 	VALUES (-5, -11, 'bundle5', '500', ARRAY[(2)], 1);
+INSERT INTO tours."Bundles"(
+	"Id", "UserId", "Name", "Price", "Tours", "Status")
+	VALUES (-41, -41, 'bundle5', '500', ARRAY[(-41)], 1);

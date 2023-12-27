@@ -31,14 +31,19 @@ VALUES (-23, 'turista3@gmail.com', 'turista3', 2, true,'autor1@gmail.com');
 
 INSERT INTO stakeholders."Users"(
     "Id", "Username", "Password", "Role", "IsActive", "Email")
-VALUES (-41, 'turista41', 'turista41', 2, true,'autor41@gmail.com')
+VALUES (-41, 'turista41', 'turista41', 2, true,'tourist41@gmail.com');
 INSERT INTO stakeholders."Users"(
     "Id", "Username", "Password", "Role", "IsActive", "Email")
-VALUES (-42, 'autor42', 'autor42', 2, true,'autor42@gmail.com');
+VALUES (-42, 'turista42', 'autor42', 2, true,'tourist42@gmail.com');
 INSERT INTO stakeholders."Users"(
     "Id", "Username", "Password", "Role", "IsActive", "Email")
-VALUES (-43, 'admin43', 'admin43', 2, true,'autor43@gmail.com');
+VALUES (-43, 'turista43', 'admin43', 2, true,'tourist43@gmail.com');
 INSERT INTO stakeholders."Users"(
     "Id", "Username", "Password", "Role", "IsActive", "Email")
-VALUES (-44, 'turista44', 'turista44', 2, true,'autor44@gmail.com')
-
+VALUES (-44, 'turista44', 'turista44', 2, true,'tourist44@gmail.com');
+INSERT INTO stakeholders."Users"(
+    "Id", "Username", "Password", "Role", "IsActive", "Email")
+VALUES (-45, 'autor45', 'autor45', 1, true,'autor45@gmail.com');
+INSERT INTO stakeholders."Users"(
+    "Id", "Username", "Password", "Role", "IsActive", "Email")
+VALUES (-46, 'admin46', 'admin46', 0, true,'admin46@gmail.com');

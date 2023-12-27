@@ -21,6 +21,19 @@ namespace Explorer.Encounters.Core.Domain
             XP = xP;
             Status = status;
             Type = type;
+            Validate();
+        }
+
+        //Added Validation for Encounter
+        public void Validate()
+        {
+            if (string.IsNullOrWhiteSpace(Name)) throw new ArgumentException("Invalid Name");
+            if (string.IsNullOrWhiteSpace(Description)) throw new ArgumentException("Invalid Description");
+            if (Longitude == null) throw new ArgumentException("Invalid Longitude");
+            if (Latitude == null) throw new ArgumentException("Invalid Latitude");
+            if (XP == null) throw new ArgumentException("Invalid XP");
+            if (Status == null) throw new ArgumentException("Invalid Status");
+            if (Type == null) throw new ArgumentException("Invalid Type");
         }
     }
 
