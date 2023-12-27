@@ -60,5 +60,6 @@ public class ToursProfile : Profile
         CreateMap<WishlistDto, Wishlist>().ReverseMap();
         CreateMap<FavouriteItemDto, FavouriteItem>().ReverseMap();
         CreateMap<GiftcardDto, Giftcard>().ReverseMap();
+        CreateMap<AuthorReviewDto, AuthorReview>().ReverseMap();
     }
 }

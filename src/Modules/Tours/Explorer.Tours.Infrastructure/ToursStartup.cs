@@ -55,6 +55,7 @@ public static class ToursStartup
         services.AddScoped<IFavouriteItemService, FavouriteItemService>();
         services.AddScoped<IGiftCardService, GiftCardService>();
 
+        services.AddScoped<IAuthorReviewService, AuthorReviewService>();
     }
 
     private static void SetupInfrastructure(IServiceCollection services)
@@ -89,6 +90,8 @@ public static class ToursStartup
         services.AddScoped<IFavouriteItemRepository, FavouriteItemRepository>();
         services.AddScoped(typeof(ICrudRepository<Giftcard>), typeof(CrudDatabaseRepository<Giftcard, ToursContext>));
 
+        services.AddScoped(typeof(ICrudRepository<AuthorReview>), typeof(CrudDatabaseRepository<AuthorReview, ToursContext>));
+        services.AddScoped<IAuthorReviewRepository, AuthorReviewRepository>();
 
         services.AddDbContext<ToursContext>(opt =>
             opt.UseNpgsql(DbConnectionStringBuilder.Build("tours"),

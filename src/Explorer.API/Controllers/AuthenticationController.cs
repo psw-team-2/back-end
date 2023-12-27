@@ -1,4 +1,5 @@
-﻿using Explorer.Stakeholders.API.Dtos;
+﻿using Explorer.BuildingBlocks.Core.UseCases;
+using Explorer.Stakeholders.API.Dtos;
 using Explorer.Stakeholders.API.Public;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
@@ -80,5 +81,11 @@ public class AuthenticationController : BaseApiController
             sb.Append(bytes[i].ToString("x2"));
         }
         return sb.ToString();
+    }
+    [HttpGet("authors")]
+    public ActionResult<PagedResult<UserAccountDto>> GetAuthors()
+    {
+        var result = _authenticationService.GetAuthors();
+        return CreateResponse(result);
     }
 }

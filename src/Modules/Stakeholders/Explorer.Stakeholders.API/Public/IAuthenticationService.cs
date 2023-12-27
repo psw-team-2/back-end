@@ -11,4 +11,5 @@ public interface IAuthenticationService
     Result<List<long>> GetAllUserIds();
     Result<object> GetUserById(long userId);
     Result<UserAccountDto> GetUserByEmail(string email);
+    Result<PagedResult<UserAccountDto>> GetAuthors();
 }

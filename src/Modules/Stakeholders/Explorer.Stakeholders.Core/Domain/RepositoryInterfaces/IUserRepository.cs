@@ -21,4 +21,5 @@ public interface IUserRepository
     User? GetByEmail(string email);
     List<string> GetAdminEmails();
     public string GetUserEmail(long userId);
+    List<User> GetAuthors();
 }
