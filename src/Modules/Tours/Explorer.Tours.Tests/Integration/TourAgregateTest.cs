@@ -89,14 +89,15 @@ namespace Explorer.Tours.Tests.Integration.Learning.Assessment
 
             var result = (ObjectResult)tourExecutionController.StartTour(tourExecution).Result;
 
-            var resultEntity = result.Value as TourDto;
+            var resultEntity = result.Value as TourExecutionDto;
 
             result.StatusCode.ShouldBe(expectedStatusCode);
-            //if (expectedStatusCode == 200)
-            //{
-            //    resultEntity.ShouldNotBe(null);
-            //    resultEntity.Equipment.ShouldContain(checkpointId);
-            //}
+            if (expectedStatusCode == 200)
+            {
+                resultEntity.ShouldNotBe(null);
+                var storedEntity = dbContext.TourExecutions.FirstOrDefault(i => i.Id == resultEntity.Id);
+                storedEntity.Id.ShouldBe(resultEntity.Id);
+            }
         }
 
         [Theory]

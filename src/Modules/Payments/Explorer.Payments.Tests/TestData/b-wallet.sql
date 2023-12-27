@@ -9,3 +9,12 @@ INSERT INTO payments."Wallets"(
 INSERT INTO payments."Wallets"(
 	"Id", "UserId", "Username", "AC")
 	VALUES (-3, -23, 'turista3', 0);
+
+INSERT INTO payments."Wallets"(
+	"Id", "UserId", "Username", "AC")
+	VALUES (-51, -41, 'turista41', 0);
+
+INSERT INTO payments."Wallets"(
+	"Id", "UserId", "Username", "AC")
+	VALUES (-52, -42, 'turista42', 0);
+

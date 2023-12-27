@@ -25,7 +25,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Explorer.Stakeholders.API.Dtos;
 using Explorer.Stakeholders.API.Public;
+using Explorer.Stakeholders.Infrastructure.Database.Repositories;
 
 namespace Explorer.Stakeholders.Tests.Integration
 {
@@ -41,8 +43,19 @@ namespace Explorer.Stakeholders.Tests.Integration
 //        public void 
 
 
+        public static IEnumerable<object[]> ProfileData()
+        {
+            yield return new object[]
+            {
+                new ProfileDto
+                {
+                    Id = -41,
 
-        
+
+                }
+            };
+        }
+
 
 
 

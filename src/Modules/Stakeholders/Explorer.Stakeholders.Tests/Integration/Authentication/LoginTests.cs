@@ -19,18 +19,18 @@ public class LoginTests : BaseStakeholdersIntegrationTest
         // Arrange
         using var scope = Factory.Services.CreateScope();
         var controller = CreateController(scope);
-        var loginSubmission = new CredentialsDto { Username = "turista1@gmail.com", Password = "turista1" };
+        var loginSubmission = new CredentialsDto { Username = "turista41@gmail.com", Password = "turista41" };
 
         // Act
         var authenticationResponse = ((ObjectResult)controller.Login(loginSubmission).Result).Value as AuthenticationTokensDto;
 
         // Assert
         authenticationResponse.ShouldNotBeNull();
-        authenticationResponse.Id.ShouldBe(-21);
+        authenticationResponse.Id.ShouldBe(-41);
         var decodedAccessToken = new JwtSecurityTokenHandler().ReadJwtToken(authenticationResponse.AccessToken);
         var personId = decodedAccessToken.Claims.FirstOrDefault(c => c.Type == "personId");
         personId.ShouldNotBeNull();
-        personId.Value.ShouldBe("-21");
+        personId.Value.ShouldBe("-41");
     }
 
     [Fact]

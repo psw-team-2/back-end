@@ -65,15 +65,22 @@ namespace Explorer.Blog.Tests.Integration
             var userBlogResult = (ObjectResult)userBlogController.Get(userBlogDto.Id).Result;
 
             var equipmentResult = (ObjectResult)userBlogController.GetEquipmentByTourReport(userBlogDto.Id).Result;
-//            var checkpointResult = (ObjectResult)userBlogController.GetCheckpointsByTourReport(userBlogDto.Id).Result;
+            var checkpointResult = (ObjectResult)userBlogController.GetCheckpointsByTourReport(userBlogDto.Id).Result;
 
             userBlogResult.ShouldNotBeNull();
             equipmentResult.ShouldNotBeNull();
-//            checkpointResult.ShouldNotBeNull();
+            checkpointResult.ShouldNotBeNull();
 
             userBlogResult.StatusCode.ShouldBe(expectedResponse2);
             equipmentResult.StatusCode.ShouldBe(expectedResponse2);
-//            checkpointResult.StatusCode.ShouldBe(expectedResponse2);
+            checkpointResult.StatusCode.ShouldBe(expectedResponse2);
+
+            var resultEntity = userBlogResult.Value as UserBlogDto;
+            if (expectedResponse2 == 200)
+            {
+                resultEntity.TourReport.Equipment.ShouldNotBeNull();
+                resultEntity.TourReport.CheckpointsVisited.ShouldNotBeNull();
+            }
         }
 
 
@@ -85,11 +92,11 @@ namespace Explorer.Blog.Tests.Integration
             {
                 new UserBlogDto()
                 {
-                    Id = -21,
+                    Id = -51,
                     UserId = -1,
-                    Username = "Test User",
-                    Title = "Test Title",
-                    Description = "Test Description",
+                    Username = "turista41",
+                    Title = "Novi Sad",
+                    Description = "Stari Grad",
                     CreationTime = DateTime.UtcNow,
                     Status = BlogStatus.Draft,
                     Image = "Test Image",

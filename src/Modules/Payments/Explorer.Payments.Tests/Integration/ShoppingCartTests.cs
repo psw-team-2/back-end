@@ -31,15 +31,15 @@ namespace Explorer.Payments.Tests.Integration
             var dbContext = scope.ServiceProvider.GetRequiredService<PaymentsContext>();
             var newCart = new ShoppingCartDto
             {
-                Id = -2,
-                UserId = -22,
+                Id = -53,
+                UserId = -41,
                 Items = new List<int> { 1 },
                 TotalPrice = 0
 
             };
             var bundle = new BundleDto
             {
-                Id = -5,
+                Id = -51,
                 UserId = -11,
                 Name = "bundle5",
                 Price = 500,
@@ -50,7 +50,7 @@ namespace Explorer.Payments.Tests.Integration
 
             // Act
             //korsti pravu bazu za bundle 
-            var result = ((ObjectResult)controller.AddBundleItem(newCart, 1).Result);
+            var result = ((ObjectResult)controller.AddBundleItem(newCart,- 41).Result);
 
             // Assert - Response
             result.ShouldNotBeNull();

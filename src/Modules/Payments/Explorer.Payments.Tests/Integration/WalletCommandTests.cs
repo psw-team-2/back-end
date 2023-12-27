@@ -26,7 +26,7 @@ namespace Explorer.Payments.Tests.Integration
         }
 
         [Fact]
-        public void AddAC()
+        public void Add_ac()
         {
             // Arrange
             using var scope = Factory.Services.CreateScope();
@@ -54,6 +54,34 @@ namespace Explorer.Payments.Tests.Integration
             oldEntity.ShouldBeNull();
         }
 
+
+        [Theory]
+        [InlineData(-51, -41, "turista41", 100, 200)]
+        [InlineData(-100, -42, "", 100, 400)]
+        public void Adds_ac(int id, int userId, string username, double ac, int expectedStatusCode)
+        {
+            // Arrange
+            using var scope = Factory.Services.CreateScope();
+            var controller = CreateController(scope);
+            var dbContext = scope.ServiceProvider.GetRequiredService<PaymentsContext>();
+
+            var entity = new WalletDto() { Id = id, UserId = userId, Username = username, AC = ac };
+
+            var result = ((ObjectResult)controller.AddAC(entity).Result);
+            var wallet = result.Value as WalletDto;
+            result.ShouldNotBeNull();
+            result.StatusCode.ShouldBe(expectedStatusCode);
+            if(expectedStatusCode == 200){
+                wallet.Username.ShouldBe(entity.Username);
+            }
+            // Assert - Database
+            var storedEntity = dbContext.Wallets.FirstOrDefault(i => i.Id == id);
+            if (expectedStatusCode == 200)
+            {
+                storedEntity.ShouldNotBeNull();
+            }
+
+        }
 
         private static WalletController CreateController(IServiceScope scope)
         {
