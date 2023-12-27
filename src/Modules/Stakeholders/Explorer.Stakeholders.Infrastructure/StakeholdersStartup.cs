@@ -48,6 +48,9 @@ public static class StakeholdersStartup
         services.AddScoped<IAnswerService, AnswerService>();
         services.AddScoped<IQuestionService, QuestionService>();
         services.AddScoped<IEmailService, EmailService>();
+
+        services.AddScoped<IAuthorRequestService, AuthorRequestService>();
+        services.AddScoped<IAuthorRequestRepository, AuthorRequestDatabaseRepository>();
     }
 
     private static void SetupInfrastructure(IServiceCollection services)
@@ -79,6 +82,9 @@ public static class StakeholdersStartup
         services.AddScoped<IQuestionRepository, QuestionRepository>();
         services.AddScoped(typeof(ICrudRepository<Answer>), typeof(CrudDatabaseRepository<Answer, StakeholdersContext>));
         services.AddScoped(typeof(ICrudRepository<Question>), typeof(CrudDatabaseRepository<Question, StakeholdersContext>));
+        services.AddScoped(typeof(ICrudRepository<AuthorRequest>), typeof(CrudDatabaseRepository<AuthorRequest, StakeholdersContext>));
+        services.AddScoped<IAuthorRequestRepository, AuthorRequestDatabaseRepository>();
+
 
         services.AddDbContext<StakeholdersContext>(opt =>
             opt.UseNpgsql(DbConnectionStringBuilder.Build("stakeholders"),

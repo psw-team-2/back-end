@@ -61,7 +61,8 @@ public class AuthenticationService : IAuthenticationService
 
             var user = _userRepository.Create(new User(account.Username, account.Password, UserRole.Tourist, false, account.Email, token));
             //var person = _personRepository.Create(new Person(user.Id, account.Name, account.Surname, account.Email));
-            var profile = _profileRepository.Create(new Profile(account.Name, account.Surname, account.ProfilePicture, account.Biography, account.Motto, user.Id, true, 0, false, false));
+            //var profile = _profileRepository.Create(new Profile(account.Name, account.Surname, account.ProfilePicture, account.Biography, account.Motto, user.Id, true, 0, false, false));
+            var profile = _profileRepository.Create(new Profile(account.Name, account.Surname, account.ProfilePicture, account.Biography, account.Motto, user.Id, true, false, 0, false, 0, false));
 
             //kreiranje korpe
             var shoppingCart = _shoppingCartService.Create(new Payments.API.Dtos.ShoppingCartDto
@@ -157,6 +158,10 @@ public class AuthenticationService : IAuthenticationService
         }
     }
 
+    public Result<object> GetWholeUserById(long userId)
+    {
+        return _userRepository.GetWholeUserById(userId);
+    }
     /*
     public Result DeleteApplicationReviewByUser(ApplicationReviewDto applicationReviewDto)
     {

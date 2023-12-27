@@ -17,4 +17,6 @@ public class ProfileDto
     public int XP { get; init; }
     public bool IsFirstPurchased { get; init; }
     public bool QuestionnaireDone { get; set; }
+    public int NumberOfCompletedTours { get; set; }
+    public bool RequestSent {  get; set; }
 }

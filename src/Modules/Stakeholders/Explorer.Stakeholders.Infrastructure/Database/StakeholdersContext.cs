@@ -24,6 +24,10 @@ public class StakeholdersContext : DbContext
     public DbSet<Token> Tokens { get; set; }
     public DbSet<Answer> Answers { get; set; }
     public DbSet<Question> Question { get; set; }
+
+    public DbSet<AuthorRequest> AuthorRequests { get; set; }
+
+
     public StakeholdersContext(DbContextOptions<StakeholdersContext> options) : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

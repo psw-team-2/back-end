@@ -161,6 +161,41 @@ public class UserDatabaseRepository : IUserRepository
             .Where(u => u.Role == Core.Domain.Users.UserRole.Author)
             .ToList();
     }
+    
+    // novo
+    public Result<object> GetWholeUserById(long userId)
+    {
+        try
+        {
+            var user = _dbContext.Users.FirstOrDefault(u => u.Id == userId);
+
+            if (user != null)
+            {
+                var credentialsDto = new UserAccountDto
+                {
+                    Username = user.Username,
+                    Password = user.Password,
+                    Email = user.Email,
+                    Role = (API.Dtos.UserRole)user.Role,
+                    IsActive = user.IsActive,
+                };
+
+                return Result.Ok((object)credentialsDto);
+
+            }
+            else
+            {
+                return Result.Fail("User not found.");
+            }
+        }
+        catch (Exception ex)
+        {
+            return Result.Fail($"Error: {ex.Message}");
+        }
+
+        // Handle any exceptions that may occur during database access
+        //return Result.Fail($"Error: {ex.Message}");
+    }
 }
 
 
