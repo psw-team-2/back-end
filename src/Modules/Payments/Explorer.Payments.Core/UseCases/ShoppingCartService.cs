@@ -52,7 +52,7 @@ namespace Explorer.Payments.Core.UseCases
                 Tours.Core.Domain.Tour tour = _tourRepository.Get(tourId);
                 if (shoppingCartId != null)
                 {
-                    OrderItem orderItem = new OrderItem(tourId, tour.Name, newPrice, shoppingCartId, false, false);
+                    OrderItem orderItem = new OrderItem(tourId, tour.Name, newPrice, shoppingCartId, false, false, tour.Image);
                     _crudOrderItemRepository.Create(orderItem);
 
                     ShoppingCart shoppingCart = _shoppingCartRepository.GetById(shoppingCartId);
