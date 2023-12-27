@@ -39,6 +39,19 @@ namespace Explorer.API.Controllers.Tourist
             return CreateResponse(result);          
         }
 
+        [HttpGet("by-tour/{tourId}")]
+        public ActionResult GetByTourId(int tourId)
+        {
+            var result = _tourPurchaseTokenService.GetTourPurchaseTokensByTourId(tourId);
+            return CreateResponse(result);
+        }
+
+        [HttpGet("by-tour-weekly/{tourId}")]
+        public ActionResult GetWeeklyByTourId(int tourId)
+        {
+            var result = _tourPurchaseTokenService.GetWeeklyTourPurchaseTokensByTourId(tourId);
+            return CreateResponse(result);
+        }
 
 
     }

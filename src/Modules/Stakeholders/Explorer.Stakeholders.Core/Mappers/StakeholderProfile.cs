@@ -24,5 +24,6 @@ public class StakeholderProfile : ProfileA
         CreateMap<TokenDto, Token>().ReverseMap();
         CreateMap<QuestionDto, Question>().ReverseMap();
         CreateMap<AnswerDto, Answer>().ReverseMap();
+        CreateMap<AuthorRequestDto, AuthorRequest>().ReverseMap();
     }
 }

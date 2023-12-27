@@ -22,4 +22,7 @@ public interface IUserRepository
     List<string> GetAdminEmails();
     public string GetUserEmail(long userId);
     List<User> GetAuthors();
+
+    //novo
+    Result<object> GetWholeUserById(long userId);
 }
