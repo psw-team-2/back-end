@@ -12,6 +12,7 @@ namespace Explorer.Tours.Core.Domain.RepositoryInterfaces
         AuthorReview Get(long id);
         AuthorReview Update(AuthorReview entity);
         List<AuthorReview> GetAuthorReviews(int authorId);
+        AuthorReview DisapproveAuthorReview(long reviewId);
     }
 
 }

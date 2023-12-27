@@ -52,5 +52,23 @@ namespace Explorer.Tours.Infrastructure.Database.Repositories
                 .Where(ar => ar.AuthorId == authorId)
                 .ToList();
         }
+
+        public AuthorReview DisapproveAuthorReview(long reviewId)
+        {
+            var entity = _context.AuthorReview.Find(reviewId);
+
+            if (entity != null)
+            {
+                entity.SetIsApproved(false);
+                _context.AuthorReview.Update(entity);
+                _context.SaveChanges();
+
+                return entity;
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

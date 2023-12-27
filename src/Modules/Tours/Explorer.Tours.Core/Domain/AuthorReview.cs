@@ -14,6 +14,7 @@ namespace Explorer.Tours.Core.Domain
         public long AuthorId { get; init; }
         public DateTime ReviewDate { get; init; }
         public long TouristId { get; init; } 
+        public bool IsApproved { get; private set; }
 
         public AuthorReview(int grade, string comment, long authorId, DateTime reviewDate, long touristId)
         {
@@ -28,6 +29,12 @@ namespace Explorer.Tours.Core.Domain
             AuthorId = authorId;
             ReviewDate = reviewDate;
             TouristId = touristId;
+            IsApproved = true;
+        }
+
+        public void SetIsApproved(bool value)
+        {
+            IsApproved = value;
         }
     }
 }

@@ -14,5 +14,6 @@ namespace Explorer.Tours.API.Public.Author
         Result<PagedResult<AuthorReviewDto>> GetPaged(int page, int pageSize);
         Result<AuthorReviewDto> Create(AuthorReviewDto authorReviewDto, int touristId);
         Result<PagedResult<AuthorReviewDto>> GetAuthorReviews(int authorId);
+        Result<AuthorReviewDto> DisapproveAuthorReview(long reviewId);
     }
 }

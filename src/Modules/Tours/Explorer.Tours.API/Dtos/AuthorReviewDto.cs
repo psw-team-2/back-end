@@ -14,5 +14,6 @@ namespace Explorer.Tours.API.Dtos
         public long AuthorId { get; set; }
         public DateTime ReviewDate { get; set; }
         public long TouristId { get; set; }
+        public bool IsApproved { get; set;}
     }
 }

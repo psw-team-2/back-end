@@ -41,5 +41,12 @@ namespace Explorer.API.Controllers.Tourist
             var result = _authorReviewService.GetAuthorReviews(authorId);
             return CreateResponse(result);
         }
+
+        [HttpPut("{id:int}/disapproved")]
+        public ActionResult<AuthorReviewDto> DisapproveAuthorReview(long id)
+        {
+            var result = _authorReviewService.DisapproveAuthorReview(id);
+            return CreateResponse(result);
+        }
     }
 }

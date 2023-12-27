@@ -73,5 +73,17 @@ namespace Explorer.Tours.Core.UseCases
                 return Result.Fail(FailureCode.NotFound).WithError("Author reviews not found");
             }
         }
+
+        public Result<AuthorReviewDto> DisapproveAuthorReview(long reviewId)
+        {
+            var review = _authorReviewRepository.DisapproveAuthorReview(reviewId);
+            if (review != null)
+            {
+                var reviewDto = MapToDto(review);
+                return Result.Ok(reviewDto);
+            }
+            return Result.Fail(FailureCode.NotFound);
+        }
+
     }
 }
