@@ -16,5 +16,7 @@ namespace Explorer.Payments.API.Public
         Result<WalletDto> Create(WalletDto walletDto);
         Result<WalletDto> AddAC(WalletDto walletDto);
         Result<WalletDto> GetWalletByUserId(int userId);
+        Result<int> SendAC(int AC, int receiverWalletId, int senderWalletId);
+
     }
 }

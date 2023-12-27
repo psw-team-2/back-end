@@ -15,5 +15,6 @@ namespace Explorer.Payments.API.Dtos
         public long ShoppingCartId { get; set; }
         public bool IsBought { get; set; }
         public bool IsBundle { get; set; }
+        public string Image { get; set; }
     }
 }

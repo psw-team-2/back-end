@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Explorer.Tours.API.Dtos;
 using Explorer.Tours.Core.Domain;
 using System.Collections.Generic;
@@ -23,6 +23,7 @@ public class ToursProfile : Profile
         CreateMap<TourReviewDto, TourReview>().ReverseMap();
         CreateMap<TourPurchaseTokenDto, TourPurchaseToken>().ReverseMap();
         CreateMap<TourBundleDto, Tour>().ReverseMap();
+        
         //CreateMap<PriceDto, Price>().ReverseMap();
         /*CreateMap<OrderItemDto, OrderItem>()
             .IncludeAllDerived()
@@ -55,5 +56,10 @@ public class ToursProfile : Profile
         CreateMap<ComposedTourDto, ComposedTour>().ReverseMap();
 
         CreateMap<BundleDto, Bundle>().ReverseMap();
+        CreateMap<TourSaleDto, TourSale>().ReverseMap();
+        CreateMap<WishlistDto, Wishlist>().ReverseMap();
+        CreateMap<FavouriteItemDto, FavouriteItem>().ReverseMap();
+        CreateMap<GiftcardDto, Giftcard>().ReverseMap();
+        CreateMap<AuthorReviewDto, AuthorReview>().ReverseMap();
     }
 }

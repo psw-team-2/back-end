@@ -16,10 +16,12 @@ namespace Explorer.API.Controllers.Author
         private readonly ITourService _tourService;
         private readonly IPublicRequestService _publicRequestService;
 
-        public TourController(ITourService tourService, IPublicRequestService publicRequestService)
+        private readonly IWebHostEnvironment _environment;
+        public TourController(ITourService tourService, IPublicRequestService publicRequestService, IWebHostEnvironment environment)
         {
             _tourService = tourService;
             _publicRequestService = publicRequestService;
+            _environment = environment;
         }
 
         [HttpGet("{id:int}")]
@@ -147,6 +149,27 @@ namespace Explorer.API.Controllers.Author
             var result = Result.Ok(toursDto); 
 
             return CreateResponse(result); 
+        }
+
+
+        [HttpPost("uploadTourImage")]
+        public async Task<string> UploadFile()
+        {
+            try
+            {
+                var file = Request.Form.Files[0];
+                string fName = file.FileName;
+                string path = Path.Combine(_environment.ContentRootPath, "Images", file.FileName);
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+                return $"{file.FileName} successfully uploaded to the Server";
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
     }
 }

@@ -14,11 +14,15 @@ public class StakeholderProfile : ProfileA
     {
         CreateMap<ClubDto, Club>().ReverseMap();
         CreateMap<ClubRequestDto, ClubRequest>().ReverseMap();
+        CreateMap<ClubMessageDto, ClubMessage>().ReverseMap();
         CreateMap<TourPreferenceDto, TourPreference>().ReverseMap();
         CreateMap<ProfileDto, ProfileD>().ReverseMap();
         CreateMap<UserAccountDto, User>().ReverseMap();
         CreateMap<ApplicationReviewDto, ApplicationReview>().ReverseMap();
         CreateMap<FollowDto, Follow>().ReverseMap();
         CreateMap<MessageDto, Message>().ReverseMap();
+        CreateMap<TokenDto, Token>().ReverseMap();
+        CreateMap<QuestionDto, Question>().ReverseMap();
+        CreateMap<AnswerDto, Answer>().ReverseMap();
     }
 }

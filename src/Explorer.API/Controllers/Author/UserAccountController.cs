@@ -4,6 +4,8 @@ using Explorer.Stakeholders.API.Public;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Explorer.Stakeholders.Core.UseCases;
+using System.Text;
+using System.Security.Cryptography;
 
 namespace Explorer.API.Controllers.Administrator.Administration
 {
@@ -30,10 +32,20 @@ namespace Explorer.API.Controllers.Administrator.Administration
             var result = _userAccountAdministrationService.Get(id);
             return CreateResponse(result);
         }
+        [HttpGet("token/{token}")]
+        public ActionResult<UserAccountDto> GetByToken(string token)
+        {
+            var result = _userAccountAdministrationService.GetByToken(token);
+            return CreateResponse(result);
+        }
 
         [HttpPut("{id:int}")]
         public ActionResult<UserAccountDto> Update([FromBody] UserAccountDto user)
         {
+            if (user.Password.Length != 64)
+            {
+                user.Password = ToSHA256(user.Password);
+            }
             var result = _userAccountAdministrationService.Update(user);
             return CreateResponse(result);
         }
@@ -45,7 +57,18 @@ namespace Explorer.API.Controllers.Administrator.Administration
             return CreateResponse(result);
         }
 
+        private static string ToSHA256(string s)
+        {
+            using var sha256 = SHA256.Create();
+            byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(s));
 
+            var sb = new StringBuilder();
+            for (int i = 0; i < bytes.Length; i++)
+            {
+                sb.Append(bytes[i].ToString("x2"));
+            }
+            return sb.ToString();
+        }
 
 
 

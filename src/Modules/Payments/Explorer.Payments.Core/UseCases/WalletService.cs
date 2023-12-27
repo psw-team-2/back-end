@@ -54,6 +54,36 @@ namespace Explorer.Payments.Core.UseCases
             return MapToDto(wallet);
         }
 
+        public WalletDto GetByUserId(int userId)
+        {
+            Wallet wallet = __walletRepository.GetWalletByUserId(userId);
+            return MapToDto(wallet);
+        }
+
+        public Result<int> SendAC(int AC, int receiverId, int senderId)
+        {
+            WalletDto receiverWalletDto = GetByUserId(receiverId);
+            WalletDto senderWalletDto = GetByUserId(senderId);
+            Wallet receiverWallet = _walletRepository.Get(receiverWalletDto.Id);
+            Wallet senderWallet = _walletRepository.Get(senderWalletDto.Id);
+            if (receiverWallet != null && senderWallet != null )
+            {
+                if (senderWallet.AC >= AC)
+                {
+                    receiverWallet.AC += AC;
+                    senderWallet.AC -= AC;
+
+                    _walletRepository.Update(receiverWallet);
+                    _walletRepository.Update(senderWallet);
+                    return AC;
+                }
+               
+            }
+            return Result.Fail(FailureCode.NotFound).WithError("Wallet not found.");
+        }
+
+       
+
 
     }
 }

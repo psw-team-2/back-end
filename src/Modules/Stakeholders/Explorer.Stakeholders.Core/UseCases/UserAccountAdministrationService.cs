@@ -10,6 +10,7 @@ using Explorer.Stakeholders.Core.Domain.RepositoryInterfaces;
 using Explorer.Stakeholders.Core.Domain.Users;
 using FluentResults;
 using Profile = Explorer.Stakeholders.Core.Domain.Users.Profile;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Explorer.Stakeholders.Core.UseCases
 {
@@ -30,5 +31,12 @@ namespace Explorer.Stakeholders.Core.UseCases
         {
             return _userRepository.Get(id);
         }
+
+        public Result<UserAccountDto> GetByToken(string token)
+        {
+            return _mapper.Map<UserAccountDto>(_userRepository.GetUserByToken(token));
+        }
+
+ 
     }
 }

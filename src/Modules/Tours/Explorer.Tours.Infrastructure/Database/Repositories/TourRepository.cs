@@ -18,14 +18,19 @@ namespace Explorer.Tours.Infrastructure.Database.Repositories
             _context = context;
         }
 
+        public Tour Get(long id)
+        {
+            return _context.Tour
+        .Include(t => t.TourReviews)  // Ensure that TourReviews are included
+        .FirstOrDefault(t => t.Id == id);
+
+        }
+
         public Tour GetOne(int tourId)
         {
             return _context.Tour
-                .Include(t => t.TourReviews) // Include TourReviews
-                .Include(t => t.Equipment) // Include Equipments
-                .Include(t => t.Checkpoints) // Include Checkpoints
-                
-                .FirstOrDefault(t => t.Id == tourId);
+        .Include(t => t.TourReviews)  // Ensure that TourReviews are included
+        .FirstOrDefault(t => t.Id == tourId);
 
         }
         public Tour Update(Tour tour)

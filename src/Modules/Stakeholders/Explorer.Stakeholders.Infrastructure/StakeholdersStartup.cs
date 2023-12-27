@@ -32,6 +32,8 @@ public static class StakeholdersStartup
 
         services.AddScoped<IClubService, ClubService>();
         services.AddScoped<IClubRequestService, ClubRequestService>();
+        services.AddScoped<IClubMessageService, ClubMessageService>();
+        
 
         services.AddScoped<IUserAccountAdministrationService, UserAccountAdministrationService>();
         //services.AddScoped<ITourPreferenceService, TourPreferenceService>();
@@ -42,6 +44,10 @@ public static class StakeholdersStartup
         services.AddScoped<IFollowRepository, FollowDatabaseRepository>();
         services.AddScoped<IMessageService, MessageService>();
         services.AddScoped<IMessageRepository, MessageDatabaseRepository>();
+        services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<IAnswerService, AnswerService>();
+        services.AddScoped<IQuestionService, QuestionService>();
+        services.AddScoped<IEmailService, EmailService>();
     }
 
     private static void SetupInfrastructure(IServiceCollection services)
@@ -52,6 +58,7 @@ public static class StakeholdersStartup
 
         services.AddScoped(typeof(ICrudRepository<Club>), typeof(CrudDatabaseRepository<Club, StakeholdersContext>));
         services.AddScoped(typeof(ICrudRepository<ClubRequest>), typeof(CrudDatabaseRepository<ClubRequest, StakeholdersContext>));
+        services.AddScoped(typeof(ICrudRepository<ClubMessage>), typeof(CrudDatabaseRepository<ClubMessage, StakeholdersContext>));
 
         //services.AddScoped(typeof(ICrudRepository<TourPreference>), typeof(CrudDatabaseRepository<TourPreference, StakeholdersContext>));
         services.AddScoped(typeof(ICrudRepository<Profile>), typeof(CrudDatabaseRepository<Profile, StakeholdersContext>));
@@ -65,6 +72,13 @@ public static class StakeholdersStartup
         services.AddScoped<IUserRepository, UserDatabaseRepository>();
         services.AddScoped<IProfileRepository, ProfileDatabaseRepository>();
 
+        services.AddScoped(typeof(ICrudRepository<Token>), typeof(CrudDatabaseRepository<Token, StakeholdersContext>));
+        services.AddScoped<ITokenRepository, TokenDatabaseRepository>();
+
+        services.AddScoped<IAnswerRepository, AnswerRepository>();
+        services.AddScoped<IQuestionRepository, QuestionRepository>();
+        services.AddScoped(typeof(ICrudRepository<Answer>), typeof(CrudDatabaseRepository<Answer, StakeholdersContext>));
+        services.AddScoped(typeof(ICrudRepository<Question>), typeof(CrudDatabaseRepository<Question, StakeholdersContext>));
 
         services.AddDbContext<StakeholdersContext>(opt =>
             opt.UseNpgsql(DbConnectionStringBuilder.Build("stakeholders"),

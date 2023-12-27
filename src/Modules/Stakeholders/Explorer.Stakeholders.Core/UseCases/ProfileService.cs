@@ -52,8 +52,6 @@ namespace Explorer.Stakeholders.Core.UseCases
         }
 
 
-
-
         public Result<PagedResult<ProfileDto>> GetAllFollowers(int page, int pageSize, long profileId)
 
         {
@@ -104,9 +102,6 @@ namespace Explorer.Stakeholders.Core.UseCases
             return false;
         }
 
-
-
-        // MESSAGE
         public Result<PagedResult<MessageDto>> GetUnreadMessages(int page, int pageSize, long profileId)
         {
             var unreadMessages = _messageRepository.GetAll()

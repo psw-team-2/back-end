@@ -1,0 +1,17 @@
+﻿using Explorer.Stakeholders.API.Dtos;
+using FluentResults;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Explorer.Stakeholders.API.Public
+{
+    public interface IAnswerService
+    {
+        Result<AnswerDto> Create(AnswerDto answerDto);
+        public Result<AnswerDto> GetAnswerByQuestionId(int questionId);
+        Result<IEnumerable<AnswerDto>> GetAnswersByCategory(AnswerCategory category);
+    }
+}

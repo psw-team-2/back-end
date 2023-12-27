@@ -282,10 +282,25 @@ namespace Explorer.Tours.Core.UseCases
                 Description = tour.Description,
                 Status = (API.Dtos.AccountStatus)tour.Status,
                 Difficulty = tour.Difficulty,
-                Price = tour.Price
+                Price = tour.Price,
+                Image = tour.Image
             }).ToList();
 
             return toursDto;
-         }
         }
+
+        public Result<List<TourDto>> GetToursFromSaleById(List<long> tourIds)
+        {
+            var foundTours = new List<Tour>();
+            foreach (var id in tourIds)
+            {
+                var tour = _tourRepository.Get(id);
+
+                foundTours.Add(tour);
+            }
+            return MapToDto(foundTours);
+        }
+
+
     }
+}
