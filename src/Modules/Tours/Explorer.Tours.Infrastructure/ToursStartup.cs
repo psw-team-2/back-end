@@ -84,6 +84,8 @@ public static class ToursStartup
         services.AddScoped(typeof(ICrudRepository<Bundle>), typeof(CrudDatabaseRepository<Bundle, ToursContext>));
         services.AddScoped<IBundleRepository, BundleRepository>();
         services.AddScoped(typeof(ICrudRepository<TourSale>), typeof(CrudDatabaseRepository<TourSale, ToursContext>));
+
+        services.AddScoped<ITourPurchaseTokenRepository, TourPurchaseTokenRepository>();
         services.AddScoped(typeof(ICrudRepository<Wishlist>), typeof(CrudDatabaseRepository<Wishlist, ToursContext>));
         services.AddScoped<IWishlistRepository, WishlistRepository>();
         services.AddScoped(typeof(ICrudRepository<FavouriteItem>), typeof(CrudDatabaseRepository<FavouriteItem, ToursContext>));

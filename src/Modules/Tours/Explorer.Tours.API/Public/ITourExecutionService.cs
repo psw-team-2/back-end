@@ -19,6 +19,10 @@ namespace Explorer.Tours.API.Public
        public Result<TourExecutionDto> CompleteCheckpoint(int userId, List<CheckPointDto> checkpoints);
 
        public Result<PagedResult<TourExecutionDto>> GetExecutedToursByTourAndUserId(int tourId, int userId);
+
+       public List<TourExecutionDto> GetActiveExecutedToursByTour(List<long> tourIds);
+
         Result<PagedResult<TourExecutionDto>> GetCompletedToursByTourist(int touristId);
+
     }
 }

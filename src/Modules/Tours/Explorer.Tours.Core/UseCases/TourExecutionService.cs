@@ -13,6 +13,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper.Internal.Mappers;
+using Explorer.Stakeholders.Core.Domain.Users;
 
 namespace Explorer.Tours.Core.UseCases
 {
@@ -161,9 +162,29 @@ namespace Explorer.Tours.Core.UseCases
             }
             catch (Exception ex)
             {
-                return Result.Fail("400");
+                return Result.Fail(FailureCode.InvalidArgument);
             }
         }
+
+
+        public List<TourExecutionDto> GetActiveExecutedToursByTour(List<long> tourIds)
+        {
+            try
+            {
+                var tourExecutions = _tourExecutionRepository.GetActiveExecutedToursByTourIds(tourIds);
+
+                var tourExecutionDtos = MapToDto(tourExecutions).Value;
+
+
+                return tourExecutionDtos;
+            }
+            catch (Exception ex)
+            { 
+                throw new Exception("Failed to retrieve active executed tours.", ex);
+            }
+        }
+
+
 
         public Result<PagedResult<TourExecutionDto>> GetCompletedToursByTourist(int touristId)
         {
@@ -187,6 +208,7 @@ namespace Explorer.Tours.Core.UseCases
                 return Result.Fail(FailureCode.NotFound).WithError("Completed tours not found");
             }
         }
+
     }
 
 }
