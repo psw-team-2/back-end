@@ -34,5 +34,8 @@ namespace Explorer.Tours.API.Public
         List<TourBundleDto> GetToursByAuthorId(int authorId);
         Result<List<TourDto>> GetToursFromSaleById(List<long> tourIds);
         public Result<PagedResult<TourDto>> GetActiveTours(List<long> tourIds);
+
+
+
     }
 }

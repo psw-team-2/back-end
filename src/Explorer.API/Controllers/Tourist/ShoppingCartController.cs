@@ -8,6 +8,7 @@ using Explorer.Payments.Core.Domain;
 using Explorer.Payments.Core.UseCases;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Explorer.Tours.API.Dtos;
 
 namespace Explorer.API.Controllers.Tourist
 {
@@ -73,9 +74,10 @@ namespace Explorer.API.Controllers.Tourist
 
 
         [HttpPost("shoppingItem/{shoppingCartId:int}/{tourId:int}")]
-        public ActionResult<ShoppingCartDto> AddItem([FromBody] ShoppingCartDto shoppingCart, int tourId)
+        public ActionResult<ShoppingCartDto> AddItem(int shoppingCartId, int tourId,[FromBody] double newPrice)
         {
-            var result = _shoppingCartService.AddItem(shoppingCart, tourId);
+
+            var result = _shoppingCartService.AddItem(shoppingCartId, tourId,newPrice);
             return CreateResponse(result);
         }
 

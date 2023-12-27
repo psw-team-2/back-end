@@ -1,8 +1,6 @@
 ﻿using Explorer.Stakeholders.Core.Domain;
 using Explorer.Stakeholders.Core.Domain.Users;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
 namespace Explorer.Stakeholders.Infrastructure.Database;
 
@@ -23,8 +21,9 @@ public class StakeholdersContext : DbContext
     //public DbSet<Follow> Follows { get; set; }
 
     public DbSet<Message> Messages { get; set; }
-
-
+    public DbSet<Token> Tokens { get; set; }
+    public DbSet<Answer> Answers { get; set; }
+    public DbSet<Question> Question { get; set; }
     public StakeholdersContext(DbContextOptions<StakeholdersContext> options) : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

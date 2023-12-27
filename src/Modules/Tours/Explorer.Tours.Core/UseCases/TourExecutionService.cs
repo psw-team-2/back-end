@@ -166,6 +166,7 @@ namespace Explorer.Tours.Core.UseCases
             }
         }
 
+
         public List<TourExecutionDto> GetActiveExecutedToursByTour(List<long> tourIds)
         {
             try
@@ -183,6 +184,30 @@ namespace Explorer.Tours.Core.UseCases
             }
         }
 
+
+
+        public Result<PagedResult<TourExecutionDto>> GetCompletedToursByTourist(int touristId)
+        {
+            try
+            {
+                var tourExecutions = _tourExecutionRepository.GetCompletedToursByTourist(touristId)
+                    .Where(te => te.Completed == true)
+                    .ToList();
+
+                var tourExecutionDto = MapToDto(tourExecutions).Value;
+
+                var pagedResult = new PagedResult<TourExecutionDto>(
+                    tourExecutionDto,
+                    tourExecutionDto.Count
+                );
+
+                return Result.Ok(pagedResult);
+            }
+            catch (Exception ex)
+            {
+                return Result.Fail(FailureCode.NotFound).WithError("Completed tours not found");
+            }
+        }
 
     }
 

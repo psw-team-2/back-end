@@ -45,23 +45,23 @@ namespace Explorer.Payments.Core.UseCases
         }
 
 
-        public Result<ShoppingCartDto> AddItem(ShoppingCartDto shoppingCartDto, int tourId)
+        public Result<ShoppingCartDto> AddItem(int shoppingCartId, int tourId,double newPrice)
         {
             try
             {
                 Tours.Core.Domain.Tour tour = _tourRepository.Get(tourId);
-                if (shoppingCartDto != null)
+                if (shoppingCartId != null)
                 {
-                    OrderItem orderItem = new OrderItem(tourId, tour.Name, tour.Price, shoppingCartDto.Id, false, false, tour.Image);
+                    OrderItem orderItem = new OrderItem(tourId, tour.Name, newPrice, shoppingCartId, false, false, tour.Image);
                     _crudOrderItemRepository.Create(orderItem);
 
-                    ShoppingCart shoppingCart = _shoppingCartRepository.GetById(shoppingCartDto.Id);
+                    ShoppingCart shoppingCart = _shoppingCartRepository.GetById(shoppingCartId);
 
                     shoppingCart.AddItem((int)orderItem.Id);
 
                     shoppingCart.CalculateTotalPrice(shoppingCart.TotalPrice, orderItem.Price, true);
                     _shoppingCartRepository.Update(shoppingCart);
-                    return Result.Ok(shoppingCartDto);
+                    return Result.Ok();
                 }
                 else
                 {
@@ -151,7 +151,7 @@ namespace Explorer.Payments.Core.UseCases
         }
 
 
-        public Result<String> CreateTourPurchaseToken(List<OrderItemDto> orderItems, int userId)
+        public Result<String> CreateTourPurchaseToken(List<OrderItemDto> orderItems, int userId,double dicount)
         {
             Wallet wallet = _walletRepository.GetWalletByUserId(userId);
             ShoppingCart shoppingCart = _shoppingCartRepository.GetShoppingCartByUserId(userId);
@@ -179,7 +179,7 @@ namespace Explorer.Payments.Core.UseCases
                     }
                     
                 }
-                
+                shoppingCart.TotalPrice = shoppingCart.TotalPrice * (dicount / 100);
                 wallet.AC -= shoppingCart.TotalPrice;
                 _purchaseReportService.Create(orderItems, userId);
 

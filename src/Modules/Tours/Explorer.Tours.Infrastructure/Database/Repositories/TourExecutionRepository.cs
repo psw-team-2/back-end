@@ -57,6 +57,7 @@ namespace Explorer.Tours.Infrastructure.Database.Repositories
                .ToList();
         }
 
+
         public List<TourExecution> GetActiveExecutedToursByTourIds(List<long> tourIds)
         {
             return _dbContext.TourExecutions
@@ -64,6 +65,14 @@ namespace Explorer.Tours.Infrastructure.Database.Repositories
                 .ToList();
         }
 
+
+
+        public List<TourExecution> GetCompletedToursByTourist(int touristId)
+        {
+            return _dbContext.TourExecutions
+                .Where(te => te.TouristId == touristId && te.Completed == true)
+                .ToList();
+        }
 
     }
 }
