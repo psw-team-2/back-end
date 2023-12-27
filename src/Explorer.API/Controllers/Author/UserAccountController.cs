@@ -9,7 +9,7 @@ using System.Security.Cryptography;
 
 namespace Explorer.API.Controllers.Administrator.Administration
 {
-    [Authorize]
+    
     [Route("api/administration/userAccounts")]
     public class UserAccountController : BaseApiController
     {
