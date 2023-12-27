@@ -51,6 +51,14 @@ namespace Explorer.API.Controllers.Administrator.Administration
 
         }
 
+        [HttpGet("get-profile-by-user")]
+        public ActionResult<ProfileDto> GetProfileByUserId([FromQuery] int id)
+        {
+            var result = _profileService.GetByUserId(id);
+            return CreateResponse(result);
+
+        }
+
         [HttpGet("all-profiles")]
         public ActionResult<PagedResult<ProfileDto>> GetAll([FromQuery] int page, [FromQuery] int pageSize)
         {
