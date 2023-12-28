@@ -15,6 +15,7 @@ using Explorer.Encounters.Infrastructure.Database;
 using Microsoft.AspNetCore.Mvc;
 using Shouldly;
 using Type = Explorer.Encounters.API.Dtos.Type;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Explorer.Encounters.Tests.Integration
 {
@@ -50,7 +51,7 @@ namespace Explorer.Encounters.Tests.Integration
 
         private static EncounterController CreateController(IServiceScope scope)
         {
-            return new EncounterController(scope.ServiceProvider.GetRequiredService<IEncounterService>())
+            return new EncounterController(scope.ServiceProvider.GetRequiredService<IEncounterService>(), scope.ServiceProvider.GetRequiredService<IWebHostEnvironment>())
             {
                 ControllerContext = BuildContext("-1")
             };
