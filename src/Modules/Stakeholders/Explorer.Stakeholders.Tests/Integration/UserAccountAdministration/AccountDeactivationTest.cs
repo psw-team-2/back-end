@@ -92,7 +92,7 @@ namespace Explorer.Stakeholders.Tests.Integration.UserAccountAdministration
             var storedCourse = dbContext.Users.FirstOrDefault(i => i.Id == -23);
             storedCourse.ShouldBeNull();
         }
-
+        
         [Fact]
         public void Delete_fails_invalid_id()
         {

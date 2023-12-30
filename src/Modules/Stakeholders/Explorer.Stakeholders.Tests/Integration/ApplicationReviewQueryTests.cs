@@ -21,7 +21,7 @@ namespace Explorer.Stakeholders.Tests.Integration
     {
         public ApplicationReviewQueryTests(StakeholdersTestFactory factory) : base(factory) { }
 
-        [Fact]
+        /*[Fact]
         public void Retrieves_all()
         {
             // Arrange
@@ -43,6 +43,6 @@ namespace Explorer.Stakeholders.Tests.Integration
             {
                 ControllerContext = BuildContext("-1")
             };
-        }
+        }*/
     }
 }

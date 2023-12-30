@@ -90,10 +90,7 @@ namespace Explorer.API.Controllers.Tourist
         {
             var reviewsDto = _tourService.GetByTourId(tourId);
 
-            if (reviewsDto == null || !reviewsDto.Any())
-            {
-                return NotFound("No reviews found for the specified tour ID.");
-            }
+
 
             return Ok(reviewsDto);
         }

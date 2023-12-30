@@ -32,13 +32,26 @@ namespace Explorer.API.Controllers.Tourist
             return CreateResponse(result);
         }
 
-        [HttpPost("createTokens/{userId}")]
-        public ActionResult CreateTourPurchaseToken([FromBody] List<OrderItemDto> orderItems, [FromRoute] int userId)
+        [HttpPost("createTokens/{userId}/{discount}")]
+        public ActionResult CreateTourPurchaseToken([FromBody] List<OrderItemDto> orderItems, [FromRoute] int userId, double dicount)
         {
-            var result = _shoppingCartService.CreateTourPurchaseToken(orderItems, userId);
+            var result = _shoppingCartService.CreateTourPurchaseToken(orderItems, userId, dicount);
             return CreateResponse(result);          
         }
 
+        [HttpGet("by-tour/{tourId}")]
+        public ActionResult GetByTourId(int tourId)
+        {
+            var result = _tourPurchaseTokenService.GetTourPurchaseTokensByTourId(tourId);
+            return CreateResponse(result);
+        }
+
+        [HttpGet("by-tour-weekly/{tourId}")]
+        public ActionResult GetWeeklyByTourId(int tourId)
+        {
+            var result = _tourPurchaseTokenService.GetWeeklyTourPurchaseTokensByTourId(tourId);
+            return CreateResponse(result);
+        }
 
 
     }

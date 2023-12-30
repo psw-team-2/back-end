@@ -7,3 +7,7 @@ INSERT INTO blog."Blogs"(
 INSERT INTO blog."Blogs"(
 	"Id", "UserId", "Title", "Description", "CreationTime", "Status", "Image", "Ratings", "Username")
 	VALUES (-5, 6, 'Sabac', 'Stari Grad', '2023-10-22 10:30:00', 2, 'slika3', '{}', 'zika');
+
+INSERT INTO blog."Blogs"(
+	"Id", "UserId", "Title", "Description", "CreationTime", "Status", "Image", "Ratings", "Username")
+	VALUES (-51, 41, 'Novi Sad', 'Stari Grad', '2023-10-22 10:30:00', 2, 'slika3', '{}', 'turista41');

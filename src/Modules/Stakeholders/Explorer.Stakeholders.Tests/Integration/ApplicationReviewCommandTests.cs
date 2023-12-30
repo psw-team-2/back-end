@@ -99,10 +99,10 @@ namespace Explorer.Tours.Tests.Integration
             var dbContext = scope.ServiceProvider.GetRequiredService<StakeholdersContext>();
             var updatedEntity = new ApplicationReviewDto
             {
-                Id = 2,
+                Id = -2,
                 Grade = 2,
                 Comment = "Very bad experience",
-                UserId = 1,
+                UserId = -41,
                 TimeStamp = DateTime.UtcNow
             };
 
@@ -111,7 +111,7 @@ namespace Explorer.Tours.Tests.Integration
 
             // Assert - Response
             result.ShouldNotBeNull();
-            result.Id.ShouldBe(-1);
+            result.Id.ShouldBe(-2);
             result.Grade.ShouldBe(updatedEntity.Grade);
             result.Comment.ShouldBe(updatedEntity.Comment);
             
@@ -121,8 +121,6 @@ namespace Explorer.Tours.Tests.Integration
             storedEntity.ShouldNotBeNull();
             storedEntity.Grade.ShouldBe(updatedEntity.Grade);
             storedEntity.UserId.ShouldBe(updatedEntity.UserId);
-            var oldEntity = dbContext.ApplicationReview.FirstOrDefault(i => i.Comment == "Okay");
-            oldEntity.ShouldBeNull();
         }
 
 

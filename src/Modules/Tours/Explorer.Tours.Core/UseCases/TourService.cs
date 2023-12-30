@@ -23,13 +23,20 @@ namespace Explorer.Tours.Core.UseCases
         private readonly IUserAccountAdministrationService _userAccountService;
         public readonly IOrderItemService _orderItemService;
         public readonly IShoppingCartService _shoppingCartService;
+        public readonly ITourExecutionService _tourExecutionService;
 
-        public TourService(ICrudRepository<Tour> repository, IMapper mapper, IUserAccountAdministrationService userAccountService, IOrderItemService orderItemService, IShoppingCartService shoppingCartService, ITourRepository tourRepository) : base(repository, mapper)
+
+        public TourService(ICrudRepository<Tour> repository, IMapper mapper,
+            IUserAccountAdministrationService userAccountService,
+            IOrderItemService orderItemService, IShoppingCartService shoppingCartService,
+            ITourExecutionService tourExecutionService
+            , ITourRepository tourRepository) : base(repository, mapper)
         {
             _userAccountService = userAccountService;
             _tourRepository = tourRepository;
             _orderItemService = orderItemService;
             _shoppingCartService = shoppingCartService;
+            _tourExecutionService = tourExecutionService;
 
         }
 
@@ -63,6 +70,7 @@ namespace Explorer.Tours.Core.UseCases
                 Update(tour);
                 return Result.Ok(tour);
             }
+
             return tour;
         }
 
@@ -102,6 +110,7 @@ namespace Explorer.Tours.Core.UseCases
                 tour.Equipment.Remove(equipmentId);
                 Update(tour);
             }
+
             return tour;
         }
 
@@ -114,6 +123,7 @@ namespace Explorer.Tours.Core.UseCases
                 Update(tour);
                 return Result.Ok(tour);
             }
+
             return tour;
         }
 
@@ -124,6 +134,7 @@ namespace Explorer.Tours.Core.UseCases
                 tour.Objects.Remove(tourObjectId);
                 Update(tour);
             }
+
             return tour;
         }
 
@@ -143,12 +154,35 @@ namespace Explorer.Tours.Core.UseCases
                 return dto;
                 //return avg;
             }
-            catch(KeyNotFoundException e)
+            catch (KeyNotFoundException e)
             {
                 return Result.Fail(FailureCode.NotFound).WithError(e.Message);
             }
         }
-        public Result<TourExecutionDto> StartTour(int touristId, int tourId, double startLatitude, double startLongitude)
+
+        public Result<AverageGradeDto> GetAverageWeeklyGradeForTour(int tourId)
+        {
+            try
+            {
+                var tour = _tourRepository.GetOne(tourId);
+                if (tour == null)
+                {
+                    return null;
+                }
+
+                double avg = tour.GetWeeklyAverageGradeForTour();
+                AverageGradeDto dto = new AverageGradeDto { AverageGrade = avg };
+                return dto;
+                //return avg;
+            }
+            catch (KeyNotFoundException e)
+            {
+                return Result.Fail(FailureCode.NotFound).WithError(e.Message);
+            }
+        }
+
+        public Result<TourExecutionDto> StartTour(int touristId, int tourId, double startLatitude,
+            double startLongitude)
         {
             try
             {
@@ -186,7 +220,8 @@ namespace Explorer.Tours.Core.UseCases
             }
         }
 
-        public Result<TourExecutionDto> AbandonTour(int tourExecutionId, double abandonLatitude, double abandonLongitude)
+        public Result<TourExecutionDto> AbandonTour(int tourExecutionId, double abandonLatitude,
+            double abandonLongitude)
         {
             try
             {
@@ -196,6 +231,8 @@ namespace Explorer.Tours.Core.UseCases
                     EndTime = DateTime.UtcNow,
                 };
 
+                
+
                 return Result.Ok(tourExecutionDto);
             }
             catch (Exception ex)
@@ -203,6 +240,7 @@ namespace Explorer.Tours.Core.UseCases
                 return Result.Fail<TourExecutionDto>(ex.Message);
             }
         }
+
         public List<TourReviewDto> GetByTourId(int tourId)
         {
             var reviews = _tourRepository.GetByTourId(tourId);
@@ -221,17 +259,23 @@ namespace Explorer.Tours.Core.UseCases
 
             return reviewsDto;
         }
+
         public Result<TourDto> PublishTour(TourDto tour)
         {
 
             tour.Status = API.Dtos.AccountStatus.PUBLISHED;
             tour.PublishTime = DateTime.Now;
 
+            Update(tour);
+
             return tour;
         }
+
         public Result<TourDto> ArchiveTour(TourDto tour)
         {
             tour.Status = API.Dtos.AccountStatus.ARCHIVED;
+
+            Update(tour);
 
             return tour;
         }
@@ -245,7 +289,8 @@ namespace Explorer.Tours.Core.UseCases
                 var shoppingCartItems = _orderItemService.GetBoughtShoppingItemsFromCart(shoppingCart.Value.Id);
                 //var tourIds = shoppingCartItems.Value.Select(item => item.TourId).ToList();
                 var tours = base.GetPaged(page, pageSize);
-                var userTours = tours.Value.Results.Where(tour => shoppingCartItems.Value.Any(item => item.ItemId == tour.Id)).ToList();
+                var userTours = tours.Value.Results
+                    .Where(tour => shoppingCartItems.Value.Any(item => item.ItemId == tour.Id)).ToList();
 
                 var result = new PagedResult<TourDto>(userTours, userTours.Count);
 
@@ -257,6 +302,7 @@ namespace Explorer.Tours.Core.UseCases
                 return Result.Fail(FailureCode.NotFound).WithError("Failed to retrieve author information");
             }
         }
+
         public List<TourBundleDto> GetToursByAuthorId(int authorId)
         {
             List<Tour> tours = _tourRepository.GetToursByAuthorId(authorId);
@@ -275,7 +321,8 @@ namespace Explorer.Tours.Core.UseCases
                 Description = tour.Description,
                 Status = (API.Dtos.AccountStatus)tour.Status,
                 Difficulty = tour.Difficulty,
-                Price = tour.Price
+                Price = tour.Price,
+                Image = tour.Image
             }).ToList();
 
             return toursDto;
@@ -290,7 +337,44 @@ namespace Explorer.Tours.Core.UseCases
 
                 foundTours.Add(tour);
             }
+
             return MapToDto(foundTours);
         }
+
+        public Result<PagedResult<TourDto>> GetActiveTours(List<long> tourIds)
+        {
+            try
+            {
+                var tourExecutions = _tourExecutionService.GetActiveExecutedToursByTour(tourIds);
+                List<long> activeTourIds = new List<long>();
+
+//                    throw new Exception($"Tour Executions: {string.Join(",", tourExecutions)}");
+
+                foreach (var execution in tourExecutions)
+                {
+                    activeTourIds.Add(execution.TourId);
+                }
+
+                //                   throw new Exception($"Active Tour Ids: {string.Join(",", activeTourIds)}");
+                var tours = _tourRepository.GetByIds(activeTourIds);
+                //                       throw new Exception($"Tours: {string.Join(",", tours)}");
+
+
+                var tourDtos = MapToDto(tours).Value;
+
+                var toursPagedResult = new PagedResult<TourDto>(
+                    tourDtos,
+                    tourDtos.Count
+                );
+
+                return Result.Ok(toursPagedResult).WithSuccess("Tour obtained");
+            }
+            catch (Exception ex)
+            {
+                return Result.Fail(FailureCode.InvalidArgument);
+            }
+        }
+
+
     }
 }

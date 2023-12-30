@@ -2,6 +2,7 @@
 using Explorer.Tours.API.Dtos;
 using Explorer.Tours.API.Public;
 using Explorer.Tours.API.Public.Administration;
+using Explorer.Tours.Core.Domain;
 using Explorer.Tours.Core.UseCases;
 using FluentResults;
 using Microsoft.AspNetCore.Authorization;
@@ -16,10 +17,12 @@ namespace Explorer.API.Controllers.Author
         private readonly ITourService _tourService;
         private readonly IPublicRequestService _publicRequestService;
 
-        public TourController(ITourService tourService, IPublicRequestService publicRequestService)
+        private readonly IWebHostEnvironment _environment;
+        public TourController(ITourService tourService, IPublicRequestService publicRequestService, IWebHostEnvironment environment)
         {
             _tourService = tourService;
             _publicRequestService = publicRequestService;
+            _environment = environment;
         }
 
         [HttpGet("{id:int}")]
@@ -46,7 +49,7 @@ namespace Explorer.API.Controllers.Author
         [HttpPut("{id:int}")]
         public ActionResult<TourDto> Update([FromBody] TourDto tour)
         {
-            if(tour.Status == AccountStatus.PUBLISHED) 
+            if(tour.Status == Tours.API.Dtos.AccountStatus.PUBLISHED) 
             {
                 tour.PublishTime = DateTime.UtcNow;
             }
@@ -113,6 +116,13 @@ namespace Explorer.API.Controllers.Author
             return CreateResponse(averageGrade);
         }
 
+        [HttpGet("average-weekly-grade/{tourId:int}")]
+        public ActionResult<AverageGradeDto> GetAverageWeeklyGrade(int tourId)
+        {
+            var averageGrade = _tourService.GetAverageWeeklyGradeForTour(tourId);
+            return CreateResponse(averageGrade);
+        }
+
         [HttpPut("publish/{tourId:int}")]
         public ActionResult<TourDto> PublishTour([FromBody] TourDto tour)
         {
@@ -147,6 +157,36 @@ namespace Explorer.API.Controllers.Author
             var result = Result.Ok(toursDto); 
 
             return CreateResponse(result); 
+        }
+
+        [HttpPut("active-tours")]
+        public ActionResult<PagedResult<TourDto>> GetActiveTours([FromBody] List<int> tourIds)
+        {
+            // Convert List<int> to List<long>
+            List<long> convertedTourIds = tourIds.Select(id => (long)id).ToList();
+
+            var result = _tourService.GetActiveTours(convertedTourIds);
+            return CreateResponse(result);
+        }
+
+        [HttpPost("uploadTourImage")]
+        public async Task<string> UploadFile()
+        {
+            try
+            {
+                var file = Request.Form.Files[0];
+                string fName = file.FileName;
+                string path = Path.Combine(_environment.ContentRootPath, "Images", file.FileName);
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+                return $"{file.FileName} successfully uploaded to the Server";
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
     }
 }

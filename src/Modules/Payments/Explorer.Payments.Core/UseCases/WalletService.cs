@@ -29,15 +29,23 @@ namespace Explorer.Payments.Core.UseCases
 
         public Result<WalletDto> AddAC(WalletDto walletDto)
         {
-            Wallet wallet = _walletRepository.Get(walletDto.Id);
-            if (wallet != null)
+            try
             {
-                wallet.AC += walletDto.AC;
-                _walletRepository.Update(wallet);
-                _paymentNotificationsService.Create(walletDto);
-                return MapToDto(wallet);
+                Wallet wallet = _walletRepository.Get(walletDto.Id);
+                if (wallet != null)
+                {
+                    wallet.AC += walletDto.AC;
+                    _walletRepository.Update(wallet);
+                    _paymentNotificationsService.Create(walletDto);
+                    return MapToDto(wallet);
+                }
+
+                return Result.Fail(FailureCode.NotFound).WithError("Wallet not found.");
             }
-            return Result.Fail(FailureCode.NotFound).WithError("Wallet not found.");
+            catch (Exception ex)
+            {
+                return Result.Fail(FailureCode.InvalidArgument).WithError("Bad input of arguments");
+            }
         }
 
         public Result<WalletDto> GetWalletByUserId(int userId)
@@ -45,6 +53,36 @@ namespace Explorer.Payments.Core.UseCases
             Wallet wallet = __walletRepository.GetWalletByUserId(userId);
             return MapToDto(wallet);
         }
+
+        public WalletDto GetByUserId(int userId)
+        {
+            Wallet wallet = __walletRepository.GetWalletByUserId(userId);
+            return MapToDto(wallet);
+        }
+
+        public Result<int> SendAC(int AC, int receiverId, int senderId)
+        {
+            WalletDto receiverWalletDto = GetByUserId(receiverId);
+            WalletDto senderWalletDto = GetByUserId(senderId);
+            Wallet receiverWallet = _walletRepository.Get(receiverWalletDto.Id);
+            Wallet senderWallet = _walletRepository.Get(senderWalletDto.Id);
+            if (receiverWallet != null && senderWallet != null )
+            {
+                if (senderWallet.AC >= AC)
+                {
+                    receiverWallet.AC += AC;
+                    senderWallet.AC -= AC;
+
+                    _walletRepository.Update(receiverWallet);
+                    _walletRepository.Update(senderWallet);
+                    return AC;
+                }
+               
+            }
+            return Result.Fail(FailureCode.NotFound).WithError("Wallet not found.");
+        }
+
+       
 
 
     }

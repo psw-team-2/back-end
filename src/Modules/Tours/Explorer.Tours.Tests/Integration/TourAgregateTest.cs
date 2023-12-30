@@ -89,14 +89,15 @@ namespace Explorer.Tours.Tests.Integration.Learning.Assessment
 
             var result = (ObjectResult)tourExecutionController.StartTour(tourExecution).Result;
 
-            var resultEntity = result.Value as TourDto;
+            var resultEntity = result.Value as TourExecutionDto;
 
             result.StatusCode.ShouldBe(expectedStatusCode);
-            //if (expectedStatusCode == 200)
-            //{
-            //    resultEntity.ShouldNotBe(null);
-            //    resultEntity.Equipment.ShouldContain(checkpointId);
-            //}
+            if (expectedStatusCode == 200)
+            {
+                resultEntity.ShouldNotBe(null);
+                var storedEntity = dbContext.TourExecutions.FirstOrDefault(i => i.Id == resultEntity.Id);
+                storedEntity.Id.ShouldBe(resultEntity.Id);
+            }
         }
 
         [Theory]
@@ -248,7 +249,7 @@ namespace Explorer.Tours.Tests.Integration.Learning.Assessment
         {
             var environment = scope.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
             var context = scope.ServiceProvider.GetRequiredService<ToursContext>();
-            return new TourController(scope.ServiceProvider.GetRequiredService<ITourService>(), scope.ServiceProvider.GetRequiredService<IPublicRequestService>())
+            return new TourController(scope.ServiceProvider.GetRequiredService<ITourService>(), scope.ServiceProvider.GetRequiredService<IPublicRequestService>(), environment)
             {
                 ControllerContext = BuildContext("-1")
             };

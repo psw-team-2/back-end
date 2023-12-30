@@ -9,6 +9,8 @@ using Explorer.Tours.Tests;
 using Explorer.API.Controllers.Tourist;
 using Explorer.Tours.API.Public;
 using Explorer.Tours.Core.Domain;
+using Object = Explorer.Tours.Core.Domain.Object;
+using Microsoft.EntityFrameworkCore;
 
 namespace Explorer.Tours.Tests.Integration
 {
@@ -17,136 +19,50 @@ namespace Explorer.Tours.Tests.Integration
     {
         public TourProblemTouristCommandTests(ToursTestFactory factory) : base(factory) { }
 
-        [Fact]
-        public void Creates()
+
+
+        [Theory]
+        [InlineData(-51, TourProblemCategory.CATEGORY1, TourProblemPriority.PRIORITY1, "Description 1", "2023-12-31T15:30:00Z", -41, false, false, -41, null, 200, 200)]
+        [InlineData(-101, TourProblemCategory.CATEGORY1, TourProblemPriority.PRIORITY1, "", "2023-12-31T15:30:00Z", -41, false, false, -41, null, 400, 404)]
+        public void Tests_CRUD(int id, TourProblemCategory category, TourProblemPriority priority, string description,
+            string timeStamp, long tourId, bool isClosed, bool isResolved, long touristId,
+            DateTime? deadlineTimeStamp, int expectedResponseCode, int expectedResponseCode2)
         {
-            // Arrange
+            // Parse string timeStamp to UTC DateTime
+            DateTime parsedTimeStamp = DateTime.Parse(timeStamp).ToUniversalTime();
+
             using var scope = Factory.Services.CreateScope();
             var controller = CreateController(scope);
             var dbContext = scope.ServiceProvider.GetRequiredService<ToursContext>();
-            var newEntity = new TourProblemDto()
+
+            var entity = new TourProblemDto
             {
-                Id = -51,
-                ProblemCategory = "CATEGORY 1",
-                ProblemPriority = "PRIORITY 1",
-                Description = "Test Problem Description",
-                TimeStamp = DateTime.UtcNow,
-                TourId = -41,
-                IsClosed = false,
-                IsResolved = false,
-                TouristId = -41,
-                DeadlineTimeStamp = null
+                Id = id,
+                ProblemCategory = category.ToString(),
+                ProblemPriority = priority.ToString(),
+                Description = description,
+                TimeStamp = parsedTimeStamp, // Assign parsed timestamp here
+                TourId = tourId,
+                IsClosed = isClosed,
+                IsResolved = isResolved,
+                TouristId = touristId,
+                DeadlineTimeStamp = deadlineTimeStamp
             };
 
-            // Act
-            var result = ((ObjectResult)controller.Create(newEntity).Result)?.Value as TourProblemDto;
+            var result = (ObjectResult)controller.Create(entity).Result;
 
-            // Assert - Response
-            result.ShouldNotBeNull();
-            result.Id.ShouldNotBe(0);
-            result.ProblemCategory.ShouldBe(newEntity.ProblemCategory);
-            result.ProblemPriority.ShouldBe(newEntity.ProblemPriority);
-            result.Description.ShouldBe(newEntity.Description);
-
-            // Assert - Database
-            var storedEntity = dbContext.TourProblems.FirstOrDefault(i => i.Id == result.Id);
-            storedEntity.ShouldNotBeNull();
-            storedEntity.Id.ShouldBe(result.Id);
-        }
-
-        [Fact]
-        public void Create_fails_invalid_data()
-        {
-            // Arrange
-            using var scope = Factory.Services.CreateScope();
-            var controller = CreateController(scope);
-            var updatedEntity = new TourProblemDto()
+            result.ShouldNotBe(null);
+            result.StatusCode.ShouldBe(expectedResponseCode);
+            var resultEntity = result.Value as TourProblemDto;
+            if (expectedResponseCode == 200)
             {
-                Description = "",
-                ProblemCategory = "",
-                ProblemPriority = "",
-                TimeStamp = DateTime.UtcNow,
-                TourId = 0,
-                IsClosed = false,
-                TouristId = 0,
-                DeadlineTimeStamp = null
-            };
-
-            // Act
-            var result = (ObjectResult)controller.Create(updatedEntity).Result;
-
-            // Assert
-            result.ShouldNotBeNull();
-            result.StatusCode.ShouldBe(400);
+                resultEntity.Description.ShouldBe(description);
+                var storedEntity = dbContext.TourProblems.FirstOrDefault(i => i.Description == resultEntity.Description);
+                storedEntity.ShouldNotBeNull();
+                dbContext.Entry(storedEntity).State = EntityState.Detached;
+            }
         }
 
-/*        [Fact]
-            public void Updates()
-        {
-            // Arrange
-            using var scope = Factory.Services.CreateScope();
-            var controller = CreateController(scope);
-            var dbContext = scope.ServiceProvider.GetRequiredService<ToursContext>();
-            var updatedEntity = new TourProblemDto()
-            {
-                Id = -51,
-                ProblemCategory = "CATEGORY 2",
-                ProblemPriority = "PRIORITY 2",
-                Description = "Test Problem Description Updated",
-                TimeStamp = DateTime.UtcNow,
-                TourId = -41,
-                IsClosed = false,
-                IsResolved = false,
-                TouristId = -41,
-                DeadlineTimeStamp = DateTime.UtcNow
-            };
-
-            // Act
-            var result = ((ObjectResult)controller.Update(updatedEntity).Result).Value as TourProblemDto;
-
-            // Assert - Response
-            result.ShouldNotBeNull();
-            result.Id.ShouldBe(-1);
-            result.ProblemCategory.ShouldBe(updatedEntity.ProblemCategory);
-            result.ProblemPriority.ShouldBe(updatedEntity.ProblemPriority);
-            result.Description.ShouldBe(updatedEntity.Description);
-
-            // Assert - Database
-            var storedEntity = dbContext.TourProblems.FirstOrDefault(i => i.Id == result.Id);
-            storedEntity.ShouldNotBeNull();
-            storedEntity.Description.ShouldBe(updatedEntity.Description);
-            //This should be revised, could have to implement oldEntity
-        }
-*/
-
-
-        [Fact]
-        public void Update_fails_invalid_id()
-        {
-            // Arrange
-            using var scope = Factory.Services.CreateScope();
-            var controller = CreateController(scope);
-            var updatedEntity = new TourProblemDto()
-            {
-                Id = -1000,
-                Description = "Test Update Fail Description",
-                ProblemCategory = "CATEGORY -1",
-                ProblemPriority = "PRIORITY -1",
-                TimeStamp = DateTime.UtcNow,
-                TourId = -41,
-                IsClosed = false,
-                IsResolved = false,
-                TouristId = -41,
-                DeadlineTimeStamp = null
-            };
-
-            // Act
-            var result = (ObjectResult)controller.Update(updatedEntity).Result;
-
-            // Assert
-            result.ShouldNotBeNull();
-            result.StatusCode.ShouldBe(404);
-        }
 
 
 
