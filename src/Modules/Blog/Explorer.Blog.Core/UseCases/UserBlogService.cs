@@ -101,8 +101,17 @@ namespace Explorer.Blog.Core.UseCases
             }
             else
             {
-               
-                return result;
+                var res = Delete(blogId);
+                if (res.IsSuccess)
+                {
+                    return Result.Ok();
+                }
+                else
+                {
+
+                    return res;
+                }
+                return Result.Ok();
             }
         }
 
