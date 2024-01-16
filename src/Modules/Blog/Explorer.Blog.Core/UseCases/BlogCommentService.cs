@@ -62,15 +62,17 @@ namespace Explorer.Blog.Core.UseCases
             if (comments == null || !comments.Any())
             {
                 return Result.Fail("No comments found for the specified blog ID.");
-            }
-
-            foreach (var comment in comments)
+            }else
             {
-                Delete((int)comment.Id);
+                foreach (var comment in comments)
+                {
+                    Delete((int)comment.Id);
+                }
+                return Result.Ok();
             }
 
+            
 
-            return Result.Ok();
         }
     }
 }
