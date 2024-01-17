@@ -29,9 +29,9 @@ namespace Explorer.Payments.Core.UseCases
         private readonly IPurchaseReportService _purchaseReportService;
         private readonly IWalletRepository _walletRepository;
         private readonly IBundleRepository _bundleRepository;
+        private readonly ICrudRepository<Wallet> _crudWalletRepository;
 
-
-        public ShoppingCartService(ICrudRepository<ShoppingCart> repository, IMapper mapper, IShoppingCartRepository shoppingCartRepository, ICrudRepository<Tour> tourRepository, ICrudRepository<OrderItem> crudOrderItemRepository, IOrderItemRepository orderItemRepository, ICrudRepository<TourPurchaseToken> tourPurchaseTokenRepository, IPurchaseReportService purchaseReportService, IWalletRepository walletRepository, IBundleRepository bundleRepository) : base(repository, mapper)
+        public ShoppingCartService(ICrudRepository<ShoppingCart> repository, IMapper mapper, IShoppingCartRepository shoppingCartRepository, ICrudRepository<Tour> tourRepository, ICrudRepository<OrderItem> crudOrderItemRepository, IOrderItemRepository orderItemRepository, ICrudRepository<TourPurchaseToken> tourPurchaseTokenRepository, IPurchaseReportService purchaseReportService, IWalletRepository walletRepository, IBundleRepository bundleRepository, ICrudRepository<Wallet> crudWalletRepository) : base(repository, mapper)
         {
             _shoppingCartRepository = shoppingCartRepository;
             _tourRepository = tourRepository;
@@ -42,6 +42,7 @@ namespace Explorer.Payments.Core.UseCases
             _purchaseReportService = purchaseReportService;
             _walletRepository = walletRepository;
             _bundleRepository = bundleRepository;
+            _crudWalletRepository = crudWalletRepository;
         }
 
 
@@ -179,8 +180,13 @@ namespace Explorer.Payments.Core.UseCases
                     }
                     
                 }
-                shoppingCart.TotalPrice = shoppingCart.TotalPrice * (dicount / 100);
+                if (dicount != 0)
+                {
+                    shoppingCart.TotalPrice = shoppingCart.TotalPrice * (dicount / 100);
+                }
                 wallet.AC -= shoppingCart.TotalPrice;
+                _crudWalletRepository.Update(wallet);
+             
                 _purchaseReportService.Create(orderItems, userId);
 
                 shoppingCart.TotalPrice = 0;
